@@ -7,8 +7,6 @@
 
 [![GitHub last commit](https://img.shields.io/github/last-commit/UltimateCodeMonkeys/CodeMonkeysMVVM.svg?longCache=true&style=flat-square)](https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM)
 [![GitHub issues](https://img.shields.io/github/issues/UltimateCodeMonkeys/CodeMonkeysMVVM.svg?longCache=true&style=flat-square)](https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM/issues)
-[![GitHub license](https://img.shields.io/github/license/UltimateCodeMonkeys/CodeMonkeysMVVM.svg?longCache=true&style=flat-square)](https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM/blob/master/LICENSE.md)
-
 
 CodeMonkeysMVVM is an application development framework with the focus on MVVM applications.  
 It is built with .NET Standard and therefor supports fat client, web and mobile development.  
