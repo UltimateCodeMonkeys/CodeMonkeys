@@ -8,18 +8,21 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/UltimateCodeMonkeys/CodeMonkeysMVVM.svg?longCache=true&style=flat-square)](https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM)
 [![GitHub issues](https://img.shields.io/github/issues/UltimateCodeMonkeys/CodeMonkeysMVVM.svg?longCache=true&style=flat-square)](https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM/issues)
 
-CodeMonkeysMVVM is an MVVM (Model-View-ViewModel) application development framework with focus on Xamarin.Forms.
+CodeMonkeysMVVM is a modern MVVM (Model-View-ViewModel) application development framework with focus on Xamarin.Forms.
 
-It's built with .NET Standard and therefor supports nearly every environment.  
-Currently it is entirely focused on Xamarin.Forms but maybe we will support WPF for example in the future.  
+It's built with .NET Standard and therefore supports nearly every environment.
 </div><br>
 
 # Overview
 * What's in the Box
+* Frequently asked questions
 * Contributing
 * License
 
 ## What's in the Box?
+To be added.
+
+## Frequently asked questions
 To be added.
 
 ## Contributing
