@@ -10,7 +10,7 @@
 
 CodeMonkeysMVVM is an MVVM (Model-View-ViewModel) application development framework with focus on Xamarin.Forms.
 
-It is built with .NET Standard and therefor supports nearly every environment.  
+It's built with .NET Standard and therefor supports nearly every environment.  
 Currently it is entirely focused on Xamarin.Forms but maybe we will support WPF for example in the future.  
 </div><br>
 
