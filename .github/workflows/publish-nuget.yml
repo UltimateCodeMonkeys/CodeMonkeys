@@ -1,0 +1,4 @@
+- name: Publish NuGet
+  uses: rohith/publish-nuget@v1.0.1
+  with:
+    project_dir: src
