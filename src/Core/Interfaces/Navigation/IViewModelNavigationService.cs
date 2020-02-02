@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeMonkeys.Core.Interfaces.MVVM;
+using CodeMonkeys.Core.Interfaces.Navigation.ViewModels;
 
 namespace CodeMonkeys.Core.Interfaces.Navigation
 {
@@ -62,21 +63,16 @@ namespace CodeMonkeys.Core.Interfaces.Navigation
         /// </summary>
         Task CloseAsync<TViewModelInterface, TParentViewModelInterface>()
             where TViewModelInterface : class, IViewModel
-            where TParentViewModelInterface : class, IViewModel, IHaveRelatedChildViewModel;
-
-        Task CloseAsync<TViewModelInterface, TParentViewModelInterface>(
-            IViewModelResult aiViewModelResult)
-            where TViewModelInterface : class, IViewModel
-            where TParentViewModelInterface : class, IViewModel, ICanOpenChildViewModelsButNeedResult;
-
+            where TParentViewModelInterface : class, IViewModel, IListenToChildViewModelClosing;
+        
         /// <summary>
         /// Closes the View that is associated with the ViewModel interface type and informs the parent one
         /// </summary>
         /// <param name="resultData">The data that should be passed back to the parent (OnChildViewModelClosed)</param>
         Task CloseAsync<TViewModelInterface, TParentViewModelInterface, TResult>(
-            IViewModelResult<TResult> resultData)
+            TResult resultData)
             where TViewModelInterface : class, IViewModel
-            where TParentViewModelInterface : class, IViewModel, ICanOpenChildViewModelsButNeedResult<TResult>;
+            where TParentViewModelInterface : class, IViewModel, IListenToChildViewModelClosing<TResult>;
 
 
         /// <summary>
