@@ -184,7 +184,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
         /// <summary>
-        /// Indicates that the view from this registration should be built and cached before it is actually shown
+        /// Indicates that the view from this registration should be build and cached before it is actually shown
         /// Displaying those views will be a lot faster, however this consumes more memory
         /// </summary>
         /// <param name="registrationInfo"></param>
