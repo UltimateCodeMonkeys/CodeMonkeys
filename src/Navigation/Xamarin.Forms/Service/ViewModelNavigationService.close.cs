@@ -84,5 +84,32 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             LogService?.Info(
                 "Page has been removed from Xamarin navigation stack.");
         }
+
+
+        private async Task ResolveAndInformParent<TParentViewModelInterface>()
+
+            where TParentViewModelInterface : class, IListenToChildViewModelClosing
+        {
+            var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
+
+            LogService?.Info(
+                $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
+
+            await parentViewModel.OnChildViewModelClosingAsync();
+        }
+
+        private async Task ResolveAndInformParent<TParentViewModelInterface, TResult>(
+            TResult result)
+
+            where TParentViewModelInterface : class, IListenToChildViewModelClosing<TResult>
+        {
+            var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
+
+            LogService?.Info(
+                $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
+
+            await parentViewModel.OnChildViewModelClosingAsync(
+                result);
+        }
     }
 }
