@@ -12,7 +12,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms.Models
 
         public bool PreCreateInstance { get; set; } = true;
 
-        public DevicePlatform Platform { get; set; } = DevicePlatform.All;
+        public DevicePlatforms Platform { get; set; } = DevicePlatforms.All;
 
 
         public override bool Equals(

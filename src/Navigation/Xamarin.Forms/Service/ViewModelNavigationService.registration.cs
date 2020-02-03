@@ -25,7 +25,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             if (registrationInfo is NavigationRegistration xamarinRegistration)
             {
 
-                if (xamarinRegistration.Platform != DevicePlatform.All &&
+                if (xamarinRegistration.Platform != DevicePlatforms.All &&
                     Device.RuntimePlatform.ToDevicePlatform() != xamarinRegistration.Platform)
                 {
                     return;
@@ -166,7 +166,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
         private static bool TryGetRegistration(
             Type viewModelInterfaceType,
-            DevicePlatform platform,
+            DevicePlatforms platform,
             out INavigationRegistration registrationInfo)
         {
             if (!IsRegistered(viewModelInterfaceType))
