@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>CodeMonkeys.Navigation.Xamarin.Forms</RootNamespace>
+    <ReleaseVersion>2.0</ReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
+    <AssemblyName>XamarinForms</AssemblyName>
+    <PackageId>CodeMonkeys.Navigation.Xamarin.Forms</PackageId>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
+    <Company>UltimateCodeMonkeys</Company>
+    <Product>CodeMonkeys MVVM</Product>
+    <Description>Package to use ViewModel navigation in Xamarin.Forms MVVM application</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991537" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj" />
+  </ItemGroup>
+</Project>
