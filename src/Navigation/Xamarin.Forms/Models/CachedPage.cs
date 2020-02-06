@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Xamarin.Forms;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms.Models
