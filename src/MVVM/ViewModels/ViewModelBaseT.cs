@@ -15,16 +15,16 @@ namespace CodeMonkeys.MVVM.ViewModels
         public virtual Task InitializeAsync()
         {
             IsInitialized = true;
-
+            
             return Task.CompletedTask;
         }
 
         /// <inheritdoc />
         public virtual Task InitializeAsync(
-            TModel aiInitializationValues)
+            TModel model)
         {
             IsInitialized = true;
-
+            
             return Task.CompletedTask;
         }
     }
