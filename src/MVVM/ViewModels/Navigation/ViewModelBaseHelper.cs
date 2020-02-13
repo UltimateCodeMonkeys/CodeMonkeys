@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 using CodeMonkeys.Core.Interfaces.MVVM;
@@ -8,15 +9,15 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
 {
     internal static class ViewModelBaseHelper
     {
+        internal static IEnumerable<MethodInfo> closeAsyncMethodInfos;
+
+
         internal static MethodInfo GetCloseViewModelAsyncMethodInfo(
             this ViewModelBase viewModelBase,
             int parametersCount = 1,
             int genericArgumentsCount = 2)
         {
-            var closeAsyncTask = viewModelBase.NavigationService.Value
-                .GetType()
-                .GetMethods()
-                .Where(m => m.Name == nameof(IViewModelNavigationService.CloseAsync))
+            var closeAsyncTask = GetCloseAsyncMethodInfos(viewModelBase)
                 .Select(aiMethodInfo => new
                 {
                     Method = aiMethodInfo,
@@ -38,10 +39,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
             int genericArgumentsCount = 2)
             where TInterface : IViewModel
         {
-            var closeAsyncTask = viewModelBase.NavigationService.Value
-                .GetType()
-                .GetMethods()
-                .Where(m => m.Name == nameof(IViewModelNavigationService.CloseAsync))
+            var closeAsyncTask = GetCloseAsyncMethodInfos(viewModelBase)
                 .Select(aiMethodInfo => new
                 {
                     Method = aiMethodInfo,
@@ -63,10 +61,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
             int genericArgumentsCount = 2)
             where TInterface : IViewModel<TModel>
         {
-            var closeAsyncTask = viewModelBase.NavigationService.Value
-                .GetType()
-                .GetMethods()
-                .Where(m => m.Name == nameof(IViewModelNavigationService.CloseAsync))
+            var closeAsyncTask = GetCloseAsyncMethodInfos(viewModelBase)
                 .Select(aiMethodInfo => new
                 {
                     Method = aiMethodInfo,
@@ -80,6 +75,20 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
                 .First();
 
             return closeAsyncTask;
+        }
+
+        private static IEnumerable<MethodInfo> GetCloseAsyncMethodInfos(
+            ViewModelBase viewModel)
+        {
+            if (closeAsyncMethodInfos == null || !closeAsyncMethodInfos.Any())
+            {
+                closeAsyncMethodInfos = viewModel.NavigationService.Value
+                    .GetType()
+                    .GetMethods()
+                    .Where(m => m.Name == nameof(IViewModelNavigationService.CloseAsync));
+            }
+
+            return closeAsyncMethodInfos;                
         }
     }
 }
