@@ -62,11 +62,7 @@ namespace CodeMonkeys.MVVM.Models
         public virtual bool CommitChanges()
         {
             try
-            {
-                if (!IsDirty)
-                    return true;
-
-
+            {                
                 foreach (var propertyName in _comittedPropertyValues.Keys.ToList())
                 {
                     _comittedPropertyValues[propertyName] =
@@ -90,9 +86,6 @@ namespace CodeMonkeys.MVVM.Models
         /// </summary>
         protected virtual void ResetChanges()
         {
-            if (!IsDirty)
-                return;
-
             foreach (var property in _comittedPropertyValues)
             {
                 SetValue(
