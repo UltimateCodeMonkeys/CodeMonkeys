@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 using CodeMonkeys.MVVM.Attributes;
 using CodeMonkeys.MVVM.PropertyChanged;
 
 namespace CodeMonkeys.MVVM.Models
 {
-    public abstract class ModelBase :
+    public abstract partial class ModelBase :
         BindingBase
     {
         private readonly ConcurrentDictionary<string, object> _comittedPropertyValues =
@@ -54,50 +52,7 @@ namespace CodeMonkeys.MVVM.Models
                 GetPropertiesDecoratedWith<DontAffectIsDirty>()
                 .Select(property => property.Name);
         }
-
-
-        /// <summary>
-        /// Sets the property value and raises the PropertyChanged event
-        /// Automatically attached an event listener for nested PropertyChanged events
-        /// </summary>
-        /// <typeparam name="TProperty">Type of the value</typeparam>
-        /// <param name="value">Value to set</param>
-        /// <param name="onPropertyChanged">EventHandler to invoke when this property value has changed</param>
-        /// <param name="onPropertyChanging">EventHandler to invoke when this property value is changing</param>
-        /// <param name="propertyName">Name of the property</param>
-        protected new void SetValue<TProperty>(
-            TProperty value,
-            PropertyChangedEventHandler onPropertyChanged = null,
-            PropertyChangingEventHandler onPropertyChanging = null,
-            [CallerMemberName]string propertyName = "")
-        {
-            bool successfullySet = base.SetValue(
-                value,
-                onPropertyChanged,
-                onPropertyChanging,
-                propertyName);
-
-            if (!successfullySet)
-                return;
-
-
-            if (!_comittedPropertyValues.ContainsKey(
-                    propertyName))
-            {
-                _comittedPropertyValues.TryAdd(
-                    propertyName,
-                    value);
-            }
-
-
-            if (_dontAffectIsDirtyDecoratedProperties.Contains(
-                propertyName))
-                return;
-
-            IsDirty = true;
-            LastPropertySet = propertyName;
-        }
-
+        
 
         /// <summary>
         /// Set the current model state as committed and resets the IsDirty flag after
