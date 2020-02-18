@@ -8,7 +8,10 @@ namespace CodeMonkeys.MVVM.Attributes
     /// <para />If applied to a class, prevents the PropertyChanged event from being raised for ALL properties
     /// <para />Can be used in common to e.g. exclude all but one
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class)]
+    [AttributeUsage(
+        AttributeTargets.Property | AttributeTargets.Class,
+        AllowMultiple = false,
+        Inherited = true)]
     public class SuppressNotifyPropertyChanged :
         Attribute
     {
