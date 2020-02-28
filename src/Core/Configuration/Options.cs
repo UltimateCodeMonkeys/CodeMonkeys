@@ -13,15 +13,15 @@ namespace CodeMonkeys.Core.Configuration
         protected void SetValue<T>(
             ref T field, 
             T value, 
-            bool causeReload = true)
+            bool reload = true)
         {
             field = value;
 
-            if (causeReload)
-                CauseReload();
+            if (reload)
+                Reload();
         }
 
-        private void CauseReload()
+        private void Reload()
         {
             var previousToken = Interlocked.Exchange(ref _token, new OptionsChangeToken());
             previousToken.OnReload();
