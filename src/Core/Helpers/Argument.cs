@@ -5,7 +5,7 @@ namespace CodeMonkeys.Core.Helpers
     /// <summary>
     /// Contains various helper methods for verifying method parameters.
     /// </summary>
-    internal static class Argument
+    public static class Argument
     {
         /// <summary>
         /// Throws a <see cref="ArgumentException"/> if the parameter is a empty guid.
@@ -13,7 +13,7 @@ namespace CodeMonkeys.Core.Helpers
         /// <param name="param">The parameter.</param>
         /// <param name="paramName">The parameter name.</param>
         /// <param name="message">The <see cref="ArgumentException"/> exception message.</param>
-        internal static void IsNotEmptyGuid(
+        public static void IsNotEmptyGuid(
             Guid param,
             string paramName = "",
             string message = "")
@@ -32,7 +32,7 @@ namespace CodeMonkeys.Core.Helpers
         /// <param name="param">The parameter.</param>
         /// <param name="paramName">The parameter name.</param>
         /// <param name="message">The <see cref="ArgumentException"/> exception message.</param>
-        internal static void IsNotZeroOrNegative(
+        public static void IsNotZeroOrNegative(
             int param,
             string paramName = "",
             string message = "")
@@ -51,7 +51,7 @@ namespace CodeMonkeys.Core.Helpers
         /// <param name="param">The parameter.</param>
         /// <param name="paramName">The parameter name.</param>
         /// <param name="message">The <see cref="ArgumentNullException"/> exception message.</param>
-        internal static void IsNotNull(
+        public static void IsNotNull(
             object param,
             string paramName = "",
             string message = "")
@@ -85,7 +85,7 @@ namespace CodeMonkeys.Core.Helpers
         /// <param name="param">The parameter.</param>
         /// <param name="paramName">The parameter name.</param>
         /// <param name="message">The exception message.</param>
-        internal static void IsNotNullOrWhiteSpace(
+        public static void IsNotNullOrWhiteSpace(
             string param,
             string paramName = "",
             string message = "")
