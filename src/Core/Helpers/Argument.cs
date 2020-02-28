@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace CodeMonkeys.Core
 {
     /// <summary>
     /// Contains various helper methods for verifying method parameters.
     /// </summary>
+    [DebuggerStepThrough]
+    [DebuggerNonUserCode]
     public static partial class Argument
     {
         /// <summary>
