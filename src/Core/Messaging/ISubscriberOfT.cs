@@ -5,6 +5,6 @@ namespace CodeMonkeys.Core.Messaging
     public interface ISubscriberOf<TEvent> : ISubscriber
         where TEvent : class, IEvent
     {
-        Task ReceiveEventAsync<TEvent>(TEvent @event);
+        Task ReceiveEventAsync(TEvent @event);
     }
 }
