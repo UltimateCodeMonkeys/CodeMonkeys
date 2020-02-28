@@ -8,13 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Interfaces\EventCommunication\**" />
+    <EmbeddedResource Remove="Interfaces\EventCommunication\**" />
+    <None Remove="Interfaces\EventCommunication\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\MVVM\" />
     <Folder Include="Interfaces\Navigation\" />
     <Folder Include="Interfaces\ExceptionHandling\" />
-    <Folder Include="Interfaces\EventCommunication\" />
     <Folder Include="Interfaces\Navigation\ViewModels\" />
   </ItemGroup>
 </Project>
