@@ -86,19 +86,7 @@ namespace CodeMonkeys.Messaging
 
             foreach (var type in GetGenericTypeArgumentsOfSubscriber(subscriber))
                 _registry.Add(type, subscriber);
-        }
-
-        private void Register(IEnumerable<ISubscriber> subscribers)
-        {
-            foreach (var subscriber in subscribers)
-            {
-                try
-                {
-                    Register(subscriber);
-                }
-                catch { }
-            }
-        }
+        }        
 
         /// <inheritdoc/>
         public void DeregisterFrom<TEvent>(ISubscriberOf<TEvent> subscriber)
@@ -122,10 +110,21 @@ namespace CodeMonkeys.Messaging
                 _registry.Remove(type, subscriber);
         }
 
+        private void Register(IEnumerable<ISubscriber> subscribers)
+        {
+            foreach (var subscriber in subscribers)
+            {
+                try
+                {
+                    Register(subscriber);
+                }
+                catch { }
+            }
+        }
+
         /// <summary>
-        /// 
+        /// Gets the event types by inspecting all <see cref="ISubscriberOf{TEvent}"/> on a given <see cref="ISubscriber"/> instance.
         /// </summary>
-        /// <returns></returns>
         private IList<Type> GetGenericTypeArgumentsOfSubscriber(ISubscriber subscriber)
         {
             var type = subscriber.GetType();
