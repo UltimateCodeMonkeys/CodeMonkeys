@@ -10,22 +10,33 @@ namespace CodeMonkeys.Core.Messaging
         void Publish<TEvent>(TEvent @event)
             where TEvent : class, IEvent;
 
-        /// <summary>
-        /// 
-        /// </summary>
+        ///// <summary>
+        ///// 
+        ///// </summary>
         Task PublishAsync<TEvent>(TEvent @event)
             where TEvent : class, IEvent;
 
         /// <summary>
         /// 
         /// </summary>
-        void AddRegistration<TEvent>(ISubscriberOf<TEvent> subscriber)
+        void RegisterTo<TEvent>(ISubscriberOf<TEvent> subscriber)
             where TEvent : class, IEvent;
 
         /// <summary>
         /// 
         /// </summary>
-        void RemoveRegistration<TEvent>(ISubscriberOf<TEvent> subscriber)
+        /// <param name="subscriber"></param>
+        void Register(ISubscriber subscriber);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void DeregisterFrom<TEvent>(ISubscriberOf<TEvent> subscriber)
             where TEvent : class, IEvent;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void Deregister(ISubscriber subscriber);
     }
 }

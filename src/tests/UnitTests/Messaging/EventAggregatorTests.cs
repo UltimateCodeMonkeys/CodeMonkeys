@@ -20,5 +20,12 @@ namespace CodeMonkeys.UnitTests.Messaging
         {
             Assert.Pass();
         }
+
+        [Test]
+        public void AddRegistration_WhenSubscriberParameterIsNull_ThrowsArgumentNullException()
+        {
+            _aggregator.Register(new Subscriber());
+            _aggregator.Publish(new Event());
+        }
     }
 }

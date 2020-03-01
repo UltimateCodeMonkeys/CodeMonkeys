@@ -1,114 +1,132 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.Messaging;
+using CodeMonkeys.Messaging.Configuration;
 
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CodeMonkeys.Messaging
 {
-    public sealed class EventAggregator : IEventAggregator
+    public sealed class EventAggregator : IEventAggregator, IDisposable
     {
-        private readonly List<Subscription> _subscriptions;
-        private readonly object _sync;
-
+        private readonly CancellationTokenSource _cts;
+        private readonly SubscriptionRegistry _registry;
         private readonly ConcurrentDictionary<Type, IList<Type>> _eventTypeCache;
 
-
-        public EventAggregator()
+        public EventAggregator(SubscriptionOptions options = null)
         {
-            _subscriptions = new List<Subscription>();
-            _sync = new object();
+            _cts = new CancellationTokenSource();
+
+            _registry = new SubscriptionRegistry(
+                options ?? new SubscriptionOptions(),
+                _cts.Token);
 
             _eventTypeCache = new ConcurrentDictionary<Type, IList<Type>>();
         }
 
-        public EventAggregator(IEnumerable<ISubscriber> subscribers) : this()
+        public EventAggregator(
+            IEnumerable<ISubscriber> subscribers,
+            SubscriptionOptions options = null) 
+            
+            : this(options)
         {
-            foreach (var subscriber in subscribers)
-                AddRegistrations(subscriber);
+            Argument.NotNull(
+                subscribers,
+                nameof(subscribers));
+
+            Register(subscribers);                
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Publish<TEvent>(TEvent @event)
             where TEvent : class, IEvent
         {
             Argument.NotNull(
                 @event,
                 nameof(@event));
+
+            PublishAsync(@event);
         }
 
-        /// <inheritdoc />
-        public Task PublishAsync<TEvent>(TEvent @event)
+        /// <inheritdoc/>
+        public async Task PublishAsync<TEvent>(TEvent @event)
             where TEvent : class, IEvent
         {
-            Publish(@event);
+            Argument.NotNull(
+                @event,
+                nameof(@event));
 
-            return Task.CompletedTask;
+            var subscribers = _registry.GetSubscribersOf<TEvent>();
+
+            foreach (var subscriber in subscribers)
+                await subscriber.ReceiveEventAsync(@event);
         }
 
-        /// <inheritdoc />
-        public void AddRegistration<TEvent>(ISubscriberOf<TEvent> subscriber)
+        /// <inheritdoc/>
+        public void RegisterTo<TEvent>(ISubscriberOf<TEvent> subscriber)
             where TEvent : class, IEvent
         {
             Argument.NotNull(
                 subscriber,
                 nameof(subscriber));
 
-            AddRegistration(
-                typeof(TEvent), 
-                subscriber);
+            _registry.Add(typeof(TEvent), subscriber);
         }
 
-        private void AddRegistration(
-            Type eventType,
-            ISubscriber subscriber)
-        {
-            var sub = Subscription.Create(eventType, subscriber);
-
-            if (_subscriptions.Contains(sub))
-                return;
-
-            lock (_sync)
-                _subscriptions.Add(sub);
-        }
-
-        /// <inheritdoc />
-        public void AddRegistrations(ISubscriber subscriber)
+        /// <inheritdoc/>
+        public void Register(ISubscriber subscriber)
         {
             Argument.NotNull(
                 subscriber,
                 nameof(subscriber));
 
-            var eventTypes = GetEventTypesForSubscriber(subscriber);
+            foreach (var type in GetGenericTypeArgumentsOfSubscriber(subscriber))
+                _registry.Add(type, subscriber);
+        }
 
-            foreach (var type in eventTypes)
+        private void Register(IEnumerable<ISubscriber> subscribers)
+        {
+            foreach (var subscriber in subscribers)
             {
-                AddRegistration(type, subscriber);
+                try
+                {
+                    Register(subscriber);
+                }
+                catch { }
             }
         }
 
-        /// <inheritdoc />
-        public void RemoveRegistration<TEvent>(ISubscriberOf<TEvent> subscriber)
+        /// <inheritdoc/>
+        public void DeregisterFrom<TEvent>(ISubscriberOf<TEvent> subscriber)
             where TEvent : class, IEvent
         {
             Argument.NotNull(
                 subscriber,
                 nameof(subscriber));
 
-            var sub = Subscription.Create<TEvent>(subscriber);
+            _registry.Remove(typeof(TEvent), subscriber);
+        }
 
-            lock (_sync)
-                _subscriptions.Remove(sub);
+        /// <inheritdoc/>
+        public void Deregister(ISubscriber subscriber)
+        {
+            Argument.NotNull(
+                subscriber,
+                nameof(subscriber));
+
+            foreach (var type in GetGenericTypeArgumentsOfSubscriber(subscriber))
+                _registry.Remove(type, subscriber);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        private IList<Type> GetEventTypesForSubscriber(ISubscriber subscriber)
+        private IList<Type> GetGenericTypeArgumentsOfSubscriber(ISubscriber subscriber)
         {
             var type = subscriber.GetType();
 
@@ -129,6 +147,17 @@ namespace CodeMonkeys.Messaging
             _eventTypeCache.TryAdd(type, eventTypes);
 
             return eventTypes;
+        }
+
+        public void Dispose()
+        {
+            _cts.Cancel();
+        }
+
+        ~EventAggregator()
+        {
+            _cts.Cancel();
+            _cts.Dispose();
         }
     }
 }

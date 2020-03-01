@@ -9,7 +9,7 @@ namespace CodeMonkeys.Messaging
     {
         internal Type EventType { get; }
 
-        internal WeakReference Ref { get; }
+        internal WeakReference Reference { get; }
 
         private Subscription(Type eventType, WeakReference @ref)
         {
@@ -22,7 +22,7 @@ namespace CodeMonkeys.Messaging
                 nameof(@ref));
 
             EventType = eventType;
-            Ref = @ref;
+            Reference = @ref;
         }
 
         internal static Subscription Create(Type eventType, ISubscriber subscriber) => 
@@ -30,5 +30,18 @@ namespace CodeMonkeys.Messaging
 
         internal static Subscription Create<TEvent>(ISubscriber subscriber)
             where TEvent : class, IEvent => Create(typeof(TEvent), subscriber);
+
+        public override bool Equals(object obj)
+        {
+            var other = (Subscription)obj;
+
+            return Reference.Target == other.Reference.Target &&
+                   EventType == other.EventType;
+        }
+
+        public override int GetHashCode()
+        {
+            return Reference.Target.GetHashCode();
+        }
     }
 }
