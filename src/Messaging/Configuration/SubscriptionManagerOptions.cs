@@ -4,7 +4,7 @@ using System;
 
 namespace CodeMonkeys.Messaging.Configuration
 {
-    public class SubscriptionOptions : Options
+    public class SubscriptionManagerOptions : Options
     {
         private TimeSpan _flushSubscriptionsPeriod = TimeSpan.FromSeconds(10);
 

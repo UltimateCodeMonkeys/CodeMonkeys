@@ -9,30 +9,31 @@ using System.Threading.Tasks;
 
 namespace CodeMonkeys.Messaging
 {
-    internal class SubscriptionRegistry
+    public class SubscriptionManager : ISubscriptionManager
     {
         private readonly CancellationToken _token;
 
         private readonly HashSet<Subscription> _items;
         private readonly object _sync;
 
-        private readonly SubscriptionOptions _options;
+        private readonly SubscriptionManagerOptions _options;
 
-        internal SubscriptionRegistry(
-            SubscriptionOptions options,
-            CancellationToken token)
+        internal SubscriptionManager(
+            CancellationToken token,
+            SubscriptionManagerOptions options = null)
         {
             _token = token;
 
             _items = new HashSet<Subscription>();
             _sync = new object();
 
-            _options = options;
+            _options = options ?? new SubscriptionManagerOptions();
 
             Task.Run(RemoveCollectedSubscribers);
         }
 
-        internal IEnumerable<ISubscriberOf<TEvent>> GetSubscribersOf<TEvent>()
+        /// <inheritdoc/>
+        public IEnumerable<ISubscriberOf<TEvent>> GetSubscribersOf<TEvent>()
             where TEvent : class, IEvent
         {
             var subscriptions = _items
@@ -42,7 +43,8 @@ namespace CodeMonkeys.Messaging
                 .Select(subscription => subscription.Reference.Target as ISubscriberOf<TEvent>);
         }
 
-        internal void Add(Type eventType, ISubscriber subscriber)
+        /// <inheritdoc/>
+        public void Add(Type eventType, ISubscriber subscriber)
         {
             lock (_sync)
             {
@@ -53,7 +55,8 @@ namespace CodeMonkeys.Messaging
             }
         }
 
-        internal void Remove(Type eventType, ISubscriber subscriber)
+        /// <inheritdoc/>
+        public void Remove(Type eventType, ISubscriber subscriber)
         {
             lock (_sync)
             {

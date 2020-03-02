@@ -6,31 +6,38 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
+[assembly: InternalsVisibleTo("UnitTests")]
 namespace CodeMonkeys.Messaging
 {
     public sealed class EventAggregator : IEventAggregator, IDisposable
     {
         private readonly CancellationTokenSource _cts;
-        private readonly SubscriptionRegistry _registry;
         private readonly ConcurrentDictionary<Type, IList<Type>> _eventTypeCache;
 
-        public EventAggregator(SubscriptionOptions options = null)
+        private readonly ISubscriptionManager _subscriptionManager;
+
+        public EventAggregator()
         {
             _cts = new CancellationTokenSource();
-
-            _registry = new SubscriptionRegistry(
-                options ?? new SubscriptionOptions(),
-                _cts.Token);
-
             _eventTypeCache = new ConcurrentDictionary<Type, IList<Type>>();
+        }
+
+        public EventAggregator(SubscriptionManagerOptions options = null)
+            
+            : this()
+        {
+            _subscriptionManager = new SubscriptionManager(
+                _cts.Token,
+                options);
         }
 
         public EventAggregator(
             IEnumerable<ISubscriber> subscribers,
-            SubscriptionOptions options = null) 
+            SubscriptionManagerOptions options = null)
             
             : this(options)
         {
@@ -60,7 +67,7 @@ namespace CodeMonkeys.Messaging
                 @event,
                 nameof(@event));
 
-            var subscribers = _registry.GetSubscribersOf<TEvent>();
+            var subscribers = _subscriptionManager.GetSubscribersOf<TEvent>();
 
             foreach (var subscriber in subscribers)
                 await subscriber.ReceiveEventAsync(@event);
@@ -74,7 +81,7 @@ namespace CodeMonkeys.Messaging
                 subscriber,
                 nameof(subscriber));
 
-            _registry.Add(typeof(TEvent), subscriber);
+            _subscriptionManager.Add(typeof(TEvent), subscriber);
         }
 
         /// <inheritdoc/>
@@ -85,7 +92,7 @@ namespace CodeMonkeys.Messaging
                 nameof(subscriber));
 
             foreach (var type in GetGenericTypeArgumentsOfSubscriber(subscriber))
-                _registry.Add(type, subscriber);
+                _subscriptionManager.Add(type, subscriber);
         }        
 
         /// <inheritdoc/>
@@ -96,7 +103,7 @@ namespace CodeMonkeys.Messaging
                 subscriber,
                 nameof(subscriber));
 
-            _registry.Remove(typeof(TEvent), subscriber);
+            _subscriptionManager.Remove(typeof(TEvent), subscriber);
         }
 
         /// <inheritdoc/>
@@ -107,7 +114,7 @@ namespace CodeMonkeys.Messaging
                 nameof(subscriber));
 
             foreach (var type in GetGenericTypeArgumentsOfSubscriber(subscriber))
-                _registry.Remove(type, subscriber);
+                _subscriptionManager.Remove(type, subscriber);
         }
 
         private void Register(IEnumerable<ISubscriber> subscribers)
@@ -142,6 +149,7 @@ namespace CodeMonkeys.Messaging
                 .Select(@interface =>
                     @interface.GenericTypeArguments.FirstOrDefault())
                 .ToList();
+
 
             _eventTypeCache.TryAdd(type, eventTypes);
 

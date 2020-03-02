@@ -24,7 +24,7 @@ namespace CodeMonkeys.Core
                 return;
 
             if (string.IsNullOrWhiteSpace(message))
-                message = $"'{paramName}' is null.";
+                message = $"Parameter '{paramName}' is null.";
 
             throw new ArgumentNullException(
                 paramName,
@@ -45,7 +45,7 @@ namespace CodeMonkeys.Core
                 return;
 
             if (string.IsNullOrWhiteSpace(message))
-                message = $"'{paramName}' is default value.";
+                message = $"Parameter '{paramName}' is default value.";
 
             throw new ArgumentException(
                 message,
