@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CodeMonkeys.Messaging
 {
-    public class SubscriptionManager : ISubscriptionManager
+    internal sealed class SubscriptionManager
     {
         private readonly HashSet<Subscription> _items;
         private readonly object _sync;
@@ -28,7 +28,7 @@ namespace CodeMonkeys.Messaging
         }
 
         /// <inheritdoc/>
-        public IEnumerable<ISubscriberOf<TEvent>> GetSubscribersOf<TEvent>()
+        internal IEnumerable<ISubscriberOf<TEvent>> GetSubscribersOf<TEvent>()
             where TEvent : class, IEvent
         {
             var subscriptions = _items
@@ -39,7 +39,7 @@ namespace CodeMonkeys.Messaging
         }
 
         /// <inheritdoc/>
-        public void Add(Type eventType, ISubscriber subscriber)
+        internal void Add(Type eventType, ISubscriber subscriber)
         {
             lock (_sync)
             {
@@ -51,7 +51,7 @@ namespace CodeMonkeys.Messaging
         }
 
         /// <inheritdoc/>
-        public void Remove(Type eventType, ISubscriber subscriber)
+        internal void Remove(Type eventType, ISubscriber subscriber)
         {
             lock (_sync)
             {

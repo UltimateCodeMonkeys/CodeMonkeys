@@ -1,31 +1,22 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.Messaging;
-using CodeMonkeys.Messaging.Caching;
 using CodeMonkeys.Messaging.Configuration;
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-[assembly: InternalsVisibleTo("UnitTests")]
 namespace CodeMonkeys.Messaging
 {
     public sealed class EventAggregator : IEventAggregator, IDisposable
     {
-        private readonly IEventTypeCache _cache;
+        private readonly EventTypeCache _cache;
 
-        private readonly ISubscriptionManager _subscriptionManager;
-
-        public EventAggregator()
-        {
-            _cache = new EventTypeCache();
-        }
+        private readonly SubscriptionManager _subscriptionManager;
 
         public EventAggregator(SubscriptionManagerOptions options = null)
-            
-            : this()
         {
+            _cache = new EventTypeCache();
             _subscriptionManager = new SubscriptionManager(options);
         }
 
@@ -41,26 +32,6 @@ namespace CodeMonkeys.Messaging
 
             Register(subscribers);                
         }
-
-        #region Unit Testing
-
-        internal EventAggregator(ISubscriptionManager subscriptionManager)
-            : this()
-        {
-
-            _subscriptionManager = subscriptionManager;
-        }
-
-        internal EventAggregator(
-            ISubscriptionManager subscriptionManager,
-            IEnumerable<ISubscriber> subscribers)
-            
-            : this()
-        {
-            Register(subscribers);
-        } 
-
-        #endregion
 
         /// <inheritdoc/>
         public void Publish<TEvent>(TEvent @event)

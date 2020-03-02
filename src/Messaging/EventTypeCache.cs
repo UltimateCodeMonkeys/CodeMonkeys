@@ -5,9 +5,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodeMonkeys.Messaging.Caching
+namespace CodeMonkeys.Messaging
 {
-    internal class EventTypeCache : IEventTypeCache
+    internal class EventTypeCache
     {
         private readonly ConcurrentDictionary<Type, IList<Type>> _this;
 
