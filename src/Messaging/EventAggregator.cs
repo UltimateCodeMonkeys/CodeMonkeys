@@ -5,9 +5,7 @@ using CodeMonkeys.Messaging.Configuration;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("UnitTests")]
@@ -15,7 +13,6 @@ namespace CodeMonkeys.Messaging
 {
     public sealed class EventAggregator : IEventAggregator, IDisposable
     {
-        private readonly CancellationTokenSource _cts;
         private readonly ConcurrentDictionary<Type, IList<Type>> _eventTypeCache;
         private readonly EventTypeCache _cache;
 
@@ -23,7 +20,6 @@ namespace CodeMonkeys.Messaging
 
         public EventAggregator()
         {
-            _cts = new CancellationTokenSource();
             _eventTypeCache = new ConcurrentDictionary<Type, IList<Type>>();
             _cache = new EventTypeCache();
         }
@@ -32,9 +28,7 @@ namespace CodeMonkeys.Messaging
             
             : this()
         {
-            _subscriptionManager = new SubscriptionManager(
-                _cts.Token,
-                options);
+            _subscriptionManager = new SubscriptionManager(options);
         }
 
         public EventAggregator(
@@ -48,6 +42,33 @@ namespace CodeMonkeys.Messaging
                 nameof(subscribers));
 
             Register(subscribers);                
+        }
+
+        public EventAggregator(ISubscriptionManager subscriptionManager)
+            : this()
+        {
+            Argument.NotNull(
+                subscriptionManager,
+                nameof(subscriptionManager));
+
+            _subscriptionManager = subscriptionManager;
+        }
+
+        public EventAggregator(
+            ISubscriptionManager subscriptionManager,
+            IEnumerable<ISubscriber> subscribers)
+            
+            : this()
+        {
+            Argument.NotNull(
+                subscriptionManager,
+                nameof(subscriptionManager));
+
+            Argument.NotNull(
+                subscribers,
+                nameof(subscribers));
+
+            Register(subscribers);
         }
 
         /// <inheritdoc/>
@@ -127,19 +148,13 @@ namespace CodeMonkeys.Messaging
                 {
                     Register(subscriber);
                 }
-                catch { }
+                catch { } // ignored
             }
         }
 
         public void Dispose()
         {
-            _cts.Cancel();
-        }
-
-        ~EventAggregator()
-        {
-            _cts.Cancel();
-            _cts.Dispose();
+            _subscriptionManager.Dispose();
         }
     }
 }

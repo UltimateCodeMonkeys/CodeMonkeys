@@ -1,11 +1,9 @@
-﻿using CodeMonkeys.Core.Messaging;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace CodeMonkeys.Messaging
+namespace CodeMonkeys.Core.Messaging
 {
-    internal interface ISubscriptionManager
+    public interface ISubscriptionManager : IDisposable
     {
         IEnumerable<ISubscriberOf<TEvent>> GetSubscribersOf<TEvent>()
             where TEvent : class, IEvent;
