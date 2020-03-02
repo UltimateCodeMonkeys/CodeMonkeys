@@ -1,9 +1,9 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.Messaging;
+using CodeMonkeys.Messaging.Caching;
 using CodeMonkeys.Messaging.Configuration;
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -13,14 +13,12 @@ namespace CodeMonkeys.Messaging
 {
     public sealed class EventAggregator : IEventAggregator, IDisposable
     {
-        private readonly ConcurrentDictionary<Type, IList<Type>> _eventTypeCache;
-        private readonly EventTypeCache _cache;
+        private readonly IEventTypeCache _cache;
 
         private readonly ISubscriptionManager _subscriptionManager;
 
         public EventAggregator()
         {
-            _eventTypeCache = new ConcurrentDictionary<Type, IList<Type>>();
             _cache = new EventTypeCache();
         }
 
@@ -44,32 +42,25 @@ namespace CodeMonkeys.Messaging
             Register(subscribers);                
         }
 
-        public EventAggregator(ISubscriptionManager subscriptionManager)
+        #region Unit Testing
+
+        internal EventAggregator(ISubscriptionManager subscriptionManager)
             : this()
         {
-            Argument.NotNull(
-                subscriptionManager,
-                nameof(subscriptionManager));
 
             _subscriptionManager = subscriptionManager;
         }
 
-        public EventAggregator(
+        internal EventAggregator(
             ISubscriptionManager subscriptionManager,
             IEnumerable<ISubscriber> subscribers)
             
             : this()
         {
-            Argument.NotNull(
-                subscriptionManager,
-                nameof(subscriptionManager));
-
-            Argument.NotNull(
-                subscribers,
-                nameof(subscribers));
-
             Register(subscribers);
-        }
+        } 
+
+        #endregion
 
         /// <inheritdoc/>
         public void Publish<TEvent>(TEvent @event)

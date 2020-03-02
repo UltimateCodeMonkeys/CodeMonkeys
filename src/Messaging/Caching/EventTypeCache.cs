@@ -5,13 +5,13 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodeMonkeys.Messaging
+namespace CodeMonkeys.Messaging.Caching
 {
-    internal class EventTypeCache
+    internal class EventTypeCache : IEventTypeCache
     {
         private readonly ConcurrentDictionary<Type, IList<Type>> _this;
 
-        internal IList<Type> GetOrAddEventTypesOf(ISubscriber subscriber)
+        public IList<Type> GetOrAddEventTypesOf(ISubscriber subscriber)
         {
             var type = subscriber.GetType();
 
