@@ -4,20 +4,26 @@ using CodeMonkeys.Messaging.Configuration;
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CodeMonkeys.Messaging
 {
-    public sealed class EventAggregator : IEventAggregator, IDisposable
+    public sealed class EventAggregator : 
+        IEventAggregator, 
+        IDisposable
     {
         private readonly EventTypeCache _cache;
-
+        private readonly CancellationTokenSource _cts;
         private readonly SubscriptionManager _subscriptionManager;
 
         public EventAggregator(SubscriptionManagerOptions options = null)
         {
             _cache = new EventTypeCache();
-            _subscriptionManager = new SubscriptionManager(options);
+            _cts = new CancellationTokenSource();
+            _subscriptionManager = new SubscriptionManager(
+                _cts.Token,
+                options);
         }
 
         public EventAggregator(
@@ -116,7 +122,7 @@ namespace CodeMonkeys.Messaging
 
         public void Dispose()
         {
-            _subscriptionManager.Dispose();
+            _cts.Cancel();
         }
     }
 }
