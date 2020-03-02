@@ -46,7 +46,7 @@ namespace CodeMonkeys.Core.Helpers
             Type type,
             params object[] args)
         {
-            Argument.IsNotNull(
+            Argument.NotNull(
                 type,
                 nameof(type));
 
