@@ -17,6 +17,7 @@ namespace CodeMonkeys.Messaging
     {
         private readonly CancellationTokenSource _cts;
         private readonly ConcurrentDictionary<Type, IList<Type>> _eventTypeCache;
+        private readonly EventTypeCache _cache;
 
         private readonly ISubscriptionManager _subscriptionManager;
 
@@ -24,6 +25,7 @@ namespace CodeMonkeys.Messaging
         {
             _cts = new CancellationTokenSource();
             _eventTypeCache = new ConcurrentDictionary<Type, IList<Type>>();
+            _cache = new EventTypeCache();
         }
 
         public EventAggregator(SubscriptionManagerOptions options = null)
@@ -91,7 +93,7 @@ namespace CodeMonkeys.Messaging
                 subscriber,
                 nameof(subscriber));
 
-            foreach (var type in GetGenericTypeArgumentsOfSubscriber(subscriber))
+            foreach (var type in _cache.GetOrAddEventTypesOf(subscriber))
                 _subscriptionManager.Add(type, subscriber);
         }        
 
@@ -113,7 +115,7 @@ namespace CodeMonkeys.Messaging
                 subscriber,
                 nameof(subscriber));
 
-            foreach (var type in GetGenericTypeArgumentsOfSubscriber(subscriber))
+            foreach (var type in _cache.GetOrAddEventTypesOf(subscriber))
                 _subscriptionManager.Remove(type, subscriber);
         }
 
@@ -127,33 +129,6 @@ namespace CodeMonkeys.Messaging
                 }
                 catch { }
             }
-        }
-
-        /// <summary>
-        /// Gets the event types by inspecting all <see cref="ISubscriberOf{TEvent}"/> on a given <see cref="ISubscriber"/> instance.
-        /// </summary>
-        private IList<Type> GetGenericTypeArgumentsOfSubscriber(ISubscriber subscriber)
-        {
-            var type = subscriber.GetType();
-
-            if (_eventTypeCache.TryGetValue(type, out var eventTypes))
-                return eventTypes;
-
-            var interfaces = type
-                .GetInterfaces()
-                .Where(@interface =>
-                    @interface.IsGenericType &&
-                    @interface.GetGenericTypeDefinition() == typeof(ISubscriberOf<>));
-
-            eventTypes = interfaces
-                .Select(@interface =>
-                    @interface.GenericTypeArguments.FirstOrDefault())
-                .ToList();
-
-
-            _eventTypeCache.TryAdd(type, eventTypes);
-
-            return eventTypes;
         }
 
         public void Dispose()
