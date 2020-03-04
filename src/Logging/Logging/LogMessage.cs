@@ -4,12 +4,12 @@ using System;
 
 namespace CodeMonkeys.Logging
 {
-    public struct LogMessage
+    public readonly struct LogMessage
     {
         public DateTimeOffset Timestamp { get; }
         public LogLevel LogLevel { get; }
         public string FormattedMessage { get; }
-        public string Category { get; set; }
+        public string Category { get; }
         public Exception Exception { get; }
 
         public LogMessage(

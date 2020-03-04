@@ -10,9 +10,13 @@ namespace CodeMonkeys.Logging.Console
         OptionsConsumer<ConsoleLogOptions>,
         ILogServiceProvider
     {
+        private LogLevel _minLevel;
+        private bool _useColors;
+
         public ConsoleLogServiceProvider(ConsoleLogOptions options)
             : base(options)
         {
+            _minLevel = options.MinLevel;
         }        
 
         public ILogService Create(string context)
@@ -26,12 +30,13 @@ namespace CodeMonkeys.Logging.Console
 
         protected override void OnOptionsHasChanged(ConsoleLogOptions options)
         {
-
+            _minLevel = options.MinLevel;
+            _useColors = options.UseColors;
         }
 
         internal bool IsEnabled(LogLevel logLevel)
         {
-            return true;
+            return logLevel > _minLevel;
         }
 
         internal void ProcessMessage(LogMessage message)
