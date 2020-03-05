@@ -6,15 +6,15 @@ using System.Text;
 
 namespace CodeMonkeys.Logging.Console
 {
-    public class ConsoleServiceProvider : 
-        OptionsConsumer<ConsoleOptions>,
+    public class ConsoleLogServiceProvider : 
+        OptionsConsumer<ConsoleLogOptions>,
         ILogServiceProvider
     {
         private LogLevel _minLevel;
         private bool _useColors;
         private string _timeStampFormat;
 
-        public ConsoleServiceProvider(ConsoleOptions options)
+        public ConsoleLogServiceProvider(ConsoleLogOptions options)
             : base(options)
         {
             _minLevel = options.MinLevel;
@@ -28,10 +28,10 @@ namespace CodeMonkeys.Logging.Console
                 context,
                 nameof(context));
 
-            return new ConsoleService(this, context);
+            return new ConsoleLogService(this, context);
         }
 
-        protected override void OnOptionsHasChanged(ConsoleOptions options)
+        protected override void OnOptionsHasChanged(ConsoleLogOptions options)
         {
             _minLevel = options.MinLevel;
             _useColors = options.UseColors;

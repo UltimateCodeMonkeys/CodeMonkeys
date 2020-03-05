@@ -3,7 +3,7 @@ using CodeMonkeys.Logging.Configuration;
 
 namespace CodeMonkeys.Logging.Console
 {
-    public class ConsoleOptions : LogOptions
+    public class ConsoleLogOptions : LogOptions
     {
         /// <summary>
         /// Enables colored output when <see langword="true"/>.
@@ -12,11 +12,11 @@ namespace CodeMonkeys.Logging.Console
 
         public string TimeStampFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fff zzz";
 
-        public ConsoleOptions()
+        public ConsoleLogOptions()
         {
         }
 
-        public ConsoleOptions(LogLevel minLevel)
+        public ConsoleLogOptions(LogLevel minLevel)
             : base(minLevel)
         {
         }

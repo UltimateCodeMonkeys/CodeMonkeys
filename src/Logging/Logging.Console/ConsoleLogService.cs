@@ -5,12 +5,12 @@ using System;
 
 namespace CodeMonkeys.Logging.Console
 {
-    internal class ConsoleService : ILogService
+    internal class ConsoleLogService : ILogService
     {
-        private readonly ConsoleServiceProvider _provider;
+        private readonly ConsoleLogServiceProvider _provider;
         private readonly string _context;
 
-        internal ConsoleService(ConsoleServiceProvider provider, string context)
+        internal ConsoleLogService(ConsoleLogServiceProvider provider, string context)
         {
             _provider = provider;
             _context = context;

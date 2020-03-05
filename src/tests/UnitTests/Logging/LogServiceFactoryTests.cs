@@ -43,7 +43,7 @@ namespace CodeMonkeys.UnitTests.Logging
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                _factory.AddProvider<ConsoleServiceProvider>(null);
+                _factory.AddProvider<ConsoleLogServiceProvider>(null);
             });
         }        
     }

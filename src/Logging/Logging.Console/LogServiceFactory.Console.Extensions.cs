@@ -1,41 +1,35 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.Logging;
+using CodeMonkeys.Logging.Console;
 
 using System;
 
-namespace CodeMonkeys.Logging.Console.Extensions
+namespace CodeMonkeys.Logging.Extensions
 {
-    public static class ConsoleFactoryExtensions
+    public static partial class LogServiceFactoryExtensions
     {
         public static void AddConsole(
             this ILogServiceFactory _this,
-            ConsoleOptions options)
+            ConsoleLogOptions options)
         {
             Argument.NotNull(
                 options,
                 nameof(options));
 
-            var provider = new ConsoleServiceProvider(options);
+            var provider = new ConsoleLogServiceProvider(options);
 
             _this.AddProvider(provider);
         }
 
         public static void AddConsole(
             this ILogServiceFactory _this,
-            Func<ConsoleOptions> optionsFactory)
+            Func<ConsoleLogOptions> optionsFactory)
         {
             Argument.NotNull(
                 optionsFactory,
                 nameof(optionsFactory));
 
             _this.AddConsole(optionsFactory());
-        }
-
-        public static void AddConsole(
-            this ILogServiceFactory _this,
-            LogLevel minLevel)
-        {
-            _this.AddConsole(new ConsoleOptions(minLevel));
         }
     }
 }
