@@ -6,17 +6,20 @@ using System.Text;
 
 namespace CodeMonkeys.Logging.Console
 {
-    public class ConsoleLogServiceProvider : 
-        OptionsConsumer<ConsoleLogOptions>,
+    public class ConsoleServiceProvider : 
+        OptionsConsumer<ConsoleOptions>,
         ILogServiceProvider
     {
         private LogLevel _minLevel;
         private bool _useColors;
+        private string _timeStampFormat;
 
-        public ConsoleLogServiceProvider(ConsoleLogOptions options)
+        public ConsoleServiceProvider(ConsoleOptions options)
             : base(options)
         {
             _minLevel = options.MinLevel;
+            _useColors = options.UseColors;
+            _timeStampFormat = options.TimeStampFormat;
         }        
 
         public ILogService Create(string context)
@@ -25,13 +28,14 @@ namespace CodeMonkeys.Logging.Console
                 context,
                 nameof(context));
 
-            return new ConsoleLogService(this, context);
+            return new ConsoleService(this, context);
         }
 
-        protected override void OnOptionsHasChanged(ConsoleLogOptions options)
+        protected override void OnOptionsHasChanged(ConsoleOptions options)
         {
             _minLevel = options.MinLevel;
             _useColors = options.UseColors;
+            _timeStampFormat = options.TimeStampFormat;
         }
 
         internal bool IsEnabled(LogLevel logLevel)
@@ -42,7 +46,7 @@ namespace CodeMonkeys.Logging.Console
         internal void ProcessMessage(LogMessage message)
         {
             var builder = new StringBuilder();
-            builder.Append(message.Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff zzz"));
+            builder.Append(message.Timestamp.ToString(_timeStampFormat));
             builder.Append(" [");
             builder.Append(message.LogLevel.ToString());
             builder.Append("] ");

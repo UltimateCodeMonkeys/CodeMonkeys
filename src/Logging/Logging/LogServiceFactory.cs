@@ -1,47 +1,61 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.Logging;
 
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CodeMonkeys.Logging
 {
     public class LogServiceFactory : ILogServiceFactory
     {
-        private readonly HashSet<ILogServiceProvider> _serviceProviders;
+        private readonly List<ILogServiceProvider> _providers;
+        private readonly ConcurrentDictionary<string, LogServiceComposition> _services;
 
         public LogServiceFactory()
         {
-            _serviceProviders = new HashSet<ILogServiceProvider>();
+            _providers = new List<ILogServiceProvider>();
+            _services = new ConcurrentDictionary<string, LogServiceComposition>();
         }
 
-        public ILogService Create<TProvider>(string context)
-            where TProvider : class, ILogServiceProvider
+        public ILogService Create(string context)
         {
             Argument.NotEmptyOrWhitespace(
                 context,
                 nameof(context));
 
-            return GetProvider<TProvider>()?.Create(context);
+            if (_services.TryGetValue(context, out var service))
+                return service;
+
+            service = new LogServiceComposition(
+                CreateContextAwareLogServiceProviders(context));
+
+            _services.TryAdd(context, service);
+
+            return service;
         }
 
-        public void AddProvider<TProvider>(TProvider provider) 
+        public void AddProvider<TProvider>(TProvider provider)
             where TProvider : class, ILogServiceProvider
         {
             Argument.NotNull(
                 provider,
                 nameof(provider));
 
-            _serviceProviders.Add(provider);
+            _providers.Add(provider);
         }
 
-        private ILogServiceProvider GetProvider<TProvider>()
-            where TProvider : class, ILogServiceProvider
+        private ContextAwareLogServiceProvider[] CreateContextAwareLogServiceProviders(string name)
         {
-            return _serviceProviders
-                .FirstOrDefault(sp => sp
-                    .GetType()
-                    .Equals(typeof(TProvider)));
-        }
+            var builders = new ContextAwareLogServiceProvider[_providers.Count];
+
+            for (int i = 0; i < _providers.Count; i++)
+            {
+                builders[i] = new ContextAwareLogServiceProvider(
+                    name,
+                    _providers[i]);
+            }
+
+            return builders;
+        }        
     }
 }

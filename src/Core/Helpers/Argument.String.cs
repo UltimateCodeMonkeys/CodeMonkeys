@@ -15,9 +15,6 @@ namespace CodeMonkeys.Core
         {
             NotNull(param, nameof(param));
 
-            if (!string.IsNullOrEmpty(param))
-                return;
-
             if (string.IsNullOrWhiteSpace(message))
                 message = $"'{paramName}' is empty or whitespace.";
 

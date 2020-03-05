@@ -1,6 +1,7 @@
 ﻿using CodeMonkeys.Core.Logging;
 using CodeMonkeys.Logging;
 using CodeMonkeys.Logging.Console;
+using CodeMonkeys.Logging.Console.Extensions;
 
 using NUnit.Framework;
 using System;
@@ -16,15 +17,17 @@ namespace CodeMonkeys.UnitTests.Logging
         public void Setup()
         {
             _factory = new LogServiceFactory();
+            _factory.AddConsole(new ConsoleOptions());
+            _factory.AddConsole(() => new ConsoleOptions());
+            _factory.AddConsole(LogLevel.Info);
 
-            _factory.AddProvider(
-                new ConsoleLogServiceProvider(new ConsoleLogOptions()));
+            //_factory.Create<ConsoleLogServiceProvider>("");
         }
 
         [Test]
         public void Test()
         {
-            var instance = _factory.Create<ConsoleLogServiceProvider>("test");
+            var instance = _factory.Create("test");
             
             instance.Log(
                 LogLevel.Critical,

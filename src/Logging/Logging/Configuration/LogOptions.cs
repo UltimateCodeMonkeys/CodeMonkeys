@@ -6,5 +6,14 @@ namespace CodeMonkeys.Logging.Configuration
     public class LogOptions : Options
     {
         public LogLevel MinLevel { get; set; }
+
+        public LogOptions()
+        {
+        }
+
+        public LogOptions(LogLevel minLevel)
+        {
+            MinLevel = minLevel;
+        }
     }
 }
