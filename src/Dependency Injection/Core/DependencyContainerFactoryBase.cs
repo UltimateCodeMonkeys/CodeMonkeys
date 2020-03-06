@@ -8,6 +8,7 @@ using CodeMonkeys.Core.Interfaces.Logging;
 using CodeMonkeys.DependencyInjection.Core.Exceptions;
 
 [assembly: InternalsVisibleTo("CodeMonkeys.DependencyInjection.Ninject")]
+[assembly: InternalsVisibleTo("CodeMonkeys.DependencyInjection.DryIoC")]
 namespace CodeMonkeys.DependencyInjection.Core
 {
     internal static class DependencyContainerFactoryBase
