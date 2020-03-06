@@ -1,6 +1,5 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.Logging;
-using CodeMonkeys.Logging.Providers;
 
 namespace CodeMonkeys.Logging.Console
 {
