@@ -12,5 +12,10 @@ namespace CodeMonkeys.Logging.Batching
         {
             _queue = new BlockingCollection<LogMessage>(options.QueueSize);
         }
+
+        protected void EnqueueMessage(LogMessage message)
+        {
+            _queue.Add(message);
+        }
     }
 }
