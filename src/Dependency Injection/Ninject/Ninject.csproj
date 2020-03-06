@@ -24,14 +24,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Base\Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>
