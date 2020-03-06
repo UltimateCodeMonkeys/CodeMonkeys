@@ -16,7 +16,7 @@ namespace CodeMonkeys.Logging.Console
             _context = context;
         }
 
-        public bool IsEnabled(LogLevel logLevel) => true;
+        public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabled(logLevel);
 
         public void Log<TState>(
             DateTimeOffset timestamp, 
@@ -25,9 +25,6 @@ namespace CodeMonkeys.Logging.Console
             Exception ex, 
             Func<TState, Exception, string> formatter)
         {
-            if (!_provider.IsEnabled(logLevel))
-                return;
-
             Argument.NotNull(
                 formatter,
                 nameof(formatter));
