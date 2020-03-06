@@ -20,7 +20,7 @@ namespace CodeMonkeys.Logging
 
         public void Log<TState>(LogLevel logLevel, TState state, Exception ex, Func<TState, Exception, string> formatter)
         {
-            throw new NotImplementedException();
+            _serviceBuilders[0].LogService.Log(logLevel, state, ex, formatter);
         }
     }
 }

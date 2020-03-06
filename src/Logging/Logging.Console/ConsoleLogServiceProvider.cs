@@ -50,7 +50,7 @@ namespace CodeMonkeys.Logging.Console
             builder.Append(" [");
             builder.Append(message.LogLevel.ToString());
             builder.Append("] ");
-            builder.Append(message.Category);
+            builder.Append(message.Context);
             builder.Append(": ");
 
             builder.AppendLine(message.FormattedMessage);

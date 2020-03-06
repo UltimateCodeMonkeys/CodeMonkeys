@@ -9,20 +9,20 @@ namespace CodeMonkeys.Logging
         public DateTimeOffset Timestamp { get; }
         public LogLevel LogLevel { get; }
         public string FormattedMessage { get; }
-        public string Category { get; }
+        public string Context { get; }
         public Exception Exception { get; }
 
         public LogMessage(
             DateTimeOffset timestamp,
             LogLevel logLevel,
             string message,
-            string category,
+            string context,
             Exception exception)
         {
             Timestamp = timestamp;
             LogLevel = logLevel;
             FormattedMessage = message;
-            Category = category;
+            Context = context;
             Exception = exception;
         }
     }

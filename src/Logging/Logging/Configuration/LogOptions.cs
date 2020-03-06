@@ -5,15 +5,14 @@ namespace CodeMonkeys.Logging.Configuration
 {
     public class LogOptions : Options
     {
+        /// <summary>
+        /// The minimum log level. All messages below this are not processed.
+        /// </summary>
         public LogLevel MinLevel { get; set; }
 
-        public LogOptions()
-        {
-        }
-
-        public LogOptions(LogLevel minLevel)
-        {
-            MinLevel = minLevel;
-        }
+        /// <summary>
+        /// The timestamp format used for DateTime in the log message.
+        /// </summary>
+        public string TimeStampFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fff zzz";
     }
 }
