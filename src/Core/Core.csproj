@@ -1,16 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>CodeMonkeys.Core</RootNamespace>
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <ReleaseVersion>2.0</ReleaseVersion>
+    <AssemblyName>CodeMonkeys.Core</AssemblyName>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>2.0.0</Version>
+    <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
+    <Company>UltimateCodeMonkeys</Company>
+    <Product>CodeMonkeysMVVM</Product>
+    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
+    <Description>This package contains some basic stuff for CodeMonkeysMVVM to work properly.
+It contains helper classes for e.g. convinience argument null checks and interfaces so the packages are all independent of each other but still work fine together.</Description>
+    <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageTags>c#, xamarin, xamarin.forms, mvvm</PackageTags>
+
+    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Interfaces\EventCommunication\**" />
     <EmbeddedResource Remove="Interfaces\EventCommunication\**" />
     <None Remove="Interfaces\EventCommunication\**" />
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
