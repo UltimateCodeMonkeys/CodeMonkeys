@@ -4,5 +4,6 @@ namespace CodeMonkeys.Logging.Batching
 {
     public class BatchingLogOptions : LogOptions
     {
+        
     }
 }
