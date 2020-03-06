@@ -14,6 +14,8 @@
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
     <PackageTags>c#, xamarin, xamarin.forms, ioc, dependencyinjection, di, mvvm</PackageTags>
+
+    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
