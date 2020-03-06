@@ -5,6 +5,8 @@ namespace CodeMonkeys.Logging.Configuration
 {
     public class LogOptions : Options
     {
+        public bool IsEnabled { get; set; } = true;
+
         /// <summary>
         /// The minimum log level. All messages below this are not processed.
         /// </summary>

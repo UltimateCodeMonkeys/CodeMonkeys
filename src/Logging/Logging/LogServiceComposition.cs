@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CodeMonkeys.Logging
 {
-    internal class LogServiceComposition : ILogService
+    internal sealed class LogServiceComposition : ILogService
     {
         private readonly ContextAwareLogServiceProvider[] _providers;
 
@@ -55,6 +55,8 @@ namespace CodeMonkeys.Logging
         {
             List<Exception> exceptions = null;
 
+            formatter = DefaultFormatter(formatter);
+
             foreach (var provider in _providers)
             {
                 var service = provider.LogService;
@@ -86,5 +88,21 @@ namespace CodeMonkeys.Logging
             TState state,
             Exception ex,
             Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
+
+        private Func<TState, Exception, string> DefaultFormatter<TState>(Func<TState, Exception, string> formatter)
+        {
+            formatter ??= new Func<TState, Exception, string>((s, e) =>
+            {
+                if (e == null && s != null)
+                    return s.ToString();
+
+                if (s == null && e != null)
+                    return e.ToString();
+
+                return $"{s}:\n{e}";
+            });
+
+            return formatter;
+        }
     }
 }

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-using CodeMonkeys.Core.Interfaces.Logging;
+using CodeMonkeys.Core.Logging;
 using CodeMonkeys.MVVM.PropertyChanged.Events;
 
 namespace CodeMonkeys.MVVM.PropertyChanged

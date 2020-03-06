@@ -1,6 +1,5 @@
 ﻿using CodeMonkeys.Core.Logging;
 
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,25 +9,25 @@ namespace CodeMonkeys.Logging.Console
     {
         private readonly struct Color
         {
-            internal ConsoleColor Foreground { get; }
-            internal string ANSIValue { get; }
+            internal string Value { get; }
 
-            internal Color(ConsoleColor color, string ansiValue)
+            internal Color(string value)
             {
-                Foreground = color;
-                ANSIValue = ansiValue;
+                Value = value;
             }
 
-            internal static Color White => new Color(ConsoleColor.White, "\u001b[37m");
-            internal static Color Yellow => new Color(ConsoleColor.Yellow, "\u001b[33m");
-            internal static Color Red => new Color(ConsoleColor.Red, "\u001b[31m");
+            internal static Color White => new Color("\u001b[37m");
+            internal static Color Yellow => new Color("\u001b[33m");
+            internal static Color BrightRed => new Color("\u001b[31;1m");
+            internal static Color Red => new Color("\u001b[31m");
+            internal static Color Green => new Color("\u001b[32m");
+            internal static Color Magenta => new Color("\u001b[35m");
+            internal static Color Cyan => new Color("\u001b[36m");
         }
 
         private readonly Dictionary<LogLevel, Color> _levelToColorMap;
 
         internal bool UseColors { get; set; }
-
-        internal string TimeStampFormat { get; set; }
 
         internal ConsoleOutputBuilder()
         {
@@ -36,10 +35,10 @@ namespace CodeMonkeys.Logging.Console
             SeedLevelToColorMap();
         }
 
-        internal string BuildMessage(LogMessage message)
+        internal string BuildMessage(LogMessage message, string timeStampFormat)
         {
-            var builder = new StringBuilder();
-            builder.Append(message.Timestamp.ToString(TimeStampFormat));
+            var builder = new StringBuilder();            
+            builder.Append(message.Timestamp.ToString(timeStampFormat));
             builder.Append(" [");
             builder.Append(GetLogLevelString(message.LogLevel));
             builder.Append("] - ");
@@ -48,28 +47,30 @@ namespace CodeMonkeys.Logging.Console
 
             builder.AppendLine(message.FormattedMessage);
 
-            if (message.Exception != null)
-                builder.AppendLine(message.Exception.ToString());
-
             return builder.ToString();
         }
 
         private string GetLogLevelString(LogLevel logLevel)
         {
+            var level = logLevel
+                .ToString()
+                .ToUpper();
+
             if (!UseColors)
-                return logLevel.ToString();
+                return level;
 
             var color = _levelToColorMap[logLevel];
 
-            return $"{color.ANSIValue}{logLevel}\u001b[0m";
+            return $"{color.Value}{level}\u001b[0m";
         }
 
         private void SeedLevelToColorMap()
         {
-            _levelToColorMap.Add(LogLevel.Debug, Color.White);
-            _levelToColorMap.Add(LogLevel.Info, Color.White);
+            _levelToColorMap.Add(LogLevel.Trace, Color.Magenta);
+            _levelToColorMap.Add(LogLevel.Debug, Color.Cyan);
+            _levelToColorMap.Add(LogLevel.Info, Color.Green);
             _levelToColorMap.Add(LogLevel.Warning, Color.Yellow);
-            _levelToColorMap.Add(LogLevel.Error, Color.Red);
+            _levelToColorMap.Add(LogLevel.Error, Color.BrightRed);
             _levelToColorMap.Add(LogLevel.Critical, Color.Red);
         }
     }

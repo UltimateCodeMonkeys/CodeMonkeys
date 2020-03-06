@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 using CodeMonkeys.Core.Helpers;
 using CodeMonkeys.Core.Interfaces.DependencyInjection;
-using CodeMonkeys.Core.Interfaces.Logging;
 using CodeMonkeys.Core.Interfaces.MVVM;
 using CodeMonkeys.Core.Interfaces.Navigation;
+using CodeMonkeys.Core.Logging;
 
 namespace CodeMonkeys.MVVM.Factories
 {

@@ -16,7 +16,7 @@ namespace CodeMonkeys.Logging.Console
             _context = context;
         }
 
-        public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabled(logLevel);
+        public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
 
         public void Log<TState>(
             DateTimeOffset timestamp, 

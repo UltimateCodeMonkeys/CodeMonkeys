@@ -1,19 +1,22 @@
-﻿using CodeMonkeys.Core.Logging;
-
-using System;
+﻿using CodeMonkeys.Core;
+using CodeMonkeys.Core.Logging;
 
 namespace CodeMonkeys.Logging.Debug
 {
-    public class DebugLogServiceProvider : ILogServiceProvider
+    public class DebugLogServiceProvider : LogServiceProvider<DebugLogOptions>
     {
         public DebugLogServiceProvider(DebugLogOptions options)
+            : base(options)
         {
-
         }
 
-        public ILogService Create(string context)
+        public override ILogService Create(string context)
         {
-            throw new NotImplementedException();
+            Argument.NotEmptyOrWhitespace(
+                context,
+                nameof(context));
+
+            return new DebugLogService(this, context);
         }
     }
 }
