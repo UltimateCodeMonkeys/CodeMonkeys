@@ -1,4 +1,5 @@
-﻿using CodeMonkeys.Core.Logging;
+﻿using CodeMonkeys.Core;
+using CodeMonkeys.Core.Logging;
 
 using System;
 
@@ -24,7 +25,16 @@ namespace CodeMonkeys.Logging.Debug
             Exception ex, 
             Func<TState, Exception, string> formatter)
         {
-            throw new NotImplementedException();
+            Argument.NotNull(
+                formatter,
+                nameof(formatter));
+
+            _provider.ProcessMessage(new LogMessage(
+                timestamp,
+                logLevel,
+                formatter(state, ex),
+                _context,
+                ex));
         }
 
         public void Log<TState>(

@@ -27,8 +27,10 @@ namespace CodeMonkeys.Logging.Console
 
         internal void ProcessMessage(LogMessage message)
         {
-            var output = _consoleOutputBuilder.BuildMessage(message, TimeStampFormat);
-            System.Console.WriteLine(output);
+            ConsoleWriteLine(_consoleOutputBuilder
+                .BuildMessage(
+                    message, 
+                    TimeStampFormat));
         }
 
         protected override void OnOptionsHasChanged(ConsoleLogOptions options)
@@ -36,6 +38,11 @@ namespace CodeMonkeys.Logging.Console
             base.OnOptionsHasChanged(options);
 
             _consoleOutputBuilder.UseColors = options.UseColors;
+        }
+
+        private void ConsoleWriteLine(string value)
+        {
+            System.Console.WriteLine(value);
         }
     }
 }
