@@ -7,6 +7,7 @@ using CodeMonkeys.Core.Interfaces.Navigation;
 using CodeMonkeys.Navigation.Xamarin.Forms.Models;
 
 using Activator = CodeMonkeys.Core.Helpers.Activator;
+using CodeMonkeys.Logging.Extensions;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {

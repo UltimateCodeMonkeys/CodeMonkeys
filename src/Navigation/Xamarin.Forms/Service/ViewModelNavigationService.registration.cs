@@ -9,6 +9,7 @@ using CodeMonkeys.Core.Helpers;
 using CodeMonkeys.Core.Interfaces.MVVM;
 using CodeMonkeys.Core.Interfaces.Navigation;
 using CodeMonkeys.Navigation.Xamarin.Forms.Models;
+using CodeMonkeys.Logging.Extensions;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
