@@ -2,7 +2,7 @@
 using CodeMonkeys.Core.Logging;
 using CodeMonkeys.Logging.Configuration;
 
-namespace CodeMonkeys.Logging
+namespace CodeMonkeys.Logging.Providers
 {
     public abstract class LogServiceProvider<TOptions> :
         OptionsConsumer<TOptions>,

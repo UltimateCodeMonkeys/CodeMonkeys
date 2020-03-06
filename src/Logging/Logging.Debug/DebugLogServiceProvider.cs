@@ -1,5 +1,6 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.Logging;
+using CodeMonkeys.Logging.Providers;
 
 using System.Text;
 
