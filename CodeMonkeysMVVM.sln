@@ -30,9 +30,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "src\tests\Unit
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependency Injection", "Dependency Injection", "{C8EFF4E6-43D2-494A-BF09-343423ECCC5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ninject", "Ninject\Ninject.csproj", "{7914712D-A9AE-4880-A155-E34A5D72B9D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ninject", "src\Dependency Injection\Ninject\Ninject.csproj", "{7914712D-A9AE-4880-A155-E34A5D72B9D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Base\Core.csproj", "{77A8A053-6841-49E4-8BB6-480F71B794DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Dependency Injection\Core\Core.csproj", "{77A8A053-6841-49E4-8BB6-480F71B794DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
