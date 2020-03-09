@@ -8,7 +8,7 @@ namespace CodeMonkeys.Core
         /// Throws a <see cref="ArgumentNullException"/> when the parameter value equals <see langword="null"/>.
         /// Throws a <see cref="ArgumentException"/> when the <see cref="string"/> parameter equals empty or whitespace.
         /// </summary>
-        public static void NotEmptyOrWhitespace(
+        public static void NotEmptyOrWhiteSpace(
             string param,
             string paramName,
             string message = "")
@@ -19,7 +19,7 @@ namespace CodeMonkeys.Core
                 return;
 
             if (string.IsNullOrWhiteSpace(message))
-                message = $"'{paramName}' is empty or whitespace.";
+                message = $"Parameter '{paramName}' is empty or whitespace.";
 
             throw new ArgumentException(
                 message,

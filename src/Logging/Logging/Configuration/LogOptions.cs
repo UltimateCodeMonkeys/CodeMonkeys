@@ -1,13 +1,14 @@
-﻿using CodeMonkeys.Core.Configuration;
+﻿using CodeMonkeys.Core;
+using CodeMonkeys.Core.Configuration;
 using CodeMonkeys.Core.Logging;
 
 namespace CodeMonkeys.Logging.Configuration
 {
-    public class LogOptions : Options
+    public abstract class LogOptions : Options
     {
-        private bool _isEnabled = true;
+        private bool _isEnabled;
         private LogLevel _minLevel;
-        private string _timeStampFormat = "yyyy-MM-dd HH:mm:ss.fff zzz";
+        private string _timeStampFormat;
 
         /// <summary>
         /// Flag to enable or disable the log service / provider.
@@ -33,7 +34,17 @@ namespace CodeMonkeys.Logging.Configuration
         public string TimeStampFormat
         {
             get => _timeStampFormat;
-            set => SetValue(ref _timeStampFormat, value);
+            set
+            {
+                Property.NotEmptyOrWhiteSpace(value);
+                SetValue(ref _timeStampFormat, value);
+            }
+        }
+
+        protected LogOptions()
+        {
+            IsEnabled = true;
+            TimeStampFormat = "yyyy-MM-dd HH:mm:ss.fff zzz";
         }
     }
 }

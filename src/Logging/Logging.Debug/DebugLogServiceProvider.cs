@@ -14,7 +14,7 @@ namespace CodeMonkeys.Logging.Debug
 
         public override ILogService Create(string context)
         {
-            Argument.NotEmptyOrWhitespace(
+            Argument.NotEmptyOrWhiteSpace(
                 context,
                 nameof(context));
 

@@ -13,7 +13,11 @@ namespace CodeMonkeys.Core
             if (string.IsNullOrWhiteSpace(message))
                 message = $"Setter value for property '{propertyName}' is less than minimum.";
 
-            Argument.Min(param, value, propertyName, message);
+            Argument.Min(
+                param, 
+                value, 
+                propertyName, 
+                message);
         }
     }
 }

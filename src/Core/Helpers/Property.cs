@@ -15,7 +15,10 @@ namespace CodeMonkeys.Core
             if (string.IsNullOrWhiteSpace(message))
                 message = $"Setter value for property '{propertyName}' is default.";
 
-            Argument.NotDefault(param, propertyName, message);
+            Argument.NotDefault(
+                param, 
+                propertyName, 
+                message);
         }
     }
 }

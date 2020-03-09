@@ -19,7 +19,7 @@ namespace CodeMonkeys.Logging
 
         public ILogService Create(string context)
         {
-            Argument.NotEmptyOrWhitespace(
+            Argument.NotEmptyOrWhiteSpace(
                 context,
                 nameof(context));
 
