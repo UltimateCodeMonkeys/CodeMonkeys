@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace CodeMonkeys.Core
@@ -38,10 +39,8 @@ namespace CodeMonkeys.Core
             T param,
             string paramName,
             string message = "")
-
-            where T : class
         {
-            if (param != default(T))
+            if (!EqualityComparer<T>.Default.Equals(param, default))
                 return;
 
             if (string.IsNullOrWhiteSpace(message))
