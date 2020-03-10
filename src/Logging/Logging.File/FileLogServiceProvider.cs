@@ -12,7 +12,7 @@ namespace CodeMonkeys.Logging.File
 {
     public class FileLogServiceProvider : BatchingLogServiceProvider<FileLogOptions>
     {
-        private string _directory;
+        private readonly string _directory;
 
         public FileLogServiceProvider(FileLogOptions options) 
             : base(options)

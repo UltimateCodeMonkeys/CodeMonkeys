@@ -7,7 +7,8 @@ namespace CodeMonkeys.Logging.Console
         private bool _useColors;
 
         /// <summary>
-        /// Enables colored output when <see langword="true"/>.
+        /// Flag which indicates if the output should be highlighted with colors.
+        /// <para>Defaults to <see langword="true"/>.</para>
         /// </summary>
         public bool UseColors
         {

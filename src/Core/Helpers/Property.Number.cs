@@ -5,8 +5,8 @@ namespace CodeMonkeys.Core
     public static partial class Property
     {
         public static void Min(
-            int param,
-            int value,
+            int? param,
+            int? value,
             [CallerMemberName] string propertyName = "",
             string message = "")
         {

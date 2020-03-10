@@ -11,7 +11,8 @@ namespace CodeMonkeys.Logging.Configuration
         private string _timeStampFormat;
 
         /// <summary>
-        /// Flag to enable or disable the log service / provider.
+        /// Flag which indicates if the service or provider accepts and queues writes.
+        /// <para>Defaults to <see langword="true"/>.</para>
         /// </summary>
         public bool IsEnabled
         {
@@ -20,7 +21,7 @@ namespace CodeMonkeys.Logging.Configuration
         }
 
         /// <summary>
-        /// The minimum log level. All messages below this are not processed.
+        /// All messages below this level are NOT accepted and queued.
         /// </summary>
         public LogLevel MinLevel
         {
@@ -29,7 +30,7 @@ namespace CodeMonkeys.Logging.Configuration
         }
 
         /// <summary>
-        /// The timestamp format used for DateTime in the log message.
+        /// Format used to 
         /// </summary>
         public string TimeStampFormat
         {

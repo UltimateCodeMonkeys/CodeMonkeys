@@ -20,7 +20,6 @@ namespace CodeMonkeys.UnitTests.Logging
                 Directory = Environment.CurrentDirectory,
                 FlushPeriod = TimeSpan.FromSeconds(2)
             });
-            factory.AddConsole(new ConsoleLogOptions());
 
             var log = factory.Create("test");
 

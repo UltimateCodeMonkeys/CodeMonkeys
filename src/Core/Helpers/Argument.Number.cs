@@ -5,8 +5,8 @@ namespace CodeMonkeys.Core
     public static partial class Argument
     {
         public static void Min(
-            int param,
-            int value,
+            int? param,
+            int? value,
             string paramName,
             string message = "")
         {
