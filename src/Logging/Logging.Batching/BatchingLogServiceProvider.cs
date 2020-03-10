@@ -26,7 +26,7 @@ namespace CodeMonkeys.Logging.Batching
             Run();
         }
 
-        protected void EnqueueMessage(LogMessage message)
+        public override void ProcessMessage(LogMessage message)
         {
             if (_queue.IsAddingCompleted)
                 return;

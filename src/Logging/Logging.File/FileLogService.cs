@@ -29,7 +29,7 @@ namespace CodeMonkeys.Logging.File
                 formatter,
                 nameof(formatter));
 
-            _provider.EnqueueMessage(new LogMessage(
+            _provider.ProcessMessage(new LogMessage(
                 timestamp,
                 logLevel,
                 formatter(state, ex),

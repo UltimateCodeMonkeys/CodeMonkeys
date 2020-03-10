@@ -1,7 +1,7 @@
 ﻿using CodeMonkeys.Core.Logging;
 using CodeMonkeys.Logging;
 using CodeMonkeys.Logging.Console;
-
+using CodeMonkeys.Logging.Extensions;
 using NUnit.Framework;
 
 using System;
@@ -43,7 +43,7 @@ namespace CodeMonkeys.UnitTests.Logging
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                _factory.AddProvider<ConsoleLogServiceProvider>(null);
+                _factory.AddConsole();
             });
         }        
     }

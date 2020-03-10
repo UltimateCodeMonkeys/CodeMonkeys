@@ -31,6 +31,8 @@ namespace CodeMonkeys.Logging
             return false;
         }
 
+        public abstract void ProcessMessage(LogMessage message);
+
         protected override void OnOptionsHasChanged(TOptions options)
         {
             IsEnabled = options.IsEnabled;

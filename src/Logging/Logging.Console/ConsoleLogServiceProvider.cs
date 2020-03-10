@@ -3,15 +3,15 @@ using CodeMonkeys.Core.Logging;
 
 namespace CodeMonkeys.Logging.Console
 {
-    public class ConsoleLogServiceProvider : LogServiceProvider<ConsoleLogOptions>
+    internal sealed class ConsoleLogServiceProvider : LogServiceProvider<ConsoleLogOptions>
     {
-        private readonly ConsoleLogMessageFormatter _formatter;
+        private ConsoleLogMessageFormatter _formatter;
+        private readonly bool _useColoredOutput;
 
-        public ConsoleLogServiceProvider(ConsoleLogOptions options)
+        internal ConsoleLogServiceProvider(ConsoleLogOptions options)
             : base(options)
         {
-            _formatter = new ConsoleLogMessageFormatter(
-                options.UseColoredOutput);
+            _useColoredOutput = options.UseColoredOutput;
         }        
 
         public override ILogService Create(string context)
@@ -23,8 +23,11 @@ namespace CodeMonkeys.Logging.Console
             return new ConsoleLogService(this, context);
         }
 
-        internal void ProcessMessage(LogMessage message)
+        public override void ProcessMessage(LogMessage message)
         {
+            _formatter ??= new ConsoleLogMessageFormatter(
+                _useColoredOutput);
+
             ConsoleWriteLine(_formatter
                 .Format(
                     message, 

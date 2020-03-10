@@ -1,13 +1,13 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.Logging;
 
-using System.Text;
-
 namespace CodeMonkeys.Logging.Debug
 {
-    public class DebugLogServiceProvider : LogServiceProvider<DebugLogOptions>
+    internal sealed class DebugLogServiceProvider : LogServiceProvider<DebugLogOptions>
     {
-        public DebugLogServiceProvider(DebugLogOptions options)
+        private DebugLogMessageFormatter _formatter;
+
+        internal DebugLogServiceProvider(DebugLogOptions options)
             : base(options)
         {
         }
@@ -21,19 +21,14 @@ namespace CodeMonkeys.Logging.Debug
             return new DebugLogService(this, context);
         }
 
-        internal void ProcessMessage(LogMessage message)
+        public override void ProcessMessage(LogMessage message)
         {
-            var builder = new StringBuilder();
-            builder.Append(message.Timestamp.ToString(TimeStampFormat));
-            builder.Append(" [");
-            builder.Append(message.LogLevel);
-            builder.Append("] - ");
-            builder.Append(message.Context);
-            builder.Append(" - ");
+            _formatter ??= new DebugLogMessageFormatter();
 
-            builder.AppendLine(message.FormattedMessage);
-
-            DebugWriteLine(builder.ToString());
+            DebugWriteLine(
+                _formatter.Format(
+                    message, 
+                    TimeStampFormat));
         }
 
         private void DebugWriteLine(string value)

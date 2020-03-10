@@ -4,23 +4,22 @@ using CodeMonkeys.Logging.Batching;
 
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CodeMonkeys.Logging.File
 {
-    public class FileLogServiceProvider : BatchingLogServiceProvider<FileLogOptions>
+    internal sealed class FileLogServiceProvider : BatchingLogServiceProvider<FileLogOptions>
     {
         private readonly string _directory;
 
-        public FileLogServiceProvider(FileLogOptions options) 
+        internal FileLogServiceProvider(FileLogOptions options) 
             : base(options)
         {
             _directory = options.Directory;
         }
 
-        internal new void EnqueueMessage(LogMessage message) => base.EnqueueMessage(message);
+        internal new void ProcessMessage(LogMessage message) => base.ProcessMessage(message);
 
         public override ILogService Create(string context)
         {
