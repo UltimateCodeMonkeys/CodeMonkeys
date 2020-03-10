@@ -7,6 +7,11 @@ namespace CodeMonkeys.Logging.File
 {
     public static partial class LogServiceFactoryExtensions
     {
+        public static void AddFile(this ILogServiceFactory _this)
+        {
+            _this.AddFile(new FileLogOptions());
+        }
+
         public static void AddFile(
             this ILogServiceFactory _this,
             FileLogOptions options)

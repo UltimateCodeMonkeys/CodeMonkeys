@@ -8,6 +8,11 @@ namespace CodeMonkeys.Logging.Extensions
 {
     public static partial class LogServiceFactoryExtensions
     {
+        public static void AddConsole(this ILogServiceFactory _this)
+        {
+            _this.AddConsole(new ConsoleLogOptions());
+        }
+
         public static void AddConsole(
             this ILogServiceFactory _this,
             ConsoleLogOptions options)

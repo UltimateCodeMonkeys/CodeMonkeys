@@ -8,6 +8,11 @@ namespace CodeMonkeys.Logging.Extensions
 {
     public static partial class LogServiceFactoryExtensions
     {
+        public static void AddDebug(this ILogServiceFactory _this)
+        {
+            _this.AddDebug(new DebugLogOptions());
+        }
+
         public static void AddDebug(
             this ILogServiceFactory _this,
             DebugLogOptions options)

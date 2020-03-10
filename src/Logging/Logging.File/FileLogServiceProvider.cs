@@ -34,8 +34,6 @@ namespace CodeMonkeys.Logging.File
         protected override async Task ProcessBatch(IEnumerable<LogMessage> batch, CancellationToken token)
         {
             Directory.CreateDirectory(_directory);
-
-            await System.IO.File.AppendAllLinesAsync(Path.Combine(_directory, "log.txt"), batch.Select(b => b.FormattedMessage));
         }
     }
 }

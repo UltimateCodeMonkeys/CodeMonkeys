@@ -15,5 +15,10 @@ namespace CodeMonkeys.Logging.Console
             get => _useColors;
             set => SetValue(ref _useColors, value);
         }
+
+        public ConsoleLogOptions()
+        {
+            UseColors = true;
+        }
     }
 }
