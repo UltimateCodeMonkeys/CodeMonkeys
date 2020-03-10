@@ -14,6 +14,7 @@ namespace CodeMonkeys.Logging.Batching
         /// <summary>
         /// The period after which log messages will be flushed to the store.
         /// <para>Defaults to <c>5</c> seconds.</para>
+        /// <para>Value changes of this property are monitored and applied dynamically.</para>
         /// </summary>
         public TimeSpan FlushPeriod
         {
@@ -28,6 +29,7 @@ namespace CodeMonkeys.Logging.Batching
         /// <summary>
         /// The maximum number of items to include in a single batch or null for no limit.
         /// <para>Defaults to <c>50</c>.</para>
+        /// <para>Value changes of this property are monitored and applied dynamically.</para>
         /// </summary>        
         public int? BatchSize
         {
@@ -42,6 +44,7 @@ namespace CodeMonkeys.Logging.Batching
         /// <summary>
         /// The maximum number of items in the background queue or null for no limit.
         /// <para>Defaults to <c>1000</c>.</para>
+        /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
         /// </summary>
         public int? QueueSize
         {

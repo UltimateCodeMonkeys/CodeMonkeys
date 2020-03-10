@@ -5,15 +5,13 @@ namespace CodeMonkeys.Logging.Console
 {
     public class ConsoleLogServiceProvider : LogServiceProvider<ConsoleLogOptions>
     {
-        private readonly ConsoleOutputBuilder _consoleOutputBuilder;
+        private readonly ConsoleLogMessageFormatter _formatter;
 
         public ConsoleLogServiceProvider(ConsoleLogOptions options)
             : base(options)
         {
-            _consoleOutputBuilder = new ConsoleOutputBuilder
-            {
-                UseColors = options.UseColors
-            };
+            _formatter = new ConsoleLogMessageFormatter(
+                options.UseColoredOutput);
         }        
 
         public override ILogService Create(string context)
@@ -27,17 +25,10 @@ namespace CodeMonkeys.Logging.Console
 
         internal void ProcessMessage(LogMessage message)
         {
-            ConsoleWriteLine(_consoleOutputBuilder
-                .BuildMessage(
+            ConsoleWriteLine(_formatter
+                .Format(
                     message, 
                     TimeStampFormat));
-        }
-
-        protected override void OnOptionsHasChanged(ConsoleLogOptions options)
-        {
-            base.OnOptionsHasChanged(options);
-
-            _consoleOutputBuilder.UseColors = options.UseColors;
         }
 
         private void ConsoleWriteLine(string value)
