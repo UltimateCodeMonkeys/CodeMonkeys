@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ExceptionHandling
+namespace CodeMonkeys.ExceptionHandling
 {
     public class ExceptionHandler :
         IExceptionHandler

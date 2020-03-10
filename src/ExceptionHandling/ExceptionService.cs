@@ -1,12 +1,11 @@
 ﻿using CodeMonkeys.Core.Interfaces.ExceptionHandling;
 using CodeMonkeys.Core.Interfaces.Logging;
+using CodeMonkeys.ExceptionHandling.Exceptions;
 
 using System;
 using System.Collections.Concurrent;
 
-using ExceptionHandling.Exceptions;
-
-namespace ExceptionHandling
+namespace CodeMonkeys.ExceptionHandling
 {
     public class ExceptionService :
         IExceptionService

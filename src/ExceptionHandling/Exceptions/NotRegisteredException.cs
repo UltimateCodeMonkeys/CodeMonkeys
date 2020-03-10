@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExceptionHandling.Exceptions
+namespace CodeMonkeys.ExceptionHandling.Exceptions
 {
     [Serializable]
     public class NotRegisteredException : Exception
