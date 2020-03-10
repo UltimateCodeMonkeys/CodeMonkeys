@@ -4,14 +4,16 @@ using CodeMonkeys.Core.Interfaces.Logging;
 using System;
 using System.Collections.Concurrent;
 
+using ExceptionHandling.Exceptions;
+
 namespace ExceptionHandling
 {
     public class ExceptionService :
         IExceptionService
     {
-        private readonly ILogService _log;
+        protected readonly ILogService _log;
 
-        private readonly ConcurrentDictionary<Type, WeakReference<IExceptionHandler>> _exceptionHandlers =
+        protected readonly ConcurrentDictionary<Type, WeakReference<IExceptionHandler>> _exceptionHandlers =
             new ConcurrentDictionary<Type, WeakReference<IExceptionHandler>>();
 
 
@@ -23,7 +25,7 @@ namespace ExceptionHandling
 
 
         /// <inheritdoc />
-        public void Handle<TException>(
+        public virtual void Handle<TException>(
             TException exception)
             where TException : Exception
         {
@@ -50,7 +52,7 @@ namespace ExceptionHandling
 
 
         /// <inheritdoc />
-        public void RegisterHandler<TException>(
+        public virtual void RegisterHandler<TException>(
             IExceptionHandler handler)
             where TException : Exception
         {
@@ -70,7 +72,7 @@ namespace ExceptionHandling
 
 
         /// <inheritdoc />
-        public void RegisterHandler<TException>(
+        public virtual void RegisterHandler<TException>(
             Action<TException> handleAction)
             where TException : Exception
         {
@@ -84,7 +86,7 @@ namespace ExceptionHandling
 
 
         /// <inheritdoc />
-        public void UnregisterHandler<TException>()
+        public virtual void UnregisterHandler<TException>()
             where TException : Exception
         {
             lock (_exceptionHandlers)
@@ -102,7 +104,7 @@ namespace ExceptionHandling
 
 
         /// <inheritdoc />
-        public bool IsExceptionTypeRegistered<TException>()
+        public virtual bool IsExceptionTypeRegistered<TException>()
             where TException : Exception
         {
             lock (_exceptionHandlers)
@@ -112,7 +114,7 @@ namespace ExceptionHandling
 
 
         /// <inheritdoc />
-        public IExceptionHandler GetHandler<TException>()
+        public virtual IExceptionHandler GetHandler<TException>()
             where TException : Exception
         {
             lock (_exceptionHandlers)
