@@ -5,7 +5,7 @@ using System;
 
 namespace CodeMonkeys.Logging.Debug
 {
-    internal class DebugLogService : ILogService
+    internal sealed class DebugLogService : ILogService
     {
         private readonly DebugLogServiceProvider _provider;
         private readonly string _context;
