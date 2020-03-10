@@ -43,7 +43,7 @@ namespace CodeMonkeys.Logging.Batching
 
         public BatchingLogOptions()
         {
-            FlushPeriod = TimeSpan.FromSeconds(30);
+            FlushPeriod = TimeSpan.FromSeconds(5);
             BatchSize = 50;
             QueueSize = 1000;
         }

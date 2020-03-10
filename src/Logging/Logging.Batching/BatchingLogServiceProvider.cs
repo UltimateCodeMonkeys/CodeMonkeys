@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CodeMonkeys.Logging.Batching
 {
@@ -11,31 +13,35 @@ namespace CodeMonkeys.Logging.Batching
         private CancellationTokenSource _cts;
 
         private TimeSpan _flushPeriod;
+        private int _queueSize;
+        private int _batchSize;
 
         protected BatchingLogServiceProvider(TOptions options) 
             : base(options)
         {
-            //_flushPeriod = options.
+            OnOptionsHasChanged(options);
+
+            _queueSize = options.QueueSize;
+
+            Run();
         }
 
         protected void EnqueueMessage(LogMessage message)
         {
-            _queue.Add(message);
-        }
+            if (_queue.IsAddingCompleted)
+                return;
 
-        private void Run()
-        {
-
-        }
-
-        private void Stop()
-        {
-
+            try
+            {
+                _queue.Add(message, _cts.Token);
+            }
+            catch { }
         }
 
         protected override void OnOptionsHasChanged(TOptions options)
         {
             _flushPeriod = options.FlushPeriod;
+            _batchSize = options.BatchSize;            
 
             var previousIsEnabled = IsEnabled;
             base.OnOptionsHasChanged(options);
@@ -46,6 +52,53 @@ namespace CodeMonkeys.Logging.Batching
                     Run();
                 else
                     Stop();
+            }
+        }
+
+        protected abstract Task ProcessBatch(IEnumerable<LogMessage> batch, CancellationToken token);
+
+        private void Run()
+        {
+            _queue = new BlockingCollection<LogMessage>(
+                new ConcurrentQueue<LogMessage>(),
+                _queueSize);
+
+            _cts = new CancellationTokenSource();
+
+            Task.Run(ProcessingLoop);
+        }
+
+        private void Stop()
+        {
+            _cts.Cancel();
+            _queue.CompleteAdding();
+        }
+
+        private async Task ProcessingLoop()
+        {
+            var currentBatch = new List<LogMessage>(_batchSize);
+
+            while (!_cts.Token.IsCancellationRequested)
+            {
+                TakeBatch(currentBatch);
+
+                if (currentBatch.Count > 0)
+                    await ProcessBatch(currentBatch, _cts.Token);
+
+                currentBatch.Clear();
+
+                await Task.Delay(_flushPeriod);
+            }
+        }
+
+        private void TakeBatch(List<LogMessage> currentBatch)
+        {
+            var batchCounter = _batchSize;
+
+            while (batchCounter > 0 && _queue.TryTake(out var item))
+            {
+                currentBatch.Add(item);
+                batchCounter--;
             }
         }
 
