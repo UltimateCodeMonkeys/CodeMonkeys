@@ -38,7 +38,6 @@ It contains helper classes for e.g. convinience argument null checks and interfa
   <ItemGroup>
     <Folder Include="Interfaces\MVVM\" />
     <Folder Include="Interfaces\Navigation\" />
-    <Folder Include="Interfaces\ExceptionHandling\" />
     <Folder Include="Interfaces\Navigation\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
