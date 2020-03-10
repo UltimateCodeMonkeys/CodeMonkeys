@@ -1,6 +1,7 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Logging;
+﻿using CodeMonkeys.Core.Logging;
 using CodeMonkeys.Logging.Debug;
+
+using static CodeMonkeys.Core.Argument;
 
 using System;
 
@@ -17,7 +18,7 @@ namespace CodeMonkeys.Logging.Extensions
             this ILogServiceFactory _this,
             DebugLogOptions options)
         {
-            Argument.NotNull(
+            NotNull(
                 options,
                 nameof(options));
 
@@ -30,7 +31,7 @@ namespace CodeMonkeys.Logging.Extensions
             this ILogServiceFactory _this,
             Func<DebugLogOptions> optionsFactory)
         {
-            Argument.NotNull(
+            NotNull(
                 optionsFactory,
                 nameof(optionsFactory));
 

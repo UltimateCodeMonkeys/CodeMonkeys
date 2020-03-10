@@ -1,6 +1,7 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Logging;
+﻿using CodeMonkeys.Core.Logging;
 using CodeMonkeys.Logging.Console;
+
+using static CodeMonkeys.Core.Argument;
 
 using System;
 
@@ -17,10 +18,10 @@ namespace CodeMonkeys.Logging.Extensions
             this ILogServiceFactory _this,
             ConsoleLogOptions options)
         {
-            Argument.NotNull(
+            NotNull(
                 options,
                 nameof(options));
-
+            
             var provider = new ConsoleLogServiceProvider(options);
 
             _this.AddProvider(provider);
@@ -30,7 +31,7 @@ namespace CodeMonkeys.Logging.Extensions
             this ILogServiceFactory _this,
             Func<ConsoleLogOptions> optionsFactory)
         {
-            Argument.NotNull(
+            NotNull(
                 optionsFactory,
                 nameof(optionsFactory));
 

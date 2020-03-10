@@ -8,7 +8,7 @@ namespace CodeMonkeys.Logging.File
         private string _extension;
         private string _directory;
 
-        public string Name
+        public string FileName
         {
             get => _name;
             set => SetValue(ref _name, value);
@@ -28,7 +28,7 @@ namespace CodeMonkeys.Logging.File
 
         public FileLogOptions()
         {
-            Name = "log";
+            FileName = "log";
             Extension = "txt";
             Directory = "logs";
         }

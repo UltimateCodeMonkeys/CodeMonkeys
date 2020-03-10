@@ -1,7 +1,8 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Logging;
+﻿using CodeMonkeys.Core.Logging;
 
 using System;
+
+using static CodeMonkeys.Core.Argument;
 
 namespace CodeMonkeys.Logging.File
 {
@@ -16,9 +17,21 @@ namespace CodeMonkeys.Logging.File
             this ILogServiceFactory _this,
             FileLogOptions options)
         {
-            Argument.NotNull(
+            NotNull(
                 options,
                 nameof(options));
+
+            NotEmptyOrWhiteSpace(
+                options.FileName,
+                nameof(options.FileName));
+
+            NotEmptyOrWhiteSpace(
+                options.Extension,
+                nameof(options.Extension));
+
+            NotEmptyOrWhiteSpace(
+                options.Directory,
+                nameof(options.Directory));
 
             var provider = new FileLogServiceProvider(options);
 
@@ -29,7 +42,7 @@ namespace CodeMonkeys.Logging.File
             this ILogServiceFactory _this,
             Func<FileLogOptions> optionsFactory)
         {
-            Argument.NotNull(
+            NotNull(
                 optionsFactory,
                 nameof(optionsFactory));
 

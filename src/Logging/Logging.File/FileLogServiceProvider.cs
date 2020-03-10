@@ -20,7 +20,7 @@ namespace CodeMonkeys.Logging.File
         internal FileLogServiceProvider(FileLogOptions options) 
             : base(options)
         {
-            _fileName = options.Name;
+            _fileName = options.FileName;
             _extension = options.Extension;
             _directory = options.Directory;
         }
