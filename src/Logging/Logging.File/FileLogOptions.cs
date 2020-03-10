@@ -4,28 +4,20 @@ namespace CodeMonkeys.Logging.File
 {
     public class FileLogOptions : BatchingLogOptions
     {
-        private int? _maxFileSize;
-
-        private string _fileNamePrefix;
-        private string _fileExtension;
+        private string _name;
+        private string _extension;
         private string _directory;
 
-        public int? MaxFileSize
+        public string Name
         {
-            get => _maxFileSize;
-            set => SetValue(ref _maxFileSize, value);
+            get => _name;
+            set => SetValue(ref _name, value);
         }
 
-        public string FileNamePrefix
+        public string Extension
         {
-            get => _fileNamePrefix;
-            set => SetValue(ref _fileNamePrefix, value?.TrimStart('.'));
-        }
-
-        public string FileExtension
-        {
-            get => _fileExtension;
-            set => SetValue(ref _fileExtension, value);
+            get => _extension;
+            set => SetValue(ref _extension, value?.TrimStart('.'));
         }
 
         public string Directory
@@ -36,9 +28,8 @@ namespace CodeMonkeys.Logging.File
 
         public FileLogOptions()
         {
-            MaxFileSize = 10 * 1024 * 1024;
-            FileNamePrefix = "logs_";
-            FileExtension = "txt";
+            Name = "log";
+            Extension = "txt";
             Directory = "logs";
         }
     }
