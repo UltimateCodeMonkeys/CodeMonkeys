@@ -8,8 +8,8 @@ namespace CodeMonkeys.Logging.Batching
     public class BatchingLogOptions : LogOptions
     {
         private TimeSpan _flushPeriod;
-        private int? _batchSize;
-        private int? _queueSize;
+        private int? _batchCapacity;
+        private int? _queueCapacity;
 
         /// <summary>
         /// The period after which log messages will be flushed to the store.
@@ -31,13 +31,13 @@ namespace CodeMonkeys.Logging.Batching
         /// <para>Defaults to <c>50</c>.</para>
         /// <para>Value changes of this property are monitored and applied dynamically.</para>
         /// </summary>        
-        public int? BatchSize
+        public int? BatchCapacity
         {
-            get => _batchSize;
+            get => _batchCapacity;
             set
             {
                 Property.Min(value, 1);
-                SetValue(ref _batchSize, value);
+                SetValue(ref _batchCapacity, value);
             }
         }
 
@@ -46,21 +46,21 @@ namespace CodeMonkeys.Logging.Batching
         /// <para>Defaults to <c>1000</c>.</para>
         /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
         /// </summary>
-        public int? QueueSize
+        public int? QueueCapacity
         {
-            get => _queueSize;
+            get => _queueCapacity;
             set
             {
                 Property.Min(value, 1);
-                SetValue(ref _queueSize, value);
+                SetValue(ref _queueCapacity, value);
             }
         }
 
         public BatchingLogOptions()
         {
             FlushPeriod = TimeSpan.FromSeconds(5);
-            BatchSize = 50;
-            QueueSize = 1000;
+            BatchCapacity = 50;
+            QueueCapacity = 1000;
         }
     }
 }

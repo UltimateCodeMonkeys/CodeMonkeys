@@ -13,15 +13,15 @@ namespace CodeMonkeys.Logging.Batching
         private CancellationTokenSource _cts;
 
         private TimeSpan _flushPeriod;
-        private int? _sizeOfQueue;
-        private int? _sizeOfBatch;
+        private readonly int? _queueCapacity;
+        private int? _batchCapacity;
 
         protected BatchingLogServiceProvider(TOptions options) 
             : base(options)
         {
             OnOptionsHasChanged(options);
 
-            _sizeOfQueue = options.QueueSize;
+            _queueCapacity = options.QueueCapacity;
 
             Run();
         }
@@ -41,7 +41,7 @@ namespace CodeMonkeys.Logging.Batching
         protected override void OnOptionsHasChanged(TOptions options)
         {
             _flushPeriod = options.FlushPeriod;
-            _sizeOfBatch = options.BatchSize;            
+            _batchCapacity = options.BatchCapacity;            
 
             var previousIsEnabled = IsEnabled;
             base.OnOptionsHasChanged(options);
@@ -59,11 +59,11 @@ namespace CodeMonkeys.Logging.Batching
 
         private void Run()
         {
-            _queue = _sizeOfQueue == null?
+            _queue = _queueCapacity == null?
                 new BlockingCollection<LogMessage>(new ConcurrentQueue<LogMessage>()) :
                 new BlockingCollection<LogMessage>(
                     new ConcurrentQueue<LogMessage>(),
-                    _sizeOfQueue.Value);
+                    _queueCapacity.Value);
 
             _cts = new CancellationTokenSource();
 
@@ -78,7 +78,7 @@ namespace CodeMonkeys.Logging.Batching
 
         private async Task ProcessingLoop()
         {
-            var currentBatch = new List<LogMessage>(_sizeOfBatch ?? int.MaxValue);
+            var currentBatch = new List<LogMessage>(_batchCapacity ?? int.MaxValue);
 
             while (!_cts.Token.IsCancellationRequested)
             {
@@ -95,12 +95,12 @@ namespace CodeMonkeys.Logging.Batching
 
         private void TakeBatch(List<LogMessage> currentBatch)
         {
-            var batchCounter = _sizeOfBatch;
+            var counter = _batchCapacity;
 
-            while (batchCounter > 0 && _queue.TryTake(out var item))
+            while (counter > 0 && _queue.TryTake(out var item))
             {
                 currentBatch.Add(item);
-                batchCounter--;
+                counter--;
             }
         }
 
