@@ -11,13 +11,15 @@ namespace CodeMonkeys.Logging.Debug
         private readonly DebugLogServiceProvider _provider;
         private readonly string _context;
 
-        internal DebugLogService(DebugLogServiceProvider provider, string context)
+        internal DebugLogService(
+            DebugLogServiceProvider provider, 
+            string context)
         {
             _provider = provider;
             _context = context;
         }
 
-        public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
+        public bool IsEnabledFor(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
 
         public void Log<TState>(
             DateTimeOffset timestamp, 

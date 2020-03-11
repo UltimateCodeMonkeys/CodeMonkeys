@@ -14,7 +14,7 @@ namespace CodeMonkeys.Logging
             _providers = providers;
         }
 
-        public bool IsEnabled(LogLevel logLevel)
+        public bool IsEnabledFor(LogLevel logLevel)
         {
             List<Exception> exceptions = null;
 
@@ -24,7 +24,7 @@ namespace CodeMonkeys.Logging
 
                 try
                 {
-                    if (!service.IsEnabled(logLevel))
+                    if (!service.IsEnabledFor(logLevel))
                         continue;
 
                     return true;
@@ -61,7 +61,7 @@ namespace CodeMonkeys.Logging
             {
                 var service = provider.LogService;
 
-                if (!service.IsEnabled(logLevel))
+                if (!service.IsEnabledFor(logLevel))
                     continue;
 
                 try

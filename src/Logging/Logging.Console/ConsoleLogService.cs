@@ -11,13 +11,15 @@ namespace CodeMonkeys.Logging.Console
         private readonly ConsoleLogServiceProvider _provider;
         private readonly string _context;
 
-        internal ConsoleLogService(ConsoleLogServiceProvider provider, string context)
+        internal ConsoleLogService(
+            ConsoleLogServiceProvider provider, 
+            string context)
         {
             _provider = provider;
             _context = context;
         }
 
-        public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
+        public bool IsEnabledFor(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
 
         public void Log<TState>(
             DateTimeOffset timestamp, 

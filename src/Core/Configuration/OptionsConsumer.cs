@@ -13,10 +13,10 @@ namespace CodeMonkeys.Core.Configuration
         {
             OptionsChangeToken = ChangeToken.OnChange(
                 options.GetChangeToken,
-                OnOptionsHasChanged,
+                OnOptionsChanged,
                 options);
         }
 
-        protected abstract void OnOptionsHasChanged(TOptions options);
+        protected abstract void OnOptionsChanged(TOptions options);
     }
 }

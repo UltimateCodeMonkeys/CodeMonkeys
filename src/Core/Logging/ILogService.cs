@@ -4,7 +4,7 @@ namespace CodeMonkeys.Core.Logging
 {
     public interface ILogService
     {
-        bool IsEnabled(LogLevel logLevel);
+        bool IsEnabledFor(LogLevel logLevel);
 
         void Log<TState>(
             DateTimeOffset timestamp,

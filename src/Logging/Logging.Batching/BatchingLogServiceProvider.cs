@@ -19,7 +19,7 @@ namespace CodeMonkeys.Logging.Batching
         protected BatchingLogServiceProvider(TOptions options) 
             : base(options)
         {
-            OnOptionsHasChanged(options);
+            OnOptionsChanged(options);
 
             _queueCapacity = options.QueueCapacity;
 
@@ -38,13 +38,13 @@ namespace CodeMonkeys.Logging.Batching
             catch { }
         }
 
-        protected override void OnOptionsHasChanged(TOptions options)
+        protected override void OnOptionsChanged(TOptions options)
         {
             _flushPeriod = options.FlushPeriod;
             _batchCapacity = options.BatchCapacity;            
 
             var previousIsEnabled = IsEnabled;
-            base.OnOptionsHasChanged(options);
+            base.OnOptionsChanged(options);
 
             if (previousIsEnabled != IsEnabled)
             {

@@ -33,7 +33,7 @@ namespace CodeMonkeys.Logging
 
         public abstract void ProcessMessage(LogMessage message);
 
-        protected override void OnOptionsHasChanged(TOptions options)
+        protected override void OnOptionsChanged(TOptions options)
         {
             IsEnabled = options.IsEnabled;
             MinLevel = options.MinLevel;

@@ -11,13 +11,15 @@ namespace CodeMonkeys.Logging.File
         private readonly FileLogServiceProvider _provider;
         private readonly string _context;
 
-        internal FileLogService(FileLogServiceProvider provider, string context)
+        internal FileLogService(
+            FileLogServiceProvider provider, 
+            string context)
         {
             _provider = provider;
             _context = context;
         }
 
-        public bool IsEnabled(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
+        public bool IsEnabledFor(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
 
         public void Log<TState>(
             DateTimeOffset timestamp,
