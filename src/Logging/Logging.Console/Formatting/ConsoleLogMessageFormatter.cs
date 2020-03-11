@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace CodeMonkeys.Logging.Console
+namespace CodeMonkeys.Logging.Console.Formatting
 {
     internal partial class ConsoleLogMessageFormatter : LogMessageFormatter
     {

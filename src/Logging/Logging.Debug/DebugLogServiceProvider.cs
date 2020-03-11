@@ -5,7 +5,7 @@ namespace CodeMonkeys.Logging.Debug
 {
     internal sealed class DebugLogServiceProvider : LogServiceProvider<DebugLogOptions>
     {
-        private DebugLogMessageFormatter _formatter;
+        private LogMessageFormatter _formatter;
 
         internal DebugLogServiceProvider(DebugLogOptions options)
             : base(options)
@@ -23,12 +23,16 @@ namespace CodeMonkeys.Logging.Debug
 
         public override void ProcessMessage(LogMessage message)
         {
-            _formatter ??= new DebugLogMessageFormatter();
+            _formatter ??= new LogMessageFormatter();
 
-            DebugWriteLine(
-                _formatter.Format(
-                    message, 
-                    TimeStampFormat));
+            try
+            {
+                DebugWriteLine(
+                    _formatter.Format(
+                        message,
+                        TimeStampFormat));
+            }
+            catch { }
         }
 
         private void DebugWriteLine(string value)

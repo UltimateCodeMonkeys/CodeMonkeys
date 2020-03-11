@@ -29,10 +29,6 @@ namespace CodeMonkeys.Logging.File
                 options.Extension,
                 nameof(options.Extension));
 
-            NotEmptyOrWhiteSpace(
-                options.Directory,
-                nameof(options.Directory));
-
             var provider = new FileLogServiceProvider(options);
 
             _this.AddProvider(provider);

@@ -1,10 +1,11 @@
 ﻿using CodeMonkeys.Core.Logging;
+
 using System;
 using System.Text;
 
 namespace CodeMonkeys.Logging
 {
-    public abstract class LogMessageFormatter
+    public class LogMessageFormatter
     {
         public virtual string Format(
             LogMessage message, 

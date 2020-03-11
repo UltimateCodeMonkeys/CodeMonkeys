@@ -6,31 +6,31 @@ namespace CodeMonkeys.Logging.File
     {
         private string _name;
         private string _extension;
-        private string _directory;
 
+        /// <summary>
+        /// Name of the file in which the log messages should be written.
+        /// <para>Defaults to 'log'</para>
+        /// </summary>
         public string FileName
         {
             get => _name;
             set => SetValue(ref _name, value);
         }
 
+        /// <summary>
+        /// File extension of <see cref="FileName"/>.
+        /// <para>Defaults to 'txt'</para>
+        /// </summary>
         public string Extension
         {
             get => _extension;
             set => SetValue(ref _extension, value?.TrimStart('.'));
         }
 
-        public string Directory
-        {
-            get => _directory;
-            set => SetValue(ref _directory, value);
-        }
-
         public FileLogOptions()
         {
             FileName = "log";
             Extension = "txt";
-            Directory = "logs";
         }
     }
 }

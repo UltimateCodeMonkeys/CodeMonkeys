@@ -1,5 +1,6 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.Logging;
+using CodeMonkeys.Logging.Console.Formatting;
 
 namespace CodeMonkeys.Logging.Console
 {
@@ -28,10 +29,14 @@ namespace CodeMonkeys.Logging.Console
             _formatter ??= new ConsoleLogMessageFormatter(
                 _useColoredOutput);
 
-            ConsoleWriteLine(_formatter
-                .Format(
-                    message, 
-                    TimeStampFormat));
+            try
+            {
+                ConsoleWriteLine(_formatter
+                    .Format(
+                        message,
+                        TimeStampFormat));
+            }
+            catch { }
         }
 
         private void ConsoleWriteLine(string value)

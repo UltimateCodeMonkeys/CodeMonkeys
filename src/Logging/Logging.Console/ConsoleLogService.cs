@@ -1,5 +1,6 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Logging;
+﻿using CodeMonkeys.Core.Logging;
+
+using static CodeMonkeys.Core.Argument;
 
 using System;
 
@@ -25,9 +26,7 @@ namespace CodeMonkeys.Logging.Console
             Exception ex, 
             Func<TState, Exception, string> formatter)
         {
-            Argument.NotNull(
-                formatter,
-                nameof(formatter));
+            NotNull(formatter, nameof(formatter));
 
             _provider.ProcessMessage(new LogMessage(
                 timestamp,
