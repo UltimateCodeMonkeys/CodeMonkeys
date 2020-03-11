@@ -10,6 +10,7 @@ namespace CodeMonkeys.Logging.File
         /// <summary>
         /// Name of the file in which the log messages should be written.
         /// <para>Defaults to 'log'</para>
+        /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
         /// </summary>
         public string FileName
         {
@@ -20,6 +21,7 @@ namespace CodeMonkeys.Logging.File
         /// <summary>
         /// File extension of <see cref="FileName"/>.
         /// <para>Defaults to 'txt'</para>
+        /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
         /// </summary>
         public string Extension
         {

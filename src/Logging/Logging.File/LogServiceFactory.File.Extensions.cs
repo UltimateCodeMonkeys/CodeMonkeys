@@ -13,6 +13,11 @@ namespace CodeMonkeys.Logging.File
             _this.AddFile(new FileLogOptions());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="options"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when <see cref="FileLogOptions.FileName"/> or <see cref="FileLogOptions.Extension"/> are null, empty or whitespace></exception>
         public static void AddFile(
             this ILogServiceFactory _this,
             FileLogOptions options)
