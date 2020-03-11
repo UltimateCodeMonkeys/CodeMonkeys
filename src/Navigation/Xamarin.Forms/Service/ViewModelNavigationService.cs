@@ -14,7 +14,7 @@ using CodeMonkeys.Core.Interfaces.Navigation;
 using CodeMonkeys.Core.Interfaces.Navigation.ViewModels;
 using CodeMonkeys.Navigation.Xamarin.Forms.Models;
 using CodeMonkeys.Core.Logging;
-using CodeMonkeys.Logging.Extensions;
+using CodeMonkeys.Logging;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {

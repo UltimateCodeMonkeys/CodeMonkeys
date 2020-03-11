@@ -6,7 +6,7 @@ using CodeMonkeys.Core.Interfaces.DependencyInjection;
 using CodeMonkeys.Core.Interfaces.MVVM;
 using CodeMonkeys.Core.Interfaces.Navigation;
 using CodeMonkeys.Core.Logging;
-using CodeMonkeys.Logging.Extensions;
+using CodeMonkeys.Logging;
 
 namespace CodeMonkeys.MVVM.Factories
 {
