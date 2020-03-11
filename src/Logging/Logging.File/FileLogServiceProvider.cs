@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CodeMonkeys.Logging.File
 {
-    internal sealed class FileLogServiceProvider : BatchingLogServiceProvider<FileLogOptions>
+    public sealed class FileLogServiceProvider : BatchingLogServiceProvider<FileLogOptions>
     {
         private readonly string _fileName;
         private readonly string _extension;

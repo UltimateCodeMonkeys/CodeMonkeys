@@ -4,7 +4,7 @@ using CodeMonkeys.Logging.Console.Formatting;
 
 namespace CodeMonkeys.Logging.Console
 {
-    internal sealed class ConsoleLogServiceProvider : LogServiceProvider<ConsoleLogOptions>
+    public sealed class ConsoleLogServiceProvider : LogServiceProvider<ConsoleLogOptions>
     {
         private ConsoleLogMessageFormatter _formatter;
         private readonly bool _useColoredOutput;

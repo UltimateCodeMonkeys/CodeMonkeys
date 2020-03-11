@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />
     <ProjectReference Include="..\..\Logging\Logging.Console\Logging.Console.csproj" />
+    <ProjectReference Include="..\..\Logging\Logging.Debug\Logging.Debug.csproj" />
     <ProjectReference Include="..\..\Logging\Logging.File\Logging.File.csproj" />
     <ProjectReference Include="..\..\Logging\Logging\Logging.csproj" />
     <ProjectReference Include="..\..\Messaging\Messaging.csproj" />

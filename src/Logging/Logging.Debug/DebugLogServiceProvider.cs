@@ -3,7 +3,7 @@ using CodeMonkeys.Core.Logging;
 
 namespace CodeMonkeys.Logging.Debug
 {
-    internal sealed class DebugLogServiceProvider : LogServiceProvider<DebugLogOptions>
+    public sealed class DebugLogServiceProvider : LogServiceProvider<DebugLogOptions>
     {
         private LogMessageFormatter _formatter;
 
