@@ -338,4 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-/tests/ConsoleApp1
+
+# Exclude folder where NuGet packages drop
+.nuget-build/
