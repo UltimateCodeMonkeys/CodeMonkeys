@@ -10,7 +10,7 @@ namespace CodeMonkeys.Core
             string paramName,
             string message = "")
         {
-            if (param >= value)
+            if (param <= value)
                 return;
 
             if (string.IsNullOrWhiteSpace(message))
