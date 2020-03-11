@@ -2,7 +2,7 @@
 
 using System;
 
-namespace CodeMonkeys.Logging.Extensions
+namespace CodeMonkeys.Logging
 {
     public static class LogServiceExtensions
     {
