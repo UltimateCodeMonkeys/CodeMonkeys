@@ -36,7 +36,7 @@ namespace CodeMonkeys.Logging.Batching
             get => _batchCapacity;
             set
             {
-                Property.Min(value, 1);
+                Property.GreaterThan(value, 0);
                 SetValue(ref _batchCapacity, value);
             }
         }
@@ -51,7 +51,7 @@ namespace CodeMonkeys.Logging.Batching
             get => _queueCapacity;
             set
             {
-                Property.Min(value, 1);
+                Property.GreaterThan(value, 0);
                 SetValue(ref _queueCapacity, value);
             }
         }

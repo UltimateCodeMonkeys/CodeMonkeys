@@ -4,7 +4,7 @@ namespace CodeMonkeys.Core
 {
     public static partial class Property
     {
-        public static void Min(
+        public static void GreaterThan(
             int? param,
             int? value,
             [CallerMemberName] string propertyName = "",
@@ -13,7 +13,7 @@ namespace CodeMonkeys.Core
             if (string.IsNullOrWhiteSpace(message))
                 message = $"Setter value for property '{propertyName}' is less than minimum.";
 
-            Argument.Min(
+            Argument.GreaterThan(
                 param, 
                 value, 
                 propertyName, 

@@ -4,13 +4,13 @@ namespace CodeMonkeys.Core
 {
     public static partial class Argument
     {
-        public static void Min(
+        public static void GreaterThan(
             int? param,
             int? value,
             string paramName,
             string message = "")
         {
-            if (param >= value)
+            if (param > value)
                 return;
 
             if (string.IsNullOrWhiteSpace(message))
