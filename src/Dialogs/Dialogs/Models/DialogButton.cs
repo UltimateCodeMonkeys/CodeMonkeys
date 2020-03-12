@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace CodeMonkeys.DialogService
+namespace CodeMonkeys.Dialogs
 {
     public class DialogButton
     {

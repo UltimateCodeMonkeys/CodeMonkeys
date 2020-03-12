@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Dialogs\Dialogs.Xamarin.Forms\Dialogs.Xamarin.Forms.csproj" />
+    <ProjectReference Include="..\..\Dialogs\Dialogs\Dialogs.csproj" />
     <ProjectReference Include="..\..\Logging\Logging.Console\Logging.Console.csproj" />
     <ProjectReference Include="..\..\Logging\Logging.Debug\Logging.Debug.csproj" />
     <ProjectReference Include="..\..\Logging\Logging.File\Logging.File.csproj" />

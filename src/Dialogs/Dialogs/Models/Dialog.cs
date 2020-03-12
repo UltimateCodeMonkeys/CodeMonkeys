@@ -1,4 +1,4 @@
-﻿namespace CodeMonkeys.DialogService
+﻿namespace CodeMonkeys.Dialogs
 {
     public abstract class Dialog
     {

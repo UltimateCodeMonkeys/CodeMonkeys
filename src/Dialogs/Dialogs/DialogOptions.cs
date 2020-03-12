@@ -1,6 +1,6 @@
 ﻿using CodeMonkeys.Core.Configuration;
 
-namespace CodeMonkeys.DialogService
+namespace CodeMonkeys.Dialogs
 {
     public class DialogOptions : Options
     {

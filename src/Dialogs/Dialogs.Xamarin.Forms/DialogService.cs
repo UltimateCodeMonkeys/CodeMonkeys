@@ -1,12 +1,12 @@
 ﻿using CodeMonkeys.Core.Configuration;
-using CodeMonkeys.Core.DialogService;
+using CodeMonkeys.Core.Dialogs;
 
 using System;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
-namespace CodeMonkeys.DialogService.Xamarin.Forms
+namespace CodeMonkeys.Dialogs.Xamarin.Forms
 {
     public class DialogService :
         OptionsConsumer<DialogOptions>,

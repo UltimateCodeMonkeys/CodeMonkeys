@@ -1,4 +1,4 @@
-﻿namespace CodeMonkeys.DialogService.Dialogs
+﻿namespace CodeMonkeys.Dialogs
 {
     public class ErrorDialog : Dialog
     {
