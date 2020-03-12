@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using CodeMonkeys.Logging;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace CodeMonkeys.MVVM.PropertyChanged

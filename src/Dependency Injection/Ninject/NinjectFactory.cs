@@ -1,5 +1,5 @@
 ﻿using CodeMonkeys.Core.Interfaces.DependencyInjection;
-using CodeMonkeys.Core.Interfaces.Logging;
+using CodeMonkeys.Core.Logging;
 using CodeMonkeys.DependencyInjection.Core;
 
 using Ninject;

@@ -9,7 +9,8 @@ namespace CodeMonkeys.Messaging
 {
     internal class EventTypeCache
     {
-        private readonly ConcurrentDictionary<Type, IList<Type>> _this;
+        private readonly ConcurrentDictionary<Type, IList<Type>> _this = 
+            new ConcurrentDictionary<Type, IList<Type>>();
 
         public IList<Type> GetOrAddEventTypesOf(ISubscriber subscriber)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using CodeMonkeys.Core.Interfaces.DependencyInjection;
 using CodeMonkeys.DependencyInjection.Core;
+using CodeMonkeys.Logging;
 
 using Ninject;
 

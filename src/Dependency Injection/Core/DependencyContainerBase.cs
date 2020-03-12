@@ -1,4 +1,4 @@
-﻿using CodeMonkeys.Core.Interfaces.Logging;
+﻿using CodeMonkeys.Core.Logging;
 
 namespace CodeMonkeys.DependencyInjection.Core
 {

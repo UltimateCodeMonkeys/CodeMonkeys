@@ -4,8 +4,9 @@ using System.Threading;
 
 using CodeMonkeys.Core;
 using CodeMonkeys.Core.Interfaces.DependencyInjection;
-using CodeMonkeys.Core.Interfaces.Logging;
+using CodeMonkeys.Core.Logging;
 using CodeMonkeys.DependencyInjection.Core.Exceptions;
+using CodeMonkeys.Logging;
 
 [assembly: InternalsVisibleTo("CodeMonkeys.DependencyInjection.Ninject")]
 [assembly: InternalsVisibleTo("CodeMonkeys.DependencyInjection.DryIoC")]
