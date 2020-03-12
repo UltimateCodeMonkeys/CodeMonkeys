@@ -1,10 +1,68 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace CodeMonkeys.Core.DialogService
 {
     public interface IDialogService
     {
+        /// <summary>
+        /// Shows an alert dialog that has only one button to close the dialog
+        /// </summary>
+        /// <param name="title">Title text of the dialog</param>
+        /// <param name="message">The message to display in the dialog</param>
+        Task DisplayAlertAsync(
+            string title,
+            string message);
+
+        /// <summary>
+        /// Shows an alert dialog that has only one button to close the dialog
+        /// </summary>
+        /// <param name="title">Title text of the dialog</param>
+        /// <param name="message">The message to display in the dialog</param>
+        /// <param name="onDialogClosed">Action to invoke after the dialog has been closed</param>
+        Task DisplayAlertAsync(
+            string title,
+            string message,
+            Action onDialogClosed);
+
+        /// <summary>
+        /// Shows an alert dialog that has only one button to close the dialog
+        /// Invokes the given action when the dialog has been closed
+        /// </summary>
+        /// <param name="title">Title text of the dialog</param>
+        /// <param name="message">The message to display in the dialog</param>
+        /// <param name="closeButtonLabel">The text of the button</param>
+        /// <param name="onDialogClosed">Action to invoke after the dialog has been closed</param>
+        Task DisplayAlertAsync(
+            string title,
+            string message,
+            string closeButtonLabel,
+            Action onDialogClosed = null);
+
+
+
+        /// <summary>
+        /// Shows a confirmation dialog that asks the user wether some action should proceed or not
+        /// </summary>
+        /// <param name="title">Title text of the dialog</param>
+        /// <param name="message">Message to display in the dialog / question to ask</param>
+        /// <returns>A bool indicating wether the request has been confirmed or declined</returns>
+        Task<bool> DisplayConfirmationAsync(
+            string title,
+            string message);
+
+        /// <summary>
+        /// Shows a confirmation dialog that asks the user wether some action should proceed or not
+        /// </summary>
+        /// <param name="title">Title text of the dialog</param>
+        /// <param name="message">Message to display in the dialog / question to ask</param>
+        /// <param name="confirmButtonLabel">Text of the button for positive feedback</param>
+        /// <param name="declineButtonLabel">Text of the button for negative feedback</param>
+        /// <returns>A bool indicating wether the request has been confirmed or declined</returns>
+        Task<bool> DisplayConfirmationAsync(
+            string title,
+            string message,
+            string confirmButtonLabel,
+            string declineButtonLabel);
     }
 }

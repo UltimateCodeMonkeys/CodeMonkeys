@@ -12,15 +12,14 @@ namespace CodeMonkeys.DialogService.Xamarin.Forms
         OptionsConsumer<DialogOptions>,
         IDialogService
     {
+        private string _defaultCloseLabel;
+        private string _defaultConfirmLabel;
+        private string _defaultDeclineLabel;
+
         public DialogService(DialogOptions options)
             : base(options)
         {
-
-        }
-
-        protected override void OnOptionsChanged(DialogOptions options)
-        {
-            throw new NotImplementedException();
+            OnOptionsChanged(options);
         }
 
         /// <inheritdoc />
@@ -28,11 +27,10 @@ namespace CodeMonkeys.DialogService.Xamarin.Forms
             string title,
             string message)
         {
-            throw new NotImplementedException();
-            //await DisplayAlertAsync(
-            //    title,
-            //    message,
-            //    Configuration.AlertDialog.DefaultCloseLabel);
+            await DisplayAlertAsync(
+                title,
+                message,
+                _defaultCloseLabel);
         }
 
         /// <inheritdoc />
@@ -44,7 +42,7 @@ namespace CodeMonkeys.DialogService.Xamarin.Forms
             await DisplayAlertAsync(
                 title,
                 message,
-                Configuration.AlertDialog.DefaultCloseLabel,
+                _defaultCloseLabel,
                 onDialogClosed);
         }
 
@@ -63,5 +61,37 @@ namespace CodeMonkeys.DialogService.Xamarin.Forms
             onDialogClosed?.Invoke();
         }
 
+        /// <inheritdoc />
+        public async Task<bool> DisplayConfirmationAsync(
+            string title,
+            string message)
+        {
+            return await DisplayConfirmationAsync(
+                title,
+                message,
+                _defaultConfirmLabel,
+                _defaultDeclineLabel);
+        }
+
+        /// <inheritdoc />
+        public async Task<bool> DisplayConfirmationAsync(
+            string title,
+            string message,
+            string confirmButtonLabel,
+            string declineButtonLabel)
+        {
+            return await Application.Current.MainPage.DisplayAlert(
+                title,
+                message,
+                confirmButtonLabel,
+                declineButtonLabel);
+        }
+
+        protected override void OnOptionsChanged(DialogOptions options)
+        {
+            _defaultCloseLabel = options.DefaultCloseLabel;
+            _defaultConfirmLabel = options.DefaultConfirmLabel;
+            _defaultDeclineLabel = options.DefaultDeclineLabel;
+        }
     }
 }
