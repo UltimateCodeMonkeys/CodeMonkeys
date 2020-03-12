@@ -10,7 +10,7 @@ namespace CodeMonkeys.Core.DialogService
         /// </summary>
         /// <param name="title">Title text of the dialog</param>
         /// <param name="message">The message to display in the dialog</param>
-        Task DisplayAlertAsync(
+        Task ShowAlertAsync(
             string title,
             string message);
 
@@ -20,7 +20,7 @@ namespace CodeMonkeys.Core.DialogService
         /// <param name="title">Title text of the dialog</param>
         /// <param name="message">The message to display in the dialog</param>
         /// <param name="onDialogClosed">Action to invoke after the dialog has been closed</param>
-        Task DisplayAlertAsync(
+        Task ShowAlertAsync(
             string title,
             string message,
             Action onDialogClosed);
@@ -33,13 +33,11 @@ namespace CodeMonkeys.Core.DialogService
         /// <param name="message">The message to display in the dialog</param>
         /// <param name="closeButtonLabel">The text of the button</param>
         /// <param name="onDialogClosed">Action to invoke after the dialog has been closed</param>
-        Task DisplayAlertAsync(
+        Task ShowAlertAsync(
             string title,
             string message,
             string closeButtonLabel,
-            Action onDialogClosed = null);
-
-
+            Action onDialogClosed = null);        
 
         /// <summary>
         /// Shows a confirmation dialog that asks the user wether some action should proceed or not
@@ -47,7 +45,7 @@ namespace CodeMonkeys.Core.DialogService
         /// <param name="title">Title text of the dialog</param>
         /// <param name="message">Message to display in the dialog / question to ask</param>
         /// <returns>A bool indicating wether the request has been confirmed or declined</returns>
-        Task<bool> DisplayConfirmationAsync(
+        Task<bool> ShowConfirmationAsync(
             string title,
             string message);
 
@@ -59,7 +57,7 @@ namespace CodeMonkeys.Core.DialogService
         /// <param name="confirmButtonLabel">Text of the button for positive feedback</param>
         /// <param name="declineButtonLabel">Text of the button for negative feedback</param>
         /// <returns>A bool indicating wether the request has been confirmed or declined</returns>
-        Task<bool> DisplayConfirmationAsync(
+        Task<bool> ShowConfirmationAsync(
             string title,
             string message,
             string confirmButtonLabel,

@@ -23,23 +23,23 @@ namespace CodeMonkeys.DialogService.Xamarin.Forms
         }
 
         /// <inheritdoc />
-        public async Task DisplayAlertAsync(
+        public async Task ShowAlertAsync(
             string title,
             string message)
         {
-            await DisplayAlertAsync(
+            await ShowAlertAsync(
                 title,
                 message,
                 _defaultCloseLabel);
         }
 
         /// <inheritdoc />
-        public async Task DisplayAlertAsync(
+        public async Task ShowAlertAsync(
             string title,
             string message,
             Action onDialogClosed)
         {
-            await DisplayAlertAsync(
+            await ShowAlertAsync(
                 title,
                 message,
                 _defaultCloseLabel,
@@ -47,7 +47,7 @@ namespace CodeMonkeys.DialogService.Xamarin.Forms
         }
 
         /// <inheritdoc />
-        public async Task DisplayAlertAsync(
+        public async Task ShowAlertAsync(
             string title,
             string message,
             string closeButtonLabel,
@@ -62,11 +62,11 @@ namespace CodeMonkeys.DialogService.Xamarin.Forms
         }
 
         /// <inheritdoc />
-        public async Task<bool> DisplayConfirmationAsync(
+        public async Task<bool> ShowConfirmationAsync(
             string title,
             string message)
         {
-            return await DisplayConfirmationAsync(
+            return await ShowConfirmationAsync(
                 title,
                 message,
                 _defaultConfirmLabel,
@@ -74,7 +74,7 @@ namespace CodeMonkeys.DialogService.Xamarin.Forms
         }
 
         /// <inheritdoc />
-        public async Task<bool> DisplayConfirmationAsync(
+        public async Task<bool> ShowConfirmationAsync(
             string title,
             string message,
             string confirmButtonLabel,
