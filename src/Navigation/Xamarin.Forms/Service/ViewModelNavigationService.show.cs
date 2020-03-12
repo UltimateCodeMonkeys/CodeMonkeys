@@ -1,13 +1,13 @@
-﻿using System;
+﻿using CodeMonkeys.Core.MVVM;
+using CodeMonkeys.Core.Navigation;
+using CodeMonkeys.Core.Navigation.ViewModels;
+using CodeMonkeys.Logging;
+
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-
-using CodeMonkeys.Core.Interfaces.MVVM;
-using CodeMonkeys.Core.Interfaces.Navigation;
-using CodeMonkeys.Core.Interfaces.Navigation.ViewModels;
-using CodeMonkeys.Logging;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {

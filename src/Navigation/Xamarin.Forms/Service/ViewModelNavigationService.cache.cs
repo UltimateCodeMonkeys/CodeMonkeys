@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Xamarin.Forms;
-
-using CodeMonkeys.Core.Interfaces.Navigation;
+﻿using CodeMonkeys.Core.Navigation;
+using CodeMonkeys.Logging;
 using CodeMonkeys.Navigation.Xamarin.Forms.Models;
 
 using Activator = CodeMonkeys.Core.Helpers.Activator;
-using CodeMonkeys.Logging;
+
+using System;
+using System.Collections.Generic;
+
+using Xamarin.Forms;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {

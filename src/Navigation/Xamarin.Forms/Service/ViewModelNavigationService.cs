@@ -1,4 +1,12 @@
-﻿using System;
+﻿using CodeMonkeys.Core.DependencyInjection;
+using CodeMonkeys.Core.Logging;
+using CodeMonkeys.Core.MVVM;
+using CodeMonkeys.Core.Navigation;
+using CodeMonkeys.Core.Navigation.ViewModels;
+using CodeMonkeys.Logging;
+using CodeMonkeys.Navigation.Xamarin.Forms.Models;
+
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,14 +15,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-
-using CodeMonkeys.Core.Interfaces.DependencyInjection;
-using CodeMonkeys.Core.Interfaces.MVVM;
-using CodeMonkeys.Core.Interfaces.Navigation;
-using CodeMonkeys.Core.Interfaces.Navigation.ViewModels;
-using CodeMonkeys.Navigation.Xamarin.Forms.Models;
-using CodeMonkeys.Core.Logging;
-using CodeMonkeys.Logging;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {

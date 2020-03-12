@@ -23,12 +23,6 @@ It contains helper classes for e.g. convinience argument null checks and interfa
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Interfaces\EventCommunication\**" />
-    <Compile Remove="Interfaces\ExceptionHandling\**" />
-    <EmbeddedResource Remove="Interfaces\EventCommunication\**" />
-    <EmbeddedResource Remove="Interfaces\ExceptionHandling\**" />
-    <None Remove="Interfaces\EventCommunication\**" />
-    <None Remove="Interfaces\ExceptionHandling\**" />
     <None Include="..\..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -40,8 +34,7 @@ It contains helper classes for e.g. convinience argument null checks and interfa
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\" />
-    <Folder Include="Interfaces\Navigation\" />
-    <Folder Include="Interfaces\Navigation\ViewModels\" />
+    <Folder Include="Navigation\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="3.1.2" />

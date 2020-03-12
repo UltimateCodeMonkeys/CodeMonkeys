@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-using CodeMonkeys.Core.Interfaces.DependencyInjection;
+﻿using CodeMonkeys.Core.DependencyInjection;
 using CodeMonkeys.DependencyInjection.Core;
 using CodeMonkeys.Logging;
+
+using System;
+using System.Collections.Generic;
 
 using Ninject;
 

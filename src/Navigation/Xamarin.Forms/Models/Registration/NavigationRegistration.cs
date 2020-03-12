@@ -1,6 +1,6 @@
-﻿using System;
+﻿using CodeMonkeys.Core.Navigation;
 
-using CodeMonkeys.Core.Interfaces.Navigation;
+using System;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms.Models
 {

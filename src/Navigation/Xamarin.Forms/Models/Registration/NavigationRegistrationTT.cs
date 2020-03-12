@@ -1,4 +1,4 @@
-﻿using CodeMonkeys.Core.Interfaces.MVVM;
+﻿using CodeMonkeys.Core.MVVM;
 
 using System;
 

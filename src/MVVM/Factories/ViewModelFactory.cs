@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-
+﻿using CodeMonkeys.Core.DependencyInjection;
 using CodeMonkeys.Core.Helpers;
-using CodeMonkeys.Core.Interfaces.DependencyInjection;
-using CodeMonkeys.Core.Interfaces.MVVM;
-using CodeMonkeys.Core.Interfaces.Navigation;
 using CodeMonkeys.Core.Logging;
+using CodeMonkeys.Core.MVVM;
+using CodeMonkeys.Core.Navigation;
 using CodeMonkeys.Logging;
+
+using System;
+using System.Threading.Tasks;
 
 namespace CodeMonkeys.MVVM.Factories
 {

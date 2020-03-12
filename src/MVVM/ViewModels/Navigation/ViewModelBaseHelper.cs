@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using CodeMonkeys.Core.MVVM;
+using CodeMonkeys.Core.Navigation;
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
-using CodeMonkeys.Core.Interfaces.MVVM;
-using CodeMonkeys.Core.Interfaces.Navigation;
 
 namespace CodeMonkeys.MVVM.ViewModels.Navigation
 {

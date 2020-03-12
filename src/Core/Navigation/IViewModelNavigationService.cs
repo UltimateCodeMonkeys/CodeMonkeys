@@ -1,10 +1,10 @@
-﻿using CodeMonkeys.Core.Interfaces.Navigation.ViewModels;
-using CodeMonkeys.Core.MVVM;
+﻿using CodeMonkeys.Core.MVVM;
+using CodeMonkeys.Core.Navigation.ViewModels;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CodeMonkeys.Core.Interfaces.Navigation
+namespace CodeMonkeys.Core.Navigation
 {
     public interface IViewModelNavigationService
     {
