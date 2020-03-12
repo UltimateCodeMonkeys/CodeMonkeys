@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-using CodeMonkeys.Core.Interfaces.MVVM;
+﻿using CodeMonkeys.Core.MVVM;
 using CodeMonkeys.MVVM.PropertyChanged;
+
+using System.Threading.Tasks;
 
 namespace CodeMonkeys.MVVM.ViewModels
 {

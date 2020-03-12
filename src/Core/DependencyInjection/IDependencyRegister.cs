@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeMonkeys.Core.Interfaces.DependencyInjection
+namespace CodeMonkeys.Core.DependencyInjection
 {
     public interface IDependencyRegister
     {

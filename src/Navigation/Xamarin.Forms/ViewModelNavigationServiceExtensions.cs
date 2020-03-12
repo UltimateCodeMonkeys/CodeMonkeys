@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CodeMonkeys.Core.MVVM;
+using CodeMonkeys.Core.Navigation;
+using CodeMonkeys.Navigation.Xamarin.Forms.Models;
+
+using System;
 
 using Xamarin.Forms;
-
-using CodeMonkeys.Core.Interfaces.MVVM;
-using CodeMonkeys.Core.Interfaces.Navigation;
-using CodeMonkeys.Navigation.Xamarin.Forms.Models;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {

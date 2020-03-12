@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using CodeMonkeys.Core.Interfaces.MVVM;
-using CodeMonkeys.Core.Interfaces.Navigation;
-using CodeMonkeys.Core.Interfaces.Navigation.ViewModels;
+﻿using CodeMonkeys.Core.MVVM;
+using CodeMonkeys.Core.Navigation;
+using CodeMonkeys.Core.Navigation.ViewModels;
 using CodeMonkeys.MVVM.Factories;
+
+using System;
+using System.Threading.Tasks;
 
 namespace CodeMonkeys.MVVM.ViewModels.Navigation
 {

@@ -1,9 +1,9 @@
-﻿using CodeMonkeys.Core.Interfaces.DependencyInjection;
+﻿using CodeMonkeys.Core.DependencyInjection;
 using CodeMonkeys.DependencyInjection.Core;
-using DryIoc;
+
 using System;
-using System.Collections.Generic;
-using System.Text;
+
+using DryIoc;
 
 namespace CodeMonkeys.DependencyInjection.DryIoC
 {
