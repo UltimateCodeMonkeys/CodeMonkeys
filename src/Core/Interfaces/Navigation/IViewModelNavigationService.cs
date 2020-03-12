@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CodeMonkeys.Core.Interfaces.Navigation.ViewModels;
+using CodeMonkeys.Core.MVVM;
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CodeMonkeys.Core.Interfaces.MVVM;
-using CodeMonkeys.Core.Interfaces.Navigation.ViewModels;
 
 namespace CodeMonkeys.Core.Interfaces.Navigation
 {

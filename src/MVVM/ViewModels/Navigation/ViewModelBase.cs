@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using CodeMonkeys.Core.Interfaces.MVVM;
+using CodeMonkeys.Core.MVVM;
 using CodeMonkeys.Core.Interfaces.Navigation;
 using CodeMonkeys.Core.Interfaces.Navigation.ViewModels;
 using CodeMonkeys.MVVM.Factories;
