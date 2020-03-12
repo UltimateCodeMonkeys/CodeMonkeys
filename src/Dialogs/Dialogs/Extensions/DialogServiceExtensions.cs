@@ -20,6 +20,23 @@ namespace CodeMonkeys.Dialogs
                 () => dialog.ConfirmButton?.Action?.Execute(null));
         }
 
+        public static void ShowErrorAsync(
+            this IDialogService _this,
+            ErrorDialog dialog)
+        {
+            Argument.NotNull(
+                dialog,
+                nameof(dialog));
+
+            _this.ShowErrorAsync(
+                dialog.Title,
+                dialog.Message,
+                dialog.ConfirmButton?.Label,
+                dialog.Exception,
+                () => dialog.ConfirmButton?.Action?.Execute(null));
+
+        }
+
         public static void ShowConfirmationAsync(
             this IDialogService _this,
             ConfirmationDialog dialog)

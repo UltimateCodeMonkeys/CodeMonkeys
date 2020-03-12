@@ -16,5 +16,10 @@ namespace CodeMonkeys.UnitTests.Dialogs
         {
             _service = new DialogService(new DialogOptions());
         }
+
+        [Test]
+        public void ShowAlertAsync_()
+        {
+        }
     }
 }
