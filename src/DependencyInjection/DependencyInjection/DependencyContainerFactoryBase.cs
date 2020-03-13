@@ -2,7 +2,6 @@
 using CodeMonkeys.Core.DependencyInjection;
 using CodeMonkeys.Core.Logging;
 using CodeMonkeys.DependencyInjection.Core.Exceptions;
-using CodeMonkeys.Logging;
 
 using System;
 using System.Runtime.CompilerServices;
@@ -67,7 +66,7 @@ namespace CodeMonkeys.DependencyInjection.Core
                 if (_container == null ||
                     !containerBase.IsLogServiceInstanceSet)
                 {
-                    logService?.Info("Creating DI container instance");
+                    // logService?.Info("Creating DI container instance");
 
                     _container = containerBase as IDependencyContainer;
                     containerBase.Log = logService;

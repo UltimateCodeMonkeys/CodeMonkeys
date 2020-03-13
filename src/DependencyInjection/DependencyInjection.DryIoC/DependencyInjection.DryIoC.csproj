@@ -4,27 +4,28 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.DependencyInjection.DryIoC</AssemblyName>
     <RootNamespace>CodeMonkeys.DependencyInjection.DryIoC</RootNamespace>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
-    <Description>DryIoC abstraction to use with CodeMonkeysMVVM packages</Description>
+    <Description>Addition to the CodeMonkeys.DependencyInjection package which integrates DryIoC as the background implementation.</Description>
     <Copyright>2020 by UltimateCodeMonkeys</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
-    <PackageTags>c#, xamarin, xamarin.forms, ioc, dependencyinjection, di, mvvm</PackageTags>
+    <PackageTags>c#, xamarin, xamarin.forms, dependencyinjection, di, ioc, dryioc, mvvm</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc" Version="4.1.1" />
+    <PackageReference Include="DryIoc" Version="4.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />
-    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\DependencyInjection\DependencyInjection.csproj" />
   </ItemGroup>
 
   <ItemGroup>
