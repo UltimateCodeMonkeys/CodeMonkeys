@@ -1,6 +1,5 @@
 ﻿using CodeMonkeys.Core.DependencyInjection;
 using CodeMonkeys.DependencyInjection.Core;
-using CodeMonkeys.Logging;
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +22,8 @@ namespace CodeMonkeys.DependencyInjection.Ninject
         public TResolve Resolve<TResolve>()
             where TResolve : class
         {
-            Log?.Info($"Trying to resolve type '{typeof(TResolve).Name}'...");
+            // todo LB: The level methods are in the logging package as extensions. We should discuss about moving them to the Core if possible.
+            // Log?.Info($"Trying to resolve type '{typeof(TResolve).Name}'...");
 
             if (!container.CanResolve<TResolve>())
             {
@@ -36,7 +36,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
 
         public void RegisterType<TImplementation>()
         {
-            Log?.Debug($"Registering type {typeof(TImplementation).Name} (no abstraction provided).");
+            // Log?.Debug($"Registering type {typeof(TImplementation).Name} (no abstraction provided).");
 
             container
                 .Bind<TImplementation>()
@@ -46,7 +46,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
         public void RegisterType(
             Type typeToRegister)
         {
-            Log?.Debug($"Registering type {typeToRegister.Name} (no abstraction provided).");
+            // Log?.Debug($"Registering type {typeToRegister.Name} (no abstraction provided).");
 
             container
                 .Bind(typeToRegister)
@@ -57,7 +57,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
             where TInterface : class
             where TImplementation : class, TInterface
         {
-            Log?.Debug($"Registering type {typeof(TInterface).Name}/{typeof(TImplementation).Name}.");
+            // Log?.Debug($"Registering type {typeof(TInterface).Name}/{typeof(TImplementation).Name}.");
 
             container
                 .Bind<TInterface>()
@@ -68,7 +68,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
             Type interfaceType,
             Type implementationType)
         {
-            Log?.Debug($"Registering types {interfaceType.Name}/{implementationType.Name}.");
+            // Log?.Debug($"Registering types {interfaceType.Name}/{implementationType.Name}.");
 
             container
                 .Bind(interfaceType)
@@ -78,7 +78,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
 
         public void RegisterSingleton<TImplementation>()
         {
-            Log?.Debug($"Registering type {typeof(TImplementation).Name} (no abstraction provided).");
+            // Log?.Debug($"Registering type {typeof(TImplementation).Name} (no abstraction provided).");
 
             container
                 .Bind<TImplementation>()
@@ -89,7 +89,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
         public void RegisterSingleton(
             Type typeToRegister)
         {
-            Log?.Debug($"Registering type {typeToRegister.Name} (no abstraction provided).");
+            // Log?.Debug($"Registering type {typeToRegister.Name} (no abstraction provided).");
 
             container
                 .Bind(typeToRegister)
@@ -101,7 +101,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
             where TInterface : class
             where TImplementation : class, TInterface
         {
-            Log?.Debug($"Registering type {typeof(TInterface).Name}/{typeof(TImplementation).Name} as singleton.");
+            // Log?.Debug($"Registering type {typeof(TInterface).Name}/{typeof(TImplementation).Name} as singleton.");
 
             container
                 .Bind<TInterface>()
@@ -113,7 +113,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
             Type interfaceType,
             Type implementationType)
         {
-            Log?.Debug($"Registering type {interfaceType.Name}/{implementationType.Name} as singleton.");
+            // Log?.Debug($"Registering type {interfaceType.Name}/{implementationType.Name} as singleton.");
 
             container
                 .Bind(interfaceType)
@@ -126,7 +126,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
             TInstance instance)
             where TInstance : class
         {
-            Log?.Debug($"Registering instance for type {typeof(TInstance).Name}.");
+            // Log?.Debug($"Registering instance for type {typeof(TInstance).Name}.");
 
             container
                 .Bind<TInstance>()
