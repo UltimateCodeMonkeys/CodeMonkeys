@@ -4,6 +4,18 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.DependencyInjection</AssemblyName>
     <RootNamespace>CodeMonkeys.DependencyInjection</RootNamespace>
+    <Version>2.0.0</Version>
+    <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
+    <Company>UltimateCodeMonkeys</Company>
+    <Product>CodeMonkeysMVVM</Product>
+    <Description>CodeMonkeys.DependencyInjection contains core mechanisms for dependency injection.</Description>
+    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
+    <PackageTags>c#, xamarin, xamarin.forms, dependencyinjection, di, ioc, mvvm</PackageTags>
+
+    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
