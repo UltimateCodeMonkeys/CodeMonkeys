@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
 		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
 		LICENSE.md = LICENSE.md
+		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
 		.github\pull_request_template.md = .github\pull_request_template.md
 		README.md = README.md
 	EndProjectSection
@@ -50,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyInjection.Ninject
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyInjection.DryIoC", "src\DependencyInjection\DependencyInjection.DryIoC\DependencyInjection.DryIoC.csproj", "{C7A9C277-322D-4FF5-B3E3-58BEA844E550}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navigation.Xamarin.Forms", "src\Navigation\Navigation.Xamarin.Forms\Navigation.Xamarin.Forms.csproj", "{E2BAB6D8-5A59-41BB-A4C5-6D0FA8866C76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navigation.Xamarin.Forms", "src\Navigation\Navigation.Xamarin.Forms\Navigation.Xamarin.Forms.csproj", "{E2BAB6D8-5A59-41BB-A4C5-6D0FA8866C76}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navigation", "src\Navigation\Navigation\Navigation.csproj", "{57A21B33-63BF-4392-A614-FEEDBA66E150}"
 EndProject
