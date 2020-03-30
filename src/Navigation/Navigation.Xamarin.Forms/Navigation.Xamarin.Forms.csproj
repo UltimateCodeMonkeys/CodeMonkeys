@@ -5,7 +5,7 @@
     <RootNamespace>CodeMonkeys.Navigation.Xamarin.Forms</RootNamespace>
     <AssemblyName>CodeMonkeys.Navigation.Xamarin.Forms</AssemblyName>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <Version>2.0.1</Version>
+    <Version>2.0.2</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
