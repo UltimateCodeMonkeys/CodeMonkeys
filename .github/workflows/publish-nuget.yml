@@ -106,7 +106,7 @@ jobs:
       - name: CodeMonkeys.Navigation
         uses: rohith/publish-nuget@v2.1.2
         with: 
-          PROJECT_FILE_PATH: src/Navigation/Navigation.csproj
+          PROJECT_FILE_PATH: src/Navigation/Navigation/Navigation.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
