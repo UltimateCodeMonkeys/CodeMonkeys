@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>CodeMonkeys.Dialogs</RootNamespace>
+    <AssemblyName>CodeMonkeys.Dialogs</AssemblyName>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>2.0.2</Version>
+    <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
+    <Company>UltimateCodeMonkeys</Company>
+    <Product>CodeMonkeysMVVM</Product>
+    <Description>The Dialogs package provides you with features to show different dialogs in your application.</Description>
+    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
+    <PackageTags>c#, xamarin, xamarin.forms, mvvm, framework, dialog, service, dialogs</PackageTags>
+
+    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>

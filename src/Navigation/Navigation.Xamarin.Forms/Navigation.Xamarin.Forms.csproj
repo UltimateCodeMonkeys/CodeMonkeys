@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>CodeMonkeys.Navigation.Xamarin.Forms</RootNamespace>
+    <AssemblyName>CodeMonkeys.Navigation.Xamarin.Forms</AssemblyName>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <Version>2.0.2</Version>
+    <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
+    <Company>UltimateCodeMonkeys</Company>
+    <Product>CodeMonkeysMVVM</Product>
+    <Description>Package to use ViewModel navigation in Xamarin.Forms MVVM application</Description>
+    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
+    <PackageTags>c#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
+
+    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Logging\Logging\Logging.csproj" />
+  </ItemGroup>
+
+</Project>

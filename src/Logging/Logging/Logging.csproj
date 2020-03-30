@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>CodeMonkeys.Logging</RootNamespace>
+    <AssemblyName>CodeMonkeys.Logging</AssemblyName>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>2.0.2</Version>
+    <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
+    <Company>UltimateCodeMonkeys</Company>
+    <Product>CodeMonkeysMVVM</Product>
+    <Description>Logging package that provides you with basic logging features for your application.</Description>
+    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
+    <PackageTags>c#, xamarin, xamarin.forms, mvvm, logging, framework</PackageTags>
+
+    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
