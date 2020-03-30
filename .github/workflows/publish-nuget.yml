@@ -13,105 +13,105 @@ jobs:
           fetch-depth: 2
 
       - name: CodeMonkeys.Core
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Core/Core.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
       
       - name: CodeMonkeys.DependencyInjection
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/DependencyInjection/DependencyInjection/DependencyInjection.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.DependencyInjection.DryIoC
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/DependencyInjection/DependencyInjection.DryIoC/DependencyInjection.DryIoC.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.DependencyInjection.Ninject
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/DependencyInjection/DependencyInjection.Ninject/DependencyInjection.Ninject.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Dialogs
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Dialogs/Dialogs/Dialogs.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Dialogs.Xamarin.Forms
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Dialogs/Dialogs.Xamarin.Forms/Dialogs.Xamarin.Forms.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Logging
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging/Logging.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Logging.Batching
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging.Batching/Logging.Batching.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Logging.Console
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging.Console/Logging.Console.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Logging.Debug
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging.Debug/Logging.Debug.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Logging.File
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging.File/Logging.File.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.MVVM
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/MVVM/MVVM.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Messaging
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Messaging/Messaging.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Navigation
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Navigation/Navigation/Navigation.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: CodeMonkeys.Navigation.Xamarin.Forms
-        uses: rohith/publish-nuget@v2.1.2
+        uses: rohith/publish-nuget@v2.2.0
         with: 
           PROJECT_FILE_PATH: src/Navigation/Navigation.Xamarin.Forms/Navigation.Xamarin.Forms.csproj
           TAG_COMMIT: false
