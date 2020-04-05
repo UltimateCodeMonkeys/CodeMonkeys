@@ -1,5 +1,5 @@
 ﻿using CodeMonkeys.Core.Navigation;
-using CodeMonkeys.Logging;
+using CodeMonkeys.Core.Logging;
 using CodeMonkeys.Navigation.Xamarin.Forms.Models;
 
 using Activator = CodeMonkeys.Core.Helpers.Activator;
@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
