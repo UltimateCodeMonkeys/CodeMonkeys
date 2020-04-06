@@ -4,7 +4,7 @@ using static CodeMonkeys.Core.Argument;
 
 using System;
 
-namespace CodeMonkeys.Logging.Extensions
+namespace CodeMonkeys.Logging
 {
     public static partial class LogServiceFactoryExtensions
     {

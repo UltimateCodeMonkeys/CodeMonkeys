@@ -1,6 +1,5 @@
 ﻿using CodeMonkeys.Logging;
 using CodeMonkeys.Logging.Debug;
-using CodeMonkeys.Logging.Extensions;
 
 using Moq;
 using NUnit.Framework;
