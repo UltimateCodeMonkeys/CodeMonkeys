@@ -1,8 +1,8 @@
 ﻿using CodeMonkeys.Core.DependencyInjection;
 using CodeMonkeys.Core.Helpers;
-using CodeMonkeys.Core.MVVM;
 using CodeMonkeys.Core.Navigation;
 using CodeMonkeys.Logging;
+
 using System;
 using System.Threading.Tasks;
 
