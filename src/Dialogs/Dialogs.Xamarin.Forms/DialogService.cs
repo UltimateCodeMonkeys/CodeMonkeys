@@ -1,5 +1,4 @@
 ﻿using CodeMonkeys.Core.Configuration;
-using CodeMonkeys.Core.Dialogs;
 
 using System;
 using System.Threading.Tasks;
