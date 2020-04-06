@@ -4,7 +4,7 @@ using System;
 
 using Xamarin.Forms;
 
-namespace CodeMonkeys.Navigation.Xamarin.Forms.Models
+namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     public class NavigationRegistration<TViewModelInterface, TView> :
         NavigationRegistration
