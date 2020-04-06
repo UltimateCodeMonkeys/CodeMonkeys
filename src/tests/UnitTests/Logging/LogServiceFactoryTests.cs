@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Core.Logging;
-using CodeMonkeys.Logging;
+﻿using CodeMonkeys.Logging;
 using CodeMonkeys.UnitTests.Logging.Mocks;
 
 using NUnit.Framework;

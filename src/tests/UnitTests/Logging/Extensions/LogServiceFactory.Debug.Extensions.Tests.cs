@@ -1,4 +1,4 @@
-﻿using CodeMonkeys.Core.Logging;
+﻿using CodeMonkeys.Logging;
 using CodeMonkeys.Logging.Debug;
 using CodeMonkeys.Logging.Extensions;
 
