@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core.Logging;
-
-using System;
+﻿using System;
 
 using static CodeMonkeys.Core.Argument;
 

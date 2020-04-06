@@ -1,5 +1,4 @@
 ﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Logging;
 using CodeMonkeys.Logging.Batching;
 
 using System;
