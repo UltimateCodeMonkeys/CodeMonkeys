@@ -1,7 +1,7 @@
 ﻿using CodeMonkeys.Core;
 using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.Core.Logging;
 using CodeMonkeys.DependencyInjection.Core.Exceptions;
+using CodeMonkeys.Logging;
 
 using System;
 using System.Runtime.CompilerServices;
