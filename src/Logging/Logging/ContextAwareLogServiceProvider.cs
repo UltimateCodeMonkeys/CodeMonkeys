@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core.Logging;
-
-namespace CodeMonkeys.Logging
+﻿namespace CodeMonkeys.Logging
 {
     internal readonly struct ContextAwareLogServiceProvider
     {
