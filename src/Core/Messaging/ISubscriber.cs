@@ -1,4 +1,4 @@
-﻿namespace CodeMonkeys.Core.Messaging
+﻿namespace CodeMonkeys.Messaging
 {
     /// <summary>
     /// Interface for a event subscriber.
