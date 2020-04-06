@@ -1,8 +1,6 @@
-﻿using CodeMonkeys.Core.Logging;
+﻿using System;
 
-using System;
-
-namespace CodeMonkeys.Logging
+namespace CodeMonkeys.Core.Logging
 {
     public static class LogServiceExtensions
     {

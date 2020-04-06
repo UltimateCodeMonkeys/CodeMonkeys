@@ -3,7 +3,6 @@ using CodeMonkeys.Core.Logging;
 using CodeMonkeys.Core.MVVM;
 using CodeMonkeys.Core.Navigation;
 using CodeMonkeys.Core.Navigation.ViewModels;
-using CodeMonkeys.Logging;
 using CodeMonkeys.Navigation.Xamarin.Forms.Models;
 
 using System;
