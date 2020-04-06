@@ -4,7 +4,7 @@ using CodeMonkeys.Core.Navigation.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CodeMonkeys.Core.Navigation
+namespace CodeMonkeys.Navigation
 {
     public interface IViewModelNavigationService
     {
