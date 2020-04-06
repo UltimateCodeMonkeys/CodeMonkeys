@@ -1,6 +1,6 @@
 ﻿using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.Core.Logging;
 using CodeMonkeys.DependencyInjection.Core;
+using CodeMonkeys.Logging;
 
 using DryIoc;
 

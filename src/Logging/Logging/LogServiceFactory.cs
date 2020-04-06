@@ -1,5 +1,4 @@
 ﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Logging;
 
 using System.Collections.Concurrent;
 using System.Collections.Generic;

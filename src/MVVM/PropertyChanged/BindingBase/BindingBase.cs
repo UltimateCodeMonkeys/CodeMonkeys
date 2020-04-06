@@ -1,12 +1,12 @@
-﻿using System;
+﻿using CodeMonkeys.Logging;
+using CodeMonkeys.MVVM.PropertyChanged.Events;
+
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-
-using CodeMonkeys.Core.Logging;
-using CodeMonkeys.MVVM.PropertyChanged.Events;
 
 namespace CodeMonkeys.MVVM.PropertyChanged
 {
