@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Core.Logging;
-using CodeMonkeys.Logging.Console;
+﻿using CodeMonkeys.Logging.Console;
 
 using static CodeMonkeys.Core.Argument;
 

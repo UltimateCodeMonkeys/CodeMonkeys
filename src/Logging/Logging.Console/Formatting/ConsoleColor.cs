@@ -1,4 +1,4 @@
-﻿namespace CodeMonkeys.Logging.Console.Formatting
+﻿namespace CodeMonkeys.Logging.Console
 {
     internal partial class ConsoleLogMessageFormatter
     {

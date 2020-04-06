@@ -1,8 +1,6 @@
-﻿using CodeMonkeys.Core.Logging;
+﻿using System.Collections.Generic;
 
-using System.Collections.Generic;
-
-namespace CodeMonkeys.Logging.Console.Formatting
+namespace CodeMonkeys.Logging.Console
 {
     internal partial class ConsoleLogMessageFormatter : LogMessageFormatter
     {
