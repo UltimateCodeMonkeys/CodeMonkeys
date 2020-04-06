@@ -1,4 +1,4 @@
-﻿using CodeMonkeys.Core.Messaging;
+﻿using CodeMonkeys.Messaging;
 
 using System.Threading.Tasks;
 

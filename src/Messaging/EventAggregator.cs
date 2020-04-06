@@ -1,6 +1,4 @@
 ﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Messaging;
-using CodeMonkeys.Messaging.Configuration;
 
 using System;
 using System.Collections.Generic;

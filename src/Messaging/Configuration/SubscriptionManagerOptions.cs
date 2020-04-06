@@ -2,7 +2,7 @@
 
 using System;
 
-namespace CodeMonkeys.Messaging.Configuration
+namespace CodeMonkeys.Messaging
 {
     public class SubscriptionManagerOptions : Options
     {
