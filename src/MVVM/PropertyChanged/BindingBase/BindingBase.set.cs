@@ -1,4 +1,4 @@
-﻿using CodeMonkeys.Core.Logging;
+﻿using CodeMonkeys.Logging;
 
 using System;
 using System.Collections.Generic;
