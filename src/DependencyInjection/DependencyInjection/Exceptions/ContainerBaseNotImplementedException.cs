@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace CodeMonkeys.DependencyInjection.Core.Exceptions
+namespace CodeMonkeys.DependencyInjection
 {
     internal class ContainerBaseNotImplementedException :
         Exception

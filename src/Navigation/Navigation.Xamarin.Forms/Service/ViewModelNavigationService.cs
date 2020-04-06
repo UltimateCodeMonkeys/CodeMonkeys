@@ -1,7 +1,7 @@
-﻿using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.Core.MVVM;
+﻿using CodeMonkeys.Core.MVVM;
 using CodeMonkeys.Core.Navigation;
 using CodeMonkeys.Core.Navigation.ViewModels;
+using CodeMonkeys.DependencyInjection;
 using CodeMonkeys.Logging;
 using CodeMonkeys.Navigation.Xamarin.Forms.Models;
 
