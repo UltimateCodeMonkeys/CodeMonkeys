@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core.MVVM;
-
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace CodeMonkeys.MVVM.ViewModels.Navigation
 {

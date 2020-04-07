@@ -1,5 +1,5 @@
-﻿using CodeMonkeys.Core.MVVM;
-using CodeMonkeys.Core.Navigation.ViewModels;
+﻿using CodeMonkeys.Core.Navigation.ViewModels;
+using CodeMonkeys.MVVM;
 
 using System.Collections.Generic;
 using System.Threading.Tasks;

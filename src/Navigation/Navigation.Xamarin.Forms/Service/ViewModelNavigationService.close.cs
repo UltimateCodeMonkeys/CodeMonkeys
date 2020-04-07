@@ -1,7 +1,7 @@
-﻿using CodeMonkeys.Core.MVVM;
-using CodeMonkeys.Core.Navigation;
+﻿using CodeMonkeys.Core.Navigation;
 using CodeMonkeys.Core.Navigation.ViewModels;
 using CodeMonkeys.Logging;
+using CodeMonkeys.MVVM;
 
 using System.Linq;
 using System.Threading.Tasks;
