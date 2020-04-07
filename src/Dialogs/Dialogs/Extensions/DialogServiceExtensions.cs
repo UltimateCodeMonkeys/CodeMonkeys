@@ -1,5 +1,4 @@
 ﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Dialogs;
 
 namespace CodeMonkeys.Dialogs
 {
