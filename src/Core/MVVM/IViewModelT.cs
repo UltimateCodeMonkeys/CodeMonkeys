@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CodeMonkeys.Core.MVVM
+namespace CodeMonkeys.MVVM
 {
     public interface IViewModel<TModel> :
         IViewModel

@@ -1,5 +1,5 @@
-﻿using CodeMonkeys.Core.MVVM;
-using CodeMonkeys.Core.Navigation;
+﻿using CodeMonkeys.Core.Navigation;
+using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.Xamarin.Forms.Models;
 
 using System;
