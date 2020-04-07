@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Core.MVVM;
-using CodeMonkeys.Navigation;
+﻿using CodeMonkeys.Navigation;
 
 using System.Collections.Generic;
 using System.Linq;

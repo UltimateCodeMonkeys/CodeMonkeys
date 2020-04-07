@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Core.MVVM;
-using CodeMonkeys.MVVM.Factories;
+﻿using CodeMonkeys.MVVM.Factories;
 using CodeMonkeys.Navigation;
 using CodeMonkeys.Navigation.ViewModels;
 

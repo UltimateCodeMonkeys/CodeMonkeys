@@ -1,7 +1,6 @@
 ﻿using CodeMonkeys.Core.Helpers;
-using CodeMonkeys.Core.MVVM;
 using CodeMonkeys.Logging;
-
+using CodeMonkeys.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
