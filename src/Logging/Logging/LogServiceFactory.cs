@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core;
-
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace CodeMonkeys.Logging

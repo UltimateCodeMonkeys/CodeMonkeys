@@ -2,7 +2,7 @@
 
 using System;
 
-namespace CodeMonkeys.Core.Configuration
+namespace CodeMonkeys.Configuration
 {
     public abstract class OptionsConsumer<TOptions>
         where TOptions : Options

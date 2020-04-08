@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CodeMonkeys.Core.Helpers
+namespace CodeMonkeys
 {
     /// <summary>
     /// Contains various helper methods for working with tasks.

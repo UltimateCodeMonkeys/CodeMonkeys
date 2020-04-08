@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core;
-
-namespace CodeMonkeys.Logging.Console
+﻿namespace CodeMonkeys.Logging.Console
 {
     public sealed class ConsoleLogServiceProvider : LogServiceProvider<ConsoleLogOptions>
     {
