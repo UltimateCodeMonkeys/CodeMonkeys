@@ -2,7 +2,7 @@
 
 using System.Threading;
 
-namespace CodeMonkeys.Core.Configuration
+namespace CodeMonkeys.Configuration
 {
     public abstract class Options
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace CodeMonkeys.Core.Helpers
+namespace CodeMonkeys
 {
     /// <summary>
     /// Expression based Activator implementation.

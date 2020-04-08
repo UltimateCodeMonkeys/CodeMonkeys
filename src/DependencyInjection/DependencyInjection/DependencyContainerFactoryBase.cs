@@ -1,9 +1,8 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Logging;
+﻿using CodeMonkeys.Logging;
 
-using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
+
 
 [assembly: InternalsVisibleTo("CodeMonkeys.DependencyInjection.Ninject")]
 [assembly: InternalsVisibleTo("CodeMonkeys.DependencyInjection.DryIoC")]

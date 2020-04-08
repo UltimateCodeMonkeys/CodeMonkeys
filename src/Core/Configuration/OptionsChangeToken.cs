@@ -3,7 +3,7 @@
 using System;
 using System.Threading;
 
-namespace CodeMonkeys.Core.Configuration
+namespace CodeMonkeys.Configuration
 {
     public class OptionsChangeToken : IChangeToken
     {

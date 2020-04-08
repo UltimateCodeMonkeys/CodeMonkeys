@@ -1,6 +1,4 @@
-﻿using Activator = CodeMonkeys.Core.Helpers.Activator;
-
-using CodeMonkeys.Logging;
+﻿using CodeMonkeys.Logging;
 
 using System;
 using System.Collections.Generic;

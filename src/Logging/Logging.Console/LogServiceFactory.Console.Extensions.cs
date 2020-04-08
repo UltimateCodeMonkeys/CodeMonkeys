@@ -1,6 +1,6 @@
 ﻿using CodeMonkeys.Logging.Console;
 
-using static CodeMonkeys.Core.Argument;
+using static CodeMonkeys.Argument;
 
 using System;
 

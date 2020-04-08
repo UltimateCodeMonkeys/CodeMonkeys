@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeMonkeys.Core
+namespace CodeMonkeys
 {
     public static partial class Argument
     {

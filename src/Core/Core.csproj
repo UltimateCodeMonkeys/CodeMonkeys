@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>CodeMonkeys.Core</RootNamespace>
+    <RootNamespace>CodeMonkeys</RootNamespace>
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <ReleaseVersion>2.0</ReleaseVersion>
     <AssemblyName>CodeMonkeys.Core</AssemblyName>

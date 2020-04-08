@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace CodeMonkeys.Core
+namespace CodeMonkeys
 {
     /// <summary>
     /// Contains various helper methods for verifying method parameters.
