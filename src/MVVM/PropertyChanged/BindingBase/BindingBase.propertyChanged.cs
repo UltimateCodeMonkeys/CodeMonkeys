@@ -193,7 +193,6 @@ namespace CodeMonkeys.MVVM.PropertyChanged
 
             commandProperties = GetType().
                 GetProperties(
-                    BindingFlags.DeclaredOnly |
                     BindingFlags.Instance |
                     BindingFlags.Public)
                 .Where(

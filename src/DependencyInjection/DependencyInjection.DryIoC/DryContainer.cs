@@ -1,9 +1,6 @@
-﻿using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.DependencyInjection.Core;
+﻿using DryIoc;
 
 using System;
-
-using DryIoc;
 
 namespace CodeMonkeys.DependencyInjection.DryIoC
 {
@@ -19,8 +16,17 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
             if (instance is IContainer dryContainer)
             {
                 container = dryContainer;
+                return;
             }
-            else throw new InvalidCastException($"Cannot use type {instance.GetType()} with {nameof(DryContainer)}!");
+
+            throw new InvalidCastException(
+                $"Cannot use type {instance.GetType()} with {nameof(DryContainer)}!");
+        }
+
+        public TInterfaceToResolve Resolve<TInterfaceToResolve>()
+            where TInterfaceToResolve : class
+        {
+            return container.Resolve<TInterfaceToResolve>();
         }
 
 
@@ -82,10 +88,6 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
 
 
 
-        public TInterfaceToResolve Resolve<TInterfaceToResolve>()
-            where TInterfaceToResolve : class
-        {
-            return container.Resolve<TInterfaceToResolve>();
-        }
+        
     }
 }

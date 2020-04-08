@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.Core.Helpers;
+﻿using CodeMonkeys.Core.Helpers;
 using CodeMonkeys.Logging;
 using CodeMonkeys.Navigation;
 
