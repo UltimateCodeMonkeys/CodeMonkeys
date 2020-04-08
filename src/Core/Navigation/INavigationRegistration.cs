@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeMonkeys.Core.Navigation
+namespace CodeMonkeys.Navigation
 {
     public interface INavigationRegistration
     {

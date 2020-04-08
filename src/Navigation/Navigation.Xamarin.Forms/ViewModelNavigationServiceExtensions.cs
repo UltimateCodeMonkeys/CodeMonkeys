@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core.Navigation;
-using CodeMonkeys.MVVM;
-using CodeMonkeys.Navigation.Xamarin.Forms.Models;
+﻿using CodeMonkeys.MVVM;
 
 using System;
 

@@ -1,9 +1,7 @@
-﻿using CodeMonkeys.Core.Navigation;
-using CodeMonkeys.Core.Navigation.ViewModels;
-using CodeMonkeys.DependencyInjection;
+﻿using CodeMonkeys.DependencyInjection;
 using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM;
-using CodeMonkeys.Navigation.Xamarin.Forms.Models;
+using CodeMonkeys.Navigation.ViewModels;
 
 using System;
 using System.Collections.Concurrent;

@@ -1,8 +1,6 @@
-﻿using CodeMonkeys.Core.Navigation;
+﻿using System;
 
-using System;
-
-namespace CodeMonkeys.Navigation.Xamarin.Forms.Models
+namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     public class NavigationRegistration :
         INavigationRegistration

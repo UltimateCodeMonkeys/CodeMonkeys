@@ -1,9 +1,6 @@
 ﻿using CodeMonkeys.Core.Helpers;
-using CodeMonkeys.Core.Navigation;
 using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM;
-using CodeMonkeys.Navigation.Xamarin.Forms.Models;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
