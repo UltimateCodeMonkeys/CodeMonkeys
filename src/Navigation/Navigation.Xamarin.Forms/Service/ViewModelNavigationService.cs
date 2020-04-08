@@ -1,4 +1,4 @@
-﻿using CodeMonkeys.Core.DependencyInjection;
+﻿using CodeMonkeys.DependencyInjection;
 using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
