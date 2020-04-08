@@ -1,6 +1,6 @@
 ﻿using CodeMonkeys.Logging;
 
-namespace CodeMonkeys.DependencyInjection.Core
+namespace CodeMonkeys.DependencyInjection
 {
     internal abstract class DependencyContainerBase
     {

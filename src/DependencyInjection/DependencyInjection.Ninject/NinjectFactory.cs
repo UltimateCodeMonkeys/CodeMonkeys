@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.DependencyInjection.Core;
-using CodeMonkeys.Logging;
+﻿using CodeMonkeys.Logging;
 
 using Ninject;
 

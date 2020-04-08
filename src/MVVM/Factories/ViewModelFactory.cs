@@ -1,6 +1,6 @@
-﻿using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.Core.Helpers;
+﻿using CodeMonkeys.Core.Helpers;
 using CodeMonkeys.Core.Navigation;
+using CodeMonkeys.DependencyInjection;
 using CodeMonkeys.Logging;
 
 using System;

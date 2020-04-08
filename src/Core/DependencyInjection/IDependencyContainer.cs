@@ -1,4 +1,4 @@
-﻿namespace CodeMonkeys.Core.DependencyInjection
+﻿namespace CodeMonkeys.DependencyInjection
 {
     public interface IDependencyContainer :
         IDependencyRegister,

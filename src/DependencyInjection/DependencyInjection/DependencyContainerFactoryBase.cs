@@ -1,6 +1,4 @@
 ﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.DependencyInjection.Core.Exceptions;
 using CodeMonkeys.Logging;
 
 using System;
@@ -9,7 +7,7 @@ using System.Threading;
 
 [assembly: InternalsVisibleTo("CodeMonkeys.DependencyInjection.Ninject")]
 [assembly: InternalsVisibleTo("CodeMonkeys.DependencyInjection.DryIoC")]
-namespace CodeMonkeys.DependencyInjection.Core
+namespace CodeMonkeys.DependencyInjection
 {
     internal static class DependencyContainerFactoryBase
     {
