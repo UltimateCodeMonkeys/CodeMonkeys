@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,8 +10,11 @@ namespace CodeMonkeys.Logging.Batching
     public abstract class BatchingLogServiceProvider<TOptions> : LogServiceProvider<TOptions>
         where TOptions : BatchingLogOptions
     {
+        private bool disposed = false;
+
         private BlockingCollection<LogMessage> _queue;
         private CancellationTokenSource _cts;
+        private Task _task;
 
         private TimeSpan _flushPeriod;
         private readonly int? _queueCapacity;
@@ -67,13 +71,26 @@ namespace CodeMonkeys.Logging.Batching
 
             _cts = new CancellationTokenSource();
 
-            Task.Run(ProcessingLoop);
+            _task = Task.Run(ProcessingLoop);
         }
 
         private void Stop()
         {
             _cts.Cancel();
             _queue.CompleteAdding();
+
+            try
+            {
+                _task.Wait(_flushPeriod);
+            }
+            catch (TaskCanceledException) 
+            { 
+                // task did not finish in given time frame
+            }
+            catch (AggregateException ex) when (ex.InnerExceptions.FirstOrDefault() is TaskCanceledException) 
+            {
+                // task did not finish in given time frame
+            }
         }
 
         private async Task ProcessingLoop()
@@ -104,11 +121,24 @@ namespace CodeMonkeys.Logging.Batching
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            base.Dispose();
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    if (IsEnabled)
+                        Stop();
+                    else
+                        _cts?.Cancel();
 
-            _cts?.Cancel();
+                    _cts?.Dispose();
+                }
+
+                disposed = true;
+
+                base.Dispose(disposing);
+            }
         }
     }
 }
