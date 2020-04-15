@@ -8,7 +8,7 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
     {
         public static IDependencyContainer CreateInstance()
         {
-            var instance = DependencyContainerFactoryBase.CreateInstance<DryContainer>(
+            var instance = DependencyContainerFactory.CreateInstance<DryContainer>(
                 new Container());
 
             return instance;
@@ -17,7 +17,7 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
         public static IDependencyContainer CreateInstance(
             ILogService logService)
         {
-            var instance = DependencyContainerFactoryBase.CreateInstance<DryContainer>(
+            var instance = DependencyContainerFactory.CreateInstance<DryContainer>(
                 new Container(), logService);
 
             return instance;

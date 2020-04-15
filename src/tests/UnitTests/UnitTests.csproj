@@ -6,6 +6,8 @@
     <IsPackable>false</IsPackable>
 
     <RootNamespace>CodeMonkeys.UnitTests</RootNamespace>
+
+    <AssemblyName>CodeMonkeys.UnitTests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />
+    <ProjectReference Include="..\..\DependencyInjection\DependencyInjection\DependencyInjection.csproj" />
     <ProjectReference Include="..\..\Dialogs\Dialogs.Xamarin.Forms\Dialogs.Xamarin.Forms.csproj" />
     <ProjectReference Include="..\..\Dialogs\Dialogs\Dialogs.csproj" />
     <ProjectReference Include="..\..\Logging\Logging.Console\Logging.Console.csproj" />

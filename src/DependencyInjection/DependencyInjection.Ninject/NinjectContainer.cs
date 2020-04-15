@@ -8,12 +8,12 @@ using Ninject;
 namespace CodeMonkeys.DependencyInjection.Ninject
 {
     internal class NinjectDependencyContainer :
-        DependencyContainerBase,
+        DependencyContainer,
         IDependencyContainer
     {
         private static StandardKernel container;
 
-        internal override void SetContainerImplementation(object instance)
+        internal override void SetContainer(object instance)
         {
             if (instance is StandardKernel kernel)
             {
