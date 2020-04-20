@@ -1,25 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>CodeMonkeys</RootNamespace>
-    <SynchReleaseVersion>false</SynchReleaseVersion>
-    <ReleaseVersion>2.0</ReleaseVersion>
+    <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Core</AssemblyName>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.0.2</Version>
+    <RootNamespace>CodeMonkeys</RootNamespace>
+    <Version>2.0.4</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
-    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
-    <Description>This package contains some basic stuff for CodeMonkeysMVVM to work properly.
-It contains helper classes for e.g. convinience argument null checks and interfaces so the packages are all independent of each other but still work fine together.</Description>
+    <Description>This package contains some basic stuff for CodeMonkeysMVVM to work properly. It contains helper classes for e.g. convinience argument null checks and interfaces so the packages are all independent of each other but still work fine together.</Description>
+    <Copyright>2020 by UltimateCodeMonkeys</Copyright>    
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageTags>c#, xamarin, xamarin.forms, mvvm</PackageTags>
+    <PackageTags>C#, xamarin, xamarin.forms, mvvm</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
