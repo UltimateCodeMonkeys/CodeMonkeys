@@ -16,6 +16,8 @@
     <PackageTags>C#, mvvm, navigation, viewmodelnavigation</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

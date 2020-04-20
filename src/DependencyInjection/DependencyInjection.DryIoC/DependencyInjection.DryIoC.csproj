@@ -13,9 +13,11 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
-    <PackageTags>c#, xamarin, xamarin.forms, dependencyinjection, di, ioc, dryioc, mvvm</PackageTags>
+    <PackageTags>C#, xamarin, xamarin.forms, dependencyinjection, di, ioc, dryioc, mvvm</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

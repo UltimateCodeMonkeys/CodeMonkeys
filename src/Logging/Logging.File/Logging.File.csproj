@@ -16,6 +16,8 @@
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, logging, framework, file, extensions, addition</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

@@ -16,6 +16,8 @@
     <PackageTags>C#, xamarin, xamarin.forms, dependencyinjection, di, ioc, ninject, mvvm</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
