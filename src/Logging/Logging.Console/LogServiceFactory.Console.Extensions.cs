@@ -1,11 +1,10 @@
-﻿using CodeMonkeys.Core.Logging;
-using CodeMonkeys.Logging.Console;
+﻿using CodeMonkeys.Logging.Console;
 
-using static CodeMonkeys.Core.Argument;
+using static CodeMonkeys.Argument;
 
 using System;
 
-namespace CodeMonkeys.Logging.Extensions
+namespace CodeMonkeys.Logging
 {
     public static partial class LogServiceFactoryExtensions
     {

@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.Core.Logging;
-using CodeMonkeys.DependencyInjection.Core;
+﻿using CodeMonkeys.Logging;
 
 using Ninject;
 
@@ -10,7 +8,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
     {
         public static IDependencyContainer CreateInstance()
         {
-            var instance = DependencyContainerFactoryBase.CreateInstance<NinjectDependencyContainer>(
+            var instance = DependencyContainerFactory.CreateInstance<NinjectDependencyContainer>(
                 new StandardKernel());
 
             return instance;
@@ -19,7 +17,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
         public static IDependencyContainer CreateInstance(
             ILogService logService)
         {
-            var instance = DependencyContainerFactoryBase.CreateInstance<NinjectDependencyContainer>(
+            var instance = DependencyContainerFactory.CreateInstance<NinjectDependencyContainer>(
                 new StandardKernel(), logService);
 
             return instance;

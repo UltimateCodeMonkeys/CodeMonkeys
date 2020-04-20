@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Configuration;
-using CodeMonkeys.Core.Logging;
+﻿using CodeMonkeys.Configuration;
 
 namespace CodeMonkeys.Logging.Configuration
 {

@@ -4,8 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.DependencyInjection.Ninject</AssemblyName>
     <RootNamespace>CodeMonkeys.DependencyInjection.Ninject</RootNamespace>
-    <Version>2.0.2</Version>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>2.0.4</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
@@ -14,9 +13,11 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
-    <PackageTags>c#, xamarin, xamarin.forms, dependencyinjection, di, ioc, ninject, mvvm</PackageTags>
+    <PackageTags>C#, xamarin, xamarin.forms, dependencyinjection, di, ioc, ninject, mvvm</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

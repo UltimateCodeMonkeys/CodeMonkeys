@@ -1,6 +1,5 @@
-using CodeMonkeys.Core.Messaging;
 using CodeMonkeys.Messaging;
-using CodeMonkeys.Messaging.Configuration;
+
 using Moq;
 using NUnit.Framework;
 

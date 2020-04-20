@@ -1,7 +1,4 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Logging;
-
-namespace CodeMonkeys.Logging.Debug
+﻿namespace CodeMonkeys.Logging.Debug
 {
     public sealed class DebugLogServiceProvider : LogServiceProvider<DebugLogOptions>
     {

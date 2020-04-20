@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Core.MVVM;
-using CodeMonkeys.MVVM.PropertyChanged;
+﻿using CodeMonkeys.MVVM.PropertyChanged;
 
 using System.Threading.Tasks;
 

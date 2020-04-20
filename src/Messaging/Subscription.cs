@@ -1,7 +1,4 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Messaging;
-
-using System;
+﻿using System;
 
 namespace CodeMonkeys.Messaging
 {

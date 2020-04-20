@@ -1,7 +1,4 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Dialogs;
-
-namespace CodeMonkeys.Dialogs
+﻿namespace CodeMonkeys.Dialogs
 {
     public static class DialogServiceExtensions
     {

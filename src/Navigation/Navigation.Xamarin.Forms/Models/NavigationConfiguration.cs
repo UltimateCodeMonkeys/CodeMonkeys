@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using XF = Xamarin.Forms;
 
-namespace CodeMonkeys.Navigation.Xamarin.Forms.Models
+namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     /// <summary>
     /// Settings for the ViewModelNavigationService

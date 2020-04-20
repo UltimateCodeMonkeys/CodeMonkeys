@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace CodeMonkeys.Core
+namespace CodeMonkeys
 {
     public static partial class Property
     {

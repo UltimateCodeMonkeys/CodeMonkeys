@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace CodeMonkeys.Core.Dialogs
+namespace CodeMonkeys.Dialogs
 {
     public interface IDialogService
     {

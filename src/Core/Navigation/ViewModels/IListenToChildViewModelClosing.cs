@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CodeMonkeys.Core.Navigation.ViewModels
+namespace CodeMonkeys.Navigation.ViewModels
 {
     public interface IListenToChildViewModelClosing
     {

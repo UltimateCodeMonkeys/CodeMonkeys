@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Core;
-using CodeMonkeys.Core.Logging;
-using CodeMonkeys.Logging.Batching;
+﻿using CodeMonkeys.Logging.Batching;
 
 using System;
 using System.Collections.Generic;

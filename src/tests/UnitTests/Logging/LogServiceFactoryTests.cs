@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Core.Logging;
-using CodeMonkeys.Logging;
+﻿using CodeMonkeys.Logging;
 using CodeMonkeys.UnitTests.Logging.Mocks;
 
 using NUnit.Framework;
@@ -16,7 +15,7 @@ namespace CodeMonkeys.UnitTests.Logging
         [SetUp]
         public void Setup()
         {
-            _factory = new LogServiceFactory();
+            _factory = LogServiceFactory.Instance;
         }
 
         [Test]

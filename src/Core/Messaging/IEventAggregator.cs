@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CodeMonkeys.Core.Messaging
+namespace CodeMonkeys.Messaging
 {
     public interface IEventAggregator
     {

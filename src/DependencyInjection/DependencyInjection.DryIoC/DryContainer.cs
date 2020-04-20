@@ -1,26 +1,32 @@
-﻿using CodeMonkeys.Core.DependencyInjection;
-using CodeMonkeys.DependencyInjection.Core;
+﻿using DryIoc;
 
 using System;
-
-using DryIoc;
 
 namespace CodeMonkeys.DependencyInjection.DryIoC
 {
     internal class DryContainer :
-        DependencyContainerBase,
+        DependencyContainer,
 
         IDependencyContainer
     {
         private IContainer container;
 
-        internal override void SetContainerImplementation(object instance)
+        internal override void SetContainer(object instance)
         {
             if (instance is IContainer dryContainer)
             {
                 container = dryContainer;
+                return;
             }
-            else throw new InvalidCastException($"Cannot use type {instance.GetType()} with {nameof(DryContainer)}!");
+
+            throw new InvalidCastException(
+                $"Cannot use type {instance.GetType()} with {nameof(DryContainer)}!");
+        }
+
+        public TInterfaceToResolve Resolve<TInterfaceToResolve>()
+            where TInterfaceToResolve : class
+        {
+            return container.Resolve<TInterfaceToResolve>();
         }
 
 
@@ -82,10 +88,6 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
 
 
 
-        public TInterfaceToResolve Resolve<TInterfaceToResolve>()
-            where TInterfaceToResolve : class
-        {
-            return container.Resolve<TInterfaceToResolve>();
-        }
+        
     }
 }

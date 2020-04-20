@@ -2,11 +2,13 @@
 
 using System;
 
-namespace CodeMonkeys.Core.Configuration
+namespace CodeMonkeys.Configuration
 {
-    public abstract class OptionsConsumer<TOptions>
+    public abstract class OptionsConsumer<TOptions> : IDisposable
         where TOptions : Options
     {
+        private bool disposed = false;
+
         protected IDisposable OptionsChangeToken;
 
         protected OptionsConsumer(TOptions options)
@@ -15,8 +17,28 @@ namespace CodeMonkeys.Core.Configuration
                 options.GetChangeToken,
                 OnOptionsChanged,
                 options);
-        }
+        }        
 
         protected abstract void OnOptionsChanged(TOptions options);
+
+        #region IDisposable Support
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                    OptionsChangeToken?.Dispose();
+
+                disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        #endregion
     }
 }

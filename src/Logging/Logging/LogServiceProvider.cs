@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Core.Configuration;
-using CodeMonkeys.Core.Logging;
+﻿using CodeMonkeys.Configuration;
 using CodeMonkeys.Logging.Configuration;
 
 namespace CodeMonkeys.Logging
@@ -38,11 +37,6 @@ namespace CodeMonkeys.Logging
             IsEnabled = options.IsEnabled;
             MinLevel = options.MinLevel;
             TimeStampFormat = options.TimeStampFormat;
-        }
-
-        public virtual void Dispose()
-        {
-            OptionsChangeToken.Dispose();
         }
     }
 }

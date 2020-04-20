@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Core.Dialogs;
-using CodeMonkeys.Dialogs;
+﻿using CodeMonkeys.Dialogs;
 using CodeMonkeys.Dialogs.Xamarin.Forms;
 
 using NUnit.Framework;

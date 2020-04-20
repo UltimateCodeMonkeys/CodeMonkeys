@@ -1,8 +1,8 @@
-﻿using CodeMonkeys.Core.Configuration;
+﻿using CodeMonkeys.Configuration;
 
 using System;
 
-namespace CodeMonkeys.Messaging.Configuration
+namespace CodeMonkeys.Messaging
 {
     public class SubscriptionManagerOptions : Options
     {

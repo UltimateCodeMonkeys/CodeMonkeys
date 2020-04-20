@@ -1,4 +1,4 @@
-﻿namespace CodeMonkeys.Core.Logging
+﻿namespace CodeMonkeys.Logging
 {
     public enum LogLevel
     {

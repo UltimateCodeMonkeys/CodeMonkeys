@@ -4,8 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.Navigation</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation</RootNamespace>
-    <AssemblyName>CodeMonkeys.Navigation</AssemblyName>
-    <Version>2.0.2</Version>
+    <Version>2.0.4</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
@@ -14,11 +13,11 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
-    <PackageTags>c#, mvvm, navigation, viewmodelnavigation</PackageTags>
-
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageTags>C#, mvvm, navigation, viewmodelnavigation</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

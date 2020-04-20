@@ -1,4 +1,4 @@
-﻿using CodeMonkeys.Core.Configuration;
+﻿using CodeMonkeys.Configuration;
 
 namespace CodeMonkeys.UnitTests.Configuration
 {

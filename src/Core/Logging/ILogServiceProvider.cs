@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeMonkeys.Core.Logging
+namespace CodeMonkeys.Logging
 {
     public interface ILogServiceProvider : IDisposable
     {

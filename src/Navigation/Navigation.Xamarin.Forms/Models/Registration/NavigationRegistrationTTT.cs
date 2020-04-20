@@ -1,10 +1,10 @@
-﻿using CodeMonkeys.Core.MVVM;
+﻿using CodeMonkeys.MVVM;
 
 using System;
 
 using Xamarin.Forms;
 
-namespace CodeMonkeys.Navigation.Xamarin.Forms.Models
+namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     public class NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView> :
         NavigationRegistration
