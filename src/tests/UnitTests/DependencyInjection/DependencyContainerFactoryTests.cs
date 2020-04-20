@@ -42,12 +42,11 @@ namespace CodeMonkeys.UnitTests.DependencyInjection
         [Test]
         public void CreateInstance_InnerContainerAndLogServiceParamIsPresent()
         {
-            var logServiceFactory = new LogServiceFactory();
-            logServiceFactory.AddConsole();
+            LogServiceFactory.Instance.AddConsole();
 
             var instance = DependencyContainerFactory.CreateInstance<Container>(
                 new Container(),
-                logServiceFactory.Create("unit test"));
+                LogServiceFactory.Instance.Create("unit test"));
 
             Assert.NotNull(instance);
             Assert.NotNull((instance as Container).Log);
