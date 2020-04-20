@@ -38,10 +38,5 @@ namespace CodeMonkeys.Logging
             MinLevel = options.MinLevel;
             TimeStampFormat = options.TimeStampFormat;
         }
-
-        public virtual void Dispose()
-        {
-            OptionsChangeToken.Dispose();
-        }
     }
 }

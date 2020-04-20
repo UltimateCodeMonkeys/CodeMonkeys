@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace CodeMonkeys.Logging
@@ -8,7 +9,12 @@ namespace CodeMonkeys.Logging
         private readonly List<ILogServiceProvider> _providers;
         private readonly ConcurrentDictionary<string, LogServiceComposition> _services;
 
-        public LogServiceFactory()
+        private static readonly Lazy<ILogServiceFactory> lazy = new Lazy<ILogServiceFactory>(
+            () => new LogServiceFactory());
+
+        public static ILogServiceFactory Instance => lazy.Value;
+
+        private LogServiceFactory()
         {
             _providers = new List<ILogServiceProvider>();
             _services = new ConcurrentDictionary<string, LogServiceComposition>();
