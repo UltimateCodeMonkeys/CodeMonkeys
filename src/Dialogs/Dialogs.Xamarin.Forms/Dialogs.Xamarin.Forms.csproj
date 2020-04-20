@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>CodeMonkeysDialogs.Xamarin.Forms</RootNamespace>
+    <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Dialogs.Xamarin.Forms</AssemblyName>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <RootNamespace>CodeMonkeysDialogs.Xamarin.Forms</RootNamespace>
     <Version>2.0.2</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
@@ -14,7 +13,7 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
-    <PackageTags>c#, xamarin, xamarin.forms, mvvm, framework, dialog, service, dialogs</PackageTags>
+    <PackageTags>C#, xamarin, xamarin.forms, mvvm, framework, dialog, service, dialogs</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
   </PropertyGroup>

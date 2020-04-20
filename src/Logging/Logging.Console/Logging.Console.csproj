@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>CodeMonkeys.Logging.Console</RootNamespace>
+    <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Logging.Console</AssemblyName>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <RootNamespace>CodeMonkeys.Logging.Console</RootNamespace>
     <Version>2.0.2</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
@@ -14,7 +13,7 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
-    <PackageTags>c#, xamarin, xamarin.forms, mvvm, logging, framework, console, extensions, addition</PackageTags>
+    <PackageTags>C#, xamarin, xamarin.forms, mvvm, logging, framework, console, extensions, addition</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
   </PropertyGroup>
