@@ -7,29 +7,29 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
     public static class DryFactory
     {
         public static IDependencyContainer CreateInstance(
-            bool denyEmitUsage = false)
+            bool allowReflectionEmit = false)
         {
             var instance = DependencyContainerFactory.CreateInstance<DryContainer>(
-                CreateImplementationInstance(denyEmitUsage));
+                CreateImplementation(allowReflectionEmit));
 
             return instance;
         }
 
         public static IDependencyContainer CreateInstance(
             ILogService logService,
-            bool denyEmitUsage = false)
+            bool allowReflectionEmit = false)
         {
             var instance = DependencyContainerFactory.CreateInstance<DryContainer>(
-                CreateImplementationInstance(denyEmitUsage), 
+                CreateImplementation(allowReflectionEmit), 
                 logService);
 
             return instance;
         }
 
-        private static Container CreateImplementationInstance(
-            bool denyEmitUsage)
+        private static Container CreateImplementation(
+            bool allowReflectionEmit)
         {
-            return denyEmitUsage ?
+            return allowReflectionEmit ?
                 new Container() :
                 new Container(r => r.WithoutFastExpressionCompiler());
         }
