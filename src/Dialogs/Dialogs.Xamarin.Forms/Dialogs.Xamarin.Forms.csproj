@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Dialogs.Xamarin.Forms</AssemblyName>
     <RootNamespace>CodeMonkeysDialogs.Xamarin.Forms</RootNamespace>
-    <Version>2.0.4</Version>
+    <Version>2.0.6</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
@@ -16,6 +16,8 @@
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, framework, dialog, service, dialogs</PackageTags>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
