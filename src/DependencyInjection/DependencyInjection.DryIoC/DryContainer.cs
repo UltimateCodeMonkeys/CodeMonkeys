@@ -5,13 +5,13 @@ using System;
 namespace CodeMonkeys.DependencyInjection.DryIoC
 {
     internal class DryContainer :
-        DependencyContainerBase,
+        DependencyContainer,
 
         IDependencyContainer
     {
         private IContainer container;
 
-        internal override void SetContainerImplementation(object instance)
+        internal override void SetContainer(object instance)
         {
             if (instance is IContainer dryContainer)
             {

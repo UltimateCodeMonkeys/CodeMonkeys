@@ -3,34 +3,34 @@ using System.Runtime.Serialization;
 
 namespace CodeMonkeys.DependencyInjection
 {
-    internal class ContainerBaseNotImplementedException :
+    internal class NonDependencyContainerException :
         Exception
     {
-        internal ContainerBaseNotImplementedException(
+        internal NonDependencyContainerException(
             Type type)
-            : this($"The type {type} does not implement {typeof(DependencyContainerBase)}!")
+            : this($"The type {type} does not implement {typeof(DependencyContainer)}!")
         { }
 
-        internal ContainerBaseNotImplementedException(
+        internal NonDependencyContainerException(
             Type type,
             Exception innerException)
             : this(
-                  $"The type {type} does not implement {typeof(DependencyContainerBase)}!",
+                  $"The type {type} does not implement {typeof(DependencyContainer)}!",
                   innerException)
         { }
 
-        private ContainerBaseNotImplementedException(
+        private NonDependencyContainerException(
             string message)
             : base(message)
         { }
 
-        private ContainerBaseNotImplementedException(
+        private NonDependencyContainerException(
             string message,
             Exception innerException)
             : base(message, innerException)
         { }
 
-        protected ContainerBaseNotImplementedException(
+        protected NonDependencyContainerException(
           SerializationInfo info,
           StreamingContext context)
             : base(info, context)

@@ -15,7 +15,7 @@ namespace CodeMonkeys.UnitTests.Logging
         [SetUp]
         public void Setup()
         {
-            _factory = new LogServiceFactory();
+            _factory = LogServiceFactory.Instance;
         }
 
         [Test]
