@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>CodeMonkeys.Logging</RootNamespace>
     <AssemblyName>CodeMonkeys.Logging</AssemblyName>

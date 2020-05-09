@@ -9,6 +9,7 @@ namespace CodeMonkeys.DependencyInjection.Ninject
 {
     internal class NinjectDependencyContainer :
         DependencyContainerBase,
+
         IDependencyContainer
     {
         private static StandardKernel container;
@@ -37,6 +38,46 @@ namespace CodeMonkeys.DependencyInjection.Ninject
             }
 
             return container.TryGetAndThrowOnInvalidBinding<TResolve>();
+        }
+
+        public TImplementation Resolve<TImplementation>(
+            Type interfaceType)
+
+            where TImplementation : class
+        {
+            Log?.Info($"Trying to resolve type '{interfaceType.Name}'...");
+
+            if (!container.CanResolve(interfaceType))
+            {
+                throw new KeyNotFoundException(
+                    $"There is no registration for the type '{interfaceType.Name}'. Check your bootstrap!");
+            }
+
+
+            var instance = container.Get(interfaceType);
+
+
+            if (!(instance is TImplementation implementation))
+                return null;
+
+
+            return implementation;
+        }
+
+        public object Resolve(
+            Type interfaceType)
+        {
+            Log?.Info($"Trying to resolve type '{interfaceType.Name}'...");
+
+
+            if (!container.CanResolve(interfaceType))
+            {
+                throw new KeyNotFoundException(
+                    $"There is no registration for the type '{interfaceType.Name}'. Check your bootstrap!");
+            }
+
+
+            return container.Get(interfaceType);
         }
 
         public void RegisterType<TImplementation>()
