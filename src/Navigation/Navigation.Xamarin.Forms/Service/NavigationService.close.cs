@@ -1,6 +1,7 @@
 ﻿using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
+
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -74,6 +75,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             await CloseCurrentPage();
         }
+
+        public virtual async Task CloseAllAsync()
+        {
+            await PopToRootAsync();
+        }
+
 
         private async Task CloseCurrentPage()
         {
