@@ -6,6 +6,7 @@ namespace CodeMonkeys.UnitTests.DependencyInjection
 {
     internal class Container :
         DependencyContainer,
+
         IDependencyContainer
     {
         internal override void SetContainer(object instance)
@@ -64,6 +65,19 @@ namespace CodeMonkeys.UnitTests.DependencyInjection
         }
 
         void IDependencyRegister.RegisterType<TInterface, TImplementation>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Resolve(Type interfaceType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TImplementation Resolve<TImplementation>(
+            Type interfaceType)
+            
+            where TImplementation : class
         {
             throw new NotImplementedException();
         }

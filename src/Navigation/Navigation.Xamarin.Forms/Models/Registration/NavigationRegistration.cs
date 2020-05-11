@@ -5,7 +5,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
     public class NavigationRegistration :
         INavigationRegistration
     {
-        public virtual Type ViewModelInterfaceType { get; internal set; }
+        public virtual Type ViewModelType { get; internal set; }
         public virtual Type ViewType { get; internal set; }
 
         public bool PreCreateInstance { get; set; } = true;
@@ -21,7 +21,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return false;
             }
 
-            if (ViewModelInterfaceType != registration.ViewModelInterfaceType)
+            if (ViewModelType != registration.ViewModelType)
             {
                 return false;
             }

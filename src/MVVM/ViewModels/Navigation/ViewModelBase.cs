@@ -11,7 +11,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
         ViewModels.ViewModelBase,
         IHandleClosing
     {
-        internal Lazy<IViewModelNavigationService> NavigationService = new Lazy<IViewModelNavigationService>(
+        internal Lazy<INavigationService> NavigationService = new Lazy<INavigationService>(
             ViewModelFactory.TryResolveNavigationServiceInstance);
 
 

@@ -4,7 +4,7 @@ namespace CodeMonkeys.Navigation
 {
     public interface INavigationRegistration
     {
-        Type ViewModelInterfaceType { get; }
+        Type ViewModelType { get; }
         Type ViewType { get; }
 
         bool PreCreateInstance { get; set; }
