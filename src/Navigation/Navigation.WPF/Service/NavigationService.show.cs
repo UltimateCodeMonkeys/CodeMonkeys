@@ -13,7 +13,7 @@ using Activator = CodeMonkeys.Activator;
 namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService :
-        IViewModelNavigationService
+        INavigationService
     {
         public async Task ShowAsync<TViewModel>()
 
@@ -34,7 +34,7 @@ namespace CodeMonkeys.Navigation.WPF
             }
             */
 
-            var viewModel = await ResolveViewModelInstance<TViewModel>();
+            var viewModel = await InitializeViewModel<TViewModel>();
             var content = CreateContent<TViewModel>(
                 viewModel);
 
@@ -49,7 +49,7 @@ namespace CodeMonkeys.Navigation.WPF
 
             where TViewModel : class, IViewModel<TData>
         {
-            var viewModel = await ResolveViewModelInstance<TViewModel, TData>(
+            var viewModel = await InitializeViewModel<TViewModel, TData>(
                 data);
 
             var content = CreateContent<TViewModel>(
@@ -98,20 +98,28 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        protected async Task<TViewModel> ResolveViewModelInstance<TViewModel>()
+        internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface>()
 
-            where TViewModel : class, IViewModel
+            where TViewModelInterface : class, IViewModel
         {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
             await viewModelInstance.InitializeAsync();
 
-            LogService?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
 
             return viewModelInstance;
         }
 
-        protected async Task<TViewModel> ResolveViewModelInstance<TViewModel, TData>(
+
+        protected async Task<TViewModel> InitializeViewModel<TViewModel>()
+
+            where TViewModel : class, IViewModel
+        {
+            return await InitializeViewModelInternal<TViewModel>();
+        }
+
+        protected async Task<TViewModel> InitializeViewModel<TViewModel, TData>(
             TData model)
 
             where TViewModel : class, IViewModel<TData>
@@ -120,7 +128,7 @@ namespace CodeMonkeys.Navigation.WPF
             await viewModelInstance.InitializeAsync(
                 model);
 
-            LogService?.Info(
+            Log?.Info(
                 $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized with parameters!");
 
             return viewModelInstance;
@@ -151,23 +159,31 @@ namespace CodeMonkeys.Navigation.WPF
                     $"No registration found for ViewModel of type {typeof(TViewModel).FullName}!");
             }
 
-            if (ContentCache.All(cachedPage => cachedPage.Type != registrationInfo.ViewType))
+
+            FrameworkElement content;
+
+            if (Configuration.CacheContent)
             {
-                CreateCachedContent(typeof(TView));
+                if (ContentCache.All(cachedPage => cachedPage.Type != registrationInfo.ViewType))
+                {
+                    CreateCachedContent(typeof(TView));
+                }
+
+                var reference = ContentCache
+                    .First(cachedPage => cachedPage.Type == registrationInfo.ViewType)
+                    .Reference;
+
+
+                if (!reference.TryGetTarget(out content))
+                {
+                    var instance = Activator.CreateInstance<TView>();
+
+                    content = instance;
+                    reference.SetTarget(instance);
+                }
             }
+            else content = Activator.CreateInstance<TView>();
 
-            var reference = ContentCache
-                .First(cachedPage => cachedPage.Type == registrationInfo.ViewType)
-                .Reference;
-
-
-            if (!reference.TryGetTarget(out var content))
-            {
-                var instance = Activator.CreateInstance<TView>();
-
-                content = instance;
-                reference.SetTarget(instance);
-            }
 
             content.DataContext = viewModel;
 
@@ -178,7 +194,7 @@ namespace CodeMonkeys.Navigation.WPF
             }
 
 
-            LogService?.Info(
+            Log?.Info(
                 $"View of type {content.GetType().Name} has been created!");
 
             return (TView)content;

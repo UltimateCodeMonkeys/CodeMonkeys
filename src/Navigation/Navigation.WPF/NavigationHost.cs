@@ -35,7 +35,7 @@ namespace CodeMonkeys.Navigation.WPF
             if (!(@object is NavigationHost host))
                 return;
 
-            if (!(eventArgs.NewValue is IViewModelNavigationService navigationService))
+            if (!(eventArgs.NewValue is NavigationService navigationService))
                 return;
 
 

@@ -38,7 +38,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 Task.Run(() => CreateCachedPage(registrationInfo.ViewType));
             }
 
-            LogService?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
+            Log?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
         }
 
         public INavigationRegistration Register<TViewModel, TView>()
@@ -60,7 +60,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 Task.Run(() => CreateCachedPage(registrationInfo.ViewType));
             }
 
-            LogService?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
+            Log?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
 
             return registrationInfo;
         }

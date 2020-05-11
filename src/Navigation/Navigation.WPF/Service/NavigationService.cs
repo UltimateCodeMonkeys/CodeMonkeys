@@ -16,7 +16,7 @@ namespace CodeMonkeys.Navigation.WPF
     public partial class NavigationService :
         DependencyObject,
 
-        IViewModelNavigationService
+        INavigationService
     {
         public event EventHandler<IViewModel> CurrentViewModelChanged;
 
@@ -25,7 +25,7 @@ namespace CodeMonkeys.Navigation.WPF
             new SemaphoreSlim(1, 1);
 
         private static IDependencyResolver dependencyResolver;
-        protected static ILogService LogService;
+        protected static ILogService Log;
 
         public static Configuration Configuration { get; set; } =
             new Configuration();
@@ -72,6 +72,9 @@ namespace CodeMonkeys.Navigation.WPF
         public NavigationService(
             IDependencyResolver resolver)
         {
+            BackStack = new List<NavigationStackEntry>();
+            ForwardStack = new List<NavigationStackEntry>();
+
             SetResolverInstance(
                 resolver);
         }
@@ -81,15 +84,9 @@ namespace CodeMonkeys.Navigation.WPF
 
             where TViewModel : class, IViewModel
         {
-            var viewModel = await ResolveViewModelInstance<TViewModel>();
-
-
-            var content = CreateContent<TViewModel, Window>(
-                viewModel);
-
-
-            Application.Current.MainWindow = content;
+            await SetRootInternal<TViewModel, FrameworkElement>();
         }
+
 
         public void ClearStacks()
         {
@@ -108,6 +105,27 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
+        internal async Task<TContent> SetRootInternal<TViewModel, TContent>()
+
+            where TViewModel : class, IViewModel
+            where TContent : FrameworkElement
+        {
+            ClearStacks();
+
+
+            var viewModel = await InitializeViewModel<TViewModel>();
+            var content = CreateContent<TViewModel, TContent>(
+                viewModel);
+
+
+            CurrentViewModel = viewModel;
+            CurrentContent = content;
+
+
+            return content;
+        }
+
+
         private void SetResolverInstance(
             IDependencyResolver resolver)
         {
@@ -115,6 +133,7 @@ namespace CodeMonkeys.Navigation.WPF
             {
                 return;
             }
+
 
             _semaphore.Wait();
 
@@ -185,7 +204,7 @@ namespace CodeMonkeys.Navigation.WPF
         public static void SetupLogging(
             ILogService logService)
         {
-            LogService = logService;
+            Log = logService;
         }
 
 

@@ -7,7 +7,7 @@ using System.Windows;
 namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService :
-        IViewModelNavigationService
+        INavigationService
     {
         private static readonly IList<CachedContent> ContentCache =
             new List<CachedContent>();
@@ -16,7 +16,7 @@ namespace CodeMonkeys.Navigation.WPF
         /// <inheritdoc cref="CodeMonkeys.Navigation.IViewModelNavigationService.ClearCache" />
         public void ClearCache()
         {
-            LogService?.Info(
+            Log?.Info(
                 $"{ContentCache.Count} cached pages removed.");
 
             ContentCache.Clear();

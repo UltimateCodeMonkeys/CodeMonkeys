@@ -1,87 +1,250 @@
 ﻿using CodeMonkeys.MVVM;
 
-using System.Diagnostics;
+using System;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace CodeMonkeys.Navigation.WPF
 {
     public static class NavigationServiceExtensions
     {
+        public static async Task SetRootWindow<TViewModel>(
+            this INavigationService service)
+
+            where TViewModel : class, IViewModel
+        {
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
+
+
+            Application.Current.MainWindow = await navigationService.SetRootInternal<TViewModel, Window>();
+            Application.Current.MainWindow.Show();
+        }
+
+        public static async Task SetRootWindow<TRootViewModel, TInitialViewModel>(
+            this INavigationService service)
+
+            where TRootViewModel : class, IViewModel
+            where TInitialViewModel : class, IViewModel
+        {
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
+
+
+            await SetRootWindow<TRootViewModel>(
+                navigationService);
+
+            await navigationService.ShowAsync<TInitialViewModel>();
+
+            navigationService.ClearStacks();
+        }
+
+
         public static IViewModel GetCurrentViewModel(
-            this IViewModelNavigationService navigationService)
+            this INavigationService service)
         {
-            if (!(navigationService is NavigationService service))
-            {
-                Debug.WriteLine($"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
-                return null;
-            }
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
 
 
-            return service.CurrentViewModel;
+            return navigationService.CurrentViewModel;
         }
 
 
+        /// <summary>
+        /// Tries to go back on navigation stack
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
         public static bool GoBack(
-            this IViewModelNavigationService navigationService)
+            this INavigationService service)
         {
-            if (!(navigationService is NavigationService service))
-            {
-                Debug.WriteLine($"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
-                return false;
-            }
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
 
 
-            return service.TryGoBack();
+            return navigationService.TryGoBack();
         }
 
 
+        /// <summary>
+        /// Tries to go forward on navigation stack
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
         public static bool TryGoForward(
-            this IViewModelNavigationService navigationService)
+            this INavigationService service)
         {
-            if (!(navigationService is NavigationService service))
-            {
-                Debug.WriteLine($"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
-                return false;
-            }
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
 
 
-            return service.TryGoForward();
+            return navigationService.TryGoForward();
         }
 
 
+        /// <summary>
+        /// Clears the stacks for backwards and forward navigation
+        /// </summary>
+        /// <param name="service"></param>
         public static void ClearStacks(
-            this IViewModelNavigationService navigationService)
+            this INavigationService service)
         {
-            if (!(navigationService is NavigationService service))
-            {
-                Debug.WriteLine($"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
-                return;
-            }
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
 
-            service.ClearStacks();
+
+            navigationService.ClearStacks();
         }
 
+        /// <summary>
+        /// Clears the stack for backwards navigation
+        /// </summary>
+        /// <param name="service"></param>
         public static void ClearBackStack(
-            this IViewModelNavigationService navigationService)
+            this INavigationService service)
         {
-            if (!(navigationService is NavigationService service))
-            {
-                Debug.WriteLine($"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
-                return;
-            }
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
 
-            service.ClearBackStack();
+
+            navigationService.ClearBackStack();
         }
 
+        /// <summary>
+        /// Clears the stack for forward navigation
+        /// </summary>
+        /// <param name="service"></param>
         public static void ClearForwardStack(
-            this IViewModelNavigationService navigationService)
+            this INavigationService service)
         {
-            if (!(navigationService is NavigationService service))
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
+
+
+            navigationService.ClearForwardStack();
+        }
+
+
+
+        /// <summary>
+        /// Register a ViewModel interface to a specific view
+        /// </summary>
+        /// <typeparam name="TViewModel">Type of the ViewModel interface</typeparam>
+        /// <typeparam name="TView"></typeparam>
+        /// <param name="navigationService">Type of the associated view</param>
+        /// <param name="preCreateInstance">Indicates wether an instance of the view should be created and cached before it is displayed</param>
+        /// <returns><see cref="CodeMonkeys.Navigation.WPF.RegistrationInfo"/></returns>
+        public static RegistrationInfo Register<TViewModel, TView>(
+            this INavigationService navigationService,
+            bool preCreateInstance = false)
+
+            where TViewModel : class, IViewModel
+            where TView : FrameworkElement
+        {
+            var registrationInfo = new RegistrationInfo
             {
-                Debug.WriteLine($"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
-                return;
+                ViewModelType = typeof(TViewModel),
+                ViewType = typeof(TView),
+                PreCreateInstance = preCreateInstance
+            };
+
+            navigationService.Register(registrationInfo);
+
+            return registrationInfo;
+        }
+
+        /// <summary>
+        /// Register a ViewModel interface to a specific view
+        /// </summary>
+        /// <typeparam name="TViewModelInterface">Type of the ViewModel interface</typeparam>
+        /// <param name="navigationService">Navigation service instance</param>
+        /// <param name="typeOfView">Type of the associated view</param>
+        /// <param name="preCreateInstance">Indicates wether an instance of the view should be created and cached before it is displayed</param>
+        /// <returns><see cref="CodeMonkeys.Navigation.WPF.RegistrationInfo"/></returns>
+        public static RegistrationInfo Register<TViewModelInterface>(
+            this INavigationService navigationService,
+            Type typeOfView,
+            bool preCreateInstance = false)
+
+            where TViewModelInterface : class, IViewModel
+        {
+            var navigationRegistration = new RegistrationInfo
+            {
+                ViewModelType = typeof(TViewModelInterface),
+                ViewType = typeOfView,
+                PreCreateInstance = preCreateInstance
+            };
+
+            navigationService.Register(navigationRegistration);
+
+            return navigationRegistration;
+        }
+
+        /// <summary>
+        /// Removes the registration associated with the given ViewModel interface type
+        /// </summary>
+        /// <typeparam name="TViewModelInterface">ViewModel type to remove from registrations</typeparam>
+        /// <param name="navigationService"></param>
+        /// <returns>Navigation service instance</returns>
+        public static INavigationService Unregister<TViewModelInterface>(
+            this INavigationService navigationService)
+
+            where TViewModelInterface : class, IViewModel
+        {
+            navigationService.Unregister<TViewModelInterface>();
+            return navigationService;
+        }
+
+
+        /// <summary>
+        /// Indicates that the view from this registration should be opened in a new <see cref="System.Windows.Window" />
+        /// </summary>
+        /// <param name="registrationInfo"></param>
+        /// <returns></returns>
+        public static RegistrationInfo OpenInNewWindow(
+            this RegistrationInfo registrationInfo)
+        {
+            registrationInfo.OpenInNewWindow = true;
+
+            return registrationInfo;
+        }
+
+        /// <summary>
+        /// Indicates that the view from this registration should be build and cached before it is actually shown
+        /// Displaying those views will be a lot faster, however this consumes more memory
+        /// </summary>
+        /// <param name="registrationInfo"></param>
+        /// <returns></returns>
+        public static RegistrationInfo Prebuild(
+            this RegistrationInfo registrationInfo)
+        {
+            registrationInfo.PreCreateInstance = true;
+
+            return registrationInfo;
+        }
+
+
+
+        private static void ThrowIfNavigationServiceIsOfWrongType(
+            INavigationService service,
+            out NavigationService navigationService)
+        {
+            if (!(service is NavigationService wpfService))
+            {
+                throw new InvalidOperationException(
+                    $"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
             }
 
-            service.ClearForwardStack();
+            navigationService = wpfService;
         }
     }
 }

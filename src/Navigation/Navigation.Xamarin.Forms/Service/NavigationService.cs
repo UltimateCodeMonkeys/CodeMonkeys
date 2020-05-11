@@ -27,7 +27,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             new SemaphoreSlim(1, 1);
 
         private static IDependencyResolver dependencyResolver;
-        protected static ILogService LogService;              
+        protected static ILogService Log;              
 
 
         public static Configuration Configuration { get; set; } =
@@ -208,16 +208,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             return registrationInfo?.ViewType == RootPage.GetType();
         }
 
-        private async Task PopToRootAsync()
-        {
-            await Navigation.PopToRootAsync(
-                animated: Configuration.UseAnimations);
-
-            LogService?.Info(
-                $"Navigation stack cleared.");
-        }
         
-
         private void RaiseCurrentViewModelChanged(
             IViewModel current)
         {

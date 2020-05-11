@@ -11,7 +11,8 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
     {
         private IContainer container;
 
-        internal override void SetContainer(object instance)
+        internal override void SetContainer(
+            object instance)
         {
             if (instance is IContainer dryContainer)
             {

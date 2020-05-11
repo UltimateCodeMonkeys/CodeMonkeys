@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService :
-        IViewModelNavigationService
+        INavigationService
     {
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface}" />
         public virtual Task CloseAsync<TViewModel>()
@@ -62,7 +62,7 @@ namespace CodeMonkeys.Navigation.WPF
         {
             var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
 
-            LogService?.Info(
+            Log?.Info(
                 $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
 
             await parentViewModel.OnChildViewModelClosingAsync();
@@ -75,7 +75,7 @@ namespace CodeMonkeys.Navigation.WPF
         {
             var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
 
-            LogService?.Info(
+            Log?.Info(
                 $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
 
             await parentViewModel.OnChildViewModelClosingAsync(

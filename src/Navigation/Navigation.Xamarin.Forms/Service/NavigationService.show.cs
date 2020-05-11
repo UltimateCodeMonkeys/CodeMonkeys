@@ -210,22 +210,28 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
 
-            if (PageCache.All(cachedPage => cachedPage.Type != registrationInfo.ViewType))
+            Page view;
+
+            if (Configuration.CachePageInstances)
             {
-                CreateCachedPage(registrationInfo.ViewType);
+                if (PageCache.All(cachedPage => cachedPage.Type != registrationInfo.ViewType))
+                {
+                    CreateCachedPage(registrationInfo.ViewType);
+                }
+
+                var reference = PageCache
+                    .First(cachedPage => cachedPage.Type == registrationInfo.ViewType)
+                    .Reference;
+
+                if (!reference.TryGetTarget(out view))
+                {
+                    view = (TPage)Activator.CreateInstance(
+                        registrationInfo.ViewType);
+
+                    reference.SetTarget(view);
+                }
             }
-
-            var reference = PageCache
-                .First(cachedPage => cachedPage.Type == registrationInfo.ViewType)
-                .Reference;
-
-            if (!reference.TryGetTarget(out var view))
-            {
-                view = (TPage)Activator.CreateInstance(
-                    registrationInfo.ViewType);
-
-                reference.SetTarget(view);
-            }
+            else view = Activator.CreateInstance<TPage>();
 
 
             view.BindingContext = viewModel;
