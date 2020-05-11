@@ -12,7 +12,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         where TViewModelInterface : class, IViewModel
         where TView : Page
     {
-        public override Type ViewModelInterfaceType => typeof(TViewModelInterface);
+        public override Type ViewModelType => typeof(TViewModelInterface);
         public override Type ViewType => typeof(TView);
     }
 }

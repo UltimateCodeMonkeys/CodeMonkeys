@@ -1,16 +1,14 @@
-﻿using CodeMonkeys.Logging;
-using CodeMonkeys.MVVM;
+﻿using CodeMonkeys.MVVM;
+using CodeMonkeys.Logging;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Xamarin.Forms;
-
-namespace CodeMonkeys.Navigation.Xamarin.Forms
+namespace CodeMonkeys.Navigation.WPF
 {
-    public partial class ViewModelNavigationService :
+    public partial class NavigationService :
         IViewModelNavigationService
     {
         protected static readonly IList<INavigationRegistration> NavigationRegistrations =
@@ -18,24 +16,13 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.Register(INavigationRegistration)" />
-        public void Register(
-            INavigationRegistration registrationInfo)
+        public void Register(INavigationRegistration registrationInfo)
         {
-            if (registrationInfo is NavigationRegistration xamarinRegistration)
-            {
-
-                if (xamarinRegistration.Platform != DevicePlatforms.All &&
-                    Device.RuntimePlatform.ToDevicePlatform() != xamarinRegistration.Platform)
-                {
-                    return;
-                }
-            }
-
             RegisterInternal(registrationInfo);
 
             if (registrationInfo.PreCreateInstance)
             {
-                Task.Run(() => CreateCachedPage(registrationInfo.ViewType));
+                Task.Run(() => CreateCachedContent(registrationInfo.ViewType));
             }
 
             LogService?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
@@ -45,19 +32,17 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             where TViewModel : IViewModel
             where TView : class
         {
-            var registrationInfo = new NavigationRegistration
+            var registrationInfo = new RegistrationInfo
             {
                 ViewModelType = typeof(TViewModel),
-                ViewType = typeof(TView),
-                Platform = Device.RuntimePlatform.ToDevicePlatform(),
-                PreCreateInstance = true
+                ViewType = typeof(TView)
             };
 
             RegisterInternal(registrationInfo);
 
             if (registrationInfo.PreCreateInstance)
             {
-                Task.Run(() => CreateCachedPage(registrationInfo.ViewType));
+                Task.Run(() => CreateCachedContent(registrationInfo.ViewType));
             }
 
             LogService?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
@@ -79,49 +64,19 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             var registrationInfo = NavigationRegistrations
                 .First(registration => registration.ViewModelType == typeof(TViewModel));
 
-            var cachedPage = PageCache.FirstOrDefault(
+            var cachedPage = ContentCache.FirstOrDefault(
                 cache => cache.Type == registrationInfo.ViewType);
 
             if (cachedPage != null)
             {
-                PageCache.Remove(cachedPage);
+                ContentCache.Remove(cachedPage);
             }
 
             NavigationRegistrations.Remove(registrationInfo);
 
             LogService?.Info($"Unregistered views from ViewModel of type {typeof(TViewModel).Name}.");
         }
-
-
-        // todo: do we need this functionality?
-        internal static TViewModel RegisterView<TViewModel>(
-            Page page)
-
-            where TViewModel : class, IViewModel
-        {
-            var viewType = page.GetType();
-
-            var registrationInfo = new NavigationRegistration
-            {
-                ViewModelType = typeof(TViewModel),
-                ViewType = viewType
-            };
-
-            RegisterInternal(registrationInfo);
-
-            var cachedPage = new CachedPage(page);
-            PageCache.Add(cachedPage);
-
-            var viewModel = dependencyResolver.Resolve<TViewModel>();
-
-            if (viewModel != null)
-            {
-                TaskHelper.RunSync(
-                    viewModel.InitializeAsync);
-            }
-
-            return viewModel;
-        }
+                
 
         private static void RegisterInternal(INavigationRegistration registration)
         {
@@ -145,7 +100,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
         }
 
-        private static bool TryGetRegistration(
+        internal static bool TryGetRegistration(
             Type viewModelInterfaceType,
             out INavigationRegistration registrationInfo)
         {
@@ -155,32 +110,13 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return false;
             }
 
-            registrationInfo = NavigationRegistrations.OfType<NavigationRegistration>()
+            registrationInfo = NavigationRegistrations.OfType<RegistrationInfo>()
                 .FirstOrDefault(registration =>
-                    registration.ViewModelType == viewModelInterfaceType &&
-                    registration.Platform.ToXamarinPlatform() == Device.RuntimePlatform);
+                    registration.ViewModelType == viewModelInterfaceType);
 
             return registrationInfo != null;
         }
-
-        private static bool TryGetRegistration(
-            Type viewModelInterfaceType,
-            DevicePlatforms platform,
-            out INavigationRegistration registrationInfo)
-        {
-            if (!IsRegistered(viewModelInterfaceType))
-            {
-                registrationInfo = null;
-                return false;
-            }
-
-            registrationInfo = NavigationRegistrations.OfType<NavigationRegistration>()
-                .FirstOrDefault(registration =>
-                    registration.ViewModelType == viewModelInterfaceType &&
-                    registration.Platform == platform);
-
-            return registrationInfo != null;
-        }
+                
 
         private static bool TryGetRegistration(
             Type viewModelInterfaceType,

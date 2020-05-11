@@ -8,7 +8,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
     /// <summary>
     /// Settings for the ViewModelNavigationService
     /// </summary>
-    public class NavigationConfiguration
+    public class Configuration
     {
         /// <summary>
         /// Gets or sets a value indicating whether the
@@ -31,6 +31,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <summary>
         /// The page types to exclude from caching.
         /// </summary>
-        public IList<Type> PageTypesToExcludeFromCaching = new List<Type>();
+        public IList<Type> PageTypesToExcludeFromCaching { get; set; } = new List<Type>();
     }
 }

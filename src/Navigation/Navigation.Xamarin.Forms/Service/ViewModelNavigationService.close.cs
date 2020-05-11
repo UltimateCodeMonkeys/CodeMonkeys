@@ -1,6 +1,8 @@
 ﻿using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
+
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,19 +16,22 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             where TViewModelInterface : class, IViewModel
         {
-            var viewType = ViewModelToViewMap[typeof(TViewModelInterface)];
+            if (!TryGetRegistration(
+                typeof(TViewModelInterface),
+                out var registration))
+            {
+                throw new InvalidOperationException();
+            }
 
             if (!Navigation.NavigationStack.Any(
-                page => page.GetType() == viewType))
+                page => page.GetType() == registration.ViewType))
             {
                 return;
             }
 
-            ThrowIfNotRegistered<TViewModelInterface>(
-                viewType);
 
             var view = Navigation.NavigationStack.First(
-                page => page.GetType() == viewType);
+                page => page.GetType() == registration.ViewType);
 
             await CloseCurrentPage();
         }
@@ -40,12 +45,19 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             ThrowIfNotRegistered<TViewModelInterface>(
                 CurrentPage.GetType());
 
-            var viewType = ViewModelToViewMap[typeof(TViewModelInterface)];
+            if (!TryGetRegistration(
+                typeof(TViewModelInterface),
+                out var registration))
+            {
+                throw new InvalidOperationException();
+            }
 
-            if (Navigation.NavigationStack.Last().GetType() == viewType)
+            if (!Navigation.NavigationStack.Any(
+                page => page.GetType() == registration.ViewType))
             {
                 return;
             }
+
 
             await ResolveAndInformParent<TParentViewModelInterface>();
 
@@ -62,12 +74,19 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             ThrowIfNotRegistered<TViewModelInterface>(
                 CurrentPage.GetType());
 
-            var viewType = ViewModelToViewMap[typeof(TViewModelInterface)];
+            if (!TryGetRegistration(
+                typeof(TViewModelInterface),
+                out var registration))
+            {
+                throw new InvalidOperationException();
+            }
 
-            if (Navigation.NavigationStack.Last().GetType() == viewType)
+            if (!Navigation.NavigationStack.Any(
+                page => page.GetType() == registration.ViewType))
             {
                 return;
             }
+
 
             await ResolveAndInformParent<TParentViewModelInterface, TResult>(
                 result);
@@ -82,6 +101,16 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             LogService?.Info(
                 "Page has been removed from Xamarin navigation stack.");
+
+
+            var bindingContext = Navigation.NavigationStack.Last()?.BindingContext;
+
+            if (!(bindingContext is IViewModel viewModel))
+                return;
+
+
+            RaiseCurrentViewModelChanged(
+                viewModel);
         }
 
 

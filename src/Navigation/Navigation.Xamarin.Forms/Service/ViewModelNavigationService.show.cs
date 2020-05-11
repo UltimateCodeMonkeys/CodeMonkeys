@@ -26,13 +26,16 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return;
             }
 
-            var viewModelInstance = await PrepareToShowViewModel<TDestinationViewModel>();
+            var viewModelInstance = await ResolveViewModelInstance<TDestinationViewModel>();
 
             var page = CreateViewInstance<TDestinationViewModel>(
                 viewModelInstance);
 
             await ShowAsync<TDestinationViewModel>(
                 page);
+
+            RaiseCurrentViewModelChanged(
+                viewModelInstance);
         }
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.ShowAsync{TViewModelInterface, TModel}(TModel)" />
@@ -50,7 +53,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
             var viewModelInstance =
-                await PrepareToShowViewModel<TDestinationViewModel, TModel>(
+                await ResolveViewModelInstance<TDestinationViewModel, TModel>(
                     model);
 
             var page = CreateViewInstance<TDestinationViewModel>(
@@ -58,6 +61,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             await ShowAsync<TDestinationViewModel>(
                 page);
+
+            RaiseCurrentViewModelChanged(
+                viewModelInstance);
         }
 
 
@@ -76,22 +82,20 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             return Task.CompletedTask;
         }
 
-        protected async Task<TViewModelInterface> PrepareToShowViewModel<TViewModelInterface>()
+        protected async Task<TViewModel> ResolveViewModelInstance<TViewModel>()
 
-            where TViewModelInterface : class, IViewModel
+            where TViewModel : class, IViewModel
         {
-            //CheckIfViewModelTypeIsRegisteredToView<TViewModelInterface>();
-
-            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
             await viewModelInstance.InitializeAsync();
 
             LogService?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
 
             return viewModelInstance;
         }
 
-        protected async Task<TViewModelInterface> PrepareToShowViewModel<TViewModelInterface, TModel>(
+        protected async Task<TViewModelInterface> ResolveViewModelInstance<TViewModelInterface, TModel>(
             TModel model)
 
             where TViewModelInterface : class, IViewModel<TModel>

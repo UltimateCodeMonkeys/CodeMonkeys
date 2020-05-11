@@ -106,7 +106,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         {
             var navigationRegistration = new NavigationRegistration
             {
-                ViewModelInterfaceType = typeof(TViewModelInterface),
+                ViewModelType = typeof(TViewModelInterface),
                 ViewType = typeOfView,
                 PreCreateInstance = preCreateInstance
             };

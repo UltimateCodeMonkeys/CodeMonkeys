@@ -18,19 +18,19 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
     public partial class ViewModelNavigationService :
         IViewModelNavigationService
     {
+        public event EventHandler<IViewModel> CurrentViewModelChanged;
+
+
+
         private static readonly SemaphoreSlim _semaphore =
             new SemaphoreSlim(1, 1);
 
         private static IDependencyResolver dependencyResolver;
-        protected static ILogService LogService;
+        protected static ILogService LogService;              
 
 
-        protected static readonly ConcurrentDictionary<Type, Type> ViewModelToViewMap =
-            new ConcurrentDictionary<Type, Type>();               
-
-
-        public static NavigationConfiguration Configuration { get; set; } =
-            new NavigationConfiguration();
+        public static Configuration Configuration { get; set; } =
+            new Configuration();
 
 
         private Page rootPage;
@@ -112,7 +112,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
             var registrationInfo = NavigationRegistrations.First(
-                registration => registration.ViewModelInterfaceType == typeof(TDestinationViewModel));
+                registration => registration.ViewModelType == typeof(TDestinationViewModel));
 
             return registrationInfo?.ViewType == RootPage.GetType();
         }
@@ -124,7 +124,18 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             LogService?.Info(
                 $"Navigation stack cleared.");
-        }        
+        }
+        
+
+        private void RaiseCurrentViewModelChanged(
+            IViewModel current)
+        {
+            var threadSafeCall = CurrentViewModelChanged;
+
+            threadSafeCall?.Invoke(
+                this,
+                current);
+        }
 
 
         #region View Disappearing event
@@ -137,21 +148,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return;
             }
 
-            if (ViewModelToViewMap == null ||
-                !ViewModelToViewMap.Any())
-            {
-                DetachDisappearingEventListener(page);
-                return;
-            }
-
-            if (!ViewModelToViewMap.Values.Any())
-            {
-                DetachDisappearingEventListener(page);
-                return;
-            }
-
-            if (!ViewModelToViewMap.Values.Contains(
-                page.GetType()))
+            if (Registrations == null ||
+                !Registrations.Any(
+                    registration => registration.ViewType == page.GetType()))
             {
                 DetachDisappearingEventListener(page);
                 return;

@@ -1,6 +1,7 @@
 ﻿using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,6 +9,9 @@ namespace CodeMonkeys.Navigation
 {
     public interface IViewModelNavigationService
     {
+        event EventHandler<IViewModel> CurrentViewModelChanged;
+
+
         IReadOnlyCollection<INavigationRegistration> Registrations { get; }
 
         /// <summary>
