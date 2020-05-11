@@ -15,7 +15,7 @@ namespace CodeMonkeys.MVVM.Factories
         private static ILogService log;
         private static IDependencyResolver iocContainer;
 
-        private static IViewModelNavigationService navigationServiceInstance;
+        private static INavigationService navigationServiceInstance;
 
         /// <summary>
         /// Sets up the factory for further usage by passing the DI container instance and an optional logger
@@ -31,17 +31,17 @@ namespace CodeMonkeys.MVVM.Factories
         }
 
 
-        internal static IViewModelNavigationService TryResolveNavigationServiceInstance()
+        internal static INavigationService TryResolveNavigationServiceInstance()
         {
             try
             {
                 return navigationServiceInstance ??
-                       (navigationServiceInstance = iocContainer.Resolve<IViewModelNavigationService>());
+                       (navigationServiceInstance = iocContainer.Resolve<INavigationService>());
             }
             catch (Exception innerException)
             {
                 string errorMessage =
-                    $"Unable to resolve instance of type {typeof(IViewModelNavigationService)} --- did you register an implementation?";
+                    $"Unable to resolve instance of type {typeof(INavigationService)} --- did you register an implementation?";
 
                 log?.Error(
                     errorMessage,

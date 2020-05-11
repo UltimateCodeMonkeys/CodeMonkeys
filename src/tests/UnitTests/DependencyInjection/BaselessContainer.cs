@@ -51,6 +51,16 @@ namespace CodeMonkeys.UnitTests.DependencyInjection
             throw new NotImplementedException();
         }
 
+        public object Resolve(Type interfaceType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TImplementation Resolve<TImplementation>(Type interfaceType) where TImplementation : class
+        {
+            throw new NotImplementedException();
+        }
+
         void IDependencyRegister.RegisterSingleton<TInterface, TImplementation>()
         {
             throw new NotImplementedException();
