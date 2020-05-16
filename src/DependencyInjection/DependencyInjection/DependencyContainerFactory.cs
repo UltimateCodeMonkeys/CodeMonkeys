@@ -32,13 +32,14 @@ namespace CodeMonkeys.DependencyInjection
                 containerBase.Log = logService;
                 containerBase.SetContainer(innerContainer);
 
-                container.RegisterInstance<IDependencyRegister>(_container);
-                container.RegisterInstance<IDependencyResolver>(_container);
-
                 lock (_sync)
                 {
                     _container = container;
                 }
+
+                container.RegisterInstance<IDependencyRegister>(_container);
+                container.RegisterInstance<IDependencyResolver>(_container);
+
             }
 
             return _container;
