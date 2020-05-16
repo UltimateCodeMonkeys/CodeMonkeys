@@ -5,10 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService :
+        DependencyObject,
+
         INavigationService
     {
         protected static readonly IList<INavigationRegistration> NavigationRegistrations =

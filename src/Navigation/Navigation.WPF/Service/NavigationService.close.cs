@@ -3,10 +3,13 @@ using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
 
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService :
+        DependencyObject,
+
         INavigationService
     {
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface}" />

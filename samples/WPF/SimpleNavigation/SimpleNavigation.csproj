@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>CodeMonkeys.Samples.WPF.SimpleNavigation</AssemblyName>
+    <RootNamespace>CodeMonkeys.Samples.WPF.SimpleNavigation</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Core\Core.csproj" />
+    <ProjectReference Include="..\..\..\src\DependencyInjection\DependencyInjection.DryIoC\DependencyInjection.DryIoC.csproj" />
+    <ProjectReference Include="..\..\..\src\DependencyInjection\DependencyInjection\DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\..\src\MVVM\MVVM.csproj" />
+    <ProjectReference Include="..\..\..\src\Navigation\Navigation.WPF\Navigation.WPF.csproj" />
+    <ProjectReference Include="..\..\..\src\Navigation\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\..\ViewModels\ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

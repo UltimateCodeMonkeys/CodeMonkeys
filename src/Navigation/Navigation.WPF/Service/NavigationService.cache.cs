@@ -7,6 +7,8 @@ using System.Windows;
 namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService :
+        DependencyObject,
+
         INavigationService
     {
         private static readonly IList<CachedContent> ContentCache =

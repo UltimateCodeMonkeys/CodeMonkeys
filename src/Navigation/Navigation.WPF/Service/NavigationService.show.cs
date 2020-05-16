@@ -13,6 +13,8 @@ using Activator = CodeMonkeys.Activator;
 namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService :
+        DependencyObject,
+
         INavigationService
     {
         public async Task ShowAsync<TViewModel>()
@@ -153,7 +155,7 @@ namespace CodeMonkeys.Navigation.WPF
             if (!TryGetRegistration(
                 typeof(TViewModel),
                 typeof(TView),
-                out var registrationInfo))
+                out var registration))
             {
                 throw new InvalidOperationException(
                     $"No registration found for ViewModel of type {typeof(TViewModel).FullName}!");
@@ -164,25 +166,25 @@ namespace CodeMonkeys.Navigation.WPF
 
             if (Configuration.CacheContent)
             {
-                if (ContentCache.All(cachedPage => cachedPage.Type != registrationInfo.ViewType))
+                if (ContentCache.All(cachedPage => cachedPage.Type != registration.ViewType))
                 {
                     CreateCachedContent(typeof(TView));
                 }
 
                 var reference = ContentCache
-                    .First(cachedPage => cachedPage.Type == registrationInfo.ViewType)
+                    .First(cachedPage => cachedPage.Type == registration.ViewType)
                     .Reference;
 
 
                 if (!reference.TryGetTarget(out content))
                 {
-                    var instance = Activator.CreateInstance<TView>();
+                    content = (TView)Activator.CreateInstance(
+                        registration.ViewType);
 
-                    content = instance;
-                    reference.SetTarget(instance);
+                    reference.SetTarget(content);
                 }
             }
-            else content = Activator.CreateInstance<TView>();
+            else content = (TView)Activator.CreateInstance(registration.ViewType);
 
 
             content.DataContext = viewModel;

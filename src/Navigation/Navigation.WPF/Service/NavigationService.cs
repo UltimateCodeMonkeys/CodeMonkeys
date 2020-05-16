@@ -6,7 +6,9 @@ using CodeMonkeys.Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,8 +18,10 @@ namespace CodeMonkeys.Navigation.WPF
     public partial class NavigationService :
         DependencyObject,
 
-        INavigationService
+        INavigationService,
+        INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<IViewModel> CurrentViewModelChanged;
 
 
@@ -57,10 +61,17 @@ namespace CodeMonkeys.Navigation.WPF
                 typeof(FrameworkElement),
                 typeof(NavigationService));
 
+        private FrameworkElement currentContent;
         public FrameworkElement CurrentContent
         {
-            get => (FrameworkElement)GetValue(CurrentContentProperty);
-            protected set => SetValue(CurrentContentProperty, value);
+            //get => (FrameworkElement)GetValue(CurrentContentProperty);
+            //protected set => SetValue(CurrentContentProperty, value);
+            get => currentContent;
+            set
+            {
+                currentContent = value;
+                RaisePropertyChanged();
+            }
         }
 
 
@@ -143,6 +154,17 @@ namespace CodeMonkeys.Navigation.WPF
             }
 
             _semaphore.Release();
+        }
+
+
+        private void RaisePropertyChanged(
+            [CallerMemberName]string propertyName = "")
+        {
+            var threadSafeCall = PropertyChanged;
+
+            threadSafeCall?.Invoke(
+                this,
+                new PropertyChangedEventArgs(propertyName));
         }
 
         private void RaiseCurrentViewModelChanged()

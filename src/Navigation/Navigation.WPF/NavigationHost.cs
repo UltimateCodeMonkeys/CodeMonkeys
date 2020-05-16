@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace CodeMonkeys.Navigation.WPF
 {
     public class NavigationHost :
-        Frame
+        ContentControl
     {
         public static readonly DependencyProperty NavigationServiceProperty =
             DependencyProperty.Register(
@@ -14,7 +14,7 @@ namespace CodeMonkeys.Navigation.WPF
                 typeof(NavigationHost),
                 new PropertyMetadata(OnNavigationServiceChanged));
 
-        public new NavigationService NavigationService
+        public NavigationService NavigationService
         {
             get => (NavigationService)GetValue(NavigationServiceProperty);
             set => SetValue(NavigationServiceProperty, value);
@@ -23,9 +23,19 @@ namespace CodeMonkeys.Navigation.WPF
 
         public NavigationHost()
         {
-            NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
+            HorizontalAlignment = HorizontalAlignment.Stretch;
+            VerticalAlignment = VerticalAlignment.Stretch;
         }
 
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            if (e.Property.Name == nameof(ContentProperty))
+            {
+
+            }
+        }
 
 
         private static void OnNavigationServiceChanged(
@@ -39,15 +49,18 @@ namespace CodeMonkeys.Navigation.WPF
                 return;
 
 
-            var contentBinding = new Binding
-            {
-                Source = host.NavigationService,
-                Path = new PropertyPath(nameof(WPF.NavigationService.CurrentContent))
-            };
+            navigationService.CurrentViewModelChanged += (sender, eventArgs) => { host.Content = navigationService.CurrentContent; };
 
-            host.SetBinding(
-                ContentProperty,
-                contentBinding);
+            //var contentBinding = new Binding(nameof(navigationService.CurrentContent))
+            //{
+            //    Source = host.NavigationService,
+            //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            //};
+
+            //BindingOperations.SetBinding(
+            //    host,
+            //    ContentProperty,
+            //    contentBinding);
         }
     }
 }
