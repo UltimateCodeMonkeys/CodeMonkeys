@@ -1,4 +1,6 @@
-﻿using CodeMonkeys.MVVM.Commands;
+﻿using CodeMonkeys.MVVM.Attributes;
+using CodeMonkeys.MVVM.Commands;
+using CodeMonkeys.MVVM.PropertyChanged;
 
 using System;
 using System.Collections.ObjectModel;
@@ -22,24 +24,32 @@ namespace CodeMonkeys.Samples.ViewModels
             MenuItems.Add(new MenuItem
             {
                 Title = "Items",
-                ShowAsyncFunc = ShowAsync<ItemsViewModel>,
+                ShowItemCommand = new AsyncCommand(ShowAsync<ItemsViewModel>),
             });
 
             MenuItems.Add(new MenuItem
             {
                 Title = "About",
-                ShowAsyncFunc = ShowAsync<AboutViewModel>,
+                ShowItemCommand = new AsyncCommand(ShowAsync<AboutViewModel>),
             });
 
             await base.InitializeAsync();
         }
     }
 
-    public class MenuItem
+    public class MenuItem :
+        BindingBase
     {
-        public string Title { get; set; }
-        public Func<Task> ShowAsyncFunc { get; set; }
+        public string Title
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
 
-        public ICommand ShowItemCommand => new AsyncCommand(ShowAsyncFunc.Invoke);
+        public ICommand ShowItemCommand
+        {
+            get => GetValue<ICommand>();
+            set => SetValue(value);
+        }
     }
 }

@@ -219,21 +219,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return;
             }
 
-            if (ViewModelToViewMap == null ||
-                !ViewModelToViewMap.Any())
-            {
-                DetachDisappearingEventListener(page);
-                return;
-            }
-
-            if (!ViewModelToViewMap.Values.Any())
-            {
-                DetachDisappearingEventListener(page);
-                return;
-            }
-
-            if (!ViewModelToViewMap.Values.Contains(
-                page.GetType()))
+            if (Registrations == null ||
+                !Registrations.Any(
+                    registration => registration.ViewType == page.GetType()))
             {
                 DetachDisappearingEventListener(page);
                 return;
@@ -244,6 +232,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 DetachDisappearingEventListener(page);
                 return;
             }
+
 
             await viewModel.OnClosing();
 
