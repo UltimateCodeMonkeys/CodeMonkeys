@@ -4,10 +4,8 @@ using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,10 +17,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
     public partial class NavigationService :
         INavigationService
     {
-        public event EventHandler<IViewModel> CurrentViewModelChanged;
-
-
-
         private static readonly SemaphoreSlim _semaphore =
             new SemaphoreSlim(1, 1);
 
@@ -208,16 +202,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             return registrationInfo?.ViewType == RootPage.GetType();
         }
 
-        
-        private void RaiseCurrentViewModelChanged(
-            IViewModel current)
-        {
-            var threadSafeCall = CurrentViewModelChanged;
-
-            threadSafeCall?.Invoke(
-                this,
-                current);
-        }
 
 
         #region View Disappearing event

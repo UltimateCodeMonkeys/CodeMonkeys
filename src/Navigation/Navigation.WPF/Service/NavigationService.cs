@@ -6,9 +6,7 @@ using CodeMonkeys.Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,15 +16,13 @@ namespace CodeMonkeys.Navigation.WPF
     public partial class NavigationService :
         DependencyObject,
 
-        INavigationService,
-        INotifyPropertyChanged
+        INavigationService
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<IViewModel> CurrentViewModelChanged;
 
 
         private static readonly SemaphoreSlim _semaphore =
             new SemaphoreSlim(1, 1);
+
 
         private static IDependencyResolver dependencyResolver;
         protected static ILogService Log;
@@ -44,8 +40,7 @@ namespace CodeMonkeys.Navigation.WPF
             DependencyProperty.Register(
                 nameof(CurrentViewModel),
                 typeof(IViewModel),
-                typeof(NavigationService),
-                new PropertyMetadata(OnCurrentViewModelChanged));
+                typeof(NavigationService));
 
         public IViewModel CurrentViewModel
         {
@@ -59,21 +54,19 @@ namespace CodeMonkeys.Navigation.WPF
             DependencyProperty.Register(
                 nameof(CurrentContent),
                 typeof(FrameworkElement),
-                typeof(NavigationService));
+                typeof(NavigationService),
+                new PropertyMetadata(OnCurrentContentChanged));
 
-        private FrameworkElement currentContent;
-        public FrameworkElement CurrentContent
+        private static void OnCurrentContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //get => (FrameworkElement)GetValue(CurrentContentProperty);
-            //protected set => SetValue(CurrentContentProperty, value);
-            get => currentContent;
-            set
-            {
-                currentContent = value;
-                RaisePropertyChanged();
-            }
+            
         }
 
+        public FrameworkElement CurrentContent
+        {
+            get => (FrameworkElement)GetValue(CurrentContentProperty);
+            protected set => SetValue(CurrentContentProperty, value);
+        }
 
 
         public IReadOnlyCollection<INavigationRegistration> Registrations =>
@@ -157,26 +150,6 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        private void RaisePropertyChanged(
-            [CallerMemberName]string propertyName = "")
-        {
-            var threadSafeCall = PropertyChanged;
-
-            threadSafeCall?.Invoke(
-                this,
-                new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void RaiseCurrentViewModelChanged()
-        {
-            var threadSafeCall = CurrentViewModelChanged;
-
-            threadSafeCall?.Invoke(
-                this,
-                CurrentViewModel);
-        }
-
-
 
         #region View Disappearing event
         private async void OnContentUnloaded(
@@ -227,18 +200,6 @@ namespace CodeMonkeys.Navigation.WPF
             ILogService logService)
         {
             Log = logService;
-        }
-
-
-        private static void OnCurrentViewModelChanged(
-            DependencyObject @object,
-            DependencyPropertyChangedEventArgs eventArgs)
-        {
-            if (!(@object is NavigationService navigationService))
-                return;
-
-
-            navigationService.RaiseCurrentViewModelChanged();
         }
     }
 }

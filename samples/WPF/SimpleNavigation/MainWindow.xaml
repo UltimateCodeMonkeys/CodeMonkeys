@@ -7,7 +7,11 @@
         xmlns:wpf="clr-namespace:CodeMonkeys.Navigation.WPF;assembly=CodeMonkeys.Navigation.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <wpf:NavigationHost NavigationService="{Binding NavigationService}" />
-    </Grid>
+    
+    <wpf:NavigationHost NavigationService="{Binding NavigationService}">
+        <wpf:NavigationHost.DefaultContent>
+            <Border Background="Red" />
+        </wpf:NavigationHost.DefaultContent>
+    </wpf:NavigationHost>
+    
 </Window>

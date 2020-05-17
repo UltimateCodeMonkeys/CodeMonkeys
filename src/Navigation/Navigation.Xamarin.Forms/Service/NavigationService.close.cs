@@ -113,10 +113,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             if (!(bindingContext is IViewModel viewModel))
                 return;
-
-
-            RaiseCurrentViewModelChanged(
-                viewModel);
         }
 
         private async Task PopToRootAsync()

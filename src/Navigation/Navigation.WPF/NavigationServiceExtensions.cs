@@ -18,7 +18,13 @@ namespace CodeMonkeys.Navigation.WPF
                 out var navigationService);
 
 
-            Application.Current.MainWindow = await navigationService.SetRootInternal<TViewModel, Window>();
+            var viewModel = await navigationService.InitializeViewModelInternal<TViewModel>();
+
+            var window = navigationService.CreateContentInternal<TViewModel, Window>(
+                viewModel);
+
+
+            Application.Current.MainWindow = window;
             Application.Current.MainWindow.Show();
         }
 

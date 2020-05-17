@@ -1,5 +1,4 @@
 ﻿using CodeMonkeys.DependencyInjection.DryIoC;
-using CodeMonkeys.MVVM.Factories;
 using CodeMonkeys.Navigation;
 using CodeMonkeys.Navigation.WPF;
 using CodeMonkeys.Samples.ViewModels;
@@ -29,6 +28,7 @@ namespace CodeMonkeys.Samples.WPF.SimpleNavigation
             var navigationService = dependencyContainer.Resolve<INavigationService>();
             RegisterNavigationRoutes(
                 navigationService);
+
 
             await navigationService.SetRootWindow<MainViewModel, ItemsViewModel>();
         }

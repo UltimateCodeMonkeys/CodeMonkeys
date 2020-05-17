@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -10,15 +13,31 @@ namespace CodeMonkeys.Navigation.WPF
         public static readonly DependencyProperty NavigationServiceProperty =
             DependencyProperty.Register(
                 nameof(NavigationService),
-                typeof(NavigationService),
+                typeof(INavigationService),
                 typeof(NavigationHost),
                 new PropertyMetadata(OnNavigationServiceChanged));
 
-        public NavigationService NavigationService
+        public INavigationService NavigationService
         {
-            get => (NavigationService)GetValue(NavigationServiceProperty);
+            get => (INavigationService)GetValue(NavigationServiceProperty);
             set => SetValue(NavigationServiceProperty, value);
         }
+
+
+
+        public static readonly DependencyProperty DefaultContentProperty =
+            DependencyProperty.Register(
+                nameof(DefaultContent),
+                typeof(object),
+                typeof(NavigationHost),
+                new PropertyMetadata(null));
+
+        public object DefaultContent
+        {
+            get => GetValue(DefaultContentProperty);
+            set => SetValue(DefaultStyleKeyProperty, value);
+        }
+
 
 
         public NavigationHost()
@@ -27,11 +46,23 @@ namespace CodeMonkeys.Navigation.WPF
             VerticalAlignment = VerticalAlignment.Stretch;
         }
 
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
 
-            if (e.Property.Name == nameof(ContentProperty))
+        protected override void OnInitialized(
+            EventArgs eventArgs)
+        {
+            base.OnInitialized(eventArgs);
+
+
+            if (NavigationService == null)
+                Content = DefaultContent;
+        }
+
+        protected override void OnPropertyChanged(
+            DependencyPropertyChangedEventArgs eventArgs)
+        {
+            base.OnPropertyChanged(eventArgs);
+
+            if (eventArgs.Property.Name == nameof(Content))
             {
 
             }
@@ -49,18 +80,14 @@ namespace CodeMonkeys.Navigation.WPF
                 return;
 
 
-            navigationService.CurrentViewModelChanged += (sender, eventArgs) => { host.Content = navigationService.CurrentContent; };
 
-            //var contentBinding = new Binding(nameof(navigationService.CurrentContent))
-            //{
-            //    Source = host.NavigationService,
-            //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            //};
+            var binding = new Binding(
+                nameof(navigationService.CurrentContent))
+            {
+                Source = host.NavigationService
+            };
 
-            //BindingOperations.SetBinding(
-            //    host,
-            //    ContentProperty,
-            //    contentBinding);
+            host.SetBinding(ContentProperty, binding);
         }
     }
 }

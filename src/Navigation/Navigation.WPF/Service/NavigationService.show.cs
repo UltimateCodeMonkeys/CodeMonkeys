@@ -114,39 +114,7 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        protected async Task<TViewModel> InitializeViewModel<TViewModel>()
-
-            where TViewModel : class, IViewModel
-        {
-            return await InitializeViewModelInternal<TViewModel>();
-        }
-
-        protected async Task<TViewModel> InitializeViewModel<TViewModel, TData>(
-            TData model)
-
-            where TViewModel : class, IViewModel<TData>
-        {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
-            await viewModelInstance.InitializeAsync(
-                model);
-
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized with parameters!");
-
-            return viewModelInstance;
-        }
-
-
-        protected FrameworkElement CreateContent<TViewModel>(
-            TViewModel viewModel)
-
-            where TViewModel : class, IViewModel
-        {
-            return CreateContent<TViewModel, FrameworkElement>(
-                viewModel);
-        }
-
-        protected TView CreateContent<TViewModel, TView>(
+        internal TView CreateContentInternal<TViewModel, TView>(
             TViewModel viewModel)
 
             where TViewModel : class, IViewModel
@@ -200,6 +168,49 @@ namespace CodeMonkeys.Navigation.WPF
                 $"View of type {content.GetType().Name} has been created!");
 
             return (TView)content;
+        }
+
+
+        protected async Task<TViewModel> InitializeViewModel<TViewModel>()
+
+            where TViewModel : class, IViewModel
+        {
+            return await InitializeViewModelInternal<TViewModel>();
+        }
+
+        protected async Task<TViewModel> InitializeViewModel<TViewModel, TData>(
+            TData model)
+
+            where TViewModel : class, IViewModel<TData>
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            await viewModelInstance.InitializeAsync(
+                model);
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized with parameters!");
+
+            return viewModelInstance;
+        }
+
+
+        protected FrameworkElement CreateContent<TViewModel>(
+            TViewModel viewModel)
+
+            where TViewModel : class, IViewModel
+        {
+            return CreateContentInternal<TViewModel, FrameworkElement>(
+                viewModel);
+        }
+
+        protected TView CreateContent<TViewModel, TView>(
+            TViewModel viewModel)
+
+            where TViewModel : class, IViewModel
+            where TView : FrameworkElement
+        {
+            return CreateContentInternal<TViewModel, TView>(
+                viewModel);
         }
 
 
