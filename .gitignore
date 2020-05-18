@@ -341,3 +341,4 @@ healthchecksdb
 
 # Exclude folder where NuGet packages drop
 .nuget-build/
+/ConsoleApp1

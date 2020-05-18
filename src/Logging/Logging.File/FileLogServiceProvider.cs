@@ -1,6 +1,5 @@
 ﻿using CodeMonkeys.Logging.Batching;
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -12,6 +11,9 @@ namespace CodeMonkeys.Logging.File
     {
         private readonly string _fileName;
         private readonly string _extension;
+        private readonly int? _maxFileSize;
+        private readonly string _path;
+        private int _index;
 
         private LogMessageFormatter _formatter;
 
@@ -20,6 +22,8 @@ namespace CodeMonkeys.Logging.File
         {
             _fileName = options.FileName;
             _extension = options.Extension;
+            _maxFileSize = options.MaxFileSize;
+            _path = options.Directory;
         }
 
         internal new void ProcessMessage(LogMessage message) => base.ProcessMessage(message);
@@ -41,7 +45,8 @@ namespace CodeMonkeys.Logging.File
             {
                 try
                 {
-                    string path = Path.Combine(Environment.CurrentDirectory, $"{_fileName}.{_extension}");
+                    var path = GetFilePath();
+
                     string formattedMessage = _formatter.Format(message, TimeStampFormat);
 
                     await FileAppendAllTextAsync(
@@ -51,6 +56,29 @@ namespace CodeMonkeys.Logging.File
                 }
                 catch { }
             }
+        }
+
+        private string GetFilePath()
+        {
+            var path = GetLogFileFullPath();
+            var file = new FileInfo(path);
+
+            if (_maxFileSize > 0 && file.Exists && file.Length < _maxFileSize)
+                return path;
+
+            _index++;
+            return GetLogFileFullPath();
+        }
+
+        private string GetLogFileFullPath()
+        {
+            var suffix = _index == 0 ?
+                 string.Empty :
+                 $"({_index})";
+
+            return Path.Combine(
+                _path,
+                $"{_fileName}{suffix}.{_extension}");
         }
 
         private async Task FileAppendAllTextAsync(
