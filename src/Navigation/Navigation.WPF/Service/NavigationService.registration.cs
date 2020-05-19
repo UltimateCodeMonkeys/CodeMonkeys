@@ -9,10 +9,7 @@ using System.Windows;
 
 namespace CodeMonkeys.Navigation.WPF
 {
-    public partial class NavigationService :
-        DependencyObject,
-
-        INavigationService
+    public partial class NavigationService
     {
         protected static readonly IList<INavigationRegistration> NavigationRegistrations =
             new List<INavigationRegistration>();

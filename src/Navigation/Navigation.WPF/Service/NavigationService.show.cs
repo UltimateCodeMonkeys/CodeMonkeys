@@ -12,10 +12,7 @@ using Activator = CodeMonkeys.Activator;
 
 namespace CodeMonkeys.Navigation.WPF
 {
-    public partial class NavigationService :
-        DependencyObject,
-
-        INavigationService
+    public partial class NavigationService
     {
         public async Task ShowAsync<TViewModel>()
 

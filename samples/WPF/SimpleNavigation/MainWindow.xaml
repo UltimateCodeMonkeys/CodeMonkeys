@@ -8,10 +8,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     
+    <!--
     <wpf:NavigationHost NavigationService="{Binding NavigationService}">
         <wpf:NavigationHost.DefaultContent>
             <Border Background="Red" />
         </wpf:NavigationHost.DefaultContent>
     </wpf:NavigationHost>
-    
+    -->
+
+    <ContentControl Content="{Binding NavigationService.CurrentContent}" />
 </Window>

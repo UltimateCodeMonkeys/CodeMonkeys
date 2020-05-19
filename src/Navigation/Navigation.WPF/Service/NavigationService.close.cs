@@ -7,10 +7,7 @@ using System.Windows;
 
 namespace CodeMonkeys.Navigation.WPF
 {
-    public partial class NavigationService :
-        DependencyObject,
-
-        INavigationService
+    public partial class NavigationService
     {
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface}" />
         public virtual Task CloseAsync<TViewModel>()

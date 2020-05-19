@@ -6,6 +6,7 @@ using CodeMonkeys.Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,10 +15,12 @@ using System.Windows;
 namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService :
-        DependencyObject,
 
-        INavigationService
+        INavigationService,
+        INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
 
         private static readonly SemaphoreSlim _semaphore =
@@ -36,36 +39,21 @@ namespace CodeMonkeys.Navigation.WPF
 
 
 
-        public static readonly DependencyProperty CurrentViewModelProperty =
-            DependencyProperty.Register(
-                nameof(CurrentViewModel),
-                typeof(IViewModel),
-                typeof(NavigationService));
-
-        public IViewModel CurrentViewModel
-        {
-            get => (IViewModel)GetValue(CurrentViewModelProperty);
-            protected set => SetValue(CurrentViewModelProperty, value);
-        }
+        public IViewModel CurrentViewModel { get; protected set; }
 
 
-
-        public static readonly DependencyProperty CurrentContentProperty =
-            DependencyProperty.Register(
-                nameof(CurrentContent),
-                typeof(FrameworkElement),
-                typeof(NavigationService),
-                new PropertyMetadata(OnCurrentContentChanged));
-
-        private static void OnCurrentContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            
-        }
-
+        private FrameworkElement content;
         public FrameworkElement CurrentContent
         {
-            get => (FrameworkElement)GetValue(CurrentContentProperty);
-            protected set => SetValue(CurrentContentProperty, value);
+            get => content;
+            set
+            {
+                content = value;
+
+                PropertyChanged?.Invoke(
+                    this,
+                    new PropertyChangedEventArgs(nameof(CurrentContent)));
+            }
         }
 
 

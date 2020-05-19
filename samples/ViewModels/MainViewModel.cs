@@ -3,18 +3,28 @@ using CodeMonkeys.Navigation;
 
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CodeMonkeys.Samples.ViewModels
 {
     public class MainViewModel :
-        BaseViewModel
+        BaseViewModel,
+
+        INotifyPropertyChanged
     {
+        private INavigationService nav;
         public INavigationService NavigationService
         {
-            get => GetValue<INavigationService>();
-            private set => SetValue(value);
+            //get => GetValue<INavigationService>();
+            //private set => SetValue(value);
+            get => nav;
+            private set
+            {
+                nav = value;
+                RaisePropertyChanged();
+            }
         }
 
 
