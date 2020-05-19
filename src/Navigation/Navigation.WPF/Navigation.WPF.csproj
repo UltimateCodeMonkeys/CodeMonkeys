@@ -24,4 +24,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj" />
+    <ProjectReference Include="..\Navigation\Navigation.csproj" />
+  </ItemGroup>
+
 </Project>
