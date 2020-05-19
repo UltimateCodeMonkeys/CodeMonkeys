@@ -7,7 +7,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,9 +24,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private static IDependencyResolver dependencyResolver;
         protected static ILogService Log;
 
-
-        protected static readonly ConcurrentDictionary<Type, Type> ViewModelToViewMap =
-            new ConcurrentDictionary<Type, Type>();
 
 
         public static NavigationConfiguration Configuration { get; set; } =
