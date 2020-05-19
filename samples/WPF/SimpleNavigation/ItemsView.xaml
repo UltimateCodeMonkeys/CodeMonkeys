@@ -13,7 +13,9 @@
         <ListView ItemsSource="{Binding Items}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Title}" />
+                    <Button
+                        Command="{Binding SelectedCommand}"
+                        Content="{Binding Title}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -80,6 +80,17 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
+        public bool CanGoBack()
+        {
+            return BackStack.Any();
+        }
+
+        public bool CanGoForward()
+        {
+            return ForwardStack.Any();
+        }
+
+
         public void ClearStacks()
         {
             ClearBackStack();

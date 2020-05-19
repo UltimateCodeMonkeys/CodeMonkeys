@@ -63,7 +63,7 @@ namespace CodeMonkeys.Navigation.WPF
 
         public bool TryGoBack()
         {
-            if (!BackStack.Any())
+            if (!CanGoBack())
                 return false;
 
             
@@ -81,7 +81,7 @@ namespace CodeMonkeys.Navigation.WPF
 
         public bool TryGoForward()
         {
-            if (!ForwardStack.Any())
+            if (!CanGoForward())
                 return false;
 
 
@@ -143,13 +143,17 @@ namespace CodeMonkeys.Navigation.WPF
 
                 if (!reference.TryGetTarget(out content))
                 {
-                    content = (TView)Activator.CreateInstance(
+                    content = GetContentInstance<TView>(
                         registration.ViewType);
 
                     reference.SetTarget(content);
                 }
             }
-            else content = (TView)Activator.CreateInstance(registration.ViewType);
+            else
+            {
+                content = GetContentInstance<TView>(
+                    registration.ViewType);
+            }
 
 
             content.DataContext = viewModel;
@@ -208,6 +212,24 @@ namespace CodeMonkeys.Navigation.WPF
         {
             return CreateContentInternal<TViewModel, TView>(
                 viewModel);
+        }
+
+
+        private TView GetContentInstance<TView>(
+            Type contentType)
+
+            where TView : FrameworkElement
+        {
+            if (Configuration.UseDependencyInjectionForViews)
+            {
+                return (TView)dependencyResolver.Resolve(
+                    contentType);
+            }
+            else
+            {
+                return (TView)Activator.CreateInstance(
+                        contentType);
+            }
         }
 
 

@@ -19,15 +19,20 @@ namespace CodeMonkeys.Samples.WPF.SimpleNavigation
         {
             var dependencyContainer = DryFactory.CreateInstance();
 
-            dependencyContainer.RegisterType<INavigationService, CodeMonkeys.Navigation.WPF.NavigationService>();
 
             ViewModels.Bootstrap.RegisterViewModels(
                 dependencyContainer);
 
 
-            var navigationService = dependencyContainer.Resolve<INavigationService>();
+            var navigationService = new NavigationService(
+                dependencyContainer);
+
             RegisterNavigationRoutes(
                 navigationService);
+
+            dependencyContainer.RegisterInstance<INavigationService>(
+                navigationService);
+
 
 
             await navigationService.SetRootWindow<MainViewModel, ItemsViewModel>();
@@ -38,6 +43,7 @@ namespace CodeMonkeys.Samples.WPF.SimpleNavigation
         {
             navigationService.Register<MainViewModel, MainWindow>();
             navigationService.Register<ItemsViewModel, ItemsView>();
+            navigationService.Register<ItemDetailsViewModel, ItemDetailsView>();
         }
     }
 }

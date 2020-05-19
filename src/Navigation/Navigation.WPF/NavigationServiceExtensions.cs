@@ -4,7 +4,10 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace CodeMonkeys.Navigation.WPF
+using NavigationService = CodeMonkeys.Navigation.WPF.NavigationService;
+using RegistrationInfo = CodeMonkeys.Navigation.WPF.RegistrationInfo;
+
+namespace CodeMonkeys.Navigation
 {
     public static class NavigationServiceExtensions
     {
@@ -60,12 +63,29 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
+
+        /// <summary>
+        /// States wether it is possible to navigate backwards and <see cref="CodeMonkeys.Navigation.WPF.NavigationService.TryGoBack"/> can be successfully executed
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        public static bool CanGoBack(
+            this INavigationService service)
+        {
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
+
+
+            return navigationService.CanGoBack();
+        }
+
         /// <summary>
         /// Tries to go back on navigation stack
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
-        public static bool GoBack(
+        public static bool TryGoBack(
             this INavigationService service)
         {
             ThrowIfNavigationServiceIsOfWrongType(
@@ -76,6 +96,22 @@ namespace CodeMonkeys.Navigation.WPF
             return navigationService.TryGoBack();
         }
 
+
+        /// <summary>
+        /// States wether it is possible to navigate backwards and <see cref="CodeMonkeys.Navigation.WPF.NavigationService.TryGoForward"/> can be successfully executed
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        public static bool CanGoForward(
+            this INavigationService service)
+        {
+            ThrowIfNavigationServiceIsOfWrongType(
+                service,
+                out var navigationService);
+
+
+            return navigationService.CanGoForward();
+        }
 
         /// <summary>
         /// Tries to go forward on navigation stack

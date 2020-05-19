@@ -7,14 +7,38 @@
         xmlns:wpf="clr-namespace:CodeMonkeys.Navigation.WPF;assembly=CodeMonkeys.Navigation.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    
-    <!--
-    <wpf:NavigationHost NavigationService="{Binding NavigationService}">
-        <wpf:NavigationHost.DefaultContent>
-            <Border Background="Red" />
-        </wpf:NavigationHost.DefaultContent>
-    </wpf:NavigationHost>
-    -->
 
-    <ContentControl Content="{Binding NavigationService.CurrentContent}" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        
+        <wpf:NavigationHost
+            Grid.Row="0"
+            NavigationService="{Binding NavigationService}">
+            <wpf:NavigationHost.DefaultContent>
+                <Border Background="Red" />
+            </wpf:NavigationHost.DefaultContent>
+        </wpf:NavigationHost>
+
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="0"
+                Command="{Binding NavigateBackCommand}"
+                Content="Back" />
+
+            <Button
+                Grid.Column="2"
+                Command="{Binding NavigateForwardCommand}"
+                Content="Forward" />
+        </Grid>
+    </Grid>
 </Window>

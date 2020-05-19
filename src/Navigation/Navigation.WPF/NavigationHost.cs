@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,7 +6,7 @@ using System.Windows.Data;
 namespace CodeMonkeys.Navigation.WPF
 {
     public class NavigationHost :
-        ContentControl
+        Frame
     {
         public static readonly DependencyProperty NavigationServiceProperty =
             DependencyProperty.Register(
@@ -17,7 +15,7 @@ namespace CodeMonkeys.Navigation.WPF
                 typeof(NavigationHost),
                 new PropertyMetadata(OnNavigationServiceChanged));
 
-        public INavigationService NavigationService
+        public new INavigationService NavigationService
         {
             get => (INavigationService)GetValue(NavigationServiceProperty);
             set => SetValue(NavigationServiceProperty, value);
@@ -42,6 +40,9 @@ namespace CodeMonkeys.Navigation.WPF
 
         public NavigationHost()
         {
+            NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;
+
+
             HorizontalAlignment = HorizontalAlignment.Stretch;
             VerticalAlignment = VerticalAlignment.Stretch;
         }
@@ -57,17 +58,6 @@ namespace CodeMonkeys.Navigation.WPF
                 Content = DefaultContent;
         }
 
-        protected override void OnPropertyChanged(
-            DependencyPropertyChangedEventArgs eventArgs)
-        {
-            base.OnPropertyChanged(eventArgs);
-
-            if (eventArgs.Property.Name == nameof(Content))
-            {
-
-            }
-        }
-
 
         private static void OnNavigationServiceChanged(
             DependencyObject @object,
@@ -80,7 +70,6 @@ namespace CodeMonkeys.Navigation.WPF
                 return;
 
 
-
             var binding = new Binding(
                 nameof(navigationService.CurrentContent))
             {
@@ -88,6 +77,7 @@ namespace CodeMonkeys.Navigation.WPF
             };
 
             host.SetBinding(ContentProperty, binding);
+
         }
     }
 }

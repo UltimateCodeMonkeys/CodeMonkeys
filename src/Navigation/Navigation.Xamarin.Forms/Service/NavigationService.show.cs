@@ -225,13 +225,17 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
                 if (!reference.TryGetTarget(out view))
                 {
-                    view = (TPage)Activator.CreateInstance(
+                    view = GetViewInstance<TPage>(
                         registrationInfo.ViewType);
 
                     reference.SetTarget(view);
                 }
             }
-            else view = Activator.CreateInstance<TPage>();
+            else
+            {
+                view = GetViewInstance<TPage>(
+                    registrationInfo.ViewType);
+            }
 
 
             view.BindingContext = viewModel;
@@ -245,6 +249,23 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 $"View of type {view.GetType().Name} has been created!");
 
             return (TPage)view;
+        }
+
+        private TView GetViewInstance<TView>(
+            Type contentType)
+
+            where TView : Page
+        {
+            if (Configuration.UseDependencyInjectionForViews)
+            {
+                return (TView)dependencyResolver.Resolve(
+                    contentType);
+            }
+            else
+            {
+                return (TView)Activator.CreateInstance(
+                        contentType);
+            }
         }
     }
 }

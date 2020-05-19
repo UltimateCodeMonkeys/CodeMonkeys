@@ -14,21 +14,18 @@ namespace CodeMonkeys.Samples.ViewModels
 
         INotifyPropertyChanged
     {
-        private INavigationService nav;
         public INavigationService NavigationService
         {
-            //get => GetValue<INavigationService>();
-            //private set => SetValue(value);
-            get => nav;
-            private set
-            {
-                nav = value;
-                RaisePropertyChanged();
-            }
+            get => GetValue<INavigationService>();
+            private set => SetValue(value);
         }
 
 
         public ObservableCollection<MenuItem> MenuItems { get; }
+
+
+        //public ICommand NavigateBackCommand { get; }
+        //public ICommand NavigateForwardCommand { get; }
 
         public MainViewModel(
             INavigationService navigationService)
@@ -36,6 +33,10 @@ namespace CodeMonkeys.Samples.ViewModels
             NavigationService = navigationService;
 
             MenuItems = new ObservableCollection<MenuItem>();
+
+
+            //NavigateBackCommand = new Command(
+            //    NavigationService.TryGoBack);
         }
 
         public override async Task InitializeAsync()
