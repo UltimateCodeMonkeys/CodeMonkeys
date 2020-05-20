@@ -1,19 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <AssemblyName>CodeMonkeys.Navigation.WPF.Interfaces</AssemblyName>
-    <RootNamespace>CodeMonkeys.Navigation</RootNamespace>
-    <Version>2.0.0</Version>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>CodeMonkeys.Navigation.WPF</AssemblyName>
+    <RootNamespace>CodeMonkeys.Navigation.WPF</RootNamespace>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
+    <Version>2.0.0</Version>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
-    <Description>Interfaces for WPF navigation in MVVM application</Description>
-    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageTags>C#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
+    <Description>Package to use ViewModel navigation in WPF MVVM application</Description>
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
+    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
+    <PackageTags>C#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
 
@@ -24,10 +25,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\LICENSE.md">
+    <None Include="..\..\..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
