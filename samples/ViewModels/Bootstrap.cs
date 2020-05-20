@@ -1,14 +1,11 @@
 ﻿using CodeMonkeys.DependencyInjection;
 using CodeMonkeys.MVVM.Factories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CodeMonkeys.Samples.ViewModels
 {
-    public static class Setup
+    public static class Bootstrap
     {
-        public static void RegisterTypes(
+        public static void RegisterViewModels(
             IDependencyContainer container)
         {
             container.RegisterType<MainViewModel>();
@@ -18,8 +15,8 @@ namespace CodeMonkeys.Samples.ViewModels
 
             container.RegisterType<ItemViewModel>();
 
-            ViewModelFactory.Configure(
-                container);
+
+            ViewModelFactory.Configure(container);
         }
     }
 }

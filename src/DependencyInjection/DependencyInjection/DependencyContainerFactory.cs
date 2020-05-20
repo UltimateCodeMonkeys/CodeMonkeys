@@ -37,9 +37,9 @@ namespace CodeMonkeys.DependencyInjection
                     _container = container;
                 }
 
+                container.RegisterInstance<IDependencyContainer>(_container);
                 container.RegisterInstance<IDependencyRegister>(_container);
                 container.RegisterInstance<IDependencyResolver>(_container);
-
             }
 
             return _container;

@@ -8,7 +8,11 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         public virtual Type ViewModelType { get; internal set; }
         public virtual Type ViewType { get; internal set; }
 
+
+        /// <inheritdoc cref="INavigationRegistration.ResolveViewUsingDependencyInjection" />
+        public bool ResolveViewUsingDependencyInjection { get; set; } = false;
         public bool PreCreateInstance { get; set; } = true;
+
 
         public DevicePlatforms Platform { get; set; } = DevicePlatforms.All;
 

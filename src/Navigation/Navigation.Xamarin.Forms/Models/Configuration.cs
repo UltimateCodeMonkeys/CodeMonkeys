@@ -8,8 +8,24 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
     /// <summary>
     /// Settings for the ViewModelNavigationService
     /// </summary>
-    public class NavigationConfiguration
+    public class Configuration
     {
+        /// <summary>
+        /// <para>
+        /// <see cref="CodeMonkeys.Navigation.Xamarin.Forms.NavigationService"/> uses the <see cref="CodeMonkeys.DependencyInjection.IDependencyContainer"/> instance to create views if set to <value>true</value>.
+        /// You need to register your view types in bootstrap using <see cref="CodeMonkeys.DependencyInjection.IDependencyRegister.RegisterType(Type)"/> or a similar method.
+        /// </para>
+        /// <para>
+        /// <see cref="CodeMonkeys.Navigation.Xamarin.Forms.NavigationService"/> uses the <see cref="CodeMonkeys.Activator"/> to create views if set to <value>false</value>.
+        /// Eventual dependencies in your view won't get resolved.
+        /// </para>
+        /// <para>
+        /// Defaults to <value>false</value>
+        /// </para>
+        /// </summary>
+        public bool UseDependencyInjectionForViews { get; set; } = false;
+
+
         /// <summary>
         /// Gets or sets a value indicating whether the
         /// <see cref="CodeMonkeys.Navigation.Xamarin.Forms.NavigationService" /> should use animations.

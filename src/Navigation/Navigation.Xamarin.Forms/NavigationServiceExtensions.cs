@@ -1,5 +1,6 @@
 ﻿using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
+
 using System;
 using System.Threading.Tasks;
 
@@ -37,6 +38,24 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             masterPage.Detail = new NavigationPage(detailPage);
             service.SetRootInternal(masterPage);
         }
+
+
+        /// <summary>
+        /// Closes all open pages and goes back to the application's root page
+        /// </summary>
+        public static async Task CloseAllAsync(
+            this INavigationService navigationService)
+        {
+            if (!(navigationService is NavigationService service))
+            {
+                throw new InvalidOperationException(
+                    $"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
+            }
+
+
+            await service.CloseAllAsync();
+        }
+
 
 
         /// <summary>

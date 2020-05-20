@@ -17,13 +17,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             where TViewModel : class, IViewModel
         {
             if (!TryGetRegistration(
-                typeof(TViewModel),
+                typeof(TViewModelInterface),
                 out var registration))
             {
                 throw new InvalidOperationException();
             }
 
-            if (Navigation.NavigationStack.Last().GetType() != registration.ViewType)
+            if (!Navigation.NavigationStack.Any(
+                page => page.GetType() == registration.ViewType))
             {
                 return;
             }
@@ -95,6 +96,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             Log?.Info(
                 "Page has been removed from Xamarin navigation stack.");
+
+
+            var bindingContext = Navigation.NavigationStack.Last()?.BindingContext;
+
+            if (!(bindingContext is IViewModel viewModel))
+                return;
         }
 
         private async Task PopToRootAsync()
