@@ -12,6 +12,8 @@ namespace CodeMonkeys.Navigation.WPF
 
         public bool PreCreateInstance { get; set; } = false;
 
+
+        /// <inheritdoc cref="INavigationRegistration.ResolveViewUsingDependencyInjection" />
         public bool ResolveViewUsingDependencyInjection { get; set; } = false;
 
 

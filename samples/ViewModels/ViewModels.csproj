@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Core\Core.csproj" />
     <ProjectReference Include="..\..\src\MVVM\MVVM.csproj" />
+    <ProjectReference Include="..\..\src\Navigation\WPF\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

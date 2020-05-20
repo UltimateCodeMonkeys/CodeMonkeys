@@ -76,8 +76,8 @@ namespace CodeMonkeys.Navigation.WPF
 
 
             AddToForwardStack(
-                destination.ViewModel,
-                destination.Content);
+                CurrentViewModel,
+                CurrentContent);
 
             SetCurrent(
                 destination.ViewModel,
@@ -105,7 +105,7 @@ namespace CodeMonkeys.Navigation.WPF
                 return false;
             }
 
-            if (destination.Content.TryGetTarget(
+            if (!destination.Content.TryGetTarget(
                 out var content))
             {
                 return false;
@@ -268,8 +268,7 @@ namespace CodeMonkeys.Navigation.WPF
 
             where TView : FrameworkElement
         {
-            if (registrationInfo is RegistrationInfo wpfRegistration &&
-                wpfRegistration.ResolveViewUsingDependencyInjection)
+            if (registrationInfo.ResolveViewUsingDependencyInjection)
             {
                 return (TView)dependencyResolver.Resolve(
                     registrationInfo.ViewType);

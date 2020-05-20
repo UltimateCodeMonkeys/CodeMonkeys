@@ -11,7 +11,8 @@ namespace CodeMonkeys.Navigation
 {
     public static class NavigationServiceExtensions
     {
-        public static async Task SetRootWindow<TViewModel>(
+        /*
+        public static async Task SetRootWindowAsync<TViewModel>(
             this INavigationService service)
 
             where TViewModel : class, IViewModel
@@ -42,7 +43,7 @@ namespace CodeMonkeys.Navigation
                 out var navigationService);
 
 
-            await SetRootWindow<TRootViewModel>(
+            await SetRootWindowAsync<TRootViewModel>(
                 navigationService);
 
             await navigationService.SetRoot<TInitialViewModel>();
@@ -174,7 +175,7 @@ namespace CodeMonkeys.Navigation
 
             navigationService.ClearForwardStack();
         }
-
+        */
 
 
         /// <summary>

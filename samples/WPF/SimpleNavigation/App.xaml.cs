@@ -3,8 +3,9 @@ using CodeMonkeys.Navigation;
 using CodeMonkeys.Navigation.WPF;
 using CodeMonkeys.Samples.ViewModels;
 
-using SimpleNavigation;
 using System.Windows;
+
+using SimpleNavigation;
 
 namespace CodeMonkeys.Samples.WPF.SimpleNavigation
 {
@@ -30,16 +31,19 @@ namespace CodeMonkeys.Samples.WPF.SimpleNavigation
             RegisterNavigationRoutes(
                 navigationService);
 
-            dependencyContainer.RegisterInstance<INavigationService>(
+            dependencyContainer.RegisterInstance<Navigation.INavigationService>(
+                navigationService);
+
+            dependencyContainer.RegisterInstance<Navigation.WPF.INavigationService>(
                 navigationService);
 
 
 
-            await navigationService.SetRootWindow<MainViewModel, ItemsViewModel>();
+            await navigationService.SetRootWindowAsync<MainViewModel, ItemsViewModel>();
         }
 
         private void RegisterNavigationRoutes(
-            INavigationService navigationService)
+            Navigation.WPF.INavigationService navigationService)
         {
             navigationService.Register<MainViewModel, MainWindow>();
             navigationService.Register<ItemsViewModel, ItemsView>();

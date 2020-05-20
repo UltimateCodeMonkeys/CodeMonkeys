@@ -115,7 +115,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.SetRoot{TViewModelInterface}()" />
-        public async Task SetRoot<TViewModel>()
+        public async Task SetRootAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
         {

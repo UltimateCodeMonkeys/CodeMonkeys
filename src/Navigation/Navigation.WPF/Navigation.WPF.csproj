@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />
     <ProjectReference Include="..\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\WPF\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

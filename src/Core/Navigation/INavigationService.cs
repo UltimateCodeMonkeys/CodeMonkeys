@@ -31,7 +31,7 @@ namespace CodeMonkeys.Navigation
         /// </summary>
         /// <typeparam name="TViewModelInterface"></typeparam>
         /// <param name="dataContext">A ViewModel instance of the given interface type</param>
-        Task SetRoot<TViewModelInterface>()
+        Task SetRootAsync<TViewModelInterface>()
             where TViewModelInterface : class, IViewModel;
 
 

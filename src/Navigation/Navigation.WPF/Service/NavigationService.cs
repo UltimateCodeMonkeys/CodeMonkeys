@@ -17,7 +17,7 @@ namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService :
 
-        INavigationService,
+        CodeMonkeys.Navigation.WPF.INavigationService,
         INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -91,7 +91,34 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        public async Task SetRoot<TViewModel>()
+        public async Task SetRootWindowAsync<TViewModel>()
+
+            where TViewModel : class, IViewModel
+        {
+            var viewModel = await InitializeViewModelInternal<TViewModel>();
+
+            var window = CreateContentInternal<TViewModel, Window>(
+                viewModel);
+
+
+            Application.Current.MainWindow = window;
+            Application.Current.MainWindow.Show();
+        }
+
+        public async Task SetRootWindowAsync<TRootViewModel, TInitialViewModel>()
+
+            where TRootViewModel : class, IViewModel
+            where TInitialViewModel : class, IViewModel
+        {
+            await SetRootWindowAsync<TRootViewModel>();
+
+            await SetRootAsync<TInitialViewModel>();
+
+            ClearStacks();
+        }
+
+
+        public async Task SetRootAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
         {

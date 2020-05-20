@@ -226,7 +226,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 if (!reference.TryGetTarget(out view))
                 {
                     view = GetViewInstance<TPage>(
-                        registrationInfo.ViewType);
+                        registrationInfo);
 
                     reference.SetTarget(view);
                 }
@@ -234,7 +234,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             else
             {
                 view = GetViewInstance<TPage>(
-                    registrationInfo.ViewType);
+                    registrationInfo);
             }
 
 
@@ -252,19 +252,19 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
         private TView GetViewInstance<TView>(
-            Type contentType)
+            INavigationRegistration registrationInfo)
 
             where TView : Page
         {
-            if (Configuration.UseDependencyInjectionForViews)
+            if (registrationInfo.ResolveViewUsingDependencyInjection)
             {
                 return (TView)dependencyResolver.Resolve(
-                    contentType);
+                    registrationInfo.ViewType);
             }
             else
             {
                 return (TView)Activator.CreateInstance(
-                        contentType);
+                        registrationInfo.ViewType);
             }
         }
     }
