@@ -12,9 +12,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         INavigationService
     {
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface}" />
-        public virtual async Task CloseAsync<TViewModelInterface>()
+        public virtual async Task CloseAsync<TViewModel>()
 
-            where TViewModelInterface : class, IViewModel
+            where TViewModel : class, IViewModel
         {
             if (!TryGetRegistration(
                 typeof(TViewModelInterface),
@@ -29,67 +29,56 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return;
             }
 
-
-            var view = Navigation.NavigationStack.First(
-                page => page.GetType() == registration.ViewType);
 
             await CloseCurrentPage();
         }
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface}" />
-        public virtual async Task CloseAsync<TViewModelInterface, TParentViewModelInterface>()
+        public virtual async Task CloseAsync<TViewModel, TInterestedViewModel>()
 
-            where TViewModelInterface : class, IViewModel
-            where TParentViewModelInterface : class, IViewModel, IListenToChildViewModelClosing
+            where TViewModel : class, IViewModel
+            where TInterestedViewModel : class, IViewModel, IListenToChildViewModelClosing
         {
-            ThrowIfNotRegistered<TViewModelInterface>(
-                CurrentPage.GetType());
-
             if (!TryGetRegistration(
-                typeof(TViewModelInterface),
+                typeof(TViewModel),
                 out var registration))
             {
                 throw new InvalidOperationException();
             }
 
-            if (!Navigation.NavigationStack.Any(
-                page => page.GetType() == registration.ViewType))
+            if (Navigation.NavigationStack.Last().GetType() != registration.ViewType)
             {
                 return;
             }
 
 
-            await ResolveAndInformParent<TParentViewModelInterface>();
+            await ResolveAndInformListener<TInterestedViewModel>();
 
             await CloseCurrentPage();
         }
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface, TResult}(TResult)" />
-        public virtual async Task CloseAsync<TViewModelInterface, TParentViewModelInterface, TResult>(
-            TResult result)
+        public virtual async Task CloseAsync<TViewModel, TInterestedViewModel, TData>(
+            TData data)
 
-            where TViewModelInterface : class, IViewModel
-            where TParentViewModelInterface : class, IViewModel, IListenToChildViewModelClosing<TResult>
+            where TViewModel : class, IViewModel
+            where TInterestedViewModel : class, IViewModel, IListenToChildViewModelClosing<TData>
         {
-            ThrowIfNotRegistered<TViewModelInterface>(
-                CurrentPage.GetType());
-
             if (!TryGetRegistration(
-                typeof(TViewModelInterface),
+                typeof(TViewModel),
                 out var registration))
             {
                 throw new InvalidOperationException();
             }
 
-            if (!Navigation.NavigationStack.Any(
-                page => page.GetType() == registration.ViewType))
+            if (Navigation.NavigationStack.Last().GetType() != registration.ViewType)
             {
                 return;
             }
 
 
-            await ResolveAndInformParent<TParentViewModelInterface, TResult>(
-                result);
+            await ResolveAndInformListener<TInterestedViewModel, TData>(
+                data);
 
             await CloseCurrentPage();
         }
@@ -125,30 +114,34 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        private async Task ResolveAndInformParent<TParentViewModelInterface>()
+        private async Task ResolveAndInformListener<TInterestedViewModel>()
 
-            where TParentViewModelInterface : class, IListenToChildViewModelClosing
+            where TInterestedViewModel : class, IListenToChildViewModelClosing
         {
-            var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
+            var parentViewModel = dependencyResolver.Resolve<TInterestedViewModel>();
+
 
             Log?.Info(
-                $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
+                $"ViewModelInstance for type {typeof(TInterestedViewModel).Name} has been resolved.");
+
 
             await parentViewModel.OnChildViewModelClosingAsync();
         }
 
-        private async Task ResolveAndInformParent<TParentViewModelInterface, TResult>(
-            TResult result)
+        private async Task ResolveAndInformListener<TInterestedViewModel, TData>(
+            TData data)
 
-            where TParentViewModelInterface : class, IListenToChildViewModelClosing<TResult>
+            where TInterestedViewModel : class, IListenToChildViewModelClosing<TData>
         {
-            var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
+            var parentViewModel = dependencyResolver.Resolve<TInterestedViewModel>();
+
 
             Log?.Info(
-                $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
+                $"ViewModelInstance for type {typeof(TInterestedViewModel).Name} has been resolved.");
+
 
             await parentViewModel.OnChildViewModelClosingAsync(
-                result);
+                data);
         }
     }
 }

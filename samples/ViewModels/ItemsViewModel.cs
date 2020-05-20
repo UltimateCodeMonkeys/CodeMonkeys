@@ -1,5 +1,4 @@
 ﻿using CodeMonkeys.MVVM.Commands;
-
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -48,6 +47,12 @@ namespace CodeMonkeys.Samples.ViewModels
             }
 
             IsBusy = false;
+        }
+
+
+        public override Task OnClosing()
+        {
+            return base.OnClosing();
         }
     }
 }
