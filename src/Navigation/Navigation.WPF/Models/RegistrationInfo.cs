@@ -17,7 +17,7 @@ namespace CodeMonkeys.Navigation.WPF
         public bool ResolveViewUsingDependencyInjection { get; set; } = false;
 
 
-        public bool OpenInNewWindow { get; set; } = false;
+        //public bool OpenInNewWindow { get; set; } = false;
         //public bool OpenAsPopup { get; set; } = false;
     }
 }

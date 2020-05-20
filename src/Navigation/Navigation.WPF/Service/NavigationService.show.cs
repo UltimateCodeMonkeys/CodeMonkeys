@@ -3,7 +3,6 @@ using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,21 +17,6 @@ namespace CodeMonkeys.Navigation.WPF
 
             where TViewModel : class, IViewModel
         {
-            // todo: does this make sense? maybe the users WANTS to create a new instance?
-            // he can still use GoBack and GoForward methods if not
-            /*
-            if (BackStack.Last().ViewModel.GetType() == typeof(TViewModel))
-            {
-                GoBack();
-                return;
-            }
-            else if (ForwardStack.Last().ViewModel.GetType() == typeof(TViewModel))
-            {
-                GoForward();
-                return;
-            }
-            */
-
             var viewModel = await InitializeViewModel<TViewModel>();
             var content = CreateContent<TViewModel>(
                 viewModel);
