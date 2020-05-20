@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,37 +36,55 @@ namespace CodeMonkeys.Navigation.WPF
 
 
         protected IList<NavigationStackEntry> BackStack { get; set; }
-        protected IList<NavigationStackEntry> ForwardStack { get; set; }
+        protected IList<WeakNavigationStackEntry> ForwardStack { get; set; }
 
 
 
-        public IViewModel CurrentViewModel { get; protected set; }
-
-
-        private FrameworkElement content;
-        public FrameworkElement CurrentContent
+        private NavigationStackEntry root;
+        protected NavigationStackEntry Root
         {
-            get => content;
+            get => root;
             set
             {
-                content = value;
-
-                PropertyChanged?.Invoke(
-                    this,
-                    new PropertyChangedEventArgs(nameof(CurrentContent)));
+                root = value;
+                RaisePropertyChanged();
+                
+                RaisePropertyChanged(nameof(CurrentViewModel));
+                RaisePropertyChanged(nameof(CurrentContent));
             }
         }
+
+        private NavigationStackEntry current;
+        protected NavigationStackEntry Current
+        {
+            get => current;
+            set
+            {
+                current = value;
+                RaisePropertyChanged();
+
+                RaisePropertyChanged(nameof(CurrentViewModel));
+                RaisePropertyChanged(nameof(CurrentContent));
+            }
+        }
+
+
+        public IViewModel CurrentViewModel => Current?.ViewModel;
+
+        public FrameworkElement CurrentContent => Current?.Content;
+
 
 
         public IReadOnlyCollection<INavigationRegistration> Registrations =>
             new ReadOnlyCollection<INavigationRegistration>(NavigationRegistrations);
 
 
+
         public NavigationService(
             IDependencyResolver resolver)
         {
             BackStack = new List<NavigationStackEntry>();
-            ForwardStack = new List<NavigationStackEntry>();
+            ForwardStack = new List<WeakNavigationStackEntry>();
 
             SetResolverInstance(
                 resolver);
@@ -87,7 +106,14 @@ namespace CodeMonkeys.Navigation.WPF
 
         public bool CanGoForward()
         {
-            return ForwardStack.Any();
+            var target = ForwardStack.LastOrDefault();
+
+            if (target == null)
+                return false;
+
+
+            return target.Content?.TryGetTarget(out _) == true &&
+                target.ViewModel?.TryGetTarget(out _) == true;
         }
 
 
@@ -121,8 +147,16 @@ namespace CodeMonkeys.Navigation.WPF
                 viewModel);
 
 
-            CurrentViewModel = viewModel;
-            CurrentContent = content;
+
+            Root = new NavigationStackEntry(
+                viewModel,
+                content);
+
+            
+
+            SetCurrent(
+                viewModel,
+                content);
 
 
             return content;
@@ -149,6 +183,16 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
+        private void RaisePropertyChanged(
+            [CallerMemberName]string propertyName = "")
+        {
+            var threadSafeCall = PropertyChanged;
+
+            threadSafeCall?.Invoke(
+                this,
+                new PropertyChangedEventArgs(
+                    propertyName));
+        }
 
         #region View Disappearing event
         private async void OnContentUnloaded(

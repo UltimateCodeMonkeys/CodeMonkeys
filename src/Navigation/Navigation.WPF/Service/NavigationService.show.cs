@@ -38,7 +38,7 @@ namespace CodeMonkeys.Navigation.WPF
                 viewModel);
 
 
-            SetCurrent(
+            ShowInternal(
                 viewModel,
                 content);
         }
@@ -55,7 +55,7 @@ namespace CodeMonkeys.Navigation.WPF
                 viewModel);
 
 
-            SetCurrent(
+            ShowInternal(
                 viewModel,
                 content);
         }
@@ -67,13 +67,21 @@ namespace CodeMonkeys.Navigation.WPF
                 return false;
 
             
-            var destination = BackStack.Last();
+            var destination = BackStack.LastOrDefault();
+
+            if (destination == null)
+                return false;
+
             BackStack.Remove(destination);
+
+
+            AddToForwardStack(
+                destination.ViewModel,
+                destination.Content);
 
             SetCurrent(
                 destination.ViewModel,
-                destination.Content,
-                ForwardStack);
+                destination.Content);
 
 
             return true;
@@ -85,12 +93,35 @@ namespace CodeMonkeys.Navigation.WPF
                 return false;
 
 
-            var destination = ForwardStack.Last();
+            var destination = ForwardStack.LastOrDefault();
+
+            if (destination == null)
+                return false;
+
+
+            if (!destination.ViewModel.TryGetTarget(
+                out var viewModel))
+            {
+                return false;
+            }
+
+            if (destination.Content.TryGetTarget(
+                out var content))
+            {
+                return false;
+            }
+
+
             ForwardStack.Remove(destination);
 
+
+            AddToBackStack(
+                viewModel,
+                content);
+
             SetCurrent(
-                destination.ViewModel,
-                destination.Content);
+                viewModel,
+                content);
 
 
             return true;
@@ -144,7 +175,7 @@ namespace CodeMonkeys.Navigation.WPF
                 if (!reference.TryGetTarget(out content))
                 {
                     content = GetContentInstance<TView>(
-                        registration.ViewType);
+                        registration);
 
                     reference.SetTarget(content);
                 }
@@ -152,7 +183,7 @@ namespace CodeMonkeys.Navigation.WPF
             else
             {
                 content = GetContentInstance<TView>(
-                    registration.ViewType);
+                    registration);
             }
 
 
@@ -215,51 +246,71 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
+        private void ShowInternal(
+            IViewModel viewModel,
+            FrameworkElement content)
+        {
+            if (Current != null)
+            {
+                AddToBackStack(
+                    Current.ViewModel,
+                    Current.Content);
+            }
+
+            SetCurrent(
+                viewModel,
+                content);
+        }
+
+
         private TView GetContentInstance<TView>(
-            Type contentType)
+            INavigationRegistration registrationInfo)
 
             where TView : FrameworkElement
         {
-            if (Configuration.UseDependencyInjectionForViews)
+            if (registrationInfo is RegistrationInfo wpfRegistration &&
+                wpfRegistration.ResolveViewUsingDependencyInjection)
             {
                 return (TView)dependencyResolver.Resolve(
-                    contentType);
+                    registrationInfo.ViewType);
             }
             else
             {
                 return (TView)Activator.CreateInstance(
-                        contentType);
+                        registrationInfo.ViewType);
             }
         }
 
+
+        private void AddToBackStack(
+            IViewModel viewModel,
+            FrameworkElement content)
+        {
+            var origin = new NavigationStackEntry(
+                viewModel,
+                content);
+
+            BackStack.Add(origin);
+        }
+
+        private void AddToForwardStack(
+            IViewModel viewModel,
+            FrameworkElement content)
+        {
+            var origin = new WeakNavigationStackEntry(
+                viewModel,
+                content);
+
+            ForwardStack.Add(origin);
+        }
 
         private void SetCurrent(
             IViewModel viewModel,
             FrameworkElement content)
         {
-            SetCurrent(
+            Current = new NavigationStackEntry(
                 viewModel,
-                content,
-                BackStack);
-        }
-
-        private void SetCurrent(
-            IViewModel viewModel,
-            FrameworkElement content,
-            
-            IList<NavigationStackEntry> stack)
-        {
-            var origin = new NavigationStackEntry
-            {
-                ViewModel = CurrentViewModel,
-                Content = CurrentContent
-            };
-
-            stack.Add(origin);
-
-
-            CurrentViewModel = viewModel;
-            CurrentContent = content;
+                content);
         }
     }
 }

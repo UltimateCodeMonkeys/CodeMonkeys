@@ -3,7 +3,6 @@ using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
 
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace CodeMonkeys.Navigation.WPF
 {
@@ -54,6 +53,24 @@ namespace CodeMonkeys.Navigation.WPF
             await ResolveAndInformParent<TParentViewModelInterface, TResult>(
                 result);
         }
+
+
+        public virtual Task CloseAllAsync()
+        {
+            if (Root == Current)
+                return Task.CompletedTask;
+
+
+            SetCurrent(
+                Root.ViewModel,
+                Root.Content);
+
+            ClearStacks();
+
+
+            return Task.CompletedTask;
+        }
+
 
 
         private async Task ResolveAndInformParent<TParentViewModelInterface>()

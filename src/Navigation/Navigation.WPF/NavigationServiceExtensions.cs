@@ -45,7 +45,7 @@ namespace CodeMonkeys.Navigation
             await SetRootWindow<TRootViewModel>(
                 navigationService);
 
-            await navigationService.ShowAsync<TInitialViewModel>();
+            await navigationService.SetRoot<TInitialViewModel>();
 
             navigationService.ClearStacks();
         }
