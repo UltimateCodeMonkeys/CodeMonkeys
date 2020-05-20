@@ -257,6 +257,10 @@ namespace CodeMonkeys.Navigation.WPF
                     Current.Content);
             }
 
+
+            ClearForwardStack();
+
+
             SetCurrent(
                 viewModel,
                 content);
