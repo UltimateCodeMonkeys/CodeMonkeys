@@ -4,10 +4,8 @@ using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,15 +21,11 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             new SemaphoreSlim(1, 1);
 
         private static IDependencyResolver dependencyResolver;
-        protected static ILogService Log;
+        protected static ILogService Log;              
 
 
-        protected static readonly ConcurrentDictionary<Type, Type> ViewModelToViewMap =
-            new ConcurrentDictionary<Type, Type>();
-
-
-        public static NavigationConfiguration Configuration { get; set; } =
-            new NavigationConfiguration();
+        public static Configuration Configuration { get; set; } =
+            new Configuration();
 
 
 
@@ -121,7 +115,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.SetRoot{TViewModelInterface}()" />
-        public async Task SetRoot<TViewModel>()
+        public async Task SetRootAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
@@ -209,6 +203,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
+
         #region View Disappearing event
         private async void OnViewClosing(
             object sender,
@@ -232,7 +227,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 DetachDisappearingEventListener(page);
                 return;
             }
-
 
             await viewModel.OnClosing();
 

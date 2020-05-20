@@ -2,21 +2,47 @@
 using CodeMonkeys.MVVM.Commands;
 using CodeMonkeys.MVVM.PropertyChanged;
 
+using CodeMonkeys.Navigation.WPF;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CodeMonkeys.Samples.ViewModels
 {
     public class MainViewModel :
-        BaseViewModel
+        BaseViewModel,
+
+        INotifyPropertyChanged
     {
+        public INavigationService NavigationService
+        {
+            get => GetValue<INavigationService>();
+            private set => SetValue(value);
+        }
+
+
         public ObservableCollection<MenuItem> MenuItems { get; }
 
-        public MainViewModel()
+
+        public ICommand NavigateBackCommand { get; }
+        public ICommand NavigateForwardCommand { get; }
+
+        public MainViewModel(
+            INavigationService navigationService)
         {
+            NavigationService = navigationService;
+
             MenuItems = new ObservableCollection<MenuItem>();
+
+
+
+            NavigateBackCommand = new Command(
+                () => NavigationService.TryGoBack());
+
+            NavigateForwardCommand = new Command(
+                () => NavigationService.TryGoForward());
         }
 
         public override async Task InitializeAsync()

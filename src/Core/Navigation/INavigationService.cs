@@ -31,7 +31,7 @@ namespace CodeMonkeys.Navigation
         /// </summary>
         /// <typeparam name="TViewModelInterface"></typeparam>
         /// <param name="dataContext">A ViewModel instance of the given interface type</param>
-        Task SetRoot<TViewModelInterface>()
+        Task SetRootAsync<TViewModelInterface>()
             where TViewModelInterface : class, IViewModel;
 
 
@@ -73,10 +73,6 @@ namespace CodeMonkeys.Navigation
             where TViewModelInterface : class, IViewModel
             where TParentViewModelInterface : class, IViewModel, IListenToChildViewModelClosing<TResult>;
 
-        /// <summary>
-        /// Closes all open pages and goes back to the application's root page
-        /// </summary>
-        Task CloseAllAsync();
 
         /// <summary>
         /// Clears the view instance cache.

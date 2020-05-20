@@ -43,7 +43,7 @@ namespace TabbedSample
 
             navigationService.Register<ItemDetailsViewModel, ItemDetailsPage>();
 
-            await navigationService.SetRoot<MainViewModel>();
+            await navigationService.SetRootAsync<MainViewModel>();
         }
 
         protected override void OnSleep()

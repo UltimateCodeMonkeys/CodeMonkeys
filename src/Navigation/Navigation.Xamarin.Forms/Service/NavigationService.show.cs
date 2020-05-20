@@ -210,21 +210,31 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
 
-            if (PageCache.All(cachedPage => cachedPage.Type != registrationInfo.ViewType))
+            Page view;
+
+            if (Configuration.CachePageInstances)
             {
-                CreateCachedPage(registrationInfo.ViewType);
+                if (PageCache.All(cachedPage => cachedPage.Type != registrationInfo.ViewType))
+                {
+                    CreateCachedPage(registrationInfo.ViewType);
+                }
+
+                var reference = PageCache
+                    .First(cachedPage => cachedPage.Type == registrationInfo.ViewType)
+                    .Reference;
+
+                if (!reference.TryGetTarget(out view))
+                {
+                    view = GetViewInstance<TPage>(
+                        registrationInfo);
+
+                    reference.SetTarget(view);
+                }
             }
-
-            var reference = PageCache
-                .First(cachedPage => cachedPage.Type == registrationInfo.ViewType)
-                .Reference;
-
-            if (!reference.TryGetTarget(out var view))
+            else
             {
-                view = (TPage)Activator.CreateInstance(
-                    registrationInfo.ViewType);
-
-                reference.SetTarget(view);
+                view = GetViewInstance<TPage>(
+                    registrationInfo);
             }
 
 
@@ -239,6 +249,23 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 $"View of type {view.GetType().Name} has been created!");
 
             return (TPage)view;
+        }
+
+        private TView GetViewInstance<TView>(
+            INavigationRegistration registrationInfo)
+
+            where TView : Page
+        {
+            if (registrationInfo.ResolveViewUsingDependencyInjection)
+            {
+                return (TView)dependencyResolver.Resolve(
+                    registrationInfo.ViewType);
+            }
+            else
+            {
+                return (TView)Activator.CreateInstance(
+                        registrationInfo.ViewType);
+            }
         }
     }
 }

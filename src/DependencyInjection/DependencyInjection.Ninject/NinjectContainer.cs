@@ -14,7 +14,8 @@ namespace CodeMonkeys.DependencyInjection.Ninject
     {
         private static StandardKernel container;
 
-        internal override void SetContainer(object instance)
+        internal override void SetContainer(
+            object instance)
         {
             if (instance is StandardKernel kernel)
             {
