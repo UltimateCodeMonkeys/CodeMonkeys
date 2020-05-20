@@ -14,6 +14,12 @@
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
     <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
+
+    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>

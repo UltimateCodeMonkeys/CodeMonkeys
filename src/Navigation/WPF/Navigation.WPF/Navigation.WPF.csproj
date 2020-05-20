@@ -15,12 +15,18 @@
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
     <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+
+    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Core.csproj" />
-    <ProjectReference Include="..\Navigation\Navigation.csproj" />
-    <ProjectReference Include="..\WPF\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -13,8 +13,9 @@
     <ProjectReference Include="..\..\..\src\DependencyInjection\DependencyInjection.DryIoC\DependencyInjection.DryIoC.csproj" />
     <ProjectReference Include="..\..\..\src\DependencyInjection\DependencyInjection\DependencyInjection.csproj" />
     <ProjectReference Include="..\..\..\src\MVVM\MVVM.csproj" />
-    <ProjectReference Include="..\..\..\src\Navigation\Navigation.WPF\Navigation.WPF.csproj" />
     <ProjectReference Include="..\..\..\src\Navigation\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\..\..\src\Navigation\WPF\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\src\Navigation\WPF\Navigation.WPF\Navigation.WPF.csproj" />
     <ProjectReference Include="..\..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
 

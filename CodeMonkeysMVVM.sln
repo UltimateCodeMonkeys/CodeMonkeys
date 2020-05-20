@@ -75,7 +75,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TabbedSample.iOS", "samples
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TabbedSample", "samples\Xamarin.Forms\TabbedSample\TabbedSample\TabbedSample.csproj", "{A72B557B-5B94-402E-9D43-5CDE782DDC6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navigation.WPF", "src\Navigation\Navigation.WPF\Navigation.WPF.csproj", "{C260156C-EFA9-4058-8B06-3D6AA1B4E8C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navigation.WPF", "src\Navigation\WPF\Navigation.WPF\Navigation.WPF.csproj", "{C260156C-EFA9-4058-8B06-3D6AA1B4E8C8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin.Forms", "Xamarin.Forms", "{F2D1366F-1E2E-435E-B6F7-AA88BFCD0145}"
 EndProject
