@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using SystemIOFile = System.IO.File;
 
 namespace CodeMonkeys.Logging.File
 {
@@ -11,11 +12,13 @@ namespace CodeMonkeys.Logging.File
     {
         private readonly string _fileName;
         private readonly string _extension;
-        private readonly int? _maxFileSize;
-        private readonly string _path;
+        private readonly long? _maxFileSize;
+        private readonly string _directoryPath;
         private int _index;
 
         private LogMessageFormatter _formatter;
+
+        private readonly string _path;
 
         internal FileLogServiceProvider(FileLogOptions options) 
             : base(options)
@@ -23,10 +26,18 @@ namespace CodeMonkeys.Logging.File
             _fileName = options.FileName;
             _extension = options.Extension;
             _maxFileSize = options.MaxFileSize;
-            _path = options.Directory;
+            _directoryPath = options.Directory;
+
+            if (_maxFileSize == null)
+            {
+                _path = Path.Combine(
+                    _directoryPath,
+                    $"{_fileName}.{_extension}");
+            }
         }
 
-        internal new void ProcessMessage(LogMessage message) => base.ProcessMessage(message);
+        internal new void ProcessMessage(LogMessage message) => 
+            base.ProcessMessage(message);
 
         public override ILogService Create(string context)
         {
@@ -41,15 +52,19 @@ namespace CodeMonkeys.Logging.File
         {
             _formatter ??= new LogMessageFormatter();
 
+            Directory.CreateDirectory(_directoryPath);
+
             foreach (var message in batch)
             {
                 try
                 {
-                    var path = GetFilePath();
+                    var path = _maxFileSize == null ?
+                        _path :
+                        CreateLogFilePath();
 
                     string formattedMessage = _formatter.Format(message, TimeStampFormat);
 
-                    await FileAppendAllTextAsync(
+                    await SystemIOFile.AppendAllTextAsync(
                         path,
                         formattedMessage,
                         token);
@@ -58,38 +73,44 @@ namespace CodeMonkeys.Logging.File
             }
         }
 
-        private string GetFilePath()
+        private string CreateLogFilePath()
         {
-            var path = GetLogFileFullPath();
-            var file = new FileInfo(path);
+            var path = GetFullLogFilePath();
+            var size = GetFileSize(path);
 
-            if (_maxFileSize > 0 && file.Exists && file.Length < _maxFileSize)
+            if (size <= _maxFileSize)
                 return path;
 
             _index++;
-            return GetLogFileFullPath();
+            return GetFullLogFilePath();
         }
 
-        private string GetLogFileFullPath()
+        private string GetFullLogFilePath()
+        {
+            var suffix = GetFileNameSuffix();
+
+            return Path.Combine(
+                _directoryPath,
+                $"{_fileName}{suffix}.{_extension}");
+        }
+
+        private long GetFileSize(string path)
+        {
+            var fi = new FileInfo(path);
+            var size = fi.Exists ?
+                fi.Length :
+                0;
+
+            return size;
+        }
+
+        private string GetFileNameSuffix()
         {
             var suffix = _index == 0 ?
                  string.Empty :
                  $"({_index})";
 
-            return Path.Combine(
-                _path,
-                $"{_fileName}{suffix}.{_extension}");
-        }
-
-        private async Task FileAppendAllTextAsync(
-            string path, 
-            string content,
-            CancellationToken token)
-        {
-            await System.IO.File.AppendAllTextAsync(
-                path,
-                content,
-                token);
+            return suffix;
         }
     }
 }

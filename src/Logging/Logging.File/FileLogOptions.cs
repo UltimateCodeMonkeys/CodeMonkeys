@@ -1,4 +1,5 @@
 ﻿using CodeMonkeys.Logging.Batching;
+
 using System;
 
 namespace CodeMonkeys.Logging.File
@@ -7,7 +8,7 @@ namespace CodeMonkeys.Logging.File
     {
         private string _name;
         private string _extension;
-        private int? _maxSize;
+        private long? _maxSize;
         private string _directory;
 
         /// <summary>
@@ -18,7 +19,11 @@ namespace CodeMonkeys.Logging.File
         public string FileName
         {
             get => _name;
-            set => SetValue(ref _name, value);
+            set
+            {
+                Property.NotEmptyOrWhiteSpace(value);
+                SetValue(ref _name, value);
+            }
         }
 
         /// <summary>
@@ -29,13 +34,21 @@ namespace CodeMonkeys.Logging.File
         public string Extension
         {
             get => _extension;
-            set => SetValue(ref _extension, value?.TrimStart('.'));
+            set
+            {
+                Property.NotEmptyOrWhiteSpace(value);
+                SetValue(ref _extension, value?.TrimStart('.'));
+            }
         }
 
-        public int? MaxFileSize
+        public long? MaxFileSize
         {
             get => _maxSize;
-            set => SetValue(ref _maxSize, value);
+            set
+            {
+                Property.GreaterThan(value, 0);
+                SetValue(ref _maxSize, value);
+            }
         }
 
         /// <summary>
@@ -46,12 +59,16 @@ namespace CodeMonkeys.Logging.File
         public string Directory
         {
             get => _directory;
-            set => SetValue(ref _directory, value);
+            set
+            {
+                Property.NotEmptyOrWhiteSpace(value);
+                SetValue(ref _directory, value);
+            }
         }
 
         public FileLogOptions()
         {
-            FileName = "log";
+            FileName = $"log-{DateTime.Now.ToShortDateString()}";
             Extension = "txt";
             Directory = $"{Environment.CurrentDirectory}\\logs";
         }
