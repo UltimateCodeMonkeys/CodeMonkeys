@@ -85,7 +85,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleNavigation", "samples
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{14F142FD-85AE-4875-87A5-F6CDFE58BEA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navigation.WPF.Interfaces", "src\Navigation\WPF\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj", "{352D7F3A-2DA1-43C6-9E7B-C4C6C591E3ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navigation.WPF.Interfaces", "src\Navigation\WPF\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj", "{352D7F3A-2DA1-43C6-9E7B-C4C6C591E3ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
