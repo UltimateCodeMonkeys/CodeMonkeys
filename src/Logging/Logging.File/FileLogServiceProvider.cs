@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SystemIOFile = System.IO.File;
@@ -10,9 +11,10 @@ namespace CodeMonkeys.Logging.File
 {
     public sealed class FileLogServiceProvider : BatchingLogServiceProvider<FileLogOptions>
     {
-        private readonly string _fileName;
+        private readonly string _fileNamePrefix;
         private readonly string _extension;
         private readonly long? _maxFileSize;
+        private readonly int? _maxFilesToRetain;
         private readonly string _directoryPath;
         private int _index;
 
@@ -23,16 +25,17 @@ namespace CodeMonkeys.Logging.File
         internal FileLogServiceProvider(FileLogOptions options) 
             : base(options)
         {
-            _fileName = options.FileName;
+            _fileNamePrefix = options.FileNamePrefix;
             _extension = options.Extension;
             _maxFileSize = options.MaxFileSize;
+            _maxFilesToRetain = options.MaxFilesToRetain;
             _directoryPath = options.Directory;
 
             if (_maxFileSize == null)
             {
                 _path = Path.Combine(
                     _directoryPath,
-                    $"{_fileName}.{_extension}");
+                    $"{_fileNamePrefix}.{_extension}");
             }
         }
 
@@ -71,6 +74,8 @@ namespace CodeMonkeys.Logging.File
                 }
                 catch { }
             }
+
+            ClearObsoleteFiles();
         }
 
         private string CreateLogFilePath()
@@ -91,7 +96,7 @@ namespace CodeMonkeys.Logging.File
 
             return Path.Combine(
                 _directoryPath,
-                $"{_fileName}{suffix}.{_extension}");
+                $"{_fileNamePrefix}{suffix}.{_extension}");
         }
 
         private long GetFileSize(string path)
@@ -108,9 +113,23 @@ namespace CodeMonkeys.Logging.File
         {
             var suffix = _index == 0 ?
                  string.Empty :
-                 $"({_index})";
+                 $"-{_index}";
 
             return suffix;
+        }
+
+        private void ClearObsoleteFiles()
+        {
+            if (_maxFilesToRetain == null)
+                return;
+
+            var filesToRemove = new DirectoryInfo(_directoryPath)
+                .GetFiles(_fileNamePrefix + "*." + _extension)
+                .OrderByDescending(f => f.LastWriteTime)
+                .Skip(_maxFilesToRetain.Value);
+
+            foreach (var file in filesToRemove)
+                file.Delete();
         }
     }
 }

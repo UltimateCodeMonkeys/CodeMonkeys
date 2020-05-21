@@ -20,9 +20,9 @@ namespace CodeMonkeys.Logging
         /// Makes the <see cref="FileLogServiceProvider"/> known to the factory and uses the given configuration.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="options"/> is null.</exception>
-        /// <exception cref="ArgumentNullException">Thrown when <see cref="FileLogOptions.FileName"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <see cref="FileLogOptions.FileNamePrefix"/> is null.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <see cref="FileLogOptions.Extension"/> is null.</exception>
-        /// <exception cref="ArgumentException">Thrown when <see cref="FileLogOptions.FileName"/> is empty or whitespace</exception>
+        /// <exception cref="ArgumentException">Thrown when <see cref="FileLogOptions.FileNamePrefix"/> is empty or whitespace</exception>
         /// <exception cref="ArgumentException">Thrown when <see cref="FileLogOptions.Extension"/> is empty or whitespace</exception>
         public static void AddFile(
             this ILogServiceFactory _this,
@@ -33,8 +33,8 @@ namespace CodeMonkeys.Logging
                 nameof(options));
 
             NotEmptyOrWhiteSpace(
-                options.FileName,
-                nameof(options.FileName));
+                options.FileNamePrefix,
+                nameof(options.FileNamePrefix));
 
             NotEmptyOrWhiteSpace(
                 options.Extension,
@@ -50,9 +50,9 @@ namespace CodeMonkeys.Logging
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="optionsFactory"/> is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown when <paramref name="optionsFactory"/> produces a null value.</exception>
-        /// <exception cref="ArgumentNullException">Thrown when <see cref="FileLogOptions.FileName"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <see cref="FileLogOptions.FileNamePrefix"/> is null.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <see cref="FileLogOptions.Extension"/> is null.</exception>
-        /// <exception cref="ArgumentException">Thrown when <see cref="FileLogOptions.FileName"/> is empty or whitespace</exception>
+        /// <exception cref="ArgumentException">Thrown when <see cref="FileLogOptions.FileNamePrefix"/> is empty or whitespace</exception>
         /// <exception cref="ArgumentException">Thrown when <see cref="FileLogOptions.Extension"/> is empty or whitespace</exception>
         public static void AddFile(
             this ILogServiceFactory _this,

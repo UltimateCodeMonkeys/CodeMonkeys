@@ -18,15 +18,11 @@ namespace CodeMonkeys.Logging.Batching
         public TimeSpan FlushPeriod
         {
             get => _flushPeriod;
-            set
-            {
-                Property.NotDefault(value);
-                SetValue(ref _flushPeriod, value);
-            }
+            set => SetValue(ref _flushPeriod, value);
         }
 
         /// <summary>
-        /// The maximum number of items to include in a single batch or null for no limit.
+        /// The maximum number of items to include in a single batch or <see langword="null"/> for no limit.
         /// <para>Defaults to <c>50</c>.</para>
         /// <para>Value changes of this property are monitored and applied dynamically.</para>
         /// </summary>        
@@ -35,13 +31,15 @@ namespace CodeMonkeys.Logging.Batching
             get => _batchCapacity;
             set
             {
-                Property.GreaterThan(value, 0);
+                if (value != null)
+                    Property.GreaterThan(value.Value, 0);
+
                 SetValue(ref _batchCapacity, value);
             }
         }
 
         /// <summary>
-        /// The maximum number of items in the background queue or null for no limit.
+        /// The maximum number of items in the background queue or <see langword="null"/> for no limit.
         /// <para>Defaults to <c>1000</c>.</para>
         /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
         /// </summary>
@@ -50,7 +48,9 @@ namespace CodeMonkeys.Logging.Batching
             get => _queueCapacity;
             set
             {
-                Property.GreaterThan(value, 0);
+                if (value != null)
+                    Property.GreaterThan(value.Value, 0);
+
                 SetValue(ref _queueCapacity, value);
             }
         }
