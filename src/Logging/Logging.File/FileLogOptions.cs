@@ -41,6 +41,9 @@ namespace CodeMonkeys.Logging.File
             }
         }
 
+        /// <summary>
+        /// The max size of a log file in bytes after which a new one will be created
+        /// </summary>
         public long? MaxFileSize
         {
             get => _maxSize;
