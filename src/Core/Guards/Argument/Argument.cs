@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace CodeMonkeys
 {
     /// <summary>
     /// Contains various helper methods for verifying method parameters.
     /// </summary>
-    [DebuggerStepThrough]
-    [DebuggerNonUserCode]
+
+#if (!DEBUG)
+    [System.Diagnostics.DebuggerStepThrough]
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public static partial class Argument
     {
         /// <summary>

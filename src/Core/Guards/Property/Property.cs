@@ -1,10 +1,11 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace CodeMonkeys
 {
-    [DebuggerNonUserCode]
-    [DebuggerStepThrough]
+#if (!DEBUG)
+    [System.Diagnostics.DebuggerStepThrough]
+    [System.Diagnostics.DebuggerNonUserCode]
+#endif
     public static partial class Property
     {
         public static void NotDefault<T>(

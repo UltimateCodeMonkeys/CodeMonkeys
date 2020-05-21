@@ -5,8 +5,8 @@ namespace CodeMonkeys
     public static partial class Property
     {
         public static void GreaterThan(
-            long? param,
-            long? value,
+            long param,
+            long value,
             [CallerMemberName] string propertyName = "",
             string message = "")
         {
