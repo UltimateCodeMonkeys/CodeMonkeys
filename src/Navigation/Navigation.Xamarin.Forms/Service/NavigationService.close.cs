@@ -17,7 +17,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             where TViewModel : class, IViewModel
         {
             if (!TryGetRegistration(
-                typeof(TViewModelInterface),
+                typeof(TViewModel),
                 out var registration))
             {
                 throw new InvalidOperationException();

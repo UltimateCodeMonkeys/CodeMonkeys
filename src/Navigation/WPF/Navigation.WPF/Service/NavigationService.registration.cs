@@ -86,7 +86,6 @@ namespace CodeMonkeys.Navigation.WPF
             {
                 if (TryGetRegistration(
                     registration.ViewModelType,
-                    registration.ViewType,
                     out var registrationInfo))
                 {
                     NavigationRegistrations.Remove(registrationInfo);
@@ -99,6 +98,7 @@ namespace CodeMonkeys.Navigation.WPF
                 _semaphore.Release();
             }
         }
+
 
         internal static bool TryGetRegistration(
             Type viewModelInterfaceType,

@@ -256,9 +256,8 @@ namespace CodeMonkeys.Navigation
         public static RegistrationInfo OpenInNewWindow(
             this RegistrationInfo registrationInfo)
         {
-            registrationInfo.OpenInNewWindow = true;
-
-            return registrationInfo;
+            throw new NotImplementedException(
+                $"This functionality has not been implemented yet! We will provide it in a future release.");
         }
 
         /// <summary>

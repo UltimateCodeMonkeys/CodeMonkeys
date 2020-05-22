@@ -17,5 +17,15 @@ namespace CodeMonkeys.Navigation.WPF
         /// Add content types that should not be cached
         /// </summary>
         public IList<Type> ContentTypesToExcludeFromCaching { get; set; } = new List<Type>();
+
+
+        /// <summary>
+        /// <para>
+        /// If <value>true</value>, you can register different view types for the same ViewModel type.
+        /// You can define predicates for the registrations to define when to resolve which view type.
+        /// </para>
+        /// Default is <value>false</value>
+        /// </summary>
+        //public bool AllowDifferentViewTypeRegistrationForSameViewModel { get; set; } = false;
     }
 }

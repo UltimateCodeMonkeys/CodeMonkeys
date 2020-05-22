@@ -27,6 +27,14 @@
     <ProjectReference Include="..\..\Logging\Logging.File\Logging.File.csproj" />
     <ProjectReference Include="..\..\Logging\Logging\Logging.csproj" />
     <ProjectReference Include="..\..\Messaging\Messaging.csproj" />
+    <ProjectReference Include="..\..\Navigation\Navigation.Xamarin.Forms\Navigation.Xamarin.Forms.csproj" />
+    <ProjectReference Include="..\..\Navigation\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\..\Navigation\WPF\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Navigation\WPF\Navigation.WPF\Navigation.WPF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Navigation\Xamarin.Forms\" />
   </ItemGroup>
 
 </Project>
