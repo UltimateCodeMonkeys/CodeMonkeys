@@ -93,6 +93,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
+        public void ResetRegistrations()
+        {
+            NavigationRegistrations.Clear();
+        }
+
+
         // todo: do we need this functionality?
         internal static TViewModel RegisterView<TViewModel>(
             Page page)

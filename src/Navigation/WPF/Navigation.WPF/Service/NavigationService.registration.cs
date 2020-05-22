@@ -1,11 +1,10 @@
-﻿using CodeMonkeys.MVVM;
-using CodeMonkeys.Logging;
+﻿using CodeMonkeys.Logging;
+using CodeMonkeys.MVVM;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace CodeMonkeys.Navigation.WPF
 {
@@ -75,6 +74,12 @@ namespace CodeMonkeys.Navigation.WPF
             NavigationRegistrations.Remove(registrationInfo);
 
             Log?.Info($"Unregistered views from ViewModel of type {typeof(TViewModel).Name}.");
+        }
+
+
+        public void ResetRegistrations()
+        {
+            NavigationRegistrations.Clear();
         }
                 
 

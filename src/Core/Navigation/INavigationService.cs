@@ -25,6 +25,11 @@ namespace CodeMonkeys.Navigation
             where TViewModel : class, IViewModel;
 
 
+        /// <summary>
+        /// Removes all existing mappings between ViewModel and View types
+        /// </summary>
+        void ResetRegistrations();
+
 
         /// <summary>
         /// Sets the application's root view using the ViewModel interface and the registered View type

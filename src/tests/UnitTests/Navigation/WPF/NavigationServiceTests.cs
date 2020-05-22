@@ -44,6 +44,12 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
                 .Returns(new ParameterViewModel());
         }
 
+        [TearDown]
+        public void Clean()
+        {
+            navigationService.ResetRegistrations();
+        }
+
 
         [Test]
         public void Register_WhenThereIsNoRegistrationWithSameTypes_AddsRegistration()
