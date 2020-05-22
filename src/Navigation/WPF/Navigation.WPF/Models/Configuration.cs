@@ -27,5 +27,6 @@ namespace CodeMonkeys.Navigation.WPF
         /// Default is <value>false</value>
         /// </summary>
         //public bool AllowDifferentViewTypeRegistrationForSameViewModel { get; set; } = false;
+        //todo: Unregister<TViewModel, TView> nötig, um spezifische Registrations zu entfernen
     }
 }
