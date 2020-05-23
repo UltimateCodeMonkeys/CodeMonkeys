@@ -146,23 +146,8 @@ namespace CodeMonkeys.Navigation.WPF
 
             if (Configuration.CacheContent)
             {
-                if (ContentCache.All(cachedPage => cachedPage.Type != registration.ViewType))
-                {
-                    CreateCachedContent(typeof(TView));
-                }
-
-                var reference = ContentCache
-                    .First(cachedPage => cachedPage.Type == registration.ViewType)
-                    .Reference;
-
-
-                if (!reference.TryGetTarget(out content))
-                {
-                    content = GetContentInstance<TView>(
-                        registration);
-
-                    reference.SetTarget(content);
-                }
+                content = AddOrUpdateContentCache<TView>(
+                    registration);
             }
             else
             {
@@ -227,6 +212,36 @@ namespace CodeMonkeys.Navigation.WPF
         {
             return CreateContentInternal<TViewModel, TView>(
                 viewModel);
+        }
+
+
+        private TContent AddOrUpdateContentCache<TContent>(
+            INavigationRegistration registration)
+
+            where TContent : FrameworkElement
+        {
+            FrameworkElement view;
+
+
+            if (ContentCache.All(cachedPage => cachedPage.Type != registration.ViewType))
+            {
+                CreateCachedContent(registration.ViewType);
+            }
+
+            var reference = ContentCache
+                .First(cachedPage => cachedPage.Type == registration.ViewType)
+                .Reference;
+
+            if (!reference.TryGetTarget(out view))
+            {
+                view = GetContentInstance<TContent>(
+                    registration);
+
+                reference.SetTarget(view);
+            }
+
+
+            return (TContent)view;
         }
 
 

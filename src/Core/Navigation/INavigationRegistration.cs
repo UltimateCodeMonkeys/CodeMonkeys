@@ -24,5 +24,8 @@ namespace CodeMonkeys.Navigation
         bool ResolveViewUsingDependencyInjection { get; set; }
 
         bool PreCreateInstance { get; set; }
+
+
+        Func<bool> Condition { get; set; }
     }
 }

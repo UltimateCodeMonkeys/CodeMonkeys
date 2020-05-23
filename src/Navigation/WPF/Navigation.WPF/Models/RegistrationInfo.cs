@@ -21,6 +21,9 @@ namespace CodeMonkeys.Navigation.WPF
         //public bool OpenAsPopup { get; set; } = false;
 
 
+        public Func<bool> Condition { get; set; } = () => true;
+
+
 
         public override bool Equals(
             object other)

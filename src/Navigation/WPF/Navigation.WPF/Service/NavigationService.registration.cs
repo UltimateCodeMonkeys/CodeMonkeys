@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CodeMonkeys.Navigation.WPF
 {
@@ -50,30 +51,38 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.Unregister{TViewModelInterface}" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.Unregister{TViewModel}" />
         public void Unregister<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
-            if (!IsRegistered(typeof(TViewModel)))
+            if (!TryGetRegistration(
+                typeof(TViewModel),
+                out var registration))
             {
                 return;
             }
 
-            var registrationInfo = NavigationRegistrations
-                .First(registration => registration.ViewModelType == typeof(TViewModel));
+            RemoveRegistration(
+                registration);
+        }
 
-            var cachedPage = ContentCache.FirstOrDefault(
-                cache => cache.Type == registrationInfo.ViewType);
+        public void Unregister<TViewModel, TView>()
 
-            if (cachedPage != null)
+            where TViewModel : class, IViewModel
+            where TView : FrameworkElement
+        {
+            if (!TryGetRegistration(
+                typeof(TViewModel),
+                typeof(TView),
+                out var registration))
             {
-                ContentCache.Remove(cachedPage);
+                return;
             }
 
-            NavigationRegistrations.Remove(registrationInfo);
 
-            Log?.Info($"Unregistered views from ViewModel of type {typeof(TViewModel).Name}.");
+            RemoveRegistration(
+                registration);
         }
 
 
@@ -81,17 +90,37 @@ namespace CodeMonkeys.Navigation.WPF
         {
             NavigationRegistrations.Clear();
         }
-                
 
-        private static void RegisterInternal(INavigationRegistration registration)
+
+        protected void ThrowIfNotRegistered<TViewModelInterface>(
+            Type typeofView = null)
+        {
+            if (IsRegistered(typeof(TViewModelInterface), typeofView))
+            {
+                return;
+            }
+
+            // todo: which exception type fits best?
+            var notRegisteredException = new InvalidOperationException(
+                $"There is no reference from viewmodel type {typeof(TViewModelInterface).Name} to a page.");
+
+            Log?.Error(notRegisteredException);
+
+            throw notRegisteredException;
+        }
+
+
+        private void RegisterInternal(
+            INavigationRegistration registration)
         {
             _semaphore.Wait();
 
             try
             {
-                if (TryGetRegistration(
-                    registration.ViewModelType,
-                    out var registrationInfo))
+                if (!Configuration.AllowDifferentViewTypeRegistrationForSameViewModel &&
+                    TryGetRegistration(
+                        registration.ViewModelType,
+                        out var registrationInfo))
                 {
                     NavigationRegistrations.Remove(registrationInfo);
                 }
@@ -103,6 +132,25 @@ namespace CodeMonkeys.Navigation.WPF
                 _semaphore.Release();
             }
         }
+
+
+        private void RemoveRegistration(
+            INavigationRegistration registration)
+        {
+            var cachedPage = ContentCache.FirstOrDefault(
+                cache => cache.Type == registration.ViewType);
+
+            if (cachedPage != null)
+            {
+                ContentCache.Remove(cachedPage);
+            }
+
+            NavigationRegistrations.Remove(registration);
+
+            Log?.Info($"Unregistered views from ViewModel of type {registration.ViewModelType.Name}.");
+        }
+
+
 
 
         internal static bool TryGetRegistration(
@@ -136,26 +184,10 @@ namespace CodeMonkeys.Navigation.WPF
 
             registrationInfo = NavigationRegistrations.FirstOrDefault(registration =>
                 registration.ViewModelType == viewModelType &&
-                viewType.IsAssignableFrom(registration.ViewType));
+                viewType.IsAssignableFrom(registration.ViewType) &&
+                registration.Condition?.Invoke() != false);
 
             return registrationInfo != null;
-        }
-
-        protected void ThrowIfNotRegistered<TViewModelInterface>(
-            Type typeofView = null)
-        {
-            if (IsRegistered(typeof(TViewModelInterface), typeofView))
-            {
-                return;
-            }
-
-            // todo: which exception type fits best?
-            var notRegisteredException = new InvalidOperationException(
-                $"There is no reference from viewmodel type {typeof(TViewModelInterface).Name} to a page.");
-
-            Log?.Error(notRegisteredException);
-
-            throw notRegisteredException;
         }
 
 

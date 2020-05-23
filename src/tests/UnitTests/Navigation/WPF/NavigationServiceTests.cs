@@ -7,14 +7,12 @@ using CodeMonkeys.UnitTests.Navigation.WPF.Views;
 using Moq;
 using NUnit.Framework;
 
-using System;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-
 
 namespace CodeMonkeys.UnitTests.Navigation.WPF
 {
-    public class NavigationServiceTests
+    public partial class NavigationServiceTests
     {
         private readonly Mock<IDependencyContainer> _dependencyContainerMock =
             new Mock<IDependencyContainer>();
@@ -47,72 +45,24 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
         [TearDown]
         public void Clean()
         {
+            NavigationService.Configuration.AllowDifferentViewTypeRegistrationForSameViewModel = false;
+
             navigationService.ResetRegistrations();
         }
 
 
-        [Test]
-        public void Register_WhenThereIsNoRegistrationWithSameTypes_AddsRegistration()
+
+        [Test, Apartment(ApartmentState.STA)]
+        public async Task SetRootAsync_IfViewModelIsRegistered_ViewIsCreatedAndContentIsSet()
         {
-            int expectedRegistrationsCount = 3;
-
-
-            navigationService.Register<MainViewModel, MainPage>();
-            navigationService.Register<SecondViewModel, SecondPage>();
-            navigationService.Register<ParameterViewModel, ParameterPage>();
-
-
-            Assert.AreEqual(
-                expectedRegistrationsCount,
-                navigationService.Registrations.Count);
-        }
-
-        [Test]
-        public void Register_WhenThereIsARegistrationWithTheSameType_RemovesOldRegistrationAndAddsNew()
-        {
-            var registeredMainViewModelPageType = typeof(MainPage);
-
-
-            navigationService.Register<MainViewModel, SecondPage>();
+            var expectedCurrentViewModelType = typeof(MainViewModel);
             navigationService.Register<MainViewModel, MainPage>();
 
-
-            var registrationInfo = navigationService.Registrations
-                .FirstOrDefault(registration => registration.ViewModelType == typeof(MainViewModel));
+            await navigationService.ShowAsync<MainViewModel>();
 
             Assert.AreEqual(
-                registeredMainViewModelPageType,
-                registrationInfo.ViewType);
-        }
-
-        [Test]
-        public void Unregister_WhenThereIsARegistration_RemovesRegistration()
-        {
-            int expectedRegistrationsCount = 0;
-            navigationService.Register<MainViewModel, MainPage>();
-
-
-            navigationService.Unregister<MainViewModel>();
-
-
-            Assert.AreEqual(
-                expectedRegistrationsCount,
-                navigationService.Registrations.Count);
-        }
-
-        [Test]
-        public void Unregister_WhenThereIsNoMatchingRegistration_NothingHappens()
-        {
-            int expectedRegistrationsCount = 1;
-            navigationService.Register<MainViewModel, MainPage>();
-
-
-            navigationService.Unregister<SecondViewModel>();
-
-
-            Assert.AreEqual(
-                expectedRegistrationsCount,
-                navigationService.Registrations.Count);
+                expectedCurrentViewModelType,
+                navigationService.CurrentViewModel.GetType());
         }
     }
 }

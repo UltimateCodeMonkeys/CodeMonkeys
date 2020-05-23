@@ -25,16 +25,17 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private void CreateCachedPage(
             Type pageType)
         {
-            if (!Configuration.CachePageInstances)
+            if (!Configuration.CacheContent)
             {
                 return;
             }
 
-            if (Configuration.PageTypesToExcludeFromCaching
+            if (Configuration.ContentTypesToExcludeFromCaching
                 .Contains(pageType))
             {
                 return;
             }
+
 
             var pageInstance = (Page)Activator.CreateInstance(
                 pageType);
