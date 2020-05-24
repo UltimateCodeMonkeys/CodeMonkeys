@@ -12,7 +12,7 @@ namespace CodeMonkeys.Navigation.WPF
             new List<CachedContent>();
 
 
-        /// <inheritdoc cref="CodeMonkeys.Navigation.IViewModelNavigationService.ClearCache" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.ClearCache" />
         public void ClearCache()
         {
             Log?.Info(

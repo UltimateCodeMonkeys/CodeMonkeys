@@ -34,6 +34,7 @@ namespace CodeMonkeys.Navigation.WPF
             if (!TryGoBack())
                 return;
 
+
             await ResolveAndInformParent<TParentViewModel>();
         }
 
@@ -49,6 +50,7 @@ namespace CodeMonkeys.Navigation.WPF
 
             if (!TryGoBack())
                 return;
+
 
             await ResolveAndInformParent<TParentViewModelInterface, TResult>(
                 result);

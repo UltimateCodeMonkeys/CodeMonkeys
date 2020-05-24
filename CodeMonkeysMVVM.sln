@@ -87,8 +87,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{14F142FD-85A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navigation.WPF.Interfaces", "src\Navigation\WPF\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj", "{352D7F3A-2DA1-43C6-9E7B-C4C6C591E3ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -419,18 +417,6 @@ Global
 		{352D7F3A-2DA1-43C6-9E7B-C4C6C591E3ED}.Release|iPhone.Build.0 = Release|Any CPU
 		{352D7F3A-2DA1-43C6-9E7B-C4C6C591E3ED}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{352D7F3A-2DA1-43C6-9E7B-C4C6C591E3ED}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Release|iPhone.Build.0 = Release|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{4ABADA1E-07AD-4AB6-BB71-E734A5884DBC}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

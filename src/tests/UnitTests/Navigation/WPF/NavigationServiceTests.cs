@@ -17,6 +17,9 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
         private readonly Mock<IDependencyContainer> _dependencyContainerMock =
             new Mock<IDependencyContainer>();
 
+        private readonly SecondViewModel _secondViewModel=
+            new SecondViewModel();
+
 
         private CodeMonkeys.Navigation.WPF.INavigationService navigationService;
 
@@ -35,7 +38,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
 
             _dependencyContainerMock
                 .Setup(container => container.Resolve<SecondViewModel>())
-                .Returns(new SecondViewModel());
+                .Returns(_secondViewModel);
 
             _dependencyContainerMock
                 .Setup(container => container.Resolve<ParameterViewModel>())

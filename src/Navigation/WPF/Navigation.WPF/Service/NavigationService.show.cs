@@ -66,6 +66,7 @@ namespace CodeMonkeys.Navigation.WPF
                 CurrentViewModel,
                 CurrentContent);
 
+
             SetCurrent(
                 destination.ViewModel,
                 destination.Content);

@@ -131,7 +131,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
             bool canNavigateBackwards = navigationService.CanGoBack();
 
 
-            Assert.IsFalse(canNavigateBackwards);
+            Assert.IsTrue(canNavigateBackwards);
         }
 
 
@@ -154,10 +154,10 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
             navigationService.TryGoBack();
 
 
-            bool canNavigateBackwards = navigationService.CanGoForward();
+            bool canNavigateForward = navigationService.CanGoForward();
 
 
-            Assert.IsFalse(canNavigateBackwards);
+            Assert.True(canNavigateForward);
         }
     }
 }
