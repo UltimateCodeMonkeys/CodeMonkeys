@@ -1,6 +1,7 @@
 <h1 align="center">CodeMonkeysMVVM</h1>
 <div align="center">
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2190b8b91f584e8a98271a64e5a8c17d)](https://app.codacy.com/gh/UltimateCodeMonkeys/CodeMonkeysMVVM?utm_source=github.com&utm_medium=referral&utm_content=UltimateCodeMonkeys/CodeMonkeysMVVM&utm_campaign=Badge_Grade_Settings)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
