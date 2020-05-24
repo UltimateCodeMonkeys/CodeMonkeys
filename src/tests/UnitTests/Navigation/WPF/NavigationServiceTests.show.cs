@@ -29,7 +29,6 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
         [Test, Apartment(ApartmentState.STA)]
         public async Task ShowAsync_IfViewModelIsRegistered_ViewModelIsInitialized()
         {
-            var expectedCurrentViewModelType = typeof(MainViewModel);
             RegisterViewModels();
 
 

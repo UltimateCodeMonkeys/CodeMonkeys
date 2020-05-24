@@ -219,36 +219,6 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        private TContent AddOrUpdateContentCache<TContent>(
-            INavigationRegistration registration)
-
-            where TContent : FrameworkElement
-        {
-            FrameworkElement view;
-
-
-            if (ContentCache.All(cachedPage => cachedPage.Type != registration.ViewType))
-            {
-                CreateCachedContent(registration.ViewType);
-            }
-
-            var reference = ContentCache
-                .First(cachedPage => cachedPage.Type == registration.ViewType)
-                .Reference;
-
-            if (!reference.TryGetTarget(out view))
-            {
-                view = GetContentInstance<TContent>(
-                    registration);
-
-                reference.SetTarget(view);
-            }
-
-
-            return (TContent)view;
-        }
-
-
         private void ShowInternal(
             IViewModel viewModel,
             FrameworkElement content)
@@ -267,24 +237,6 @@ namespace CodeMonkeys.Navigation.WPF
             SetCurrent(
                 viewModel,
                 content);
-        }
-
-
-        private TView GetContentInstance<TView>(
-            INavigationRegistration registrationInfo)
-
-            where TView : FrameworkElement
-        {
-            if (registrationInfo.ResolveViewUsingDependencyInjection)
-            {
-                return (TView)dependencyResolver.Resolve(
-                    registrationInfo.ViewType);
-            }
-            else
-            {
-                return (TView)Activator.CreateInstance(
-                        registrationInfo.ViewType);
-            }
         }
 
 
@@ -317,6 +269,25 @@ namespace CodeMonkeys.Navigation.WPF
             Current = new NavigationStackEntry(
                 viewModel,
                 content);
+        }
+
+
+
+        private static TView GetContentInstance<TView>(
+            INavigationRegistration registration)
+
+            where TView : FrameworkElement
+        {
+            if (registration.ResolveViewUsingDependencyInjection)
+            {
+                return (TView)dependencyResolver.Resolve(
+                    registration.ViewType);
+            }
+            else
+            {
+                return (TView)Activator.CreateInstance(
+                        registration.ViewType);
+            }
         }
     }
 }

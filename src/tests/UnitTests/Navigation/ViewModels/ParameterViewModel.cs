@@ -27,7 +27,8 @@ namespace CodeMonkeys.UnitTests.Navigation.ViewModels
             Data = data;
 
 
-            await InitializeAsync();
+            await InitializeAsync()
+                .ConfigureAwait(false);
         }
     }
 }
