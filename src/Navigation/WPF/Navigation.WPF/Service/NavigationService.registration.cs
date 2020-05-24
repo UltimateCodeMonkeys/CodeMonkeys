@@ -1,5 +1,5 @@
-﻿using CodeMonkeys.MVVM;
-using CodeMonkeys.Logging;
+﻿using CodeMonkeys.Logging;
+using CodeMonkeys.MVVM;
 
 using System;
 using System.Collections.Generic;
@@ -16,78 +16,93 @@ namespace CodeMonkeys.Navigation.WPF
 
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.Register(INavigationRegistration)" />
-        public void Register(INavigationRegistration registrationInfo)
+        public void Register(INavigationRegistration registration)
         {
-            RegisterInternal(registrationInfo);
+            RegisterInternal(registration);
 
-            if (registrationInfo.PreCreateInstance)
+            if (registration.PreCreateInstance)
             {
-                Task.Run(() => CreateCachedContent(registrationInfo.ViewType));
+                Task.Run(() => CreateCachedContent(registration));
             }
 
-            Log?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
+            Log?.Info($"Registered ViewModel of type {registration.ViewModelType.Name} to page {registration.ViewType.Name}.");
         }
 
         public INavigationRegistration Register<TViewModel, TView>()
             where TViewModel : IViewModel
             where TView : class
         {
-            var registrationInfo = new RegistrationInfo
+            var registration = new RegistrationInfo
             {
                 ViewModelType = typeof(TViewModel),
                 ViewType = typeof(TView)
             };
 
-            RegisterInternal(registrationInfo);
+            RegisterInternal(registration);
 
-            if (registrationInfo.PreCreateInstance)
+            if (registration.PreCreateInstance)
             {
-                Task.Run(() => CreateCachedContent(registrationInfo.ViewType));
+                Task.Run(() => CreateCachedContent(registration));
             }
 
-            Log?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
+            Log?.Info($"Registered ViewModel of type {registration.ViewModelType.Name} to page {registration.ViewType.Name}.");
 
-            return registrationInfo;
+            return registration;
         }
 
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.Unregister{TViewModelInterface}" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.Unregister{TViewModel}" />
         public void Unregister<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
-            if (!IsRegistered(typeof(TViewModel)))
+            if (!TryGetRegistration(
+                typeof(TViewModel),
+                out var registration))
             {
                 return;
             }
 
-            var registrationInfo = NavigationRegistrations
-                .First(registration => registration.ViewModelType == typeof(TViewModel));
+            RemoveRegistration(
+                registration);
+        }
 
-            var cachedPage = ContentCache.FirstOrDefault(
-                cache => cache.Type == registrationInfo.ViewType);
+        public void Unregister<TViewModel, TView>()
 
-            if (cachedPage != null)
+            where TViewModel : class, IViewModel
+            where TView : FrameworkElement
+        {
+            if (!TryGetRegistration(
+                typeof(TViewModel),
+                typeof(TView),
+                out var registration))
             {
-                ContentCache.Remove(cachedPage);
+                return;
             }
 
-            NavigationRegistrations.Remove(registrationInfo);
 
-            Log?.Info($"Unregistered views from ViewModel of type {typeof(TViewModel).Name}.");
+            RemoveRegistration(
+                registration);
         }
-                
 
-        private static void RegisterInternal(INavigationRegistration registration)
+
+        public void ResetRegistrations()
+        {
+            NavigationRegistrations.Clear();
+        }
+
+
+        private static void RegisterInternal(
+            INavigationRegistration registration)
         {
             _semaphore.Wait();
 
             try
             {
-                if (TryGetRegistration(
-                    registration.ViewModelType,
-                    registration.ViewType,
-                    out var registrationInfo))
+                if (!Configuration.AllowDifferentViewTypeRegistrationForSameViewModel &&
+                    TryGetRegistration(
+                        registration.ViewModelType,
+                        out var registrationInfo))
                 {
                     NavigationRegistrations.Remove(registrationInfo);
                 }
@@ -100,11 +115,29 @@ namespace CodeMonkeys.Navigation.WPF
             }
         }
 
-        internal static bool TryGetRegistration(
-            Type viewModelInterfaceType,
+
+        private static void RemoveRegistration(
+            INavigationRegistration registration)
+        {
+            var cachedPage = ContentCache.FirstOrDefault(
+                cache => cache.Type == registration.ViewType);
+
+            if (cachedPage != null)
+            {
+                ContentCache.Remove(cachedPage);
+            }
+
+            NavigationRegistrations.Remove(registration);
+
+            Log?.Info($"Unregistered views from ViewModel of type {registration.ViewModelType.Name}.");
+        }
+
+
+        private static bool TryGetRegistration(
+            Type viewModelType,
             out INavigationRegistration registrationInfo)
         {
-            if (!IsRegistered(viewModelInterfaceType))
+            if (!IsRegistered(viewModelType))
             {
                 registrationInfo = null;
                 return false;
@@ -112,7 +145,7 @@ namespace CodeMonkeys.Navigation.WPF
 
             registrationInfo = NavigationRegistrations.OfType<RegistrationInfo>()
                 .FirstOrDefault(registration =>
-                    registration.ViewModelType == viewModelInterfaceType);
+                    registration.ViewModelType == viewModelType);
 
             return registrationInfo != null;
         }
@@ -131,22 +164,23 @@ namespace CodeMonkeys.Navigation.WPF
 
             registrationInfo = NavigationRegistrations.FirstOrDefault(registration =>
                 registration.ViewModelType == viewModelType &&
-                viewType.IsAssignableFrom(registration.ViewType));
+                viewType.IsAssignableFrom(registration.ViewType) &&
+                registration.Condition?.Invoke() != false);
 
             return registrationInfo != null;
         }
 
-        protected void ThrowIfNotRegistered<TViewModelInterface>(
-            Type typeofView = null)
+
+        private static void ThrowIfNotRegistered<TViewModel>()
         {
-            if (IsRegistered(typeof(TViewModelInterface), typeofView))
+            if (IsRegistered(typeof(TViewModel)))
             {
                 return;
             }
 
             // todo: which exception type fits best?
             var notRegisteredException = new InvalidOperationException(
-                $"There is no reference from viewmodel type {typeof(TViewModelInterface).Name} to a page.");
+                $"There is no reference from viewmodel type {typeof(TViewModel).Name} to a page.");
 
             Log?.Error(notRegisteredException);
 
@@ -155,22 +189,33 @@ namespace CodeMonkeys.Navigation.WPF
 
 
         private static bool IsRegistered(
-            Type viewModelType,
-            Type typeOfView = null)
+            Type viewModelType)
         {
-            var navigationRegistration = NavigationRegistrations.FirstOrDefault(
+            return IsRegistered(
+                viewModelType,
+                null);
+        }
+
+        private static bool IsRegistered(
+            Type viewModelType,
+            Type typeOfView)
+        {
+            var registrations = NavigationRegistrations.Where(
                 registration => registration.ViewModelType == viewModelType);
 
-            if (navigationRegistration == null)
+
+            if (registrations == null ||
+                !registrations.Any())
             {
                 return false;
             }
 
-            if (typeOfView != null && navigationRegistration.ViewType
-                .IsAssignableFrom(typeOfView))
+            if (typeOfView != null && 
+                !registrations.Any(registration => registration.ViewType.IsAssignableFrom(typeOfView)))
             {
                 return false;
             }
+
 
             return true;
         }

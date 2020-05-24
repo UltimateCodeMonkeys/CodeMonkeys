@@ -60,15 +60,26 @@ namespace CodeMonkeys.Navigation.WPF
             get => current;
             set
             {
+                DetachDisappearingEventListener(
+                    Current?.Content);
+
+
                 current = value;
                 RaisePropertyChanged();
 
                 RaisePropertyChanged(nameof(CurrentViewModel));
                 RaisePropertyChanged(nameof(CurrentContent));
+
+
+                if (Current.ViewModel is IHandleClosing)
+                {
+                    Current.Content.Unloaded += OnContentUnloaded;
+                }
             }
         }
 
 
+        public IViewModel RootViewModel => Root?.ViewModel;
         public IViewModel CurrentViewModel => Current?.ViewModel;
 
         public FrameworkElement CurrentContent => Current?.Content;

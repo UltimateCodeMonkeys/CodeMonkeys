@@ -17,6 +17,10 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         public DevicePlatforms Platform { get; set; } = DevicePlatforms.All;
 
 
+        public Func<bool> Condition { get; set; } = () => true;
+
+
+
         public override bool Equals(
             object other)
         {

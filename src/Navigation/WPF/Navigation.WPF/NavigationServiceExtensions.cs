@@ -1,7 +1,6 @@
 ﻿using CodeMonkeys.MVVM;
 
 using System;
-using System.Threading.Tasks;
 using System.Windows;
 
 using NavigationService = CodeMonkeys.Navigation.WPF.NavigationService;
@@ -235,18 +234,37 @@ namespace CodeMonkeys.Navigation
         /// <summary>
         /// Removes the registration associated with the given ViewModel interface type
         /// </summary>
-        /// <typeparam name="TViewModelInterface">ViewModel type to remove from registrations</typeparam>
+        /// <typeparam name="TViewModel">ViewModel type to remove from registrations</typeparam>
         /// <param name="navigationService"></param>
         /// <returns>Navigation service instance</returns>
-        public static INavigationService Unregister<TViewModelInterface>(
+        public static INavigationService Unregister<TViewModel>(
             this INavigationService navigationService)
 
-            where TViewModelInterface : class, IViewModel
+            where TViewModel : class, IViewModel
         {
-            navigationService.Unregister<TViewModelInterface>();
+            navigationService.Unregister<TViewModel>();
             return navigationService;
         }
 
+        public static INavigationService Unregister<TViewModel, TView>(
+            this INavigationService navigationService)
+
+            where TViewModel : class, IViewModel
+            where TView : FrameworkElement
+        {
+            navigationService.Unregister<TViewModel, TView>();
+            return navigationService;
+        }
+
+
+        public static RegistrationInfo WithCondition(
+            this RegistrationInfo registration,
+            Func<bool> condition)
+        {
+            registration.Condition = condition;
+
+            return registration;
+        }
 
         /// <summary>
         /// Indicates that the view from this registration should be opened in a new <see cref="System.Windows.Window" />
@@ -256,9 +274,8 @@ namespace CodeMonkeys.Navigation
         public static RegistrationInfo OpenInNewWindow(
             this RegistrationInfo registrationInfo)
         {
-            registrationInfo.OpenInNewWindow = true;
-
-            return registrationInfo;
+            throw new NotImplementedException(
+                $"This functionality has not been implemented yet! We will provide it in a future release.");
         }
 
         /// <summary>
