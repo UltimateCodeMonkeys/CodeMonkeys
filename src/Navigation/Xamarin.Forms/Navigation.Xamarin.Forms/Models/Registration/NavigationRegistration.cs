@@ -11,7 +11,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
         /// <inheritdoc cref="INavigationRegistration.ResolveViewUsingDependencyInjection" />
         public bool ResolveViewUsingDependencyInjection { get; set; } = false;
-        public bool PreCreateInstance { get; set; } = true;
+        public bool PreCreateInstance { get; set; } = false;
 
 
         public DevicePlatforms Platform { get; set; } = DevicePlatforms.All;

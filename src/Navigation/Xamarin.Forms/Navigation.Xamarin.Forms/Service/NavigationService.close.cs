@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
-    public partial class NavigationService :
-        INavigationService
+    public partial class NavigationService
     {
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface}" />
         public virtual async Task CloseAsync<TViewModel>()
@@ -17,7 +16,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             where TViewModel : class, IViewModel
         {
             if (!TryGetRegistration(
-                typeof(TViewModelInterface),
+                typeof(TViewModel),
                 out var registration))
             {
                 throw new InvalidOperationException();
@@ -86,6 +85,17 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         public virtual async Task CloseAllAsync()
         {
             await PopToRootAsync();
+        }
+
+
+        public virtual async Task CloseModalAsync<TViewModel>()
+        {
+            if (Navigation == null)
+                return;
+
+
+            await Navigation.PopModalAsync(
+                animated: Configuration.UseAnimations);
         }
 
 

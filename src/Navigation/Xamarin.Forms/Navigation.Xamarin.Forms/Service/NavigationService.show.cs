@@ -11,11 +11,10 @@ using Xamarin.Forms;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
-    public partial class NavigationService :
-        INavigationService
+    public partial class NavigationService
     {
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.ShowAsync{TViewModelInterface}" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.ShowAsync{TViewModelInterface}" />
         public virtual async Task ShowAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
@@ -41,11 +40,11 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 page);
         }
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.ShowAsync{TViewModelInterface, TModel}(TModel)" />
-        public virtual async Task ShowAsync<TViewModel, TModel>(
-            TModel model)
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.ShowAsync{TViewModelInterface, TModel}(TModel)" />
+        public virtual async Task ShowAsync<TViewModel, TData>(
+            TData data)
 
-            where TViewModel : class, IViewModel<TModel>
+            where TViewModel : class, IViewModel<TData>
         {
             ThrowIfNotRegistered<TViewModel>();
 
@@ -56,8 +55,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
             var viewModelInstance =
-                await InitializeViewModelAsync<TViewModel, TModel>(
-                    model);
+                await InitializeViewModelAsync<TViewModel, TData>(
+                    data);
 
             var page = CreateView<TViewModel>(
                 viewModelInstance);
@@ -71,93 +70,43 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        private Func<Page, Task> BuildShowAsyncFunc(
-            Page page)
-        {
-            if (RootPage is MasterDetailPage &&
-                page is DetailPage)
-            {
-                return SetDetailAsync;
-            }
-            else if (RootPage is TabbedPage &&
-                page is TabPage)
-            {
-                return SetTabAsync;
-            }
-            else return PushAsync;
-        }
-
-
-        private async Task PushAsync(
-            Page page)
-        {
-            if (Navigation == null)
-                return;
-
-            await Device.InvokeOnMainThreadAsync(() =>
-            {
-                Navigation.PushAsync(
-                    page,
-                    animated: Configuration.UseAnimations);
-            });
-        }
-
-        private async Task SetDetailAsync(
-            Page page)
-        {
-            if (!(Application.Current.MainPage is MasterDetailPage masterDetailPage))
-                return;
-
-
-            await Device.InvokeOnMainThreadAsync(() =>
-            {
-                masterDetailPage.Detail = new NavigationPage(page);
-                masterDetailPage.IsPresented = !Configuration.MasterDetailConfig.HideMenuOnPageSwitch;
-            });
-        }
-
-        private async Task SetTabAsync(
-            Page page)
-        {
-            if (!(Application.Current.MainPage is TabbedPage tabbedPage))
-                return;
-
-
-            await Device.InvokeOnMainThreadAsync(() =>
-            {
-                if (!tabbedPage.Children.Contains(page))
-                    return;
-
-
-                tabbedPage.CurrentPage = new NavigationPage(page);
-            });
-        }
-
-        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel>()
+        public virtual async Task ShowModalAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
-            return await InitializeViewModelInternal<TViewModel>();
+            ThrowIfNotRegistered<TViewModel>();
+
+
+            var viewModelInstance =
+                await InitializeViewModelAsync<TViewModel>();
+
+            var page = CreateView<TViewModel>(
+                viewModelInstance);
+
+
+            await PushModalAsync(page);
         }
 
-        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel, TModel>(
-            TModel model)
 
-            where TViewModel : class, IViewModel<TModel>
+        public virtual async Task ShowModalAsync<TViewModel, TData>(
+            TData data)
+
+            where TViewModel : class, IViewModel<TData>
         {
-            return await InitializeViewModelInternal<TViewModel, TModel>(
-                model);
+            ThrowIfNotRegistered<TViewModel>();
+
+
+            var viewModelInstance =
+                await InitializeViewModelAsync<TViewModel, TData>(
+                    data);
+
+            var page = CreateView<TViewModel>(
+                viewModelInstance);
+
+
+            await PushModalAsync(page);
         }
 
-
-        protected Page CreateView<TViewModel>(
-            TViewModel viewModel)
-
-            where TViewModel : class, IViewModel
-        {
-            return CreateViewInternal<TViewModel, Page>(
-                viewModel);
-        }
 
 
         internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface>()
@@ -250,6 +199,116 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             return (TPage)view;
         }
+
+
+
+        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel>()
+
+            where TViewModel : class, IViewModel
+        {
+            return await InitializeViewModelInternal<TViewModel>();
+        }
+
+        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel, TModel>(
+            TModel model)
+
+            where TViewModel : class, IViewModel<TModel>
+        {
+            return await InitializeViewModelInternal<TViewModel, TModel>(
+                model);
+        }
+
+
+        protected Page CreateView<TViewModel>(
+            TViewModel viewModel)
+
+            where TViewModel : class, IViewModel
+        {
+            return CreateViewInternal<TViewModel, Page>(
+                viewModel);
+        }
+
+
+
+        private Func<Page, Task> BuildShowAsyncFunc(
+            Page page)
+        {
+            if (RootPage is MasterDetailPage &&
+                page is DetailPage)
+            {
+                return SetDetailAsync;
+            }
+            else if (RootPage is TabbedPage &&
+                page is TabPage)
+            {
+                return SetTabAsync;
+            }
+            else return PushAsync;
+        }
+
+
+        private async Task PushAsync(
+            Page page)
+        {
+            if (Navigation == null)
+                return;
+
+
+            await Device.InvokeOnMainThreadAsync(() =>
+            {
+                Navigation.PushAsync(
+                    page,
+                    animated: Configuration.UseAnimations);
+            });
+        }
+
+        private async Task SetDetailAsync(
+            Page page)
+        {
+            if (!(Application.Current.MainPage is MasterDetailPage masterDetailPage))
+                return;
+
+
+            await Device.InvokeOnMainThreadAsync(() =>
+            {
+                masterDetailPage.Detail = new NavigationPage(page);
+                masterDetailPage.IsPresented = !Configuration.MasterDetailConfig.HideMenuOnPageSwitch;
+            });
+        }
+
+        private async Task SetTabAsync(
+            Page page)
+        {
+            if (!(Application.Current.MainPage is TabbedPage tabbedPage))
+                return;
+
+
+            await Device.InvokeOnMainThreadAsync(() =>
+            {
+                if (!tabbedPage.Children.Contains(page))
+                    return;
+
+
+                tabbedPage.CurrentPage = new NavigationPage(page);
+            });
+        }
+
+
+        private async Task PushModalAsync(
+            Page page)
+        {
+            if (Navigation == null)
+                return;
+
+
+            await Device.InvokeOnMainThreadAsync(() =>
+            {
+                Navigation.PushModalAsync(
+                    page,
+                    animated: Configuration.UseAnimations);
+            });
+        }
+
 
         private TView GetViewInstance<TView>(
             INavigationRegistration registrationInfo)

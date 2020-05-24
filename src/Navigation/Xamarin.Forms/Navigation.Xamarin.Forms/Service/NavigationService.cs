@@ -15,7 +15,7 @@ using Xamarin.Forms;
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     public partial class NavigationService :
-        INavigationService
+        Navigation.Xamarin.Forms.INavigationService
     {
         private static readonly SemaphoreSlim _semaphore =
             new SemaphoreSlim(1, 1);

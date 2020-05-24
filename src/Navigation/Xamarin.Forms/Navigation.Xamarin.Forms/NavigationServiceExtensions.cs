@@ -67,16 +67,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <param name="preCreateInstance">Indicates wether an instance of the view should be created and cached before it is displayed</param>
         /// <returns><see cref="CodeMonkeys.Navigation.Xamarin.Forms.Models.NavigationRegistration"/></returns>
         public static NavigationRegistration Register<TViewModelInterface, TView>(
-            this INavigationService navigationService,
-            bool preCreateInstance = false)
+            this INavigationService navigationService)
 
             where TViewModelInterface : class, IViewModel
             where TView : Page
         {
-            var registrationInfo = new NavigationRegistration<TViewModelInterface, TView>
-            {
-                PreCreateInstance = preCreateInstance
-            };
+            var registrationInfo = new NavigationRegistration<TViewModelInterface, TView>();
 
             navigationService.Register(registrationInfo);
 
@@ -93,17 +89,13 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <param name="preCreateInstance">Indicates wether an instance of the view should be created and cached before it is displayed</param>
         /// <returns><see cref="CodeMonkeys.Navigation.Xamarin.Forms.Models.NavigationRegistration"/></returns>
         public static NavigationRegistration Register<TViewModelInterface, TPhoneView, TTabletView>(
-            this INavigationService navigationService,
-            bool preCreateInstance = false)
+            this INavigationService navigationService)
 
             where TViewModelInterface : class, IViewModel
             where TPhoneView : Page
             where TTabletView : Page
         {
-            var registrationInfo = new NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView>
-            {
-                PreCreateInstance = preCreateInstance
-            };
+            var registrationInfo = new NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView>();
 
             navigationService.Register(registrationInfo);
 
@@ -121,18 +113,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <param name="preCreateInstance">Indicates wether an instance of the view should be created and cached before it is displayed</param>
         /// <returns><see cref="CodeMonkeys.Navigation.Xamarin.Forms.Models.NavigationRegistration"/></returns>
         public static NavigationRegistration Register<TViewModelInterface, TPhoneView, TTabletView, TDesktopView>(
-            this INavigationService navigationService,
-            bool preCreateInstance = false)
+            this INavigationService navigationService)
 
             where TViewModelInterface : class, IViewModel
             where TPhoneView : Page
             where TTabletView : Page
             where TDesktopView : Page
         {
-            var registrationInfo = new NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView, TDesktopView>
-            {
-                PreCreateInstance = preCreateInstance
-            };
+            var registrationInfo = new NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView, TDesktopView>();
 
             navigationService.Register(registrationInfo);
 
@@ -149,16 +137,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <returns><see cref="CodeMonkeys.Navigation.Xamarin.Forms.Models.NavigationRegistration"/></returns>
         public static NavigationRegistration Register<TViewModelInterface>(
             this INavigationService navigationService,
-            Type typeOfView,
-            bool preCreateInstance = false)
+            Type typeOfView)
 
             where TViewModelInterface : class, IViewModel
         {
             var navigationRegistration = new NavigationRegistration
             {
                 ViewModelType = typeof(TViewModelInterface),
-                ViewType = typeOfView,
-                PreCreateInstance = preCreateInstance
+                ViewType = typeOfView
             };
 
             navigationService.Register(navigationRegistration);
