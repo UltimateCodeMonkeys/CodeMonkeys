@@ -187,36 +187,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        private TPage AddOrUpdateContentCache<TPage>(
-            INavigationRegistration registration)
-
-            where TPage : Page
-        {
-            Page view;
-
-
-            if (PageCache.All(cachedPage => cachedPage.Type != registration.ViewType))
-            {
-                CreateCachedPage(registration.ViewType);
-            }
-
-            var reference = PageCache
-                .First(cachedPage => cachedPage.Type == registration.ViewType)
-                .Reference;
-
-            if (!reference.TryGetTarget(out view))
-            {
-                view = GetViewInstance<TPage>(
-                    registration);
-
-                reference.SetTarget(view);
-            }
-
-
-            return (TPage)view;
-        }
-
-
 
 
         protected async Task<TViewModel> InitializeViewModelAsync<TViewModel>()
@@ -327,7 +297,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        private TView GetViewInstance<TView>(
+
+        private static TView GetViewInstance<TView>(
             INavigationRegistration registrationInfo)
 
             where TView : Page
