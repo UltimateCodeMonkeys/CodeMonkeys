@@ -69,6 +69,7 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
+        public IViewModel RootViewModel => Root?.ViewModel;
         public IViewModel CurrentViewModel => Current?.ViewModel;
 
         public FrameworkElement CurrentContent => Current?.Content;

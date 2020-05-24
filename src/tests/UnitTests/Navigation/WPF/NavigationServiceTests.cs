@@ -53,16 +53,30 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
 
 
         [Test, Apartment(ApartmentState.STA)]
-        public async Task SetRootAsync_IfViewModelIsRegistered_ViewIsCreatedAndContentIsSet()
+        public async Task SetRootAsync_IfViewModelIsRegistered_RootViewModelAndCurrentViewModelAreSet()
         {
-            var expectedCurrentViewModelType = typeof(MainViewModel);
+            var expectedRootViewModelType = typeof(MainViewModel);
             navigationService.Register<MainViewModel, MainPage>();
 
-            await navigationService.ShowAsync<MainViewModel>();
+
+            await navigationService.SetRootAsync<MainViewModel>();
+
 
             Assert.AreEqual(
-                expectedCurrentViewModelType,
+                expectedRootViewModelType,
+                navigationService.RootViewModel.GetType());
+
+            Assert.AreEqual(
+                expectedRootViewModelType,
                 navigationService.CurrentViewModel.GetType());
+        }
+
+
+        private void RegisterViewModels()
+        {
+            navigationService.Register<MainViewModel, MainPage>();
+            navigationService.Register<SecondViewModel, SecondPage>();
+            navigationService.Register<ParameterViewModel, ParameterPage>();
         }
     }
 }

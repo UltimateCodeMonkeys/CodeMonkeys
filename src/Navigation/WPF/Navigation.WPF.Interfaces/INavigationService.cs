@@ -7,6 +7,7 @@ namespace CodeMonkeys.Navigation.WPF
     public interface INavigationService :
         CodeMonkeys.Navigation.INavigationService
     {
+        IViewModel RootViewModel { get; }
         IViewModel CurrentViewModel { get; }
 
 

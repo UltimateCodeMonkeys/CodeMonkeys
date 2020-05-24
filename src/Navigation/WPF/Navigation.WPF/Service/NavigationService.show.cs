@@ -17,6 +17,9 @@ namespace CodeMonkeys.Navigation.WPF
 
             where TViewModel : class, IViewModel
         {
+            ThrowIfNotRegistered<TViewModel>();
+
+
             var viewModel = await InitializeViewModel<TViewModel>();
             var content = CreateContent<TViewModel>(
                 viewModel);
