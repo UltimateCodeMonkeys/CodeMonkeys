@@ -30,5 +30,11 @@ namespace CodeMonkeys.Navigation
         /// Default is <value>false</value>
         /// </summary>
         public bool AllowDifferentViewTypeRegistrationForSameViewModel { get; set; } = false;
+        
+        
+        
+        protected ConfigurationBase()
+        {
+        }
     }
 }
