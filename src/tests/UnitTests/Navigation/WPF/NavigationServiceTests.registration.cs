@@ -14,7 +14,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
         [Test]
         public void Register_WhenThereIsNoRegistrationWithSameTypes_AddsRegistration()
         {
-            int expectedRegistrationsCount = 3;
+            const int expectedRegistrationsCount = 3;
 
 
             navigationService.Register<MainViewModel, MainPage>();
@@ -48,7 +48,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
         [Test]
         public void Register_WhenThereIsARegistrationWithTheSameTypeButMultipleRegistrationsAreAllowed_KeepsBoth()
         {
-            int expectedRegistrationsCount = 2;
+            const int expectedRegistrationsCount = 2;
             NavigationService.Configuration.AllowDifferentViewTypeRegistrationForSameViewModel = true;
 
 
@@ -65,7 +65,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
         [Test]
         public void Unregister_WhenThereIsARegistration_RemovesRegistration()
         {
-            int expectedRegistrationsCount = 0;
+            const int expectedRegistrationsCount = 0;
             navigationService.Register<MainViewModel, MainPage>();
 
 
@@ -80,7 +80,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
         [Test]
         public void Unregister_WhenThereIsNoMatchingRegistration_NothingHappens()
         {
-            int expectedRegistrationsCount = 1;
+            const int expectedRegistrationsCount = 1;
             navigationService.Register<MainViewModel, MainPage>();
 
 

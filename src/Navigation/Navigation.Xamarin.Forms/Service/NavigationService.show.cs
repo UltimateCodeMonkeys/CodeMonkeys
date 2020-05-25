@@ -160,30 +160,30 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface>()
+        internal async Task<TViewModel> InitializeViewModelInternal<TViewModel>()
 
-            where TViewModelInterface : class, IViewModel
+            where TViewModel : class, IViewModel
         {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
             await viewModelInstance.InitializeAsync();
 
             Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
 
             return viewModelInstance;
         }
 
-        internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface, TModel>(
+        internal async Task<TViewModel> InitializeViewModelInternal<TViewModel, TModel>(
             TModel model)
 
-            where TViewModelInterface : class, IViewModel<TModel>
+            where TViewModel : class, IViewModel<TModel>
         {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
             await viewModelInstance.InitializeAsync(
                 model);
 
             Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
 
             return viewModelInstance;
         }
@@ -210,18 +210,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
 
-            Page view;
-
-            if (Configuration.CacheContent)
-            {
-                view = AddOrUpdateContentCache<TPage>(
-                    registration);
-            }
-            else
-            {
-                view = GetViewInstance<TPage>(
-                    registration);
-            }
+            Page view = Configuration.CacheContent ?
+                AddOrUpdateContentCache<TPage>(registration) :
+                GetViewInstance<TPage>(registration);
 
 
             view.BindingContext = viewModel;
@@ -234,41 +225,13 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Log?.Info(
                 $"View of type {view.GetType().Name} has been created!");
 
-            return (TPage)view;
-        }
-
-
-        private TPage AddOrUpdateContentCache<TPage>(
-            INavigationRegistration registration)
-
-            where TPage : Page
-        {
-            Page view;
-
-
-            if (PageCache.All(cachedPage => cachedPage.Type != registration.ViewType))
-            {
-                CreateCachedPage(registration.ViewType);
-            }
-
-            var reference = PageCache
-                .First(cachedPage => cachedPage.Type == registration.ViewType)
-                .Reference;
-
-            if (!reference.TryGetTarget(out view))
-            {
-                view = GetViewInstance<TPage>(
-                    registration);
-
-                reference.SetTarget(view);
-            }
-
 
             return (TPage)view;
         }
 
 
-        private TView GetViewInstance<TView>(
+
+        private static TView GetViewInstance<TView>(
             INavigationRegistration registrationInfo)
 
             where TView : Page

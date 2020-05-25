@@ -168,6 +168,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                     registration.ViewModelType == viewModelInterfaceType &&
                     registration.Platform.ToXamarinPlatform() == Device.RuntimePlatform);
 
+
             return registrationInfo != null;
         }
 

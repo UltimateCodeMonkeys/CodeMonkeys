@@ -21,7 +21,18 @@ namespace CodeMonkeys.Navigation.WPF
         //public bool OpenAsPopup { get; set; } = false;
 
 
-        public Func<bool> Condition { get; set; } = () => true;
+        private Func<bool> condition = () => true;
+        public Func<bool> Condition
+        {
+            get => condition;
+            set
+            {
+                if (value != null)
+                {
+                    condition = value;
+                }
+            }
+        }
 
 
 
