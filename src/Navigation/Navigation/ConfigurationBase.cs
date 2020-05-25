@@ -11,7 +11,7 @@ namespace CodeMonkeys.Navigation
         /// This is required if pages should be prebuilt (<see cref="CodeMonkeys.Navigation.INavigationService.Register{TViewModel}(Type, bool)" />
         /// </summary>
         /// <value><c>true</c> if content should be cached; otherwise, <c>false</c>. (default is <c>false</c>)</value>
-        public bool CacheContent { get; set; } = false;
+        public bool CacheContent { get; set; }
 
         /// <summary>
         /// Add content types that should not be cached
@@ -29,7 +29,7 @@ namespace CodeMonkeys.Navigation
         /// </para>
         /// Default is <value>false</value>
         /// </summary>
-        public bool AllowDifferentViewTypeRegistrationForSameViewModel { get; set; } = false;
+        public bool AllowDifferentViewTypeRegistrationForSameViewModel { get; set; }
         
         
         

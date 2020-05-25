@@ -10,8 +10,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
         /// <inheritdoc cref="INavigationRegistration.ResolveViewUsingDependencyInjection" />
-        public bool ResolveViewUsingDependencyInjection { get; set; } = false;
-        public bool PreCreateInstance { get; set; } = true;
+        public bool ResolveViewUsingDependencyInjection { get; set; }
+        public bool PreCreateInstance { get; set; }
 
 
         public DevicePlatforms Platform { get; set; } = DevicePlatforms.All;
@@ -49,7 +49,10 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(
+                ViewModelType,
+                ViewType,
+                Platform);
         }
     }
 }
