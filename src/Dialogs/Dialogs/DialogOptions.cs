@@ -4,18 +4,14 @@ namespace CodeMonkeys.Dialogs
 {
     public class DialogOptions : Options
     {
-        private string _defaultCloseLabel;
-        private string _defaultConfirmLabel;
-        private string _defaultDeclineLabel;
-
         /// <summary>
         /// <para>Defaults to <c>'OK'</c></para>
         /// <para>Value changes of this property are monitored and applied dynamically at runtime.</para>
         /// </summary>
         public string DefaultCloseLabel
         {
-            get => _defaultCloseLabel;
-            set => SetValue(ref _defaultCloseLabel, value);
+            get => GetValue<string>();
+            set => SetValue(value);
         }
 
         /// <summary>
@@ -24,8 +20,8 @@ namespace CodeMonkeys.Dialogs
         /// </summary>
         public string DefaultConfirmLabel
         {
-            get => _defaultConfirmLabel;
-            set => SetValue(ref _defaultConfirmLabel, value);
+            get => GetValue<string>();
+            set => SetValue(value);
         }
 
         /// <summary>
@@ -34,8 +30,8 @@ namespace CodeMonkeys.Dialogs
         /// </summary>
         public string DefaultDeclineLabel
         {
-            get => _defaultDeclineLabel;
-            set => SetValue(ref _defaultDeclineLabel, value);
+            get => GetValue<string>();
+            set => SetValue(value);
         }
 
         public DialogOptions()

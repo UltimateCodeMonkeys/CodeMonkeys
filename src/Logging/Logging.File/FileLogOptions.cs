@@ -6,12 +6,6 @@ namespace CodeMonkeys.Logging.File
 {
     public class FileLogOptions : BatchingLogOptions
     {
-        private string _fileNamePrefix;
-        private string _extension;
-        private long? _maxSize;
-        private int? _maxFilesToRetain;
-        private string _directory;
-
         /// <summary>
         /// Contains the file name prefix to use for log files.
         /// <para>Defaults to '_log'</para>
@@ -19,11 +13,11 @@ namespace CodeMonkeys.Logging.File
         /// </summary>
         public string FileNamePrefix
         {
-            get => _fileNamePrefix;
+            get => GetValue<string>();
             set
             {
                 Property.NotEmptyOrWhiteSpace(value);
-                SetValue(ref _fileNamePrefix, value);
+                SetValue(value);
             }
         }
 
@@ -34,11 +28,11 @@ namespace CodeMonkeys.Logging.File
         /// </summary>
         public string Extension
         {
-            get => _extension;
+            get => GetValue<string>();
             set
             {
                 Property.NotEmptyOrWhiteSpace(value);
-                SetValue(ref _extension, value?.TrimStart('.'));
+                SetValue(value?.TrimStart('.'));
             }
         }
 
@@ -49,13 +43,13 @@ namespace CodeMonkeys.Logging.File
         /// </summary>
         public long? MaxFileSize
         {
-            get => _maxSize;
+            get => GetValue<long?>();
             set
             {
                 if (value != null)
                     Property.GreaterThan(value.Value, 0);
 
-                SetValue(ref _maxSize, value);
+                SetValue(value);
             }
         }
 
@@ -66,13 +60,13 @@ namespace CodeMonkeys.Logging.File
         /// </summary>
         public int? MaxFilesToRetain
         {
-            get => _maxFilesToRetain;
+            get => GetValue<int?>();
             set
             {
                 if (value != null)
                     Property.GreaterThan(value.Value, 0);
 
-                SetValue(ref _maxFilesToRetain, value);
+                SetValue(value);
             }
         }
 
@@ -83,11 +77,11 @@ namespace CodeMonkeys.Logging.File
         /// </summary>
         public string Directory
         {
-            get => _directory;
+            get => GetValue<string>();
             set
             {
                 Property.NotEmptyOrWhiteSpace(value);
-                SetValue(ref _directory, value);
+                SetValue(value);
             }
         }
 

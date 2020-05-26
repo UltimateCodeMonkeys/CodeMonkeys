@@ -6,10 +6,6 @@ namespace CodeMonkeys.Logging.Batching
 {
     public class BatchingLogOptions : LogOptions
     {
-        private TimeSpan _flushPeriod;
-        private int? _batchCapacity;
-        private int? _queueCapacity;
-
         /// <summary>
         /// The period after which log messages will be flushed to the store.
         /// <para>Defaults to <c>5</c> seconds.</para>
@@ -17,8 +13,8 @@ namespace CodeMonkeys.Logging.Batching
         /// </summary>
         public TimeSpan FlushPeriod
         {
-            get => _flushPeriod;
-            set => SetValue(ref _flushPeriod, value);
+            get => GetValue<TimeSpan>();
+            set => SetValue(value);
         }
 
         /// <summary>
@@ -28,13 +24,13 @@ namespace CodeMonkeys.Logging.Batching
         /// </summary>        
         public int? BatchCapacity
         {
-            get => _batchCapacity;
+            get => GetValue<int?>();
             set
             {
                 if (value != null)
                     Property.GreaterThan(value.Value, 0);
 
-                SetValue(ref _batchCapacity, value);
+                SetValue(value);
             }
         }
 
@@ -45,13 +41,13 @@ namespace CodeMonkeys.Logging.Batching
         /// </summary>
         public int? QueueCapacity
         {
-            get => _queueCapacity;
+            get => GetValue<int?>();
             set
             {
                 if (value != null)
                     Property.GreaterThan(value.Value, 0);
 
-                SetValue(ref _queueCapacity, value);
+                SetValue(value);
             }
         }
 

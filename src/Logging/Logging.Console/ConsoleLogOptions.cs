@@ -4,8 +4,6 @@ namespace CodeMonkeys.Logging.Console
 {
     public class ConsoleLogOptions : LogOptions
     {
-        private bool _useColors;
-
         /// <summary>
         /// Flag which indicates if the output should be highlighted with colors.
         /// <para>Defaults to <see langword="true"/>.</para>
@@ -13,8 +11,8 @@ namespace CodeMonkeys.Logging.Console
         /// </summary>
         public bool UseColoredOutput
         {
-            get => _useColors;
-            set => SetValue(ref _useColors, value);
+            get => GetValue<bool>();
+            set => SetValue(value);
         }
 
         public ConsoleLogOptions()
