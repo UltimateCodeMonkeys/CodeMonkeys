@@ -13,7 +13,7 @@ namespace CodeMonkeys.UnitTests.Configuration
         public int Prop2
         {
             get => GetValue<int>();
-            set => SetValue(value, false);
+            set => SetValueAndReload(value);
         }
     }
 }
