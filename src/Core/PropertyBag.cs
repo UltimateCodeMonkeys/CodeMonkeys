@@ -3,25 +3,27 @@ using System.Runtime.CompilerServices;
 
 namespace CodeMonkeys
 {
-    public abstract class PropertyBag
+    public class PropertyBag
     {
-        protected readonly ConcurrentDictionary<string, object> Properties =
+        private readonly ConcurrentDictionary<string, object> _properties =
             new ConcurrentDictionary<string, object>();
 
-        protected virtual void SetValue<TProperty>(
+        public bool SetValue<TProperty>(
             TProperty value,
             [CallerMemberName]string propertyName = "")
         {
-            Properties.AddOrUpdate(
+            var stored = _properties.AddOrUpdate(
                 propertyName,
                 value,
                 (name, oldValue) => value);
+
+            return stored == value as object;
         }
 
-        protected virtual TProperty GetValue<TProperty>(
+        public TProperty GetValue<TProperty>(
             [CallerMemberName]string propertyName = "")
         {
-            return (TProperty)Properties.GetOrAdd(
+            return (TProperty)_properties.GetOrAdd(
                 propertyName,
                 default(TProperty));
         }

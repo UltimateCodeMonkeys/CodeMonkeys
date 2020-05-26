@@ -4,9 +4,12 @@ using System.Threading;
 
 namespace CodeMonkeys.Configuration
 {
-    public abstract class Options : PropertyBag
+    public abstract class Options
     {
         private OptionsChangeToken _token = new OptionsChangeToken();
+
+        private readonly PropertyBag _properties
+            = new PropertyBag();
 
         public IChangeToken GetChangeToken() => _token;
 
@@ -14,10 +17,24 @@ namespace CodeMonkeys.Configuration
             TProperty value,
             [CallerMemberName]string propertyName = "")
         {
-            SetValue(value, 
-                propertyName: propertyName);
-
+            SetValue(value, propertyName);
             Reload();
+        }
+
+        protected bool SetValue<TProperty>(
+            TProperty value,
+            [CallerMemberName]string propertyName = "")
+        {
+            return _properties.SetValue(
+                value,
+                propertyName);
+        }
+
+        public TProperty GetValue<TProperty>(
+            [CallerMemberName]string propertyName = "")
+        {
+            return _properties.GetValue<TProperty>(
+                propertyName);
         }
 
         private void Reload()
