@@ -27,5 +27,14 @@ namespace CodeMonkeys
                 propertyName,
                 default(TProperty));
         }
+
+        public TProperty GetValue<TProperty>(
+            TProperty defaultValue,
+            [CallerMemberName]string propertyName = "")
+        {
+            return (TProperty)_properties.GetOrAdd(
+                propertyName,
+                defaultValue);
+        }
     }
 }

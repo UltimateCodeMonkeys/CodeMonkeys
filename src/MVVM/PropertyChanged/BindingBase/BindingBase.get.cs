@@ -17,9 +17,8 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         protected TProperty GetValue<TProperty>(
             [CallerMemberName]string propertyName = "")
         {
-            return (TProperty)_properties.GetOrAdd(
-                propertyName,
-                default(TProperty));
+            return _propertyBag.GetValue<TProperty>(
+                propertyName);
         }
 
         /// <summary>
@@ -33,9 +32,9 @@ namespace CodeMonkeys.MVVM.PropertyChanged
             TProperty defaultValue,
             [CallerMemberName]string propertyName = "")
         {
-            return (TProperty)_properties.GetOrAdd(
-                propertyName,
-                defaultValue);
+            return _propertyBag.GetValue(
+                defaultValue,
+                propertyName);
         }
 
         /// <summary>
