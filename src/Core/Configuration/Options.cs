@@ -8,7 +8,7 @@ namespace CodeMonkeys.Configuration
     {
         private OptionsChangeToken _token = new OptionsChangeToken();
 
-        private readonly PropertyBag _properties
+        private readonly PropertyBag _propertyBag
             = new PropertyBag();
 
         public IChangeToken GetChangeToken() => _token;
@@ -25,7 +25,7 @@ namespace CodeMonkeys.Configuration
             TProperty value,
             [CallerMemberName]string propertyName = "")
         {
-            return _properties.SetValue(
+            return _propertyBag.SetValue(
                 value,
                 propertyName);
         }
@@ -33,7 +33,7 @@ namespace CodeMonkeys.Configuration
         public TProperty GetValue<TProperty>(
             [CallerMemberName]string propertyName = "")
         {
-            return _properties.GetValue<TProperty>(
+            return _propertyBag.GetValue<TProperty>(
                 propertyName);
         }
 
