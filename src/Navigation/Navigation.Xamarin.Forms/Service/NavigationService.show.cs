@@ -177,7 +177,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             if (registration.ViewType.IsAssignableFrom(typeof(TPage)))
             {
                 throw new InvalidOperationException(
-                    $"Non-assignable view type specifications for ViewModel '{typeof(TViewModel).Name}' - registered: '{registration.ViewType.Name}', generic parameter: {typeof(TPage).Name}");
+                    $"Non-assignable view type specifications for ViewModel '{typeof(TViewModel).Name}'" +
+                    $"registered: '{registration.ViewType.Name}', generic parameter: {typeof(TPage).Name}");
             }
 
 
