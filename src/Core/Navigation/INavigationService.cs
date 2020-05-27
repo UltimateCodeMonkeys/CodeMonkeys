@@ -20,58 +20,63 @@ namespace CodeMonkeys.Navigation
         /// <summary>
         /// Removes an existing mapping between a ViewModel and a View
         /// </summary>
-        /// <typeparam name="TViewModelInterface"></typeparam>
-        void Unregister<TViewModelInterface>()
-            where TViewModelInterface : class, IViewModel;
+        /// <typeparam name="TViewModel"></typeparam>
+        void Unregister<TViewModel>()
+            where TViewModel : class, IViewModel;
 
+
+        /// <summary>
+        /// Removes all existing mappings between ViewModel and View types
+        /// </summary>
+        void ResetRegistrations();
 
 
         /// <summary>
         /// Sets the application's root view using the ViewModel interface and the registered View type
         /// </summary>
-        /// <typeparam name="TViewModelInterface"></typeparam>
+        /// <typeparam name="TViewModel"></typeparam>
         /// <param name="dataContext">A ViewModel instance of the given interface type</param>
-        Task SetRootAsync<TViewModelInterface>()
-            where TViewModelInterface : class, IViewModel;
+        Task SetRootAsync<TViewModel>()
+            where TViewModel : class, IViewModel;
 
 
         /// <summary>
         /// Creates a new instance of the ViewModel interface type, looks up the associated view and displays it
         /// </summary>
-        Task ShowAsync<TViewModelInterface>()
-            where TViewModelInterface : class, IViewModel;
+        Task ShowAsync<TViewModel>()
+            where TViewModel : class, IViewModel;
 
         /// <summary>
         /// Creates a new instance of the ViewModel interface type, initializes it using the parameter, looks up the associated view and displays it
         /// </summary>
-        /// <param name="modelToPass">The data that should be used to initialize the ViewModel</param>
-        Task ShowAsync<TViewModelInterface, TModel>(
-            TModel modelToPass)
-            where TViewModelInterface : class, IViewModel<TModel>;
+        /// <param name="data">The data that should be used to initialize the ViewModel</param>
+        Task ShowAsync<Interface, TData>(
+            TData data)
+            where Interface : class, IViewModel<TData>;
 
 
 
         /// <summary>
         /// Closes the View that is associated with the ViewModel interface type
         /// </summary>
-        Task CloseAsync<TViewModelInterface>()
-            where TViewModelInterface : class, IViewModel;
+        Task CloseAsync<TViewModel>()
+            where TViewModel : class, IViewModel;
 
         /// <summary>
         /// Closes the View that is associated with the ViewModel interface type and informs the parent one
         /// </summary>
-        Task CloseAsync<TViewModelInterface, TParentViewModelInterface>()
-            where TViewModelInterface : class, IViewModel
-            where TParentViewModelInterface : class, IViewModel, IListenToChildViewModelClosing;
+        Task CloseAsync<TViewModel, TParentViewModel>()
+            where TViewModel : class, IViewModel
+            where TParentViewModel : class, IViewModel, IListenToChildViewModelClosing;
         
         /// <summary>
         /// Closes the View that is associated with the ViewModel interface type and informs the parent one
         /// </summary>
         /// <param name="resultData">The data that should be passed back to the parent (OnChildViewModelClosed)</param>
-        Task CloseAsync<TViewModelInterface, TParentViewModelInterface, TResult>(
+        Task CloseAsync<TViewModel, TParentViewModel, TResult>(
             TResult resultData)
-            where TViewModelInterface : class, IViewModel
-            where TParentViewModelInterface : class, IViewModel, IListenToChildViewModelClosing<TResult>;
+            where TViewModel : class, IViewModel
+            where TParentViewModel : class, IViewModel, IListenToChildViewModelClosing<TResult>;
 
 
         /// <summary>

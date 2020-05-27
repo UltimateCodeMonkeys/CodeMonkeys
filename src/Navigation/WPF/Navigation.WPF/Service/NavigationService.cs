@@ -31,8 +31,8 @@ namespace CodeMonkeys.Navigation.WPF
         private static IDependencyResolver dependencyResolver;
         protected static ILogService Log;
 
-        public static Configuration Configuration { get; set; } =
-            new Configuration();
+        public static NavigationServiceOptions Configuration { get; set; } =
+            new NavigationServiceOptions();
 
 
         protected IList<NavigationStackEntry> BackStack { get; set; }
@@ -60,15 +60,26 @@ namespace CodeMonkeys.Navigation.WPF
             get => current;
             set
             {
+                DetachDisappearingEventListener(
+                    Current?.Content);
+
+
                 current = value;
                 RaisePropertyChanged();
 
                 RaisePropertyChanged(nameof(CurrentViewModel));
                 RaisePropertyChanged(nameof(CurrentContent));
+
+
+                if (Current.ViewModel is IHandleClosing)
+                {
+                    Current.Content.Unloaded += OnContentUnloaded;
+                }
             }
         }
 
 
+        public IViewModel RootViewModel => Root?.ViewModel;
         public IViewModel CurrentViewModel => Current?.ViewModel;
 
         public FrameworkElement CurrentContent => Current?.Content;

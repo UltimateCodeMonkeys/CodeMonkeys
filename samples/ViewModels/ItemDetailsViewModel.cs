@@ -1,5 +1,6 @@
 ﻿using CodeMonkeys.MVVM;
 using CodeMonkeys.MVVM.Commands;
+using CodeMonkeys.Navigation.ViewModels;
 
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,7 +10,8 @@ namespace CodeMonkeys.Samples.ViewModels
     public class ItemDetailsViewModel :
         BaseViewModel,
 
-        IViewModel<string>
+        IViewModel<string>,
+        IHandleClosing
     {
         public ICommand GoBackCommand { get; }
 
@@ -33,6 +35,11 @@ namespace CodeMonkeys.Samples.ViewModels
         private async Task GoBackAsync()
         {
             await CloseAsync();
+        }
+
+        public override Task OnClosing()
+        {
+            return base.OnClosing();
         }
     }
 }

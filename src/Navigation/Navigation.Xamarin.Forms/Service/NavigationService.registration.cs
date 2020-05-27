@@ -93,6 +93,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
+        public void ResetRegistrations()
+        {
+            NavigationRegistrations.Clear();
+        }
+
+
         // todo: do we need this functionality?
         internal static TViewModel RegisterView<TViewModel>(
             Page page)
@@ -123,7 +129,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             return viewModel;
         }
 
-        private static void RegisterInternal(INavigationRegistration registration)
+        private static void RegisterInternal(
+            INavigationRegistration registration)
         {
             _semaphore.Wait();
 
@@ -161,6 +168,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                     registration.ViewModelType == viewModelInterfaceType &&
                     registration.Platform.ToXamarinPlatform() == Device.RuntimePlatform);
 
+
             return registrationInfo != null;
         }
 
@@ -185,11 +193,11 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
         private static bool TryGetRegistration(
-            Type viewModelInterfaceType,
+            Type viewModelType,
             Type viewType,
             out INavigationRegistration registrationInfo)
         {
-            if (!IsRegistered(viewModelInterfaceType, viewType))
+            if (!IsRegistered(viewModelType, viewType))
             {
                 registrationInfo = null;
                 return false;
@@ -197,8 +205,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
             registrationInfo = NavigationRegistrations.FirstOrDefault(registration =>
-                registration.ViewModelType == viewModelInterfaceType &&
-                registration.ViewType == viewType);
+                registration.ViewModelType == viewModelType &&
+                viewType.IsAssignableFrom(registration.ViewType) &&
+                registration.Condition?.Invoke() != false);
 
             return registrationInfo != null;
         }

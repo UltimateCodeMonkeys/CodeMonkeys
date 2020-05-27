@@ -17,6 +17,9 @@ namespace CodeMonkeys.Navigation.WPF
 
             where TViewModel : class, IViewModel
         {
+            ThrowIfNotRegistered<TViewModel>();
+
+
             var viewModel = await InitializeViewModel<TViewModel>();
             var content = CreateContent<TViewModel>(
                 viewModel);
@@ -62,6 +65,7 @@ namespace CodeMonkeys.Navigation.WPF
             AddToForwardStack(
                 CurrentViewModel,
                 CurrentContent);
+
 
             SetCurrent(
                 destination.ViewModel,
@@ -112,19 +116,6 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface>()
-
-            where TViewModelInterface : class, IViewModel
-        {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
-            await viewModelInstance.InitializeAsync();
-
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
-
-            return viewModelInstance;
-        }
-
 
         internal TView CreateContentInternal<TViewModel, TView>(
             TViewModel viewModel)
@@ -146,23 +137,8 @@ namespace CodeMonkeys.Navigation.WPF
 
             if (Configuration.CacheContent)
             {
-                if (ContentCache.All(cachedPage => cachedPage.Type != registration.ViewType))
-                {
-                    CreateCachedContent(typeof(TView));
-                }
-
-                var reference = ContentCache
-                    .First(cachedPage => cachedPage.Type == registration.ViewType)
-                    .Reference;
-
-
-                if (!reference.TryGetTarget(out content))
-                {
-                    content = GetContentInstance<TView>(
-                        registration);
-
-                    reference.SetTarget(content);
-                }
+                content = AddOrUpdateContentCache<TView>(
+                    registration);
             }
             else
             {
@@ -251,24 +227,6 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        private TView GetContentInstance<TView>(
-            INavigationRegistration registrationInfo)
-
-            where TView : FrameworkElement
-        {
-            if (registrationInfo.ResolveViewUsingDependencyInjection)
-            {
-                return (TView)dependencyResolver.Resolve(
-                    registrationInfo.ViewType);
-            }
-            else
-            {
-                return (TView)Activator.CreateInstance(
-                        registrationInfo.ViewType);
-            }
-        }
-
-
         private void AddToBackStack(
             IViewModel viewModel,
             FrameworkElement content)
@@ -298,6 +256,40 @@ namespace CodeMonkeys.Navigation.WPF
             Current = new NavigationStackEntry(
                 viewModel,
                 content);
+        }
+
+
+
+
+        internal static async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface>()
+
+            where TViewModelInterface : class, IViewModel
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
+            await viewModelInstance.InitializeAsync();
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
+
+            return viewModelInstance;
+        }
+
+
+        private static TView GetContentInstance<TView>(
+            INavigationRegistration registration)
+
+            where TView : FrameworkElement
+        {
+            if (registration.ResolveViewUsingDependencyInjection)
+            {
+                return (TView)dependencyResolver.Resolve(
+                    registration.ViewType);
+            }
+            else
+            {
+                return (TView)Activator.CreateInstance(
+                        registration.ViewType);
+            }
         }
     }
 }

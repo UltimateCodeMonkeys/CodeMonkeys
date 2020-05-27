@@ -4,7 +4,6 @@ using CodeMonkeys.Navigation.ViewModels;
 using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -160,34 +159,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface>()
-
-            where TViewModelInterface : class, IViewModel
-        {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
-            await viewModelInstance.InitializeAsync();
-
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
-
-            return viewModelInstance;
-        }
-
-        internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface, TModel>(
-            TModel model)
-
-            where TViewModelInterface : class, IViewModel<TModel>
-        {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
-            await viewModelInstance.InitializeAsync(
-                model);
-
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
-
-            return viewModelInstance;
-        }
-
         internal TPage CreateViewInternal<TViewModel, TPage>(
             TViewModel viewModel)
 
@@ -196,46 +167,24 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         {
             if (!TryGetRegistration(
                 typeof(TViewModel),
-                out var registrationInfo))
+                out var registration))
             {
                 // todo: set exception message
                 throw new InvalidOperationException();
             }
 
 
-            if (registrationInfo.ViewType.IsAssignableFrom(typeof(TPage)))
+            if (registration.ViewType.IsAssignableFrom(typeof(TPage)))
             {
                 throw new InvalidOperationException(
-                    $"Non-assignable view type specifications for ViewModel '{typeof(TViewModel).Name}' - registered: '{registrationInfo.ViewType.Name}', generic parameter: {typeof(TPage).Name}");
+                    $"Non-assignable view type specifications for ViewModel '{typeof(TViewModel).Name}'" +
+                    $"registered: '{registration.ViewType.Name}', generic parameter: {typeof(TPage).Name}");
             }
 
 
-            Page view;
-
-            if (Configuration.CachePageInstances)
-            {
-                if (PageCache.All(cachedPage => cachedPage.Type != registrationInfo.ViewType))
-                {
-                    CreateCachedPage(registrationInfo.ViewType);
-                }
-
-                var reference = PageCache
-                    .First(cachedPage => cachedPage.Type == registrationInfo.ViewType)
-                    .Reference;
-
-                if (!reference.TryGetTarget(out view))
-                {
-                    view = GetViewInstance<TPage>(
-                        registrationInfo);
-
-                    reference.SetTarget(view);
-                }
-            }
-            else
-            {
-                view = GetViewInstance<TPage>(
-                    registrationInfo);
-            }
+            Page view = Configuration.CacheContent ?
+                AddOrUpdateContentCache<TPage>(registration) :
+                GetViewInstance<TPage>(registration);
 
 
             view.BindingContext = viewModel;
@@ -248,24 +197,53 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Log?.Info(
                 $"View of type {view.GetType().Name} has been created!");
 
+
             return (TPage)view;
         }
 
-        private TView GetViewInstance<TView>(
+
+
+
+        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel>()
+
+            where TViewModel : class, IViewModel
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            await viewModelInstance.InitializeAsync();
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
+            return viewModelInstance;
+        }
+
+        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel, TModel>(
+            TModel model)
+
+            where TViewModel : class, IViewModel<TModel>
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            await viewModelInstance.InitializeAsync(
+                model);
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
+            return viewModelInstance;
+        }
+
+        private static TView GetViewInstance<TView>(
             INavigationRegistration registrationInfo)
 
             where TView : Page
         {
-            if (registrationInfo.ResolveViewUsingDependencyInjection)
-            {
-                return (TView)dependencyResolver.Resolve(
+            return registrationInfo.ResolveViewUsingDependencyInjection
+                ?
+                (TView)dependencyResolver.Resolve(
+                    registrationInfo.ViewType)
+                :
+                (TView)Activator.CreateInstance(
                     registrationInfo.ViewType);
-            }
-            else
-            {
-                return (TView)Activator.CreateInstance(
-                        registrationInfo.ViewType);
-            }
         }
     }
 }
