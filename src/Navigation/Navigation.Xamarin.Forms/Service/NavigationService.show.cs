@@ -159,34 +159,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        internal async Task<TViewModel> InitializeViewModelInternal<TViewModel>()
-
-            where TViewModel : class, IViewModel
-        {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
-            await viewModelInstance.InitializeAsync();
-
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
-
-            return viewModelInstance;
-        }
-
-        internal async Task<TViewModel> InitializeViewModelInternal<TViewModel, TModel>(
-            TModel model)
-
-            where TViewModel : class, IViewModel<TModel>
-        {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
-            await viewModelInstance.InitializeAsync(
-                model);
-
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
-
-            return viewModelInstance;
-        }
-
         internal TPage CreateViewInternal<TViewModel, TPage>(
             TViewModel viewModel)
 
@@ -229,6 +201,35 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
+
+
+        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel>()
+
+            where TViewModel : class, IViewModel
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            await viewModelInstance.InitializeAsync();
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
+            return viewModelInstance;
+        }
+
+        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel, TModel>(
+            TModel model)
+
+            where TViewModel : class, IViewModel<TModel>
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            await viewModelInstance.InitializeAsync(
+                model);
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
+            return viewModelInstance;
+        }
 
         private static TView GetViewInstance<TView>(
             INavigationRegistration registrationInfo)

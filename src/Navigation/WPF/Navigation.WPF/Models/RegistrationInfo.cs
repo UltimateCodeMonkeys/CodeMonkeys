@@ -27,13 +27,7 @@ namespace CodeMonkeys.Navigation.WPF
             get => condition;
             set
             {
-                if (value == null)
-                {
-                    value = () => true;
-                }
-
-
-                condition = value;
+                condition = value ?? (() => true);
             }
         }
 

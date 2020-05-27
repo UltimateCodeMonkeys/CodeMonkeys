@@ -17,7 +17,15 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         public DevicePlatforms Platform { get; set; } = DevicePlatforms.All;
 
 
-        public Func<bool> Condition { get; set; } = () => true;
+        private Func<bool> condition = () => true;
+        public Func<bool> Condition
+        {
+            get => condition;
+            set
+            {
+                condition = value ?? (() => true);
+            }
+        }
 
 
 
