@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CodeMonkeys.Navigation
 {
-    public class ConfigurationBase
+    public class NavigationServiceOptionsBase
     {
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="CodeMonkeys.Navigation.INavigationService" />
@@ -33,7 +33,7 @@ namespace CodeMonkeys.Navigation
         
         
         
-        protected ConfigurationBase()
+        protected NavigationServiceOptionsBase()
         {
         }
     }

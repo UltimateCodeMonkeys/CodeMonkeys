@@ -31,8 +31,8 @@ namespace CodeMonkeys.Navigation.WPF
         private static IDependencyResolver dependencyResolver;
         protected static ILogService Log;
 
-        public static Configuration Configuration { get; set; } =
-            new Configuration();
+        public static NavigationServiceOptions Configuration { get; set; } =
+            new NavigationServiceOptions();
 
 
         protected IList<NavigationStackEntry> BackStack { get; set; }

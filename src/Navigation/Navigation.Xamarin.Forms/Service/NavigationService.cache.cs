@@ -59,8 +59,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return;
             }
 
-            if (Configuration.ContentTypesToExcludeFromCaching
-                .Contains(pageType))
+            if (Configuration.ContentTypesToExcludeFromCaching?
+                .Contains(pageType) == true)
             {
                 return;
             }

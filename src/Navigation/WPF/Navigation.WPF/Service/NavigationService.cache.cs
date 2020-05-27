@@ -30,8 +30,8 @@ namespace CodeMonkeys.Navigation.WPF
                 return;
             }
 
-            if (Configuration.ContentTypesToExcludeFromCaching
-                .Contains(registration.ViewType))
+            if (Configuration.ContentTypesToExcludeFromCaching?
+                .Contains(registration.ViewType) == true)
             {
                 return;
             }

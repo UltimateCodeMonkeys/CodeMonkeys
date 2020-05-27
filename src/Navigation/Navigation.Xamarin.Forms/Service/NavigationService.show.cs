@@ -4,7 +4,6 @@ using CodeMonkeys.Navigation.ViewModels;
 using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -236,16 +235,13 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             where TView : Page
         {
-            if (registrationInfo.ResolveViewUsingDependencyInjection)
-            {
-                return (TView)dependencyResolver.Resolve(
+            return registrationInfo.ResolveViewUsingDependencyInjection
+                ?
+                (TView)dependencyResolver.Resolve(
+                    registrationInfo.ViewType)
+                :
+                (TView)Activator.CreateInstance(
                     registrationInfo.ViewType);
-            }
-            else
-            {
-                return (TView)Activator.CreateInstance(
-                        registrationInfo.ViewType);
-            }
         }
     }
 }

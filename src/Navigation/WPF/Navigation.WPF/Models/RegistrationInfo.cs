@@ -27,10 +27,13 @@ namespace CodeMonkeys.Navigation.WPF
             get => condition;
             set
             {
-                if (value != null)
+                if (value == null)
                 {
-                    condition = value;
+                    value = () => true;
                 }
+
+
+                condition = value;
             }
         }
 
