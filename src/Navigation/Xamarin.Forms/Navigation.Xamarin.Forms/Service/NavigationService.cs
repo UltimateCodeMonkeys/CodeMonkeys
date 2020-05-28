@@ -2,7 +2,7 @@
 using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
-
+using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -129,6 +129,30 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
             SetRootInternal(page);
+        }
+
+        public async Task SetRoot<TMasterViewModel, TDetailViewModel>()
+
+            where TMasterViewModel : class, IViewModel
+            where TDetailViewModel : class, IViewModel
+        {
+            ThrowIfNotRegistered<TMasterViewModel>();
+            ThrowIfNotRegistered<TDetailViewModel>();
+
+
+            var masterViewModel = await InitializeViewModelInternal<TMasterViewModel>();
+            var detailViewModel = await InitializeViewModelInternal<TDetailViewModel>();
+
+
+            var masterPage = CreateViewInternal<TMasterViewModel, MasterDetailPage>(
+                masterViewModel);
+
+            var detailPage = CreateViewInternal<TDetailViewModel, DetailPage>(
+                detailViewModel);
+
+
+            masterPage.Detail = new NavigationPage(detailPage);
+            SetRootInternal(masterPage);
         }
 
         internal void SetRootInternal(

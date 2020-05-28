@@ -82,12 +82,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             await CloseCurrentPage();
         }
 
+        /// <inheritdoc cref="INavigationService.CloseAllAsync" />
         public virtual async Task CloseAllAsync()
         {
             await PopToRootAsync();
         }
 
 
+        /// <inheritdoc cref="INavigationService.CloseModalAsync" />
         public virtual async Task CloseModalAsync<TViewModel>()
         {
             if (Navigation == null)

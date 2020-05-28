@@ -1,8 +1,6 @@
 ﻿using CodeMonkeys.MVVM;
-using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 
 using System;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
@@ -10,54 +8,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     public static class NavigationServiceExtensions
     {
-        public static async Task SetRoot<TMasterViewModel, TDetailViewModel>(
-            this INavigationService navigationService)
-
-            where TMasterViewModel : class, IViewModel
-            where TDetailViewModel : class, IViewModel
-        {
-            if (!(navigationService is NavigationService service))
-                throw new InvalidOperationException($"Extension can only be used with service type '{typeof(NavigationService).FullName}'");
-
-
-            NavigationService.ThrowIfNotRegistered<TMasterViewModel>();
-            NavigationService.ThrowIfNotRegistered<TDetailViewModel>();
-
-
-            var masterViewModel = await NavigationService.InitializeViewModelInternal<TMasterViewModel>();
-            var detailViewModel = await NavigationService.InitializeViewModelInternal<TDetailViewModel>();
-
-
-            var masterPage = service.CreateViewInternal<TMasterViewModel, MasterDetailPage>(
-                masterViewModel);
-
-            var detailPage = service.CreateViewInternal<TDetailViewModel, DetailPage>(
-                detailViewModel);
-
-
-            masterPage.Detail = new NavigationPage(detailPage);
-            service.SetRootInternal(masterPage);
-        }
-
-
-        /// <summary>
-        /// Closes all open pages and goes back to the application's root page
-        /// </summary>
-        public static async Task CloseAllAsync(
-            this INavigationService navigationService)
-        {
-            if (!(navigationService is NavigationService service))
-            {
-                throw new InvalidOperationException(
-                    $"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
-            }
-
-
-            await service.CloseAllAsync();
-        }
-
-
-
         /// <summary>
         /// Register a ViewModel interface to a specific view
         /// </summary>
@@ -230,6 +180,21 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             registrationInfo.PreCreateInstance = true;
 
             return registrationInfo;
+        }
+
+
+
+        private static void ThrowIfNavigationServiceIsOfWrongType(
+            INavigationService service,
+            out NavigationService navigationService)
+        {
+            if (!(service is NavigationService wpfService))
+            {
+                throw new InvalidOperationException(
+                    $"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
+            }
+
+            navigationService = wpfService;
         }
     }
 }

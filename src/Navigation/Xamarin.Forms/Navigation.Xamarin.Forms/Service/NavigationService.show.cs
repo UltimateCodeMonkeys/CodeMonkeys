@@ -70,6 +70,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
+        /// <inheritdoc cref="INavigationService.ShowModalAsync{TViewModel}" />
         public virtual async Task ShowModalAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
@@ -90,6 +91,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
+        /// <inheritdoc cref="INavigationService.ShowModalAsync{TViewModel, TData}(TData)" />
         public virtual async Task ShowModalAsync<TViewModel, TData>(
             TData data)
 
