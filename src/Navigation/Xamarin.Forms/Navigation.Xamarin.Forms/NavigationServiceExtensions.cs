@@ -24,8 +24,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             NavigationService.ThrowIfNotRegistered<TDetailViewModel>();
 
 
-            var masterViewModel = await service.InitializeViewModelInternal<TMasterViewModel>();
-            var detailViewModel = await service.InitializeViewModelInternal<TDetailViewModel>();
+            var masterViewModel = await NavigationService.InitializeViewModelInternal<TMasterViewModel>();
+            var detailViewModel = await NavigationService.InitializeViewModelInternal<TDetailViewModel>();
 
 
             var masterPage = service.CreateViewInternal<TMasterViewModel, MasterDetailPage>(
@@ -199,6 +199,24 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             return registrationInfo;
         }
+
+
+        /// <summary>
+        /// Adds the given condition to the registration.
+        /// Every time a associated ViewModel is requested, the condition is evaluated before showing it.
+        /// </summary>
+        /// <param name="registration"></param>
+        /// <param name="condition"><see cref="Func{TResult}" />Condition to evaluate before showing</param>
+        /// <returns>Registration info</returns>
+        public static NavigationRegistration WithCondition(
+            this NavigationRegistration registration,
+            Func<bool> condition)
+        {
+            registration.Condition = condition;
+
+            return registration;
+        }
+
 
         /// <summary>
         /// Indicates that the view from this registration should be build and cached before it is actually shown

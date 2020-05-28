@@ -72,34 +72,5 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             var cachedPage = new CachedPage(pageInstance);
             PageCache.Add(cachedPage);
         }
-
-        private static TPage AddOrUpdateContentCache<TPage>(
-            INavigationRegistration registration)
-
-            where TPage : Page
-        {
-            Page view;
-
-
-            if (PageCache.All(cachedPage => cachedPage.Type != registration.ViewType))
-            {
-                CreateCachedPage(registration.ViewType);
-            }
-
-            var reference = PageCache
-                .First(cachedPage => cachedPage.Type == registration.ViewType)
-                .Reference;
-
-            if (!reference.TryGetTarget(out view))
-            {
-                view = GetViewInstance<TPage>(
-                    registration);
-
-                reference.SetTarget(view);
-            }
-
-
-            return (TPage)view;
-        }
     }
 }

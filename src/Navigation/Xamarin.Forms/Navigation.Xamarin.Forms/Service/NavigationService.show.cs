@@ -108,6 +108,68 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
 
+
+
+
+
+
+        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel>()
+
+            where TViewModel : class, IViewModel
+        {
+            return await InitializeViewModelInternal<TViewModel>();
+        }
+
+        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel, TData>(
+            TData data)
+
+            where TViewModel : class, IViewModel<TData>
+        {
+            return await InitializeViewModelInternal<TViewModel, TData>(
+                data);
+        }
+
+
+        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel>()
+
+            where TViewModel : class, IViewModel
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            await viewModelInstance.InitializeAsync();
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
+            return viewModelInstance;
+        }
+
+        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel, TData>(
+            TData data)
+
+            where TViewModel : class, IViewModel<TData>
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            await viewModelInstance.InitializeAsync(
+                data);
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
+            return viewModelInstance;
+        }
+
+
+
+        protected Page CreateView<TViewModel>(
+            TViewModel viewModel)
+
+            where TViewModel : class, IViewModel
+        {
+            return CreateViewInternal<TViewModel, Page>(
+                viewModel);
+        }
+
+
         internal TPage CreateViewInternal<TViewModel, TPage>(
             TViewModel viewModel)
 
@@ -152,46 +214,86 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
 
-
-        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel>()
-
-            where TViewModel : class, IViewModel
+        private Func<Page, Task> BuildShowAsyncFunc(
+            Page page)
         {
-            return await InitializeViewModelInternal<TViewModel>();
+            if (RootPage is MasterDetailPage &&
+                page is DetailPage)
+            {
+                return SetDetailAsync;
+            }
+            else if (RootPage is TabbedPage &&
+                page is TabPage)
+            {
+                return SetTabAsync;
+            }
+            else return PushAsync;
         }
 
-        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel, TModel>(
-            TModel model)
 
-
-
-        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel>()
-
-            where TViewModel : class, IViewModel
+        private async Task PushAsync(
+            Page page)
         {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
-            await viewModelInstance.InitializeAsync();
+            if (Navigation == null)
+                return;
 
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
-
-            return viewModelInstance;
+            await Device.InvokeOnMainThreadAsync(() =>
+            {
+                Navigation.PushAsync(
+                    page,
+                    animated: Configuration.UseAnimations);
+            });
         }
 
-        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel, TModel>(
-            TModel model)
-
-            where TViewModel : class, IViewModel<TModel>
+        private async Task SetDetailAsync(
+            Page page)
         {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
-            await viewModelInstance.InitializeAsync(
-                model);
+            if (!(Application.Current.MainPage is MasterDetailPage masterDetailPage))
+                return;
 
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
 
-            return viewModelInstance;
+            await Device.InvokeOnMainThreadAsync(() =>
+            {
+                masterDetailPage.Detail = new NavigationPage(page);
+                masterDetailPage.IsPresented = !Configuration.MasterDetailConfig.HideMenuOnPageSwitch;
+            });
         }
+
+        private async Task SetTabAsync(
+            Page page)
+        {
+            if (!(Application.Current.MainPage is TabbedPage tabbedPage))
+                return;
+
+
+            await Device.InvokeOnMainThreadAsync(() =>
+            {
+                if (!tabbedPage.Children.Contains(page))
+                    return;
+
+
+                tabbedPage.CurrentPage = new NavigationPage(page);
+            });
+        }
+
+
+        private async Task PushModalAsync(
+            Page page)
+        {
+            if (Navigation == null)
+                return;
+
+
+            await Device.InvokeOnMainThreadAsync(() =>
+            {
+                Navigation.PushModalAsync(
+                    page,
+                    animated: Configuration.UseAnimations);
+            });
+        }
+
+
+        
 
 
 

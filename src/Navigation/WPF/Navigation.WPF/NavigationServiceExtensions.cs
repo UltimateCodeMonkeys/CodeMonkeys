@@ -10,173 +10,6 @@ namespace CodeMonkeys.Navigation
 {
     public static class NavigationServiceExtensions
     {
-        /*
-        public static async Task SetRootWindowAsync<TViewModel>(
-            this INavigationService service)
-
-            where TViewModel : class, IViewModel
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            var viewModel = await navigationService.InitializeViewModelInternal<TViewModel>();
-
-            var window = navigationService.CreateContentInternal<TViewModel, Window>(
-                viewModel);
-
-
-            Application.Current.MainWindow = window;
-            Application.Current.MainWindow.Show();
-        }
-
-        public static async Task SetRootWindow<TRootViewModel, TInitialViewModel>(
-            this INavigationService service)
-
-            where TRootViewModel : class, IViewModel
-            where TInitialViewModel : class, IViewModel
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            await SetRootWindowAsync<TRootViewModel>(
-                navigationService);
-
-            await navigationService.SetRoot<TInitialViewModel>();
-
-            navigationService.ClearStacks();
-        }
-
-
-        public static IViewModel GetCurrentViewModel(
-            this INavigationService service)
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            return navigationService.CurrentViewModel;
-        }
-
-
-
-        /// <summary>
-        /// States wether it is possible to navigate backwards and <see cref="CodeMonkeys.Navigation.WPF.NavigationService.TryGoBack"/> can be successfully executed
-        /// </summary>
-        /// <param name="service"></param>
-        /// <returns></returns>
-        public static bool CanGoBack(
-            this INavigationService service)
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            return navigationService.CanGoBack();
-        }
-
-        /// <summary>
-        /// Tries to go back on navigation stack
-        /// </summary>
-        /// <param name="service"></param>
-        /// <returns></returns>
-        public static bool TryGoBack(
-            this INavigationService service)
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            return navigationService.TryGoBack();
-        }
-
-
-        /// <summary>
-        /// States wether it is possible to navigate backwards and <see cref="CodeMonkeys.Navigation.WPF.NavigationService.TryGoForward"/> can be successfully executed
-        /// </summary>
-        /// <param name="service"></param>
-        /// <returns></returns>
-        public static bool CanGoForward(
-            this INavigationService service)
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            return navigationService.CanGoForward();
-        }
-
-        /// <summary>
-        /// Tries to go forward on navigation stack
-        /// </summary>
-        /// <param name="service"></param>
-        /// <returns></returns>
-        public static bool TryGoForward(
-            this INavigationService service)
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            return navigationService.TryGoForward();
-        }
-
-
-        /// <summary>
-        /// Clears the stacks for backwards and forward navigation
-        /// </summary>
-        /// <param name="service"></param>
-        public static void ClearStacks(
-            this INavigationService service)
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            navigationService.ClearStacks();
-        }
-
-        /// <summary>
-        /// Clears the stack for backwards navigation
-        /// </summary>
-        /// <param name="service"></param>
-        public static void ClearBackStack(
-            this INavigationService service)
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            navigationService.ClearBackStack();
-        }
-
-        /// <summary>
-        /// Clears the stack for forward navigation
-        /// </summary>
-        /// <param name="service"></param>
-        public static void ClearForwardStack(
-            this INavigationService service)
-        {
-            ThrowIfNavigationServiceIsOfWrongType(
-                service,
-                out var navigationService);
-
-
-            navigationService.ClearForwardStack();
-        }
-        */
-
-
         /// <summary>
         /// Register a ViewModel interface to a specific view
         /// </summary>
@@ -257,6 +90,13 @@ namespace CodeMonkeys.Navigation
         }
 
 
+        /// <summary>
+        /// Adds the given condition to the registration.
+        /// Every time a associated ViewModel is requested, the condition is evaluated before showing it.
+        /// </summary>
+        /// <param name="registration"></param>
+        /// <param name="condition"><see cref="Func{TResult}" />Condition to evaluate before showing</param>
+        /// <returns>Registration info</returns>
         public static RegistrationInfo WithCondition(
             this RegistrationInfo registration,
             Func<bool> condition)
