@@ -91,7 +91,11 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         public virtual async Task CloseModalAsync<TViewModel>()
         {
             if (Navigation == null)
+            {
+                Log?.Error(
+                    $"'{nameof(Navigation)}' is null!");
                 return;
+            }
 
 
             await Navigation.PopModalAsync(
@@ -106,12 +110,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             Log?.Info(
                 "Page has been removed from Xamarin navigation stack.");
-
-
-            var bindingContext = Navigation.NavigationStack.Last()?.BindingContext;
-
-            if (!(bindingContext is IViewModel viewModel))
-                return;
         }
 
         private async Task PopToRootAsync()

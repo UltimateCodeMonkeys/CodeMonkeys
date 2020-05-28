@@ -26,7 +26,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return;
             }
 
-            var viewModelInstance = await InitializeViewModelAsync<TViewModel>();
+            var viewModelInstance = await InitializeViewModelAsync<TViewModel>()
+                .ConfigureAwait(false);
 
             var page = CreateView<TViewModel>(
                 viewModelInstance);
@@ -53,9 +54,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return;
             }
 
-            var viewModelInstance =
-                await InitializeViewModelAsync<TViewModel, TData>(
-                    data);
+            var viewModelInstance = 
+                await InitializeViewModelAsync<TViewModel, TData>(data)
+                .ConfigureAwait(false);
 
             var page = CreateView<TViewModel>(
                 viewModelInstance);
@@ -77,7 +78,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
             var viewModelInstance =
-                await InitializeViewModelAsync<TViewModel>();
+                await InitializeViewModelAsync<TViewModel>()
+                .ConfigureAwait(false);
 
             var page = CreateView<TViewModel>(
                 viewModelInstance);
@@ -96,8 +98,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
             var viewModelInstance =
-                await InitializeViewModelAsync<TViewModel, TData>(
-                    data);
+                await InitializeViewModelAsync<TViewModel, TData>(data)
+                .ConfigureAwait(false);
 
             var page = CreateView<TViewModel>(
                 viewModelInstance);
@@ -108,16 +110,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
 
-
-
-
-
-
         protected async Task<TViewModel> InitializeViewModelAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
-            return await InitializeViewModelInternal<TViewModel>();
+            return await InitializeViewModelInternal<TViewModel>()
+                .ConfigureAwait(false);
         }
 
         protected async Task<TViewModel> InitializeViewModelAsync<TViewModel, TData>(
@@ -125,8 +123,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             where TViewModel : class, IViewModel<TData>
         {
-            return await InitializeViewModelInternal<TViewModel, TData>(
-                data);
+            return await InitializeViewModelInternal<TViewModel, TData>(data)
+                .ConfigureAwait(false);
         }
 
 
@@ -135,7 +133,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             where TViewModel : class, IViewModel
         {
             var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
-            await viewModelInstance.InitializeAsync();
+            await viewModelInstance.InitializeAsync()
+                .ConfigureAwait(false);
 
             Log?.Info(
                 $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
@@ -149,8 +148,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             where TViewModel : class, IViewModel<TData>
         {
             var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
-            await viewModelInstance.InitializeAsync(
-                data);
+            await viewModelInstance.InitializeAsync(data)
+                .ConfigureAwait(false);
 
             Log?.Info(
                 $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
@@ -227,7 +226,10 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             {
                 return SetTabAsync;
             }
-            else return PushAsync;
+            else
+            {
+                return PushAsync;
+            }
         }
 
 
@@ -235,7 +237,10 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Page page)
         {
             if (Navigation == null)
+            {
                 return;
+            }
+
 
             await Device.InvokeOnMainThreadAsync(() =>
             {
@@ -249,7 +254,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Page page)
         {
             if (!(Application.Current.MainPage is MasterDetailPage masterDetailPage))
+            {
                 return;
+            }
 
 
             await Device.InvokeOnMainThreadAsync(() =>
@@ -263,7 +270,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Page page)
         {
             if (!(Application.Current.MainPage is TabbedPage tabbedPage))
+            {
                 return;
+            }
 
 
             await Device.InvokeOnMainThreadAsync(() =>
@@ -281,7 +290,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Page page)
         {
             if (Navigation == null)
+            {
                 return;
+            }
 
 
             await Device.InvokeOnMainThreadAsync(() =>
@@ -291,9 +302,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                     animated: Configuration.UseAnimations);
             });
         }
-
-
-        
+               
 
 
 
