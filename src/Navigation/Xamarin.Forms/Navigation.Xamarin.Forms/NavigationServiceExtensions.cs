@@ -181,20 +181,5 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             return registrationInfo;
         }
-
-
-
-        private static void ThrowIfNavigationServiceIsOfWrongType(
-            INavigationService service,
-            out NavigationService navigationService)
-        {
-            if (!(service is NavigationService wpfService))
-            {
-                throw new InvalidOperationException(
-                    $"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
-            }
-
-            navigationService = wpfService;
-        }
     }
 }
