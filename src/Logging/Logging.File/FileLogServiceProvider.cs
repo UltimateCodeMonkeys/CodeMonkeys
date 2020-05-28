@@ -32,7 +32,7 @@ namespace CodeMonkeys.Logging.File
             return new FileLogService(this, context);
         }
 
-        protected override async Task ProcessBatch(IEnumerable<LogMessage> batch, CancellationToken token)
+        protected override async Task ProcessBatch(IEnumerable<LogMessage> batch)
         {
             Directory.CreateDirectory(Options.Directory);
 
@@ -46,8 +46,7 @@ namespace CodeMonkeys.Logging.File
 
                     await SystemIOFile.AppendAllTextAsync(
                         path,
-                        formattedMessage,
-                        token);
+                        formattedMessage);
                 }
                 catch { }
             }

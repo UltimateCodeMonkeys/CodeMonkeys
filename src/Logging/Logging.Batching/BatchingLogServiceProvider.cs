@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace CodeMonkeys.Logging.Batching
@@ -13,14 +10,21 @@ namespace CodeMonkeys.Logging.Batching
         public override bool IsEnabled 
         { 
             get => base.IsEnabled; 
-            set => base.IsEnabled = value; 
+            set
+            {
+                if (value)
+                    Run();
+
+                base.IsEnabled = value;
+            }
         }
 
         private BlockingCollection<LogMessage> _queue;
-        private CancellationTokenSource _cts;
-        private Task _task;
 
-        protected BatchingLogServiceProvider() => Run();
+        protected BatchingLogServiceProvider()
+        {
+            Run();
+        }
 
         public override void ProcessMessage(LogMessage message)
         {
@@ -29,12 +33,12 @@ namespace CodeMonkeys.Logging.Batching
 
             try
             {
-                _queue.Add(message, _cts.Token);
+                _queue.Add(message);
             }
             catch { }
         }
 
-        protected abstract Task ProcessBatch(IEnumerable<LogMessage> batch, CancellationToken token);
+        protected abstract Task ProcessBatch(IEnumerable<LogMessage> batch);
 
         private void Run()
         {
@@ -44,40 +48,19 @@ namespace CodeMonkeys.Logging.Batching
                     new ConcurrentQueue<LogMessage>(),
                     Options.QueueCapacity.Value);
 
-            _cts = new CancellationTokenSource();
-
-            _task = Task.Run(ProcessingLoop);
-        }
-
-        private void Stop()
-        {
-            _cts.Cancel();
-            _queue.CompleteAdding();
-
-            try
-            {
-                _task.Wait(Options.FlushPeriod);
-            }
-            catch (TaskCanceledException) 
-            { 
-                // task did not finish in given time frame
-            }
-            catch (AggregateException ex) when (ex.InnerExceptions.FirstOrDefault() is TaskCanceledException) 
-            {
-                // task did not finish in given time frame
-            }
+            Task.Run(ProcessingLoop);
         }
 
         private async Task ProcessingLoop()
         {
             var currentBatch = new List<LogMessage>(Options.BatchCapacity ?? int.MaxValue);
 
-            while (!_cts.Token.IsCancellationRequested)
+            while (IsEnabled)
             {
                 TakeBatch(currentBatch);
 
                 if (currentBatch.Count > 0)
-                    await ProcessBatch(currentBatch, _cts.Token);
+                    await ProcessBatch(currentBatch);
 
                 currentBatch.Clear();
 
