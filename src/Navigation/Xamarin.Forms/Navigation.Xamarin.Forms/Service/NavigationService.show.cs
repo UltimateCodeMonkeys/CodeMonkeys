@@ -36,8 +36,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             var showAsyncFunc = BuildShowAsyncFunc(
                 page);
 
-            await showAsyncFunc.Invoke(
-                page);
+            await showAsyncFunc.Invoke(page)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.ShowAsync{TViewModelInterface, TModel}(TModel)" />

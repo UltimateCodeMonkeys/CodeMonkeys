@@ -98,19 +98,16 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private void SetResolverInstance(
             IDependencyResolver resolver)
         {
-            if (dependencyResolver != null)
+            try
             {
-                return;
+                _semaphore.Wait();
+
+                dependencyResolver ??= resolver;
             }
-
-            _semaphore.Wait();
-
-            if (dependencyResolver == null)
+            finally
             {
-                dependencyResolver = resolver;
+                _semaphore.Release();
             }
-
-            _semaphore.Release();
         }
 
 
@@ -191,7 +188,10 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 {
                     page = navigationPage.RootPage;
                 }
-                else page = child;
+                else
+                {
+                    page = child;
+                }
 
 
                 if (!TryGetRegisteredViewModelType(
@@ -275,7 +275,11 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         public static void SetupLogging(
             ILogService logService)
         {
+            _semaphore.Wait();
+
             Log = logService;
+
+            _semaphore.Release();
         }
     }
 }

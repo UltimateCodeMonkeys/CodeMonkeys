@@ -29,7 +29,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
 
-            await CloseCurrentPage();
+            await CloseCurrentPage()
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface}" />
@@ -53,7 +54,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             await ResolveAndInformListener<TInterestedViewModel>();
 
-            await CloseCurrentPage();
+            await CloseCurrentPage()
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface, TResult}(TResult)" />
@@ -79,13 +81,15 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             await ResolveAndInformListener<TInterestedViewModel, TData>(
                 data);
 
-            await CloseCurrentPage();
+            await CloseCurrentPage()
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc cref="INavigationService.CloseAllAsync" />
         public virtual async Task CloseAllAsync()
         {
-            await PopToRootAsync();
+            await PopToRootAsync()
+                .ConfigureAwait(false);
         }
 
 
