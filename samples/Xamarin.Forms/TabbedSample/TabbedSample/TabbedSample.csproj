@@ -20,8 +20,9 @@
     <ProjectReference Include="..\..\..\..\src\DependencyInjection\DependencyInjection.DryIoC\DependencyInjection.DryIoC.csproj" />
     <ProjectReference Include="..\..\..\..\src\DependencyInjection\DependencyInjection\DependencyInjection.csproj" />
     <ProjectReference Include="..\..\..\..\src\MVVM\MVVM.csproj" />
-    <ProjectReference Include="..\..\..\..\src\Navigation\Navigation.Xamarin.Forms\Navigation.Xamarin.Forms.csproj" />
     <ProjectReference Include="..\..\..\..\src\Navigation\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Navigation\Xamarin.Forms\Navigation.Xamarin.Forms.Interfaces\Navigation.Xamarin.Forms.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Navigation\Xamarin.Forms\Navigation.Xamarin.Forms\Navigation.Xamarin.Forms.csproj" />
     <ProjectReference Include="..\..\..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
 

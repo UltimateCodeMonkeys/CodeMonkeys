@@ -2,7 +2,7 @@
 using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
-
+using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +15,7 @@ using Xamarin.Forms;
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     public partial class NavigationService :
-        INavigationService
+        Navigation.Xamarin.Forms.INavigationService
     {
         private static readonly SemaphoreSlim _semaphore =
             new SemaphoreSlim(1, 1);
@@ -98,19 +98,16 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private void SetResolverInstance(
             IDependencyResolver resolver)
         {
-            if (dependencyResolver != null)
+            try
             {
-                return;
+                _semaphore.Wait();
+
+                dependencyResolver ??= resolver;
             }
-
-            _semaphore.Wait();
-
-            if (dependencyResolver == null)
+            finally
             {
-                dependencyResolver = resolver;
+                _semaphore.Release();
             }
-
-            _semaphore.Release();
         }
 
 
@@ -129,6 +126,30 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
             SetRootInternal(page);
+        }
+
+        public async Task SetRoot<TMasterViewModel, TDetailViewModel>()
+
+            where TMasterViewModel : class, IViewModel
+            where TDetailViewModel : class, IViewModel
+        {
+            ThrowIfNotRegistered<TMasterViewModel>();
+            ThrowIfNotRegistered<TDetailViewModel>();
+
+
+            var masterViewModel = await InitializeViewModelInternal<TMasterViewModel>();
+            var detailViewModel = await InitializeViewModelInternal<TDetailViewModel>();
+
+
+            var masterPage = CreateViewInternal<TMasterViewModel, MasterDetailPage>(
+                masterViewModel);
+
+            var detailPage = CreateViewInternal<TDetailViewModel, DetailPage>(
+                detailViewModel);
+
+
+            masterPage.Detail = new NavigationPage(detailPage);
+            SetRootInternal(masterPage);
         }
 
         internal void SetRootInternal(
@@ -167,7 +188,10 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 {
                     page = navigationPage.RootPage;
                 }
-                else page = child;
+                else
+                {
+                    page = child;
+                }
 
 
                 if (!TryGetRegisteredViewModelType(
@@ -251,7 +275,11 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         public static void SetupLogging(
             ILogService logService)
         {
+            _semaphore.Wait();
+
             Log = logService;
+
+            _semaphore.Release();
         }
     }
 }

@@ -21,7 +21,8 @@ namespace TabbedSample
         {
             var dependencyContainer = CodeMonkeys.DependencyInjection.DryIoC.DryFactory.CreateInstance();
 
-            dependencyContainer.RegisterType<INavigationService, NavigationService>();
+            dependencyContainer.RegisterType<CodeMonkeys.Navigation.INavigationService, NavigationService>();
+            dependencyContainer.RegisterType<CodeMonkeys.Navigation.Xamarin.Forms.INavigationService, NavigationService>();
 
 
             dependencyContainer.RegisterType<MainViewModel>();
@@ -33,7 +34,7 @@ namespace TabbedSample
 
             ViewModelFactory.Configure(dependencyContainer);
 
-            var navigationService = dependencyContainer.Resolve<INavigationService>();
+            var navigationService = dependencyContainer.Resolve<CodeMonkeys.Navigation.Xamarin.Forms.INavigationService>();
 
 
             navigationService.Register<MainViewModel, MainPage>();

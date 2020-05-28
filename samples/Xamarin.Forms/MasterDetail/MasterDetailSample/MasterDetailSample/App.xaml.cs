@@ -1,5 +1,4 @@
-﻿using CodeMonkeys.Navigation;
-using CodeMonkeys.MVVM.Factories;
+﻿using CodeMonkeys.MVVM.Factories;
 using CodeMonkeys.Navigation.Xamarin.Forms;
 using CodeMonkeys.Samples.ViewModels;
 
@@ -21,7 +20,8 @@ namespace MasterDetailSample
         {
             var dependencyContainer = CodeMonkeys.DependencyInjection.DryIoC.DryFactory.CreateInstance();
 
-            dependencyContainer.RegisterType<INavigationService, NavigationService>();
+            dependencyContainer.RegisterType<CodeMonkeys.Navigation.INavigationService, NavigationService>();
+            dependencyContainer.RegisterType<CodeMonkeys.Navigation.Xamarin.Forms.INavigationService, NavigationService>();
 
 
             dependencyContainer.RegisterType<MainViewModel>();
@@ -33,7 +33,7 @@ namespace MasterDetailSample
 
             ViewModelFactory.Configure(dependencyContainer);
 
-            var navigationService = dependencyContainer.Resolve<INavigationService>();
+            var navigationService = dependencyContainer.Resolve<CodeMonkeys.Navigation.Xamarin.Forms.INavigationService>();
 
             navigationService.Register<MainViewModel, MainPage>();
             navigationService.Register<ItemsViewModel, ItemsPage>();

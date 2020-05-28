@@ -15,9 +15,10 @@
       "src\\Logging\\Logging\\Logging.csproj",
       "src\\MVVM\\MVVM.csproj",
       "src\\Messaging\\Messaging.csproj",
+      "src\\Navigation\\Xamarin.Forms\\Navigation.Xamarin.Forms\\Navigation.Xamarin.Forms.csproj",
+      "src\\Navigation\\Xamarin.Forms\\Navigation.Xamarin.Forms.Interfaces\\Navigation.Xamarin.Forms.Interfaces.csproj",
       "src\\Navigation\\WPF\\Navigation.WPF\\Navigation.WPF.csproj",
       "src\\Navigation\\WPF\\Navigation.WPF.Interfaces\\Navigation.WPF.Interfaces.csproj",
-      "src\\Navigation\\Navigation.Xamarin.Forms\\Navigation.Xamarin.Forms.csproj",
       "src\\Navigation\\Navigation\\Navigation.csproj",
       "src\\tests\\UnitTests\\UnitTests.csproj"
     ]

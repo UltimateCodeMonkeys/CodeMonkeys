@@ -10,8 +10,7 @@ using Xamarin.Forms;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
-    public partial class NavigationService :
-        INavigationService
+    public partial class NavigationService
     {
         protected static readonly IList<INavigationRegistration> NavigationRegistrations =
             new List<INavigationRegistration>();
@@ -42,6 +41,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
         public INavigationRegistration Register<TViewModel, TView>()
+
             where TViewModel : IViewModel
             where TView : class
         {
@@ -49,8 +49,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             {
                 ViewModelType = typeof(TViewModel),
                 ViewType = typeof(TView),
-                Platform = Device.RuntimePlatform.ToDevicePlatform(),
-                PreCreateInstance = true
+                Platform = Device.RuntimePlatform.ToDevicePlatform()
             };
 
             RegisterInternal(registrationInfo);

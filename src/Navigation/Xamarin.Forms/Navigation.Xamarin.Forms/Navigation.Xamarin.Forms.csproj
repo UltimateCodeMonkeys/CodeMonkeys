@@ -26,7 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\LICENSE.md">
+    <None Include="..\..\..\..\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
@@ -41,8 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Core.csproj" />
-    <ProjectReference Include="..\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\..\..\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\Navigation.Xamarin.Forms.Interfaces\Navigation.Xamarin.Forms.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,6 @@
 ﻿using CodeMonkeys.MVVM;
-using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 
 using System;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
@@ -10,54 +8,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     public static class NavigationServiceExtensions
     {
-        public static async Task SetRoot<TMasterViewModel, TDetailViewModel>(
-            this INavigationService navigationService)
-
-            where TMasterViewModel : class, IViewModel
-            where TDetailViewModel : class, IViewModel
-        {
-            if (!(navigationService is NavigationService service))
-                throw new InvalidOperationException($"Extension can only be used with service type '{typeof(NavigationService).FullName}'");
-
-
-            NavigationService.ThrowIfNotRegistered<TMasterViewModel>();
-            NavigationService.ThrowIfNotRegistered<TDetailViewModel>();
-
-
-            var masterViewModel = await service.InitializeViewModelInternal<TMasterViewModel>();
-            var detailViewModel = await service.InitializeViewModelInternal<TDetailViewModel>();
-
-
-            var masterPage = service.CreateViewInternal<TMasterViewModel, MasterDetailPage>(
-                masterViewModel);
-
-            var detailPage = service.CreateViewInternal<TDetailViewModel, DetailPage>(
-                detailViewModel);
-
-
-            masterPage.Detail = new NavigationPage(detailPage);
-            service.SetRootInternal(masterPage);
-        }
-
-
-        /// <summary>
-        /// Closes all open pages and goes back to the application's root page
-        /// </summary>
-        public static async Task CloseAllAsync(
-            this INavigationService navigationService)
-        {
-            if (!(navigationService is NavigationService service))
-            {
-                throw new InvalidOperationException(
-                    $"This extension method can only be used with {nameof(NavigationService)} of type {typeof(NavigationService).FullName}!");
-            }
-
-
-            await service.CloseAllAsync();
-        }
-
-
-
         /// <summary>
         /// Register a ViewModel interface to a specific view
         /// </summary>
@@ -67,16 +17,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <param name="preCreateInstance">Indicates wether an instance of the view should be created and cached before it is displayed</param>
         /// <returns><see cref="CodeMonkeys.Navigation.Xamarin.Forms.Models.NavigationRegistration"/></returns>
         public static NavigationRegistration Register<TViewModelInterface, TView>(
-            this INavigationService navigationService,
-            bool preCreateInstance = false)
+            this INavigationService navigationService)
 
             where TViewModelInterface : class, IViewModel
             where TView : Page
         {
-            var registrationInfo = new NavigationRegistration<TViewModelInterface, TView>
-            {
-                PreCreateInstance = preCreateInstance
-            };
+            var registrationInfo = new NavigationRegistration<TViewModelInterface, TView>();
 
             navigationService.Register(registrationInfo);
 
@@ -93,17 +39,13 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <param name="preCreateInstance">Indicates wether an instance of the view should be created and cached before it is displayed</param>
         /// <returns><see cref="CodeMonkeys.Navigation.Xamarin.Forms.Models.NavigationRegistration"/></returns>
         public static NavigationRegistration Register<TViewModelInterface, TPhoneView, TTabletView>(
-            this INavigationService navigationService,
-            bool preCreateInstance = false)
+            this INavigationService navigationService)
 
             where TViewModelInterface : class, IViewModel
             where TPhoneView : Page
             where TTabletView : Page
         {
-            var registrationInfo = new NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView>
-            {
-                PreCreateInstance = preCreateInstance
-            };
+            var registrationInfo = new NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView>();
 
             navigationService.Register(registrationInfo);
 
@@ -121,18 +63,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <param name="preCreateInstance">Indicates wether an instance of the view should be created and cached before it is displayed</param>
         /// <returns><see cref="CodeMonkeys.Navigation.Xamarin.Forms.Models.NavigationRegistration"/></returns>
         public static NavigationRegistration Register<TViewModelInterface, TPhoneView, TTabletView, TDesktopView>(
-            this INavigationService navigationService,
-            bool preCreateInstance = false)
+            this INavigationService navigationService)
 
             where TViewModelInterface : class, IViewModel
             where TPhoneView : Page
             where TTabletView : Page
             where TDesktopView : Page
         {
-            var registrationInfo = new NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView, TDesktopView>
-            {
-                PreCreateInstance = preCreateInstance
-            };
+            var registrationInfo = new NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView, TDesktopView>();
 
             navigationService.Register(registrationInfo);
 
@@ -149,16 +87,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <returns><see cref="CodeMonkeys.Navigation.Xamarin.Forms.Models.NavigationRegistration"/></returns>
         public static NavigationRegistration Register<TViewModelInterface>(
             this INavigationService navigationService,
-            Type typeOfView,
-            bool preCreateInstance = false)
+            Type typeOfView)
 
             where TViewModelInterface : class, IViewModel
         {
             var navigationRegistration = new NavigationRegistration
             {
                 ViewModelType = typeof(TViewModelInterface),
-                ViewType = typeOfView,
-                PreCreateInstance = preCreateInstance
+                ViewType = typeOfView
             };
 
             navigationService.Register(navigationRegistration);
@@ -213,6 +149,24 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             return registrationInfo;
         }
+
+
+        /// <summary>
+        /// Adds the given condition to the registration.
+        /// Every time a associated ViewModel is requested, the condition is evaluated before showing it.
+        /// </summary>
+        /// <param name="registration"></param>
+        /// <param name="condition"><see cref="Func{TResult}" />Condition to evaluate before showing</param>
+        /// <returns>Registration info</returns>
+        public static NavigationRegistration WithCondition(
+            this NavigationRegistration registration,
+            Func<bool> condition)
+        {
+            registration.Condition = condition;
+
+            return registration;
+        }
+
 
         /// <summary>
         /// Indicates that the view from this registration should be build and cached before it is actually shown

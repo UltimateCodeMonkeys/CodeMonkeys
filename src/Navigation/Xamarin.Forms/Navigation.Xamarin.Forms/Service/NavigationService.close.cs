@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
-    public partial class NavigationService :
-        INavigationService
+    public partial class NavigationService
     {
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface}" />
         public virtual async Task CloseAsync<TViewModel>()
@@ -30,7 +29,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
 
-            await CloseCurrentPage();
+            await CloseCurrentPage()
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface}" />
@@ -54,7 +54,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             await ResolveAndInformListener<TInterestedViewModel>();
 
-            await CloseCurrentPage();
+            await CloseCurrentPage()
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface, TResult}(TResult)" />
@@ -80,12 +81,31 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             await ResolveAndInformListener<TInterestedViewModel, TData>(
                 data);
 
-            await CloseCurrentPage();
+            await CloseCurrentPage()
+                .ConfigureAwait(false);
         }
 
+        /// <inheritdoc cref="INavigationService.CloseAllAsync" />
         public virtual async Task CloseAllAsync()
         {
-            await PopToRootAsync();
+            await PopToRootAsync()
+                .ConfigureAwait(false);
+        }
+
+
+        /// <inheritdoc cref="INavigationService.CloseModalAsync" />
+        public virtual async Task CloseModalAsync<TViewModel>()
+        {
+            if (Navigation == null)
+            {
+                Log?.Error(
+                    $"'{nameof(Navigation)}' is null!");
+                return;
+            }
+
+
+            await Navigation.PopModalAsync(
+                animated: Configuration.UseAnimations);
         }
 
 
@@ -96,12 +116,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             Log?.Info(
                 "Page has been removed from Xamarin navigation stack.");
-
-
-            var bindingContext = Navigation.NavigationStack.Last()?.BindingContext;
-
-            if (!(bindingContext is IViewModel viewModel))
-                return;
         }
 
         private async Task PopToRootAsync()
