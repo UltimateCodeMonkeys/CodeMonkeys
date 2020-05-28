@@ -15,7 +15,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <see cref="XF.INavigation.PushAsync(XF.Page, bool)" />
         /// <see cref="XF.INavigation.PopAsync(bool)" />
         /// </summary>
-        /// <value><c>true</c> if use animations; otherwise, <c>false</c>. (default is <c>false</c>)</value>
+        /// <value><c>true</c> if animations should be used; otherwise, <c>false</c>. (default is <c>false</c>)</value>
         public bool UseAnimations { get; set; } = true;
 
 
