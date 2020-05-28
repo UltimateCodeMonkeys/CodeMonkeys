@@ -10,14 +10,22 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
         /// <inheritdoc cref="INavigationRegistration.ResolveViewUsingDependencyInjection" />
-        public bool ResolveViewUsingDependencyInjection { get; set; } = false;
-        public bool PreCreateInstance { get; set; } = false;
+        public bool ResolveViewUsingDependencyInjection { get; set; }
+        public bool PreCreateInstance { get; set; }
 
 
         public DevicePlatforms Platform { get; set; } = DevicePlatforms.All;
 
 
-        public Func<bool> Condition { get; set; } = () => true;
+        private Func<bool> condition = () => true;
+        public Func<bool> Condition
+        {
+            get => condition;
+            set
+            {
+                condition = value ?? (() => true);
+            }
+        }
 
 
 
@@ -49,7 +57,10 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(
+                ViewModelType,
+                ViewType,
+                Platform);
         }
     }
 }

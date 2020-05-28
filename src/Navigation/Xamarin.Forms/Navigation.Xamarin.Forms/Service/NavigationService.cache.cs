@@ -23,6 +23,34 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             PageCache.Clear();
         }
 
+
+        private static TPage AddOrUpdateContentCache<TPage>(
+            INavigationRegistration registration)
+
+            where TPage : Page
+        {
+            if (PageCache.All(cachedPage => cachedPage.Type != registration.ViewType))
+            {
+                CreateCachedPage(registration.ViewType);
+            }
+
+            var reference = PageCache
+                .First(cachedPage => cachedPage.Type == registration.ViewType)
+                .Reference;
+
+            if (!reference.TryGetTarget(out Page view))
+            {
+                view = GetViewInstance<TPage>(
+                    registration);
+
+                reference.SetTarget(view);
+            }
+
+
+            return (TPage)view;
+        }
+
+
         private static void CreateCachedPage(
             Type pageType)
         {
@@ -31,8 +59,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return;
             }
 
-            if (Configuration.ContentTypesToExcludeFromCaching
-                .Contains(pageType))
+            if (Configuration.ContentTypesToExcludeFromCaching?
+                .Contains(pageType) == true)
             {
                 return;
             }

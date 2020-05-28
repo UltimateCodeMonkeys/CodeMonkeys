@@ -4,7 +4,6 @@ using CodeMonkeys.Navigation.ViewModels;
 using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -109,34 +108,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
 
-        internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface>()
-
-            where TViewModelInterface : class, IViewModel
-        {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
-            await viewModelInstance.InitializeAsync();
-
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
-
-            return viewModelInstance;
-        }
-
-        internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface, TModel>(
-            TModel model)
-
-            where TViewModelInterface : class, IViewModel<TModel>
-        {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
-            await viewModelInstance.InitializeAsync(
-                model);
-
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
-
-            return viewModelInstance;
-        }
-
         internal TPage CreateViewInternal<TViewModel, TPage>(
             TViewModel viewModel)
 
@@ -155,22 +126,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             if (registration.ViewType.IsAssignableFrom(typeof(TPage)))
             {
                 throw new InvalidOperationException(
-                    $"Non-assignable view type specifications for ViewModel '{typeof(TViewModel).Name}' - registered: '{registration.ViewType.Name}', generic parameter: {typeof(TPage).Name}");
+                    $"Non-assignable view type specifications for ViewModel '{typeof(TViewModel).Name}'" +
+                    $"registered: '{registration.ViewType.Name}', generic parameter: {typeof(TPage).Name}");
             }
 
 
-            Page view;
-
-            if (Configuration.CacheContent)
-            {
-                view = AddOrUpdateContentCache<TPage>(
-                    registration);
-            }
-            else
-            {
-                view = GetViewInstance<TPage>(
-                    registration);
-            }
+            Page view = Configuration.CacheContent ?
+                AddOrUpdateContentCache<TPage>(registration) :
+                GetViewInstance<TPage>(registration);
 
 
             view.BindingContext = viewModel;
@@ -182,6 +145,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             Log?.Info(
                 $"View of type {view.GetType().Name} has been created!");
+
 
             return (TPage)view;
         }
@@ -199,101 +163,34 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         protected async Task<TViewModel> InitializeViewModelAsync<TViewModel, TModel>(
             TModel model)
 
-            where TViewModel : class, IViewModel<TModel>
-        {
-            return await InitializeViewModelInternal<TViewModel, TModel>(
-                model);
-        }
 
 
-        protected Page CreateView<TViewModel>(
-            TViewModel viewModel)
+        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
-            return CreateViewInternal<TViewModel, Page>(
-                viewModel);
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            await viewModelInstance.InitializeAsync();
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
+            return viewModelInstance;
         }
 
+        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel, TModel>(
+            TModel model)
 
-
-        private Func<Page, Task> BuildShowAsyncFunc(
-            Page page)
+            where TViewModel : class, IViewModel<TModel>
         {
-            if (RootPage is MasterDetailPage &&
-                page is DetailPage)
-            {
-                return SetDetailAsync;
-            }
-            else if (RootPage is TabbedPage &&
-                page is TabPage)
-            {
-                return SetTabAsync;
-            }
-            else return PushAsync;
-        }
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+            await viewModelInstance.InitializeAsync(
+                model);
 
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
 
-        private async Task PushAsync(
-            Page page)
-        {
-            if (Navigation == null)
-                return;
-
-
-            await Device.InvokeOnMainThreadAsync(() =>
-            {
-                Navigation.PushAsync(
-                    page,
-                    animated: Configuration.UseAnimations);
-            });
-        }
-
-        private async Task SetDetailAsync(
-            Page page)
-        {
-            if (!(Application.Current.MainPage is MasterDetailPage masterDetailPage))
-                return;
-
-
-            await Device.InvokeOnMainThreadAsync(() =>
-            {
-                masterDetailPage.Detail = new NavigationPage(page);
-                masterDetailPage.IsPresented = !Configuration.MasterDetailConfig.HideMenuOnPageSwitch;
-            });
-        }
-
-        private async Task SetTabAsync(
-            Page page)
-        {
-            if (!(Application.Current.MainPage is TabbedPage tabbedPage))
-                return;
-
-
-            await Device.InvokeOnMainThreadAsync(() =>
-            {
-                if (!tabbedPage.Children.Contains(page))
-                    return;
-
-
-                tabbedPage.CurrentPage = new NavigationPage(page);
-            });
-        }
-
-
-        private async Task PushModalAsync(
-            Page page)
-        {
-            if (Navigation == null)
-                return;
-
-
-            await Device.InvokeOnMainThreadAsync(() =>
-            {
-                Navigation.PushModalAsync(
-                    page,
-                    animated: Configuration.UseAnimations);
-            });
+            return viewModelInstance;
         }
 
 
@@ -303,16 +200,13 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             where TView : Page
         {
-            if (registrationInfo.ResolveViewUsingDependencyInjection)
-            {
-                return (TView)dependencyResolver.Resolve(
+            return registrationInfo.ResolveViewUsingDependencyInjection
+                ?
+                (TView)dependencyResolver.Resolve(
+                    registrationInfo.ViewType)
+                :
+                (TView)Activator.CreateInstance(
                     registrationInfo.ViewType);
-            }
-            else
-            {
-                return (TView)Activator.CreateInstance(
-                        registrationInfo.ViewType);
-            }
         }
     }
 }

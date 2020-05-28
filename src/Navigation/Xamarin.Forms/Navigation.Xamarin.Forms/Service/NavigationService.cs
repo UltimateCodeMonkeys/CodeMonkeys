@@ -24,8 +24,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         protected static ILogService Log;              
 
 
-        public static Configuration Configuration { get; set; } =
-            new Configuration();
+        public static NavigationServiceOptions Configuration { get; set; } =
+            new NavigationServiceOptions();
 
 
 

@@ -5,8 +5,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
     /// <summary>
     /// Settings for the ViewModelNavigationService
     /// </summary>
-    public class Configuration :
-        ConfigurationBase
+    public class NavigationServiceOptions :
+        NavigationServiceOptionsBase
     {
         /// <summary>
         /// Gets or sets a value indicating whether the

@@ -10,18 +10,26 @@ namespace CodeMonkeys.Navigation.WPF
         public Type ViewType { get; set; }
 
 
-        public bool PreCreateInstance { get; set; } = false;
+        public bool PreCreateInstance { get; set; }
 
 
         /// <inheritdoc cref="INavigationRegistration.ResolveViewUsingDependencyInjection" />
-        public bool ResolveViewUsingDependencyInjection { get; set; } = false;
+        public bool ResolveViewUsingDependencyInjection { get; set; }
 
 
         //public bool OpenInNewWindow { get; set; } = false;
         //public bool OpenAsPopup { get; set; } = false;
 
 
-        public Func<bool> Condition { get; set; } = () => true;
+        private Func<bool> condition = () => true;
+        public Func<bool> Condition
+        {
+            get => condition;
+            set
+            {
+                condition = value ?? (() => true);
+            }
+        }
 
 
 

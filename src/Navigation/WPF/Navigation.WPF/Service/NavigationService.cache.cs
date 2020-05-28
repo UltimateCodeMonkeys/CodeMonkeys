@@ -30,8 +30,8 @@ namespace CodeMonkeys.Navigation.WPF
                 return;
             }
 
-            if (Configuration.ContentTypesToExcludeFromCaching
-                .Contains(registration.ViewType))
+            if (Configuration.ContentTypesToExcludeFromCaching?
+                .Contains(registration.ViewType) == true)
             {
                 return;
             }
@@ -49,9 +49,6 @@ namespace CodeMonkeys.Navigation.WPF
 
             where TContent : FrameworkElement
         {
-            FrameworkElement view;
-
-
             if (ContentCache.All(cachedPage => cachedPage.Type != registration.ViewType))
             {
                 CreateCachedContent(registration);
@@ -61,7 +58,7 @@ namespace CodeMonkeys.Navigation.WPF
                 .First(cachedPage => cachedPage.Type == registration.ViewType)
                 .Reference;
 
-            if (!reference.TryGetTarget(out view))
+            if (!reference.TryGetTarget(out FrameworkElement view))
             {
                 view = GetContentInstance<TContent>(
                     registration);

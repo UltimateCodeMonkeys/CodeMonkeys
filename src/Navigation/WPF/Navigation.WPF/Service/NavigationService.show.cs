@@ -116,19 +116,6 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        internal async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface>()
-
-            where TViewModelInterface : class, IViewModel
-        {
-            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
-            await viewModelInstance.InitializeAsync();
-
-            Log?.Info(
-                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
-
-            return viewModelInstance;
-        }
-
 
         internal TView CreateContentInternal<TViewModel, TView>(
             TViewModel viewModel)
@@ -271,6 +258,21 @@ namespace CodeMonkeys.Navigation.WPF
                 content);
         }
 
+
+
+
+        internal static async Task<TViewModelInterface> InitializeViewModelInternal<TViewModelInterface>()
+
+            where TViewModelInterface : class, IViewModel
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModelInterface>();
+            await viewModelInstance.InitializeAsync();
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModelInterface).Name} has been created and initialized!");
+
+            return viewModelInstance;
+        }
 
 
         private static TView GetContentInstance<TView>(

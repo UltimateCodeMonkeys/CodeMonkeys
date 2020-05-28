@@ -3,15 +3,16 @@ using System.Collections.Generic;
 
 namespace CodeMonkeys.Navigation
 {
-    public class ConfigurationBase
+    public class NavigationServiceOptionsBase
     {
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="CodeMonkeys.Navigation.INavigationService" />
         /// should cache built content instances.
-        /// This is required if pages should be prebuilt (<see cref="CodeMonkeys.Navigation.INavigationService.Register{TViewModel}(Type, bool)" />
+        /// This is required if pages should be prebuilt. />
         /// </summary>
-        /// <value><c>true</c> if content should be cached; otherwise, <c>false</c>. (default is <c>false</c>)</value>
-        public bool CacheContent { get; set; } = false;
+        /// <value>true</value> if content should be cached; otherwise, <value>false</value>
+        /// (default is <value>false</value>)
+        public bool CacheContent { get; set; }
 
         /// <summary>
         /// Add content types that should not be cached
@@ -29,6 +30,12 @@ namespace CodeMonkeys.Navigation
         /// </para>
         /// Default is <value>false</value>
         /// </summary>
-        public bool AllowDifferentViewTypeRegistrationForSameViewModel { get; set; } = false;
+        public bool AllowDifferentViewTypeRegistrationForSameViewModel { get; set; }
+        
+        
+        
+        protected NavigationServiceOptionsBase()
+        {
+        }
     }
 }
