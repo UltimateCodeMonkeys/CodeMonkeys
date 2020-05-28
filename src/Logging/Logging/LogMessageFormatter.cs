@@ -23,7 +23,7 @@ namespace CodeMonkeys.Logging
         }
 
         protected virtual string FormatLogLevel(
-            LogLevel logLevel) => logLevel.ToString();
+            LogLevel logLevel) => logLevel.ToString().ToUpper();
 
         protected virtual string FormatTimestamp(
             DateTimeOffset timestamp, 

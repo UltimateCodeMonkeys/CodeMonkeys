@@ -5,19 +5,13 @@ namespace CodeMonkeys.Logging.Console
     public class ConsoleLogOptions : LogOptions
     {
         /// <summary>
-        /// Flag which indicates if the output should be highlighted with colors.
-        /// <para>Defaults to <see langword="true"/>.</para>
-        /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
+        /// Flag which indicates if the console output should be colorized depending on the log level.
+        /// <para>Default value: <see langword="true"/>.</para>
         /// </summary>
-        public bool UseColoredOutput
+        public bool ColorizeOutput
         {
-            get => GetValue<bool>();
+            get => GetValue(true);
             set => SetValue(value);
-        }
-
-        public ConsoleLogOptions()
-        {
-            UseColoredOutput = true;
         }
     }
 }

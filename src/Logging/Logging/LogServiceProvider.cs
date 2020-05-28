@@ -7,36 +7,18 @@ namespace CodeMonkeys.Logging
         OptionsConsumer<TOptions>,
         ILogServiceProvider
 
-        where TOptions : LogOptions
+        where TOptions : LogOptions, new()
     {
-        protected bool IsEnabled { get; set; }
-        protected LogLevel MinLevel { get; set; }
-        protected string TimeStampFormat { get; set; }
-
-        protected LogServiceProvider(TOptions options) 
-            : base(options)
-        {
-            IsEnabled = options.IsEnabled;
-            MinLevel = options.MinLevel;
-        }
-
         public abstract ILogService Create(string context);
 
         public virtual bool IsEnabledFor(LogLevel logLevel)
         {
-            if (IsEnabled)
-                return logLevel >= MinLevel;
+            if (Options.IsEnabled)
+                return logLevel >= Options.MinLevel;
 
             return false;
         }
 
         public abstract void ProcessMessage(LogMessage message);
-
-        protected override void OnOptionsChanged(TOptions options)
-        {
-            IsEnabled = options.IsEnabled;
-            MinLevel = options.MinLevel;
-            TimeStampFormat = options.TimeStampFormat;
-        }
     }
 }

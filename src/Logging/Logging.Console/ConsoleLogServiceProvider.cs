@@ -1,15 +1,17 @@
-﻿namespace CodeMonkeys.Logging.Console
+﻿using SystemConsole = System.Console;
+
+namespace CodeMonkeys.Logging.Console
 {
     public sealed class ConsoleLogServiceProvider : LogServiceProvider<ConsoleLogOptions>
     {
-        private ConsoleLogMessageFormatter _formatter;
-        private readonly bool _useColoredOutput;
+        private LogMessageFormatter _formatter;
 
-        internal ConsoleLogServiceProvider(ConsoleLogOptions options)
-            : base(options)
+        internal ConsoleLogServiceProvider()
         {
-            _useColoredOutput = options.UseColoredOutput;
-        }        
+            _formatter = Options.ColorizeOutput ?
+                new LogMessageColorizer() :
+                new LogMessageFormatter();
+        }
 
         public override ILogService Create(string context)
         {
@@ -22,22 +24,14 @@
 
         public override void ProcessMessage(LogMessage message)
         {
-            _formatter ??= new ConsoleLogMessageFormatter(
-                _useColoredOutput);
-
             try
             {
-                ConsoleWriteLine(_formatter
+                SystemConsole.WriteLine(_formatter
                     .Format(
                         message,
-                        TimeStampFormat));
+                        Options.TimeStampFormat));
             }
             catch { }
-        }
-
-        private void ConsoleWriteLine(string value)
-        {
-            System.Console.WriteLine(value);
         }
     }
 }
