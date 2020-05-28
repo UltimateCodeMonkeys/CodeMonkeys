@@ -85,7 +85,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 viewModelInstance);
 
 
-            await PushModalAsync(page);
+            await PushModalAsync(page)
+                .ConfigureAwait(false);
         }
 
 
@@ -105,7 +106,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 viewModelInstance);
 
 
-            await PushModalAsync(page);
+            await PushModalAsync(page)
+                .ConfigureAwait(false);
         }
 
 
@@ -278,7 +280,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             await Device.InvokeOnMainThreadAsync(() =>
             {
                 if (!tabbedPage.Children.Contains(page))
+                {
+                    Log?.Error(
+                        $"{tabbedPage.GetType().Name} does not contain requested view {page.GetType().Name}!");
+
                     return;
+                }
 
 
                 tabbedPage.CurrentPage = new NavigationPage(page);
