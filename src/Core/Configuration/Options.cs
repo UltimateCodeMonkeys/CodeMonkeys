@@ -22,5 +22,14 @@ namespace CodeMonkeys.Configuration
             return _propertyBag.GetValue<TProperty>(
                 propertyName);
         }
+
+        public TProperty GetValue<TProperty>(
+            TProperty defaultValue,
+            [CallerMemberName]string propertyName = "")
+        {
+            return _propertyBag.GetValue(
+                defaultValue,
+                propertyName);
+        }
     }
 }
