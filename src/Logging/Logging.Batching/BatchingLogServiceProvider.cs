@@ -8,27 +8,19 @@ using System.Threading.Tasks;
 namespace CodeMonkeys.Logging.Batching
 {
     public abstract class BatchingLogServiceProvider<TOptions> : LogServiceProvider<TOptions>
-        where TOptions : BatchingLogOptions
+        where TOptions : BatchingLogOptions, new()
     {
-        private bool disposed = false;
+        public override bool IsEnabled 
+        { 
+            get => base.IsEnabled; 
+            set => base.IsEnabled = value; 
+        }
 
         private BlockingCollection<LogMessage> _queue;
         private CancellationTokenSource _cts;
         private Task _task;
 
-        private TimeSpan _flushPeriod;
-        private readonly int? _queueCapacity;
-        private int? _batchCapacity;
-
-        protected BatchingLogServiceProvider(TOptions options) 
-            : base(options)
-        {
-            OnOptionsChanged(options);
-
-            _queueCapacity = options.QueueCapacity;
-
-            Run();
-        }
+        protected BatchingLogServiceProvider() => Run();
 
         public override void ProcessMessage(LogMessage message)
         {
@@ -42,32 +34,15 @@ namespace CodeMonkeys.Logging.Batching
             catch { }
         }
 
-        protected override void OnOptionsChanged(TOptions options)
-        {
-            _flushPeriod = options.FlushPeriod;
-            _batchCapacity = options.BatchCapacity;            
-
-            var previousIsEnabled = IsEnabled;
-            base.OnOptionsChanged(options);
-
-            if (previousIsEnabled != IsEnabled)
-            {
-                if (IsEnabled)
-                    Run();
-                else
-                    Stop();
-            }
-        }
-
         protected abstract Task ProcessBatch(IEnumerable<LogMessage> batch, CancellationToken token);
 
         private void Run()
         {
-            _queue = _queueCapacity == null?
+            _queue = Options.QueueCapacity == null?
                 new BlockingCollection<LogMessage>(new ConcurrentQueue<LogMessage>()) :
                 new BlockingCollection<LogMessage>(
                     new ConcurrentQueue<LogMessage>(),
-                    _queueCapacity.Value);
+                    Options.QueueCapacity.Value);
 
             _cts = new CancellationTokenSource();
 
@@ -81,7 +56,7 @@ namespace CodeMonkeys.Logging.Batching
 
             try
             {
-                _task.Wait(_flushPeriod);
+                _task.Wait(Options.FlushPeriod);
             }
             catch (TaskCanceledException) 
             { 
@@ -95,7 +70,7 @@ namespace CodeMonkeys.Logging.Batching
 
         private async Task ProcessingLoop()
         {
-            var currentBatch = new List<LogMessage>(_batchCapacity ?? int.MaxValue);
+            var currentBatch = new List<LogMessage>(Options.BatchCapacity ?? int.MaxValue);
 
             while (!_cts.Token.IsCancellationRequested)
             {
@@ -106,38 +81,18 @@ namespace CodeMonkeys.Logging.Batching
 
                 currentBatch.Clear();
 
-                await Task.Delay(_flushPeriod);
+                await Task.Delay(Options.FlushPeriod);
             }
         }
 
         private void TakeBatch(List<LogMessage> currentBatch)
         {
-            var counter = _batchCapacity;
+            var counter = Options.BatchCapacity;
 
             while (counter > 0 && _queue.TryTake(out var item))
             {
                 currentBatch.Add(item);
                 counter--;
-            }
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    if (IsEnabled)
-                        Stop();
-                    else
-                        _cts?.Cancel();
-
-                    _cts?.Dispose();
-                }
-
-                disposed = true;
-
-                base.Dispose(disposing);
             }
         }
     }

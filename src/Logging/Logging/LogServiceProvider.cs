@@ -9,11 +9,17 @@ namespace CodeMonkeys.Logging
 
         where TOptions : LogOptions, new()
     {
+        /// <summary>
+        /// Flag which indicates if the provider accepts and queues writes.
+        /// <para>Defaults to <see langword="true"/>.</para>
+        /// </summary>
+        public virtual bool IsEnabled { get; set; } = true;
+
         public abstract ILogService Create(string context);
 
         public virtual bool IsEnabledFor(LogLevel logLevel)
         {
-            if (Options.IsEnabled)
+            if (IsEnabled)
                 return logLevel >= Options.MinLevel;
 
             return false;

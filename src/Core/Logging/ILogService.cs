@@ -2,6 +2,15 @@
 
 namespace CodeMonkeys.Logging
 {
+    public interface ILogService1 : ILogService
+    {
+        void EnableProvider<TProvider>()
+            where TProvider : ILogServiceProvider;
+
+        void DisableProvider<TProvider>()
+            where TProvider : ILogServiceProvider;
+    }
+
     public interface ILogService
     {
         bool IsEnabledFor(LogLevel logLevel);

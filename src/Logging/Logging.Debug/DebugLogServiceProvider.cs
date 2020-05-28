@@ -1,12 +1,14 @@
-﻿namespace CodeMonkeys.Logging.Debug
+﻿using SystemDiagnosticsDebug = System.Diagnostics.Debug;
+
+namespace CodeMonkeys.Logging.Debug
 {
     public sealed class DebugLogServiceProvider : LogServiceProvider<DebugLogOptions>
     {
-        private LogMessageFormatter _formatter;
+        private readonly LogMessageFormatter _formatter;
 
-        internal DebugLogServiceProvider(DebugLogOptions options)
-            : base(options)
+        internal DebugLogServiceProvider()
         {
+            _formatter = new LogMessageFormatter();
         }
 
         public override ILogService Create(string context)
@@ -20,21 +22,14 @@
 
         public override void ProcessMessage(LogMessage message)
         {
-            _formatter ??= new LogMessageFormatter();
-
             try
             {
-                DebugWriteLine(
+                SystemDiagnosticsDebug.WriteLine(
                     _formatter.Format(
                         message,
-                        TimeStampFormat));
+                        Options.TimeStampFormat));
             }
             catch { }
-        }
-
-        private void DebugWriteLine(string value)
-        {
-            System.Diagnostics.Debug.WriteLine(value);
         }
     }
 }

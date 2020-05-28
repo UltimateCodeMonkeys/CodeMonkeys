@@ -11,32 +11,13 @@ namespace CodeMonkeys.Logging.File
 {
     public sealed class FileLogServiceProvider : BatchingLogServiceProvider<FileLogOptions>
     {
-        private readonly string _fileNamePrefix;
-        private readonly string _extension;
-        private readonly long? _maxFileSize;
-        private readonly int? _maxFilesToRetain;
-        private readonly string _directoryPath;
+        private readonly LogMessageFormatter _formatter;
+
         private int _index;
 
-        private LogMessageFormatter _formatter;
-
-        private readonly string _path;
-
-        internal FileLogServiceProvider(FileLogOptions options) 
-            : base(options)
+        internal FileLogServiceProvider()
         {
-            _fileNamePrefix = options.FileNamePrefix;
-            _extension = options.Extension;
-            _maxFileSize = options.MaxFileSize;
-            _maxFilesToRetain = options.MaxFilesToRetain;
-            _directoryPath = options.Directory;
-
-            if (_maxFileSize == null)
-            {
-                _path = Path.Combine(
-                    _directoryPath,
-                    $"{_fileNamePrefix}.{_extension}");
-            }
+            _formatter = new LogMessageFormatter();
         }
 
         internal new void ProcessMessage(LogMessage message) => 
@@ -53,19 +34,15 @@ namespace CodeMonkeys.Logging.File
 
         protected override async Task ProcessBatch(IEnumerable<LogMessage> batch, CancellationToken token)
         {
-            _formatter ??= new LogMessageFormatter();
-
-            Directory.CreateDirectory(_directoryPath);
+            Directory.CreateDirectory(Options.Directory);
 
             foreach (var message in batch)
             {
                 try
                 {
-                    var path = _maxFileSize == null ?
-                        _path :
-                        CreateLogFilePath();
+                    var path = CreateLogFilePath();
 
-                    string formattedMessage = _formatter.Format(message, TimeStampFormat);
+                    string formattedMessage = _formatter.Format(message, Options.TimeStampFormat);
 
                     await SystemIOFile.AppendAllTextAsync(
                         path,
@@ -81,9 +58,13 @@ namespace CodeMonkeys.Logging.File
         private string CreateLogFilePath()
         {
             var path = GetFullLogFilePath();
+
+            if (Options.MaxFileSize == null)
+                return path;
+
             var size = GetFileSize(path);
 
-            if (size <= _maxFileSize)
+            if (size <= Options.MaxFileSize)
                 return path;
 
             _index++;
@@ -95,8 +76,8 @@ namespace CodeMonkeys.Logging.File
             var suffix = GetFileNameSuffix();
 
             return Path.Combine(
-                _directoryPath,
-                $"{_fileNamePrefix}{suffix}.{_extension}");
+                Options.Directory,
+                $"{Options.FileNamePrefix}{suffix}.{Options.Extension}");
         }
 
         private long GetFileSize(string path)
@@ -120,13 +101,13 @@ namespace CodeMonkeys.Logging.File
 
         private void ClearObsoleteFiles()
         {
-            if (_maxFilesToRetain == null)
+            if (Options.MaxFilesToRetain == null)
                 return;
 
-            var filesToRemove = new DirectoryInfo(_directoryPath)
-                .GetFiles(_fileNamePrefix + "*." + _extension)
+            var filesToRemove = new DirectoryInfo(Options.Directory)
+                .GetFiles(Options.FileNamePrefix + "*." + Options.Extension)
                 .OrderByDescending(f => f.LastWriteTime)
-                .Skip(_maxFilesToRetain.Value);
+                .Skip(Options.MaxFilesToRetain.Value);
 
             foreach (var file in filesToRemove)
                 file.Delete();

@@ -5,16 +5,6 @@ namespace CodeMonkeys.Logging.Configuration
     public abstract class LogOptions : Options
     {
         /// <summary>
-        /// Flag which indicates if the service or provider accepts and queues writes.
-        /// <para>Defaults to <see langword="true"/>.</para>
-        /// </summary>
-        public bool IsEnabled
-        {
-            get => GetValue<bool>();
-            set => SetValue(value);
-        }
-
-        /// <summary>
         /// All messages below this level are NOT accepted and queued.
         /// </summary>
         public LogLevel MinLevel
@@ -38,7 +28,6 @@ namespace CodeMonkeys.Logging.Configuration
 
         protected LogOptions()
         {
-            IsEnabled = true;
             TimeStampFormat = "yyyy-MM-dd HH:mm:ss.fff zzz";
         }
     }

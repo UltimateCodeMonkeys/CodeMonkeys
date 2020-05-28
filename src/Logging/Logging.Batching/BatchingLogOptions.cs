@@ -8,23 +8,21 @@ namespace CodeMonkeys.Logging.Batching
     {
         /// <summary>
         /// The period after which log messages will be flushed to the store.
-        /// <para>Defaults to <c>5</c> seconds.</para>
-        /// <para>Value changes of this property are monitored and applied dynamically.</para>
+        /// <para>Default value: <c>5</c> seconds.</para>
         /// </summary>
         public TimeSpan FlushPeriod
         {
-            get => GetValue<TimeSpan>();
+            get => GetValue(TimeSpan.FromSeconds(5));
             set => SetValue(value);
         }
 
         /// <summary>
         /// The maximum number of items to include in a single batch or <see langword="null"/> for no limit.
-        /// <para>Defaults to <c>50</c>.</para>
-        /// <para>Value changes of this property are monitored and applied dynamically.</para>
+        /// <para>Default value: <c>50</c>.</para>
         /// </summary>        
         public int? BatchCapacity
         {
-            get => GetValue<int?>();
+            get => GetValue<int?>(50);
             set
             {
                 if (value != null)
@@ -36,12 +34,11 @@ namespace CodeMonkeys.Logging.Batching
 
         /// <summary>
         /// The maximum number of items in the background queue or <see langword="null"/> for no limit.
-        /// <para>Defaults to <c>1000</c>.</para>
-        /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
+        /// <para>Default value: <c>1000</c>.</para>
         /// </summary>
         public int? QueueCapacity
         {
-            get => GetValue<int?>();
+            get => GetValue<int?>(1000);
             set
             {
                 if (value != null)
@@ -49,13 +46,6 @@ namespace CodeMonkeys.Logging.Batching
 
                 SetValue(value);
             }
-        }
-
-        public BatchingLogOptions()
-        {
-            FlushPeriod = TimeSpan.FromSeconds(5);
-            BatchCapacity = 50;
-            QueueCapacity = 1000;
         }
     }
 }

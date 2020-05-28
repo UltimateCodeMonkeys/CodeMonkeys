@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CodeMonkeys.Logging
+﻿namespace CodeMonkeys.Logging
 {
     public interface ILogServiceProvider
     {
