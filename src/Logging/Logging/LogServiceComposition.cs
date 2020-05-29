@@ -5,21 +5,24 @@ namespace CodeMonkeys.Logging
 {
     internal sealed class LogServiceComposition : ILogServiceComposition
     {
-        private readonly LogServiceBuilder[] _providers;
+        private readonly IScopedLogService[] _scopedServices;
 
-        public LogServiceComposition(LogServiceBuilder[] providers)
+        internal string Context { get; }
+
+        public LogServiceComposition(
+            string context,
+            IScopedLogService[] scopedServices)
         {
-            _providers = providers;
+            Context = context;
+            _scopedServices = scopedServices;
         }
 
         public bool IsEnabledFor(LogLevel logLevel)
         {
             List<Exception> exceptions = null;
 
-            foreach (var provider in _providers)
+            foreach (var service in _scopedServices)
             {
-                var service = provider.LogService;
-
                 try
                 {
                     if (!service.IsEnabledFor(logLevel))
@@ -55,10 +58,8 @@ namespace CodeMonkeys.Logging
 
             formatter = DefaultFormatter(formatter);
 
-            foreach (var provider in _providers)
+            foreach (var service in _scopedServices)
             {
-                var service = provider.LogService;
-
                 if (!service.IsEnabledFor(logLevel))
                     continue;
 
@@ -69,7 +70,7 @@ namespace CodeMonkeys.Logging
                 catch (Exception e)
                 {
                     if (exceptions == null)
-                        exceptions = new List<Exception>(_providers.Length);
+                        exceptions = new List<Exception>(_scopedServices.Length);
 
                     exceptions.Add(e);
                 }

@@ -2,7 +2,7 @@
 {
     public sealed class DebugServiceProvider : ILogServiceProvider
     {
-        public ILogService Create(string context)
+        public IScopedLogService Create(string context)
         {
             Argument.NotEmptyOrWhiteSpace(
                 context,

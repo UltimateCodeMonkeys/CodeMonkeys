@@ -11,6 +11,7 @@ namespace CodeMonkeys.Logging
         //    where TProvider : ILogServiceProvider;
     }
 
+    // todo internal
     public interface IScopedLogService : ILogService
     {
         //void EnableProvider();

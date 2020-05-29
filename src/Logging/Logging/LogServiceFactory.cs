@@ -30,7 +30,8 @@ namespace CodeMonkeys.Logging
                 return service;
 
             service = new LogServiceComposition(
-                CreateLogServiceBuilders(context));
+                context,
+                CreateScopedLogServices(context));
 
             _services.TryAdd(context, service);
 
@@ -47,18 +48,17 @@ namespace CodeMonkeys.Logging
             _providers.Add(provider);
         }
 
-        private LogServiceBuilder[] CreateLogServiceBuilders(string context)
+        private IScopedLogService[] CreateScopedLogServices(string context)
         {
-            var builders = new LogServiceBuilder[_providers.Count];
+            var services = new IScopedLogService[_providers.Count];
 
             for (int i = 0; i < _providers.Count; i++)
             {
-                builders[i] = new LogServiceBuilder(
-                    context,
-                    _providers[i]);
+                services[i] = _providers[i].Create(
+                    context);
             }
 
-            return builders;
+            return services;
         }        
     }
 }

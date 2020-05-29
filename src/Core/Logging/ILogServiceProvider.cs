@@ -2,6 +2,6 @@
 {
     public interface ILogServiceProvider
     {
-        ILogService Create(string context);
+        IScopedLogService Create(string context);
     }
 }
