@@ -1,11 +1,11 @@
 ﻿namespace CodeMonkeys.Logging
 {
-    internal readonly struct ContextAwareLogServiceProvider
+    internal class LogServiceBuilder
     {
         internal string Context { get; }
         internal ILogService LogService { get; }
 
-        internal ContextAwareLogServiceProvider(
+        internal LogServiceBuilder(
             string context,
             ILogServiceProvider provider)
         {

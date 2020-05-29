@@ -5,9 +5,9 @@ namespace CodeMonkeys.Logging
 {
     internal sealed class LogServiceComposition : ILogServiceComposition
     {
-        private readonly ContextAwareLogServiceProvider[] _providers;
+        private readonly LogServiceBuilder[] _providers;
 
-        public LogServiceComposition(ContextAwareLogServiceProvider[] providers)
+        public LogServiceComposition(LogServiceBuilder[] providers)
         {
             _providers = providers;
         }

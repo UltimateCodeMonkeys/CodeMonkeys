@@ -30,7 +30,7 @@ namespace CodeMonkeys.Logging
                 return service;
 
             service = new LogServiceComposition(
-                CreateContextAwareLogServiceProviders(context));
+                CreateLogServiceBuilders(context));
 
             _services.TryAdd(context, service);
 
@@ -47,14 +47,14 @@ namespace CodeMonkeys.Logging
             _providers.Add(provider);
         }
 
-        private ContextAwareLogServiceProvider[] CreateContextAwareLogServiceProviders(string name)
+        private LogServiceBuilder[] CreateLogServiceBuilders(string context)
         {
-            var builders = new ContextAwareLogServiceProvider[_providers.Count];
+            var builders = new LogServiceBuilder[_providers.Count];
 
             for (int i = 0; i < _providers.Count; i++)
             {
-                builders[i] = new ContextAwareLogServiceProvider(
-                    name,
+                builders[i] = new LogServiceBuilder(
+                    context,
                     _providers[i]);
             }
 

@@ -1,55 +1,25 @@
-﻿using System;
-using SystemDiagnosticsDebug = System.Diagnostics.Debug;
-
-namespace CodeMonkeys.Logging.Debug
+﻿namespace CodeMonkeys.Logging.Debug
 {
-    internal sealed class DebugLogService : ScopedLogService<DebugServiceProvider, DebugLogOptions>, IScopedLogService
+    internal sealed class DebugLogService : ScopedLogService<DebugServiceProvider, DebugLogOptions>
     {
         private readonly LogMessageFormatter _formatter;
 
-        internal DebugLogService(DebugServiceProvider provider, string context)
-            : base(provider, context)
+        internal DebugLogService(string context)
+            : base(context)
         {
             _formatter = new LogMessageFormatter();
         }
 
-        public void Log<TState>(
-            DateTimeOffset timestamp, 
-            LogLevel logLevel, 
-            TState state, 
-            Exception ex, 
-            Func<TState, Exception, string> formatter)
+        protected override void PublishMessage(LogMessage message)
         {
-            Argument.NotNull(formatter, nameof(formatter));
-
-            var message = CreateMessage(timestamp,
-                logLevel,
-                state,
-                ex,
-                formatter);
-
-            //SystemDiagnosticsDebug.WriteLine(
-            //    _formatter.Format(
-            //        message,
-            //        ))
-
-            //SystemDiagnosticsDebug.WriteLine(
-            //        formatter.Format(
-            //            message,
-            //            Options.TimeStampFormat));
-
-            //Provider.ProcessMessage(new LogMessage(
-            //    timestamp,
-            //    logLevel,
-            //    formatter(state, ex),
-            //    Context,
-            //    ex));
+            try
+            {
+                System.Diagnostics.Debug.WriteLine(
+                        _formatter.Format(
+                            message,
+                            Options.TimeStampFormat));
+            }
+            catch { }
         }
-
-        public void Log<TState>(
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
     }
 }

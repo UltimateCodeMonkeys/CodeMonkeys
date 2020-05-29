@@ -18,7 +18,7 @@ namespace CodeMonkeys.Logging.Console
         {
             var level = base.FormatLogLevel(logLevel);
 
-            if (!ConsoleLogServiceProvider.Options.ColorizeOutput)
+            if (!ConsoleLogService.Options.ColorizeOutput)
             {
                 return level;
             }

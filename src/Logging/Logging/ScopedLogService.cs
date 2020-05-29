@@ -6,24 +6,59 @@ using System;
 namespace CodeMonkeys.Logging
 {
     // todo: internal
-    public class ScopedLogService<TProvider, TOptions> : OptionsConsumer<TOptions>
+    public abstract class ScopedLogService<TProvider, TOptions> : OptionsConsumer<TOptions>, IScopedLogService
         where TProvider : ILogServiceProvider
         where TOptions : LogOptions, new()
     {
-        protected TProvider Provider { get; private set; }
+        /// <summary>
+        /// Flag which indicates if the provider accepts and queues writes.
+        /// <para>Defaults to <see langword="true"/>.</para>
+        /// </summary>
+        public virtual bool IsEnabled { get; set; } = true;
+
         protected string Context { get; private set; }
 
         protected ScopedLogService(
-            TProvider provider,
             string context)
         {
-            Provider = provider;
             Context = context;
         }
 
-        public bool IsEnabledFor(LogLevel logLevel) => Provider.IsEnabledFor(logLevel);
+        public bool IsEnabledFor(LogLevel logLevel)
+        {
+            if (IsEnabled)
+                return logLevel >= Options.MinLevel;
 
-        protected LogMessage CreateMessage<TState>(DateTimeOffset timestamp,
+            return false;
+        }
+
+        public void Log<TState>(
+            DateTimeOffset timestamp,
+            LogLevel logLevel,
+            TState state,
+            Exception ex,
+            Func<TState, Exception, string> formatter)
+        {
+            Argument.NotNull(formatter, nameof(formatter));
+
+            var message = CreateMessage(timestamp,
+                logLevel,
+                state,
+                ex,
+                formatter);
+
+            PublishMessage(message);
+        }
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            TState state,
+            Exception ex,
+            Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
+
+        protected abstract void PublishMessage(LogMessage message);
+
+        private LogMessage CreateMessage<TState>(DateTimeOffset timestamp,
             LogLevel logLevel,
             TState state,
             Exception ex,
