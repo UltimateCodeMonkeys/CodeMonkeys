@@ -20,7 +20,7 @@ namespace CodeMonkeys.Logging
             _services = new ConcurrentDictionary<string, LogServiceComposition>();
         }
 
-        public ILogService Create(string context)
+        public ILogServiceComposition Create(string context)
         {
             Argument.NotEmptyOrWhiteSpace(
                 context,

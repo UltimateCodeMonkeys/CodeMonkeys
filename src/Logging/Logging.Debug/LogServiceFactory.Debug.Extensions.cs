@@ -6,7 +6,7 @@ namespace CodeMonkeys.Logging
     {
         public static void AddDebug(this ILogServiceFactory _this)
         {
-            var provider = new DebugLogServiceProvider();
+            var provider = new DebugServiceProvider();
             _this.AddProvider(provider);
         }
     }

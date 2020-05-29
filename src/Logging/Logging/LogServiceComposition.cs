@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CodeMonkeys.Logging
 {
-    internal sealed class LogServiceComposition : ILogService
+    internal sealed class LogServiceComposition : ILogServiceComposition
     {
         private readonly ContextAwareLogServiceProvider[] _providers;
 

@@ -23,7 +23,7 @@ namespace CodeMonkeys.UnitTests.Logging.Extensions
         public void AddDebug_WithOptions_InvokesFactoryAddProvider()
         {
             _factory.Object.AddDebug(new DebugLogOptions());
-            _factory.Verify(f => f.AddProvider(It.IsAny<DebugLogServiceProvider>()), Times.Once);
+            _factory.Verify(f => f.AddProvider(It.IsAny<DebugServiceProvider>()), Times.Once);
         }
 
         [Test]
@@ -34,14 +34,14 @@ namespace CodeMonkeys.UnitTests.Logging.Extensions
                 _factory.Object.AddDebug(null as DebugLogOptions);
             });
 
-            _factory.Verify(f => f.AddProvider(It.IsAny<DebugLogServiceProvider>()), Times.Never);
+            _factory.Verify(f => f.AddProvider(It.IsAny<DebugServiceProvider>()), Times.Never);
         }
 
         [Test]
         public void AddDebug_WithOptionsFactory_InvokesFactoryAddProvider()
         {
             _factory.Object.AddDebug(() => new DebugLogOptions());
-            _factory.Verify(f => f.AddProvider(It.IsAny<DebugLogServiceProvider>()), Times.Once);
+            _factory.Verify(f => f.AddProvider(It.IsAny<DebugServiceProvider>()), Times.Once);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace CodeMonkeys.UnitTests.Logging.Extensions
                 _factory.Object.AddDebug(null as Func<DebugLogOptions>);
             });
 
-            _factory.Verify(f => f.AddProvider(It.IsAny<DebugLogServiceProvider>()), Times.Never);
+            _factory.Verify(f => f.AddProvider(It.IsAny<DebugServiceProvider>()), Times.Never);
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace CodeMonkeys.UnitTests.Logging.Extensions
                 _factory.Object.AddDebug(() => null);
             });
 
-            _factory.Verify(f => f.AddProvider(It.IsAny<DebugLogServiceProvider>()), Times.Never);
+            _factory.Verify(f => f.AddProvider(It.IsAny<DebugServiceProvider>()), Times.Never);
         }
     }
 }

@@ -2,13 +2,19 @@
 
 namespace CodeMonkeys.Logging
 {
-    public interface ILogService1 : ILogService
+    public interface ILogServiceComposition : ILogService
     {
-        void EnableProvider<TProvider>()
-            where TProvider : ILogServiceProvider;
+        //void EnableProvider<TProvider>()
+        //    where TProvider : ILogServiceProvider;
 
-        void DisableProvider<TProvider>()
-            where TProvider : ILogServiceProvider;
+        //void DisableProvider<TProvider>()
+        //    where TProvider : ILogServiceProvider;
+    }
+
+    public interface IScopedLogService : ILogService
+    {
+        //void EnableProvider();
+        //void DisableProvider();
     }
 
     public interface ILogService

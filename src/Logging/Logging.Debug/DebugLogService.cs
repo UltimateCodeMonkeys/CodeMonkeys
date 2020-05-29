@@ -1,23 +1,17 @@
-﻿using static CodeMonkeys.Argument;
-
-using System;
+﻿using System;
+using SystemDiagnosticsDebug = System.Diagnostics.Debug;
 
 namespace CodeMonkeys.Logging.Debug
 {
-    internal sealed class DebugLogService : ILogService
+    internal sealed class DebugLogService : ScopedLogService<DebugServiceProvider, DebugLogOptions>, IScopedLogService
     {
-        private readonly DebugLogServiceProvider _provider;
-        private readonly string _context;
+        private readonly LogMessageFormatter _formatter;
 
-        internal DebugLogService(
-            DebugLogServiceProvider provider, 
-            string context)
+        internal DebugLogService(DebugServiceProvider provider, string context)
+            : base(provider, context)
         {
-            _provider = provider;
-            _context = context;
+            _formatter = new LogMessageFormatter();
         }
-
-        public bool IsEnabledFor(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
 
         public void Log<TState>(
             DateTimeOffset timestamp, 
@@ -26,14 +20,30 @@ namespace CodeMonkeys.Logging.Debug
             Exception ex, 
             Func<TState, Exception, string> formatter)
         {
-            NotNull(formatter, nameof(formatter));
+            Argument.NotNull(formatter, nameof(formatter));
 
-            _provider.ProcessMessage(new LogMessage(
-                timestamp,
+            var message = CreateMessage(timestamp,
                 logLevel,
-                formatter(state, ex),
-                _context,
-                ex));
+                state,
+                ex,
+                formatter);
+
+            //SystemDiagnosticsDebug.WriteLine(
+            //    _formatter.Format(
+            //        message,
+            //        ))
+
+            //SystemDiagnosticsDebug.WriteLine(
+            //        formatter.Format(
+            //            message,
+            //            Options.TimeStampFormat));
+
+            //Provider.ProcessMessage(new LogMessage(
+            //    timestamp,
+            //    logLevel,
+            //    formatter(state, ex),
+            //    Context,
+            //    ex));
         }
 
         public void Log<TState>(

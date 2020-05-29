@@ -4,7 +4,7 @@ using System;
 
 namespace CodeMonkeys.Logging.File
 {
-    internal sealed class FileLogService : ILogService
+    internal sealed class FileLogService : IScopedLogService
     {
         private readonly FileLogServiceProvider _provider;
         private readonly string _context;

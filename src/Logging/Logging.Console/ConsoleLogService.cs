@@ -4,7 +4,7 @@ using System;
 
 namespace CodeMonkeys.Logging.Console
 {
-    internal sealed class ConsoleLogService : ILogService
+    internal sealed class ConsoleLogService : IScopedLogService
     {
         private readonly ConsoleLogServiceProvider _provider;
         private readonly string _context;
