@@ -1,6 +1,4 @@
-﻿using CodeMonkeys.Logging.Configuration;
-
-using System;
+﻿using System;
 
 namespace CodeMonkeys.Logging.Batching
 {

@@ -1,6 +1,6 @@
 ﻿using CodeMonkeys.Configuration;
 
-namespace CodeMonkeys.Logging.Configuration
+namespace CodeMonkeys.Logging
 {
     public abstract class LogOptions : Options
     {
