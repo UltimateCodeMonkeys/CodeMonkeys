@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 
 namespace CodeMonkeys.Logging.Batching
 {
-    public abstract class BatchingLogService<TOptions> : ScopedLogService<BatchingLogOptions>
+    public abstract class BatchLogService<TOptions> : ScopedLogService<TOptions>
+        where TOptions : BatchLogOptions, new()
     {
         private BlockingCollection<LogMessage> _queue;
 
@@ -20,13 +21,13 @@ namespace CodeMonkeys.Logging.Batching
             }
         }
 
-        protected BatchingLogService(string context) 
+        protected BatchLogService(string context) 
             : base(context)
         {
             Run();
         }
 
-        protected abstract Task ProcessBatch(IEnumerable<LogMessage> messageBatch);
+        protected abstract Task PublishMessageBatch(IEnumerable<LogMessage> messageBatch);
 
         protected override void PublishMessage(LogMessage message)
         {
@@ -60,7 +61,7 @@ namespace CodeMonkeys.Logging.Batching
                 TakeBatch(currentBatch);
 
                 if (currentBatch.Count > 0)
-                    await ProcessBatch(currentBatch);
+                    await PublishMessageBatch(currentBatch);
 
                 currentBatch.Clear();
 

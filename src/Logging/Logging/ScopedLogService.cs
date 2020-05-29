@@ -16,11 +16,12 @@ namespace CodeMonkeys.Logging
         public virtual bool IsEnabled { get; set; } = true;
 
         protected string Context { get; private set; }
+        protected LogMessageFormatter MessageFormatter { get; set; }
 
-        protected ScopedLogService(
-            string context)
+        protected ScopedLogService(string context)
         {
             Context = context;
+            MessageFormatter = new LogMessageFormatter();
         }
 
         public bool IsEnabledFor(LogLevel logLevel)

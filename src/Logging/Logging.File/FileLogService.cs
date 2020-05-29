@@ -1,45 +1,99 @@
-﻿using static CodeMonkeys.Argument;
+﻿using CodeMonkeys.Logging.Batching;
 
-using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace CodeMonkeys.Logging.File
 {
-    internal sealed class FileLogService : IScopedLogService
+    internal sealed class FileLogService : BatchLogService<FileLogOptions>
     {
-        private readonly FileLogServiceProvider _provider;
-        private readonly string _context;
+        private int _index;
 
-        internal FileLogService(
-            FileLogServiceProvider provider, 
-            string context)
+        internal FileLogService(string context)
+            : base(context)
         {
-            _provider = provider;
-            _context = context;
         }
 
-        public bool IsEnabledFor(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
-
-        public void Log<TState>(
-            DateTimeOffset timestamp,
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter)
+        protected override async Task PublishMessageBatch(IEnumerable<LogMessage> messageBatch)
         {
-            NotNull(formatter, nameof(formatter));
+            Directory.CreateDirectory(Options.Directory);
 
-            _provider.ProcessMessage(new LogMessage(
-                timestamp,
-                logLevel,
-                formatter(state, ex),
-                _context,
-                ex));
+            foreach (var message in messageBatch)
+            {
+                try
+                {
+                    var path = CreateLogFilePath();
+
+                    await System.IO.File.AppendAllTextAsync(
+                        path,
+                        MessageFormatter.Format(
+                            message,
+                            Options.TimeStampFormat));
+                }
+                catch { }
+            }
+
+            ClearObsoleteFiles();
         }
 
-        public void Log<TState>(
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
+        private string CreateLogFilePath()
+        {
+            var path = GetFullLogFilePath();
+
+            if (Options.MaxFileSize == null)
+                return path;
+
+            var size = GetFileSize(path);
+
+            if (size <= Options.MaxFileSize)
+                return path;
+
+            _index++;
+            return GetFullLogFilePath();
+        }
+
+        private string GetFullLogFilePath()
+        {
+            var suffix = GetFileNameSuffix();
+
+            return Path.Combine(
+                Options.Directory,
+                $"{Options.FileNamePrefix}{suffix}.{Options.Extension}");
+        }
+
+        private long GetFileSize(string path)
+        {
+            var fi = new FileInfo(path);
+            var size = fi.Exists ?
+                fi.Length :
+                0;
+
+            return size;
+        }
+
+        private string GetFileNameSuffix()
+        {
+            var suffix = _index == 0 ?
+                 string.Empty :
+                 $"-{_index}";
+
+            return suffix;
+        }
+
+        private void ClearObsoleteFiles()
+        {
+            if (Options.MaxFilesToRetain == null)
+                return;
+
+            var filesToRemove = new DirectoryInfo(Options.Directory)
+                .GetFiles(Options.FileNamePrefix + "*." + Options.Extension)
+                .OrderByDescending(f => f.LastWriteTime)
+                .Skip(Options.MaxFilesToRetain.Value);
+
+            foreach (var file in filesToRemove)
+                file.Delete();
+        }
     }
 }

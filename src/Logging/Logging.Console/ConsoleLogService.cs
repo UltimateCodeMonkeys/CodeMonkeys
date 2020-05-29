@@ -2,14 +2,11 @@
 {
     internal sealed class ConsoleLogService : ScopedLogService<ConsoleLogOptions>
     {
-        private readonly LogMessageFormatter _formatter;
-
         internal ConsoleLogService(string context)
             : base(context)
         {
-            _formatter = Options.ColorizeOutput ?
-                new LogMessageColorizer() :
-                new LogMessageFormatter();
+            if (Options.ColorizeOutput)
+                MessageFormatter = new LogMessageColorizer();
         }
 
         protected override void PublishMessage(LogMessage message)
@@ -17,8 +14,7 @@
             try
             {
                 System.Console.WriteLine(
-                    _formatter
-                        .Format(
+                    MessageFormatter.Format(
                             message,
                             Options.TimeStampFormat));
             }

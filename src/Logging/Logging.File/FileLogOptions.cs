@@ -4,7 +4,7 @@ using System;
 
 namespace CodeMonkeys.Logging.File
 {
-    public class FileLogOptions : BatchingLogOptions
+    public class FileLogOptions : BatchLogOptions
     {
         /// <summary>
         /// Contains the file name prefix to use for log files.

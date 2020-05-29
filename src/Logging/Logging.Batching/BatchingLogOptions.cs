@@ -4,7 +4,7 @@ using System;
 
 namespace CodeMonkeys.Logging.Batching
 {
-    public class BatchingLogOptions : LogOptions
+    public class BatchLogOptions : LogOptions
     {
         /// <summary>
         /// The period after which log messages will be flushed to the store.
