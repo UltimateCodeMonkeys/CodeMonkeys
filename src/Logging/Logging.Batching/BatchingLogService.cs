@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 
 namespace CodeMonkeys.Logging.Batching
 {
-    public abstract class BatchingLogServiceProvider<TOptions> : LogServiceProvider<TOptions>
-        where TOptions : BatchingLogOptions, new()
+    public abstract class BatchingLogService<TOptions> : ScopedLogService<BatchingLogOptions>
     {
-        public override bool IsEnabled 
-        { 
-            get => base.IsEnabled; 
+        private BlockingCollection<LogMessage> _queue;
+
+        public override bool IsEnabled
+        {
+            get => base.IsEnabled;
             set
             {
                 if (value)
@@ -19,14 +20,15 @@ namespace CodeMonkeys.Logging.Batching
             }
         }
 
-        private BlockingCollection<LogMessage> _queue;
-
-        protected BatchingLogServiceProvider()
+        protected BatchingLogService(string context) 
+            : base(context)
         {
             Run();
         }
 
-        public override void ProcessMessage(LogMessage message)
+        protected abstract Task ProcessBatch(IEnumerable<LogMessage> messageBatch);
+
+        protected override void PublishMessage(LogMessage message)
         {
             if (_queue.IsAddingCompleted)
                 return;
@@ -38,11 +40,9 @@ namespace CodeMonkeys.Logging.Batching
             catch { }
         }
 
-        protected abstract Task ProcessBatch(IEnumerable<LogMessage> batch);
-
         private void Run()
         {
-            _queue = Options.QueueCapacity == null?
+            _queue = Options.QueueCapacity == null ?
                 new BlockingCollection<LogMessage>(new ConcurrentQueue<LogMessage>()) :
                 new BlockingCollection<LogMessage>(
                     new ConcurrentQueue<LogMessage>(),

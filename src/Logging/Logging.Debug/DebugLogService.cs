@@ -1,6 +1,6 @@
 ﻿namespace CodeMonkeys.Logging.Debug
 {
-    internal sealed class DebugLogService : ScopedLogService<DebugServiceProvider, DebugLogOptions>
+    internal sealed class DebugLogService : ScopedLogService<DebugLogOptions>
     {
         private readonly LogMessageFormatter _formatter;
 

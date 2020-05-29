@@ -1,6 +1,6 @@
 ﻿namespace CodeMonkeys.Logging.Console
 {
-    internal sealed class ConsoleLogService : ScopedLogService<ConsoleServiceProvider, ConsoleLogOptions>
+    internal sealed class ConsoleLogService : ScopedLogService<ConsoleLogOptions>
     {
         private readonly LogMessageFormatter _formatter;
 
