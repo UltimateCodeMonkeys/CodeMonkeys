@@ -4,7 +4,6 @@ using System;
 
 namespace CodeMonkeys.Logging
 {
-    // todo: internal
     public abstract class ScopedLogService<TOptions> : OptionsConsumer<TOptions>, IScopedLogService
         where TOptions : LogOptions, new()
     {

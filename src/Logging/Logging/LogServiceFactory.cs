@@ -7,6 +7,8 @@ namespace CodeMonkeys.Logging
     public class LogServiceFactory : ILogServiceFactory
     {
         private readonly List<ILogServiceProvider> _providers;
+        private readonly HashSet<Type> _providerTypes;
+
         private readonly ConcurrentDictionary<string, LogServiceComposition> _services;
 
         private static readonly Lazy<ILogServiceFactory> lazy = new Lazy<ILogServiceFactory>(
@@ -17,10 +19,12 @@ namespace CodeMonkeys.Logging
         private LogServiceFactory()
         {
             _providers = new List<ILogServiceProvider>();
+            _providerTypes = new HashSet<Type>();
+
             _services = new ConcurrentDictionary<string, LogServiceComposition>();
         }
 
-        public ILogServiceComposition Create(string context)
+        public ILogService Create(string context)
         {
             Argument.NotEmptyOrWhiteSpace(
                 context,
@@ -45,8 +49,16 @@ namespace CodeMonkeys.Logging
                 provider,
                 nameof(provider));
 
+            var providerType = typeof(TProvider);
+            
+            if (!_providerTypes.Add(providerType))
+                throw new InvalidOperationException($"The type '{providerType}' is already registered!");
+
             _providers.Add(provider);
         }
+
+        public void AddProvider<TProvider>()
+            where TProvider : class, ILogServiceProvider, new() => AddProvider(new TProvider());
 
         private IScopedLogService[] CreateScopedLogServices(string context)
         {

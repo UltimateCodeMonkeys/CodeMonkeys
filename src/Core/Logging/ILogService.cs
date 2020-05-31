@@ -2,22 +2,6 @@
 
 namespace CodeMonkeys.Logging
 {
-    public interface ILogServiceComposition : ILogService
-    {
-        //void EnableProvider<TProvider>()
-        //    where TProvider : ILogServiceProvider;
-
-        //void DisableProvider<TProvider>()
-        //    where TProvider : ILogServiceProvider;
-    }
-
-    // todo internal
-    public interface IScopedLogService : ILogService
-    {
-        //void EnableProvider();
-        //void DisableProvider();
-    }
-
     public interface ILogService
     {
         bool IsEnabledFor(LogLevel logLevel);
