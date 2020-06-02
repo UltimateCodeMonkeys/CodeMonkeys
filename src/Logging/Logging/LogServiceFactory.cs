@@ -6,22 +6,26 @@ namespace CodeMonkeys.Logging
 {
     public class LogServiceFactory : ILogServiceFactory
     {
-        private readonly List<ILogServiceProvider> _providers;
-        private readonly HashSet<Type> _providerTypes;
-
-        private readonly ConcurrentDictionary<string, LogServiceComposition> _services;
+        #region Singleton
 
         private static readonly Lazy<ILogServiceFactory> lazy = new Lazy<ILogServiceFactory>(
             () => new LogServiceFactory());
 
         public static ILogServiceFactory Instance => lazy.Value;
 
+        #endregion
+
+        private readonly List<ILogServiceProvider> _providers;
+        private readonly HashSet<Type> _providerTypes;
+
+        private readonly ConcurrentDictionary<string, LogService> _services;
+
         private LogServiceFactory()
         {
             _providers = new List<ILogServiceProvider>();
             _providerTypes = new HashSet<Type>();
 
-            _services = new ConcurrentDictionary<string, LogServiceComposition>();
+            _services = new ConcurrentDictionary<string, LogService>();
         }
 
         public ILogService Create(string context)
@@ -33,10 +37,7 @@ namespace CodeMonkeys.Logging
             if (_services.TryGetValue(context, out var service))
                 return service;
 
-            service = new LogServiceComposition(
-                context,
-                CreateScopedLogServices(context));
-
+            service = new LogService(CreateScopedLogServices(context));
             _services.TryAdd(context, service);
 
             return service;

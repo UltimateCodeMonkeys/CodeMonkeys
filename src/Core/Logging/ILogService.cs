@@ -1,22 +1,17 @@
-﻿using System;
-
-namespace CodeMonkeys.Logging
+﻿namespace CodeMonkeys.Logging
 {
-    public interface ILogService
+    public interface ILogService : ILogServiceBase
     {
-        bool IsEnabledFor(LogLevel logLevel);
+        /// <summary>
+        /// Flag which indicates if the service accepts and queues writes.
+        /// <para>Defaults to <see langword="true"/>.</para>
+        /// </summary>
+        bool IsEnabled { get; set; }
 
-        void Log<TState>(
-            DateTimeOffset timestamp,
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter);
+        void EnableLogging<TService>()
+            where TService : IScopedLogService;
 
-        void Log<TState>(
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter);
+        void DisableLogging<TService>()
+            where TService : IScopedLogService;
     }
 }

@@ -4,48 +4,33 @@ using System.Linq;
 
 namespace CodeMonkeys.Logging
 {
-    internal sealed class LogServiceComposition : ILogService
+    internal sealed class LogService : ILogService
     {
-        private readonly IScopedLogService[] _associatedServices;
+        private readonly IScopedLogService[] _services;
 
-        internal string Context { get; }
+        public bool IsEnabled { get; set; } = true;
 
-        public LogServiceComposition(
-            string context,
-            IScopedLogService[] associatedServices)
+        public LogService(IScopedLogService[] services)
         {
-            Context = context;
-            _associatedServices = associatedServices;
+            _services = services;
         }
 
-        public bool IsEnabledFor(LogLevel logLevel)
+        public void EnableLogging<TService>()
+            where TService : IScopedLogService
         {
-            List<Exception> exceptions = null;
+            var serviceType = typeof(TService);
+            var service = _services.FirstOrDefault(s => s.GetType() == serviceType);
 
-            foreach (var service in _associatedServices)
-            {
-                try
-                {
-                    if (!service.IsEnabledFor(logLevel))
-                        continue;
+            service.DisableLogging();
+        }
 
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    if (exceptions == null)
-                        exceptions = new List<Exception>();
+        public void DisableLogging<TService>() 
+            where TService : IScopedLogService
+        {
+            var serviceType = typeof(TService);
+            var service = _services.FirstOrDefault(s => s.GetType() == serviceType);
 
-                    exceptions.Add(e);
-                }
-            }
-
-            if (exceptions != null && exceptions.Count > 0)
-                throw new AggregateException(
-                    "Error(s) occured while querying the associated log services!",
-                    exceptions);
-
-            return false;
+            service.DisableLogging();
         }
 
         public void Log<TState>(
@@ -55,11 +40,14 @@ namespace CodeMonkeys.Logging
             Exception ex, 
             Func<TState, Exception, string> formatter)
         {
+            if (!IsEnabled)
+                return;
+
             List<Exception> exceptions = null;
 
             formatter = DefaultFormatter(formatter);
 
-            foreach (var service in _associatedServices)
+            foreach (var service in _services)
             {
                 if (!service.IsEnabledFor(logLevel))
                     continue;
@@ -71,7 +59,7 @@ namespace CodeMonkeys.Logging
                 catch (Exception e)
                 {
                     if (exceptions == null)
-                        exceptions = new List<Exception>(_associatedServices.Length);
+                        exceptions = new List<Exception>(_services.Length);
 
                     exceptions.Add(e);
                 }
@@ -103,19 +91,6 @@ namespace CodeMonkeys.Logging
             });
 
             return formatter;
-        }
-
-        public void Enable<TService>() 
-            where TService : IScopedLogService
-        {
-            var serviceType = typeof(TService);
-            var service = _associatedServices.FirstOrDefault(
-                s => s.GetType() == serviceType);
-
-            if (service != null)
-            {
-
-            }
         }
     }
 }

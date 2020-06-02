@@ -1,6 +1,6 @@
 ﻿namespace CodeMonkeys.Logging.Console
 {
-    internal sealed class ConsoleLogService : ScopedLogService<ConsoleLogOptions>
+    public sealed class ConsoleLogService : ScopedLogService<ConsoleLogOptions>
     {
         internal ConsoleLogService(string context)
             : base(context)

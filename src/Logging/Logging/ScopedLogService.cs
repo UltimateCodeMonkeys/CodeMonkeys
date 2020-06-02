@@ -8,10 +8,10 @@ namespace CodeMonkeys.Logging
         where TOptions : LogOptions, new()
     {
         /// <summary>
-        /// Flag which indicates if the provider accepts and queues writes.
+        /// Flag which indicates if the service accepts and queues writes.
         /// <para>Defaults to <see langword="true"/>.</para>
         /// </summary>
-        public virtual bool IsEnabled { get; set; } = true;
+        public virtual bool IsEnabled { get; private set; } = true;
 
         protected string Context { get; private set; }
         protected LogMessageFormatter MessageFormatter { get; set; }
@@ -29,6 +29,12 @@ namespace CodeMonkeys.Logging
 
             return false;
         }
+
+        public virtual void EnableLogging() => 
+            IsEnabled = true;
+
+        public virtual void DisableLogging() => 
+            IsEnabled = false;
 
         public void Log<TState>(
             DateTimeOffset timestamp,
