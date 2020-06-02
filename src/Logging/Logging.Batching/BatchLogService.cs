@@ -12,7 +12,7 @@ namespace CodeMonkeys.Logging.Batching
         public override bool IsEnabled
         {
             get => base.IsEnabled;
-            set
+            protected set
             {
                 if (value)
                     Run();

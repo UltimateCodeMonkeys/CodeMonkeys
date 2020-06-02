@@ -8,10 +8,18 @@
         /// </summary>
         bool IsEnabled { get; set; }
 
-        void EnableLogging<TService>()
-            where TService : IScopedLogService;
+        /// <summary>
+        /// If the specified <see cref="IScopedLogService"/> is attached to the <see cref="LogService"/> this method enables
+        /// logging with it.
+        /// </summary>
+        void EnableScopedService<TScopedService>()
+            where TScopedService : IScopedLogService;
 
-        void DisableLogging<TService>()
+        /// <summary>
+        /// If the specified <see cref="IScopedLogService"/> is attached to the <see cref="LogService"/> this method disables
+        /// logging with it.
+        /// </summary>
+        void DisableScopedService<TService>()
             where TService : IScopedLogService;
     }
 }

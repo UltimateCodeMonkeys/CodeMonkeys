@@ -1,6 +1,6 @@
 ﻿namespace CodeMonkeys.Logging.File
 {
-    public sealed class FileLogServiceProvider : ILogServiceProvider
+    public sealed class ServiceProvider : ILogServiceProvider
     {
         public IScopedLogService Create(string context)
         {

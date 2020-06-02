@@ -11,7 +11,7 @@ namespace CodeMonkeys.Logging
         /// Flag which indicates if the service accepts and queues writes.
         /// <para>Defaults to <see langword="true"/>.</para>
         /// </summary>
-        public virtual bool IsEnabled { get; private set; } = true;
+        public virtual bool IsEnabled { get; protected set; } = true;
 
         protected string Context { get; private set; }
         protected LogMessageFormatter MessageFormatter { get; set; }

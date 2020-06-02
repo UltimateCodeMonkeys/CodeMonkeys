@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace CodeMonkeys.Logging.File
 {
-    internal sealed class FileLogService : BatchLogService<FileLogOptions>
+    public sealed class FileLogService : BatchLogService<FileLogOptions>
     {
         private int _index;
 

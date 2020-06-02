@@ -15,16 +15,16 @@ namespace CodeMonkeys.Logging
             _services = services;
         }
 
-        public void EnableLogging<TService>()
-            where TService : IScopedLogService
+        public void EnableScopedService<TScopedLogService>()
+            where TScopedLogService : IScopedLogService
         {
-            var serviceType = typeof(TService);
+            var serviceType = typeof(TScopedLogService);
             var service = _services.FirstOrDefault(s => s.GetType() == serviceType);
 
             service.DisableLogging();
         }
 
-        public void DisableLogging<TService>() 
+        public void DisableScopedService<TService>() 
             where TService : IScopedLogService
         {
             var serviceType = typeof(TService);

@@ -43,6 +43,10 @@ namespace CodeMonkeys.Logging
             return service;
         }
 
+        /// <summary>
+        /// Method for adding a <see cref="ILogServiceProvider"/> to the <see cref="LogService"/>.
+        /// </summary>
+        /// <param name="_this"></param>
         public void AddProvider<TProvider>(TProvider provider)
             where TProvider : class, ILogServiceProvider
         {

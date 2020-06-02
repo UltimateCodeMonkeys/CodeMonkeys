@@ -1,6 +1,6 @@
 ﻿namespace CodeMonkeys.Logging.Debug
 {
-    public sealed class DebugServiceProvider : ILogServiceProvider
+    internal sealed class ServiceProvider : ILogServiceProvider
     {
         public IScopedLogService Create(string context)
         {

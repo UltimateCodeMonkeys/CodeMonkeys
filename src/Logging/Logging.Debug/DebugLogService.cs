@@ -1,6 +1,6 @@
 ﻿namespace CodeMonkeys.Logging.Debug
 {
-    internal sealed class DebugLogService : ScopedLogService<DebugLogOptions>
+    public sealed class DebugLogService : ScopedLogService<DebugLogOptions>
     {
         internal DebugLogService(string context)
             : base(context)
