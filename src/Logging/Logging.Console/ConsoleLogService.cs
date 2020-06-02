@@ -1,5 +1,8 @@
 ﻿namespace CodeMonkeys.Logging.Console
 {
+    /// <summary>
+    /// <see cref="IScopedLogService"/> which writes to <see cref="System.Console"/>.
+    /// </summary>
     public sealed class ConsoleLogService : ScopedLogService<ConsoleLogOptions>
     {
         internal ConsoleLogService(string context)

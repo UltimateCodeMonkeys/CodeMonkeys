@@ -1,5 +1,8 @@
 ﻿namespace CodeMonkeys.Logging.Debug
 {
+    /// <summary>
+    /// <see cref="IScopedLogService"/> which writes to <see cref="System.Diagnostics.Debug"/>.
+    /// </summary>
     public sealed class DebugLogService : ScopedLogService<DebugLogOptions>
     {
         internal DebugLogService(string context)

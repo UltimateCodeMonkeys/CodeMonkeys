@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace CodeMonkeys.Logging.File
 {
+    /// <summary>
+    /// <see cref="IScopedLogService"/> which writes to one or multiple <see cref="System.IO.File"/>('s).
+    /// </summary>
     public sealed class FileLogService : BatchLogService<FileLogOptions>
     {
         private int _index;
