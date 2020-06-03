@@ -11,13 +11,8 @@ namespace CodeMonkeys.Messaging
         /// </summary>
         public TimeSpan FlushSubscriptionsPeriod
         {
-            get => GetValue<TimeSpan>();
+            get => GetValue(TimeSpan.FromSeconds(10));
             set => SetValue(value);
-        }
-
-        public SubscriptionManagerOptions()
-        {
-            FlushSubscriptionsPeriod = TimeSpan.FromSeconds(10);
         }
     }
 }
