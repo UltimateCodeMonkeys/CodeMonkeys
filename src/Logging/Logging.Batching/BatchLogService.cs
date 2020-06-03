@@ -61,11 +61,15 @@ namespace CodeMonkeys.Logging.Batching
                 TakeBatch(currentBatch);
 
                 if (currentBatch.Count > 0)
-                    await PublishMessageBatch(currentBatch);
+                {
+                    await PublishMessageBatch(currentBatch)
+                        .ConfigureAwait(false);
+                }
 
                 currentBatch.Clear();
 
-                await Task.Delay(Options.FlushPeriod);
+                await Task.Delay(Options.FlushPeriod)
+                    .ConfigureAwait(false);
             }
         }
 
