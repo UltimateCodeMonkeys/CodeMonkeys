@@ -7,10 +7,14 @@ namespace CodeMonkeys.Logging
         /// <summary>
         /// Method for adding the <see cref="ServiceProvider"/> to the <see cref="LogService"/>.
         /// </summary>
-        public static void AddFile(this ILogServiceFactory _this)
+        public static void AddFile(this ILogServiceFactory @this)
         {
+            Argument.NotNull(
+                @this,
+                nameof(@this));
+
             var provider = new ServiceProvider();
-            _this.AddProvider(provider);
+            @this.AddProvider(provider);
         }
     }
 }

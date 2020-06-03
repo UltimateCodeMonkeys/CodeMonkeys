@@ -8,14 +8,26 @@ namespace CodeMonkeys.Logging
         /// If a <see cref="FileLogService"/> is attached to the <see cref="LogService"/> this method enables
         /// logging with it.
         /// </summary>
-        public static void EnableFileLogging(this ILogService @this) =>
+        public static void EnableFileLogging(this ILogService @this)
+        {
+            Argument.NotNull(
+                @this,
+                nameof(@this));
+
             @this.EnableScopedService<FileLogService>();
+        }
 
         /// <summary>
         /// If a <see cref="FileLogService"/> is attached to the <see cref="LogService"/> this method disables
         /// logging with it.
         /// </summary>
-        public static void DisableileLogging(this ILogService @this) =>
+        public static void DisableileLogging(this ILogService @this)
+        {
+            Argument.NotNull(
+                @this,
+                nameof(@this));
+
             @this.DisableScopedService<FileLogService>();
+        }
     }
 }
