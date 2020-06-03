@@ -46,9 +46,9 @@ namespace CodeMonkeys.MVVM.PropertyChanged
             RemoveEventualNestedEventListeners(
                 value);
 
-            bool success = SetPropertyValue(
-                propertyName,
-                value);
+            bool success = _propertyBag.SetValue(
+                value,
+                propertyName);
 
             AppendNestedEventListeners(
                 value,
@@ -99,9 +99,9 @@ namespace CodeMonkeys.MVVM.PropertyChanged
             RemoveEventualNestedEventListeners(
                 value);
 
-            bool success = SetPropertyValue(
-                propertyName,
-                value);
+            bool success = _propertyBag.SetValue(
+                value,
+                propertyName);
 
             AppendNestedEventListeners(
                 value,
@@ -134,18 +134,6 @@ namespace CodeMonkeys.MVVM.PropertyChanged
 
             _logService?.Debug(
                 $"Set value for property {propertyName} to '{value}'");
-        }
-
-        private bool SetPropertyValue(
-            string propertyName,
-            object value)
-        {
-            var stored = _properties.AddOrUpdate(
-                propertyName,
-                value,
-                (name, oldValue) => value);
-
-            return stored == value;
         }
     }
 }

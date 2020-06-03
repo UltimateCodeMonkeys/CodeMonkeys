@@ -26,8 +26,8 @@ namespace CodeMonkeys.MVVM.PropertyChanged
 
 
 
-        private readonly ConcurrentDictionary<string, object> _properties =
-            new ConcurrentDictionary<string, object>();
+        private readonly PropertyBag _propertyBag =
+            new PropertyBag();
 
         private readonly ConcurrentDictionary<object, string> _nestedProperties =
             new ConcurrentDictionary<object, string>();

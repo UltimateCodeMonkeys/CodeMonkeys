@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Primitives;
-
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace CodeMonkeys.Configuration
@@ -8,17 +8,33 @@ namespace CodeMonkeys.Configuration
     {
         private OptionsChangeToken _token = new OptionsChangeToken();
 
+        private readonly PropertyBag _propertyBag
+            = new PropertyBag();
+
         public IChangeToken GetChangeToken() => _token;
 
-        protected void SetValue<T>(
-            ref T field, 
-            T value, 
-            bool reload = true)
+        protected void SetValueAndReload<TProperty>(
+            TProperty value,
+            [CallerMemberName]string propertyName = "")
         {
-            field = value;
+            SetValue(value, propertyName);
+            Reload();
+        }
 
-            if (reload)
-                Reload();
+        protected bool SetValue<TProperty>(
+            TProperty value,
+            [CallerMemberName]string propertyName = "")
+        {
+            return _propertyBag.SetValue(
+                value,
+                propertyName);
+        }
+
+        public TProperty GetValue<TProperty>(
+            [CallerMemberName]string propertyName = "")
+        {
+            return _propertyBag.GetValue<TProperty>(
+                propertyName);
         }
 
         private void Reload()

@@ -4,18 +4,14 @@ namespace CodeMonkeys.Logging.Configuration
 {
     public abstract class LogOptions : Options
     {
-        private bool _isEnabled;
-        private LogLevel _minLevel;
-        private string _timeStampFormat;
-
         /// <summary>
         /// Flag which indicates if the service or provider accepts and queues writes.
         /// <para>Defaults to <see langword="true"/>.</para>
         /// </summary>
         public bool IsEnabled
         {
-            get => _isEnabled;
-            set => SetValue(ref _isEnabled, value);
+            get => GetValue<bool>();
+            set => SetValue(value);
         }
 
         /// <summary>
@@ -23,20 +19,20 @@ namespace CodeMonkeys.Logging.Configuration
         /// </summary>
         public LogLevel MinLevel
         {
-            get => _minLevel;
-            set => SetValue(ref _minLevel, value);
+            get => GetValue<LogLevel>();
+            set => SetValue(value);
         }
 
         /// <summary>
-        /// Format used to 
+        /// The timestamp format used in the written log messages.
         /// </summary>
         public string TimeStampFormat
         {
-            get => _timeStampFormat;
+            get => GetValue<string>();
             set
             {
                 Property.NotEmptyOrWhiteSpace(value);
-                SetValue(ref _timeStampFormat, value);
+                SetValue(value);
             }
         }
 
