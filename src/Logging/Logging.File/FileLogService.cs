@@ -46,12 +46,16 @@ namespace CodeMonkeys.Logging.File
             var path = GetFullLogFilePath();
 
             if (Options.MaxFileSize == null)
+            {
                 return path;
+            }
 
             var size = GetFileSize(path);
 
             if (size <= Options.MaxFileSize)
+            {
                 return path;
+            }
 
             _index++;
             return GetFullLogFilePath();
@@ -96,7 +100,9 @@ namespace CodeMonkeys.Logging.File
                 .Skip(Options.MaxFilesToRetain.Value);
 
             foreach (var file in filesToRemove)
+            {
                 file.Delete();
+            }
         }
     }
 }
