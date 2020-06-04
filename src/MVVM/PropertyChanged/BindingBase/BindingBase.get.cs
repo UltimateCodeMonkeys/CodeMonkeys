@@ -1,5 +1,5 @@
 ﻿using CodeMonkeys.Logging;
-
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -46,19 +46,20 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         /// <param name="propertyName">Name of the property to retrieves the value for</param>
         /// <exception cref="InvalidOperationException">If no field (static or instance) of type <see cref="ILogService"/> is defined</exception>
         protected TProperty GetValueAndLog<TProperty>(
+            ILogService logService,
             [CallerMemberName]string propertyName = "")
         {
-            if (_log == null)
-                GetLogServiceInstance();
-
-            _log?.Trace(
+            logService?.Trace(
                 $"Getting value for property '{propertyName}'");
+
 
             var propertyValue = GetValue<TProperty>(
                 propertyName);
 
-            _log?.Debug(
+
+            logService?.Debug(
                 $"Value for property {propertyName}: '{propertyValue}'");
+
 
             return propertyValue;
         }

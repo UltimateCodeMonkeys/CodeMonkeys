@@ -14,8 +14,6 @@ namespace CodeMonkeys.MVVM.PropertyChanged
     public partial class BindingBase :
         INotifyPropertyChanged
     {
-        private static ILogService _log;
-
         private static readonly Lazy<IList<PropertyDependencyWrapper>> propertyDependencies =
             new Lazy<IList<PropertyDependencyWrapper>>(
                 () => new List<PropertyDependencyWrapper>(),
@@ -48,25 +46,6 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         {
             TrySetupPropertyDependencies();
             TrySetupCommandRelevantProperties();
-        }
-
-
-        private void GetLogServiceInstance()
-        {
-            var logServiceFields = GetType()
-                .GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic)
-                .Where(field => field.FieldType == typeof(ILogService));
-
-            if(!logServiceFields.Any())
-                throw new InvalidEnumArgumentException();
-
-            var logService = (ILogService)logServiceFields
-                .First()
-                .GetValue(
-                    this);
-
-
-            _log = logService ?? throw new InvalidEnumArgumentException();
         }
 
 

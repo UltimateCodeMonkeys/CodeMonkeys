@@ -239,7 +239,8 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                 if (commandProperty?.GetValue(this) is ICommand command)
                 {
                     InvokeCommandCanExecuteChanged(
-                        command);
+                        command,
+                        commandProperty.Name);
 
                     return;
                 }
@@ -253,12 +254,14 @@ namespace CodeMonkeys.MVVM.PropertyChanged
 
 
                 InvokeCommandCanExecuteChanged(
-                    command);
+                    command,
+                    property.Name);
             }
         }
 
         private void InvokeCommandCanExecuteChanged(
-            ICommand command)
+            ICommand command,
+            string propertyName)
         {
             if (command == null)
             {
@@ -276,9 +279,6 @@ namespace CodeMonkeys.MVVM.PropertyChanged
 
             if (eventDelegate == null)
             {
-                _log?.Error(
-                    $"Unable to get {typeof(MulticastDelegate).Name} from {command}, cannot invoke {nameof(ICommand.CanExecuteChanged)}");
-
                 return;
             }
 
