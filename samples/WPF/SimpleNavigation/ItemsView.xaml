@@ -9,8 +9,10 @@
       Title="ItemsView">
 
     <StackPanel>
-        <TextBlock Text="Items" />
-        <ListView ItemsSource="{Binding Items}">
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Toggle"  Command="{Binding ToggleSelectedItemCanSelectCommand}" />
+        </StackPanel>
+        <ListView ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Button

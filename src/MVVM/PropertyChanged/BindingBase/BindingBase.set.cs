@@ -123,7 +123,7 @@ namespace CodeMonkeys.MVVM.PropertyChanged
             PropertyChangingEventHandler onPropertyChanging = null,
             [CallerMemberName] string propertyName = "")
         {
-            _logService?.Trace(
+            _log?.Trace(
                 $"Setting value for property {propertyName}.");
 
             SetValue(
@@ -132,7 +132,7 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                 onPropertyChanging,
                 propertyName);
 
-            _logService?.Debug(
+            _log?.Debug(
                 $"Set value for property {propertyName} to '{value}'");
         }
     }

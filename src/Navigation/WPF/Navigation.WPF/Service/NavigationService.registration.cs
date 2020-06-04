@@ -211,7 +211,7 @@ namespace CodeMonkeys.Navigation.WPF
             }
 
             if (typeOfView != null && 
-                !registrations.Any(registration => registration.ViewType.IsAssignableFrom(typeOfView)))
+                !registrations.Any(registration => typeOfView.IsAssignableFrom(registration.ViewType)))
             {
                 return false;
             }

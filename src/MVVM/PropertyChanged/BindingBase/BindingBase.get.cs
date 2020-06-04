@@ -48,16 +48,16 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         protected TProperty GetValueAndLog<TProperty>(
             [CallerMemberName]string propertyName = "")
         {
-            if (_logService == null)
+            if (_log == null)
                 GetLogServiceInstance();
 
-            _logService?.Trace(
+            _log?.Trace(
                 $"Getting value for property '{propertyName}'");
 
             var propertyValue = GetValue<TProperty>(
                 propertyName);
 
-            _logService?.Debug(
+            _log?.Debug(
                 $"Value for property {propertyName}: '{propertyValue}'");
 
             return propertyValue;
