@@ -4,13 +4,17 @@ namespace CodeMonkeys.Logging.Batching
 {
     public class BatchLogOptions : LogOptions
     {
+        private const int DEFAULT_FLUSHPERIOD = 5;
+        private const int DEFAULT_BATCHCAPACITY = 50;
+        private const int DEFAULT_QUEUECAPACITY = 1000;
+
         /// <summary>
         /// The period after which log messages will be flushed to the store.
         /// <para>Default value: <c>5</c> seconds.</para>
         /// </summary>
         public TimeSpan FlushPeriod
         {
-            get => GetValue(TimeSpan.FromSeconds(5));
+            get => GetValue(TimeSpan.FromSeconds(DEFAULT_FLUSHPERIOD));
             set => SetValue(value);
         }
 
@@ -20,7 +24,7 @@ namespace CodeMonkeys.Logging.Batching
         /// </summary>        
         public int? BatchCapacity
         {
-            get => GetValue<int?>(50);
+            get => GetValue<int?>(DEFAULT_BATCHCAPACITY);
             set
             {
                 if (value != null)
@@ -36,7 +40,7 @@ namespace CodeMonkeys.Logging.Batching
         /// </summary>
         public int? QueueCapacity
         {
-            get => GetValue<int?>(1000);
+            get => GetValue<int?>(DEFAULT_QUEUECAPACITY);
             set
             {
                 if (value != null)
