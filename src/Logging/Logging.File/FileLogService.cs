@@ -25,17 +25,13 @@ namespace CodeMonkeys.Logging.File
 
             foreach (var message in messageBatch)
             {
-                try
-                {
-                    var path = CreateLogFilePath();
+                var path = CreateLogFilePath();
 
-                    await System.IO.File.AppendAllTextAsync(
-                        path,
-                        MessageFormatter.Format(
-                            message,
-                            Options.TimeStampFormat));
-                }
-                catch { }
+                await System.IO.File.AppendAllTextAsync(
+                    path,
+                    MessageFormatter.Format(
+                        message,
+                        Options.TimeStampFormat));
             }
 
             ClearObsoleteFiles();

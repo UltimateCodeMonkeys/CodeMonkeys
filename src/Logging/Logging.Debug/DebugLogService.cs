@@ -12,14 +12,10 @@
 
         protected override void PublishMessage(LogMessage message)
         {
-            try
-            {
-                System.Diagnostics.Debug.WriteLine(
-                        MessageFormatter.Format(
-                            message,
-                            Options.TimeStampFormat));
-            }
-            catch { }
+            System.Diagnostics.Debug.WriteLine(
+                    MessageFormatter.Format(
+                        message,
+                        Options.TimeStampFormat));
         }
     }
 }

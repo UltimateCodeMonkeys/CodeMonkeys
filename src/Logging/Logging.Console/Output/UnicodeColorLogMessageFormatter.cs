@@ -17,13 +17,8 @@ namespace CodeMonkeys.Logging.Console
         protected override string FormatLogLevel(LogLevel logLevel)
         {
             var level = base.FormatLogLevel(logLevel);
-
-            if (!ConsoleLogService.Options.ColorizeOutput)
-            {
-                return level;
-            }
-
             var color = _levelColorMapping[logLevel];
+
             return $"{color.Value}{level}\u001b[0m";
         }
     }

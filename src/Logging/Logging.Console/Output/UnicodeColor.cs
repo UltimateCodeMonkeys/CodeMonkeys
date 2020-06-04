@@ -1,14 +1,9 @@
-﻿namespace CodeMonkeys.Logging.Console
+﻿using System;
+
+namespace CodeMonkeys.Logging.Console
 {
-    internal readonly struct UnicodeColor
+    internal readonly struct UnicodeColor : IEquatable<UnicodeColor>
     {
-        internal string Value { get; }
-
-        private UnicodeColor(string value)
-        {
-            Value = value;
-        }
-
         internal static UnicodeColor White =>
             new UnicodeColor("\u001b[37m");
 
@@ -29,5 +24,17 @@
 
         internal static UnicodeColor Cyan =>
             new UnicodeColor("\u001b[36m");
+
+        internal string Value { get; }
+
+        private UnicodeColor(string value)
+        {
+            Value = value;
+        }
+
+        public bool Equals(UnicodeColor other)
+        {
+            return Value == other.Value;
+        }
     }
 }

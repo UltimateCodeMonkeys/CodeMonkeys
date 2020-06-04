@@ -12,7 +12,7 @@ namespace CodeMonkeys.Logging
         /// </summary>
         public LogLevel MinLevel
         {
-            get => GetValue<LogLevel>(DEFAULT_LOGLEVEL);
+            get => GetValue(DEFAULT_LOGLEVEL);
             set => SetValue(value);
         }
 

@@ -25,7 +25,9 @@ namespace CodeMonkeys.Logging
         public bool IsEnabledFor(LogLevel logLevel)
         {
             if (IsEnabled)
+            {
                 return logLevel >= Options.MinLevel;
+            }
 
             return false;
         }
