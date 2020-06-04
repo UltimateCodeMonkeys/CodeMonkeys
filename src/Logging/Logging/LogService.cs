@@ -15,22 +15,22 @@ namespace CodeMonkeys.Logging
             _services = services;
         }
 
-        public void EnableScopedService<TScopedLogService>()
-            where TScopedLogService : IScopedLogService
+        public void EnableScopedService<TScopedService>()
+            where TScopedService : class, IScopedLogService
         {
-            var serviceType = typeof(TScopedLogService);
-            var service = _services.FirstOrDefault(s => s.GetType() == serviceType);
+            if (TryGetScopedService<TScopedService>(out var service))
+            {
+                service.EnableLogging();
+            }
+        }       
 
-            service.DisableLogging();
-        }
-
-        public void DisableScopedService<TService>() 
-            where TService : IScopedLogService
+        public void DisableScopedService<TScopedService>() 
+            where TScopedService : class, IScopedLogService
         {
-            var serviceType = typeof(TService);
-            var service = _services.FirstOrDefault(s => s.GetType() == serviceType);
-
-            service.DisableLogging();
+            if (TryGetScopedService<TScopedService>(out var service))
+            {
+                service.DisableLogging();
+            }
         }
 
         public void Log<TState>(
@@ -41,7 +41,9 @@ namespace CodeMonkeys.Logging
             Func<TState, Exception, string> formatter)
         {
             if (!IsEnabled)
+            {
                 return;
+            }
 
             List<Exception> exceptions = null;
 
@@ -50,7 +52,9 @@ namespace CodeMonkeys.Logging
             foreach (var service in _services)
             {
                 if (!service.IsEnabledFor(logLevel))
+                {
                     continue;
+                }
 
                 try
                 {
@@ -77,15 +81,30 @@ namespace CodeMonkeys.Logging
             Exception ex,
             Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
 
+        private bool TryGetScopedService<TScopedService>(out TScopedService service)
+            where TScopedService : class, IScopedLogService
+        {
+            var serviceType = typeof(TScopedService);
+
+            var scopedService = _services.FirstOrDefault(s => s.GetType() == serviceType);
+            service = scopedService as TScopedService;
+
+            return service != null;
+        }
+
         private Func<TState, Exception, string> DefaultFormatter<TState>(Func<TState, Exception, string> formatter)
         {
             formatter ??= new Func<TState, Exception, string>((s, e) =>
             {
                 if (e == null && s != null)
+                {
                     return s.ToString();
+                }
 
                 if (s == null && e != null)
+                {
                     return e.ToString();
+                }
 
                 return $"{s}:\n{e}";
             });

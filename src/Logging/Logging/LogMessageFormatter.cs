@@ -32,7 +32,7 @@ namespace CodeMonkeys.Logging
 
         protected virtual string FormatLogLevel(LogLevel logLevel)
         {
-            return logLevel.ToString().ToUpper();
+            return logLevel.ToString().ToUpperInvariant();
         }
 
         protected virtual string FormatTimestamp(
