@@ -34,7 +34,7 @@
                 Grid.Column="0"
                 Command="{Binding NavigateBackCommand}"
                 Content="Back" />
-
+            
             <Button
                 Grid.Column="2"
                 Command="{Binding NavigateForwardCommand}"

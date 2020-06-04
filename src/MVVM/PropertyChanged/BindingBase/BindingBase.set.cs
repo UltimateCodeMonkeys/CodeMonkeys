@@ -119,12 +119,14 @@ namespace CodeMonkeys.MVVM.PropertyChanged
 
         protected void SetValueAndLog<TProperty>(
             TProperty value,
+            ILogService logService,
             PropertyChangedEventHandler onPropertyChanged = null,
             PropertyChangingEventHandler onPropertyChanging = null,
             [CallerMemberName] string propertyName = "")
         {
-            _logService?.Trace(
+            logService?.Trace(
                 $"Setting value for property {propertyName}.");
+
 
             SetValue(
                 value,
@@ -132,7 +134,8 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                 onPropertyChanging,
                 propertyName);
 
-            _logService?.Debug(
+
+            logService?.Debug(
                 $"Set value for property {propertyName} to '{value}'");
         }
     }

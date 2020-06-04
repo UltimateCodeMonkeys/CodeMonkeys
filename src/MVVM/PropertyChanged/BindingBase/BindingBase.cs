@@ -1,4 +1,5 @@
 ﻿using CodeMonkeys.Logging;
+using CodeMonkeys.MVVM.Attributes;
 using CodeMonkeys.MVVM.PropertyChanged.Events;
 
 using System;
@@ -13,12 +14,15 @@ namespace CodeMonkeys.MVVM.PropertyChanged
     public partial class BindingBase :
         INotifyPropertyChanged
     {
-        private static ILogService _logService;
-
         private static readonly Lazy<IList<PropertyDependencyWrapper>> propertyDependencies =
             new Lazy<IList<PropertyDependencyWrapper>>(
                 () => new List<PropertyDependencyWrapper>(),
                 isThreadSafe: true);
+
+        private static readonly Lazy<IList<CommandRelevantPropertyWrapper>> commandRelevantProperties =
+           new Lazy<IList<CommandRelevantPropertyWrapper>>(
+               () => new List<CommandRelevantPropertyWrapper>(),
+               isThreadSafe: true);
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -41,27 +45,44 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         protected BindingBase()
         {
             TrySetupPropertyDependencies();
+            TrySetupCommandRelevantProperties();
         }
 
 
-        private void GetLogServiceInstance()
+        private void TrySetupCommandRelevantProperties()
         {
-            var logServiceFields = GetType()
-                .GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic)
-                .Where(field => field.FieldType == typeof(ILogService));
+            var classType = GetType();
 
-            if(!logServiceFields.Any())
-                throw new InvalidEnumArgumentException();
+            if (commandRelevantProperties.Value.Any(
+                relevance => relevance.Class == classType))
+            {
+                return;
+            }
 
-            var logService = (ILogService)logServiceFields
-                .First()
-                .GetValue(
-                    this);
 
-            if(logService == null)
-                throw new InvalidEnumArgumentException();
+            var properties = GetPropertiesDecoratedWith<IsRelevantForCommand>(
+                classType);
 
-            _logService = logService;
+            foreach (var property in properties)
+            {
+                var attribute = property.GetCustomAttribute<IsRelevantForCommand>();
+
+                if (attribute == null)
+                {
+                    continue;
+                }
+
+                var commandRelevance = new CommandRelevantPropertyWrapper
+                {
+                    Class = classType,
+                    PropertyName = property.Name,
+                    CommandName = attribute.CommandName
+                };
+
+
+                commandRelevantProperties.Value.Add(
+                    commandRelevance);
+            }
         }
 
 

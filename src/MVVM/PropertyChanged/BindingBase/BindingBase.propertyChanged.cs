@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
+using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM.Attributes;
 using CodeMonkeys.MVVM.PropertyChanged.Events;
 
@@ -101,9 +102,11 @@ namespace CodeMonkeys.MVVM.PropertyChanged
 
             if (_nestedProperties.ContainsKey(
                 instance))
+            {
                 _nestedProperties.TryRemove(
                     instance,
                     out _);
+            }
         }
 
         private void AppendNestedEventListeners<TProperty>(
@@ -149,7 +152,16 @@ namespace CodeMonkeys.MVVM.PropertyChanged
             RaisePropertyChangedForDependentProperties(
                 propertyName);
 
-            UpdateCommandsCanExecute();
+
+            var commandRelevance = commandRelevantProperties.Value
+                .FirstOrDefault(relevance => relevance.PropertyName.Equals(propertyName));
+
+            if (commandRelevance != null)
+            {
+                UpdateCommandsCanExecute(
+                    commandRelevance);
+            }
+
 
             if (ShallPropertyChangedNotificationBeSuppressed(
                 propertyName))
@@ -189,7 +201,10 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         private IEnumerable<PropertyInfo> GetCommandProperties()
         {
             if (commandProperties.Any())
+            {
                 return commandProperties;
+            }
+
 
             commandProperties = GetType().
                 GetProperties(
@@ -200,33 +215,77 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                         propertyInfo.PropertyType is ICommand
                         || typeof(ICommand).IsAssignableFrom(propertyInfo.PropertyType));
 
+
             return commandProperties;
         }
 
-        private void UpdateCommandsCanExecute()
+        private void UpdateCommandsCanExecute(
+            CommandRelevantPropertyWrapper commandRelevance)
         {
+            if (commandRelevance == null)
+            {
+                return;
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(
+                commandRelevance.CommandName))
+            {
+                var commandProperty = GetCommandProperties()
+                    .FirstOrDefault(
+                        property => property.Name == commandRelevance.CommandName);
+
+
+                if (commandProperty?.GetValue(this) is ICommand command)
+                {
+                    InvokeCommandCanExecuteChanged(
+                        command);
+
+                    return;
+                }
+            }
+
+
             foreach (var property in GetCommandProperties())
             {
                 if (!(property.GetValue(this) is ICommand command))
-                    return;
+                    continue;
 
-                var eventDelegate = (MulticastDelegate)command
-                    .GetType()
-                    .GetField(
-                        nameof(command.CanExecuteChanged),
-                        BindingFlags.Instance | BindingFlags.NonPublic)
-                    .GetValue(command);
 
-                if (eventDelegate == null)
-                    return;
+                InvokeCommandCanExecuteChanged(
+                    command);
+            }
+        }
 
-                foreach (var eventHandler in eventDelegate.GetInvocationList())
-                {
-                    eventHandler.Method
-                        .Invoke(
-                            eventHandler.Target,
-                            new object[] { command, EventArgs.Empty });
-                }
+        private void InvokeCommandCanExecuteChanged(
+            ICommand command)
+        {
+            if (command == null)
+            {
+                return;
+            }
+
+
+            var eventDelegate = (MulticastDelegate)command
+                .GetType()
+                .GetField(
+                    nameof(command.CanExecuteChanged),
+                    BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(command);
+
+
+            if (eventDelegate == null)
+            {
+                return;
+            }
+
+
+            foreach (var eventHandler in eventDelegate.GetInvocationList())
+            {
+                eventHandler.Method
+                    .Invoke(
+                        eventHandler.Target,
+                        new object[] { command, EventArgs.Empty });
             }
         }
 

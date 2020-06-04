@@ -1,5 +1,7 @@
-﻿using CodeMonkeys.MVVM.Commands;
+﻿using CodeMonkeys.MVVM.Attributes;
+using CodeMonkeys.MVVM.Commands;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -14,14 +16,27 @@ namespace CodeMonkeys.Samples.ViewModels
             set => SetValue(value);
         }
         
+        [IsRelevantForCommand(nameof(ToggleSelectedItemCanSelectCommand))]
+        public ItemViewModel SelectedItem
+        {
+            get => GetValue<ItemViewModel>();
+            set => SetValue(value);
+        }
+
+
         public ICommand LoadItemsCommand { get; }
+        public ICommand ToggleSelectedItemCanSelectCommand { get; }
 
 
         public ItemsViewModel()
         {
             Title = "Browse";
             Items = new ObservableCollection<ItemViewModel>();
+
             LoadItemsCommand = new Command(GenerateItems);
+            ToggleSelectedItemCanSelectCommand = new Command(
+                ToggleItemCanSelect,
+                CanToggleItemCanSelect);
         }
 
 
@@ -46,7 +61,20 @@ namespace CodeMonkeys.Samples.ViewModels
                 Items.Add(viewModel);
             }
 
+
+            Items.First().CanSelect = true;
+
             IsBusy = false;
+        }
+
+        private void ToggleItemCanSelect()
+        {
+            SelectedItem.CanSelect = !SelectedItem.CanSelect;
+        }
+
+        private bool CanToggleItemCanSelect()
+        {
+            return SelectedItem != null;
         }
 
 
