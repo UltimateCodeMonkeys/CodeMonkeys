@@ -239,8 +239,7 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                 if (commandProperty?.GetValue(this) is ICommand command)
                 {
                     InvokeCommandCanExecuteChanged(
-                        command,
-                        commandProperty.Name);
+                        command);
 
                     return;
                 }
@@ -254,14 +253,12 @@ namespace CodeMonkeys.MVVM.PropertyChanged
 
 
                 InvokeCommandCanExecuteChanged(
-                    command,
-                    property.Name);
+                    command);
             }
         }
 
         private void InvokeCommandCanExecuteChanged(
-            ICommand command,
-            string propertyName)
+            ICommand command)
         {
             if (command == null)
             {
