@@ -15,7 +15,9 @@ namespace CodeMonkeys.Logging.Batching
             protected set
             {
                 if (value)
+                {
                     Run();
+                }
 
                 base.IsEnabled = value;
             }
@@ -31,23 +33,14 @@ namespace CodeMonkeys.Logging.Batching
 
         protected override void PublishMessage(LogMessage message)
         {
-            if (_queue.IsAddingCompleted)
-                return;
-
-            try
-            {
-                _queue.Add(message);
-            }
-            catch { }
+            _queue.Add(message);
         }
 
         private void Run()
         {
             _queue = Options.QueueCapacity == null ?
-                new BlockingCollection<LogMessage>(new ConcurrentQueue<LogMessage>()) :
-                new BlockingCollection<LogMessage>(
-                    new ConcurrentQueue<LogMessage>(),
-                    Options.QueueCapacity.Value);
+                new BlockingCollection<LogMessage>() :
+                new BlockingCollection<LogMessage>(Options.QueueCapacity.Value);
 
             Task.Run(ProcessingLoop);
         }
