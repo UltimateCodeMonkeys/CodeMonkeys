@@ -55,9 +55,11 @@ namespace CodeMonkeys.Logging
                 nameof(provider));
 
             var providerType = typeof(TProvider);
-            
+
             if (!_providerTypes.Add(providerType))
+            {
                 throw new InvalidOperationException($"The type '{providerType}' is already registered!");
+            }
 
             _providers.Add(provider);
         }

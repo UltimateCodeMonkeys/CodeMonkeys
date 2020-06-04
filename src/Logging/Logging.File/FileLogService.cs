@@ -88,7 +88,9 @@ namespace CodeMonkeys.Logging.File
         private void ClearObsoleteFiles()
         {
             if (Options.MaxFilesToRetain == null)
+            {
                 return;
+            }
 
             var filesToRemove = new DirectoryInfo(Options.Directory)
                 .GetFiles(Options.FileNamePrefix + "*." + Options.Extension)
