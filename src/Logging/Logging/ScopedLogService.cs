@@ -58,7 +58,10 @@ namespace CodeMonkeys.Logging
             LogLevel logLevel,
             TState state,
             Exception ex,
-            Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
+            Func<TState, Exception, string> formatter)
+        {
+            Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
+        }
 
         protected abstract void PublishMessage(LogMessage message);
 
