@@ -2,10 +2,16 @@
 
 namespace CodeMonkeys.Configuration
 {
-    public abstract class Options
+    public class Options
     {
         private readonly PropertyBag _propertyBag
             = new PropertyBag();
+
+
+        protected Options()
+        {
+        }
+
 
         protected bool SetValue<TProperty>(
             TProperty value,

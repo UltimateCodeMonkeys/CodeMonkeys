@@ -1,4 +1,4 @@
-﻿using CodeMonkeys.Logging.Configuration;
+﻿using CodeMonkeys.Logging;
 
 namespace CodeMonkeys.UnitTests.Logging.Mocks
 {
