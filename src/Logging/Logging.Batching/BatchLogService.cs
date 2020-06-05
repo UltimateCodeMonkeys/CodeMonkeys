@@ -16,18 +16,15 @@ namespace CodeMonkeys.Logging.Batching
             {
                 if (value)
                 {
-                    Run();
+                    StartProcessingLoop();
                 }
 
                 base.IsEnabled = value;
             }
         }
 
-        protected BatchLogService(string context) 
-            : base(context)
-        {
-            Run();
-        }
+        protected BatchLogService(string context)
+            : base(context) => StartProcessingLoop();
 
         protected abstract Task PublishMessageBatch(IEnumerable<LogMessage> messageBatch);
 
@@ -36,7 +33,7 @@ namespace CodeMonkeys.Logging.Batching
             _queue.Add(message);
         }
 
-        private void Run()
+        private void StartProcessingLoop()
         {
             _queue = Options.QueueCapacity == null ?
                 new BlockingCollection<LogMessage>() :
