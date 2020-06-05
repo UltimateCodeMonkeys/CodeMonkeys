@@ -7,14 +7,8 @@ namespace CodeMonkeys.MVVM.PropertyChanged
     {
         public bool UseCommandRelevanceAttribute
         {
-            get => GetValue<bool>();
+            get => GetValue<bool>(true);
             set => SetValue(value);
-        }
-
-
-        public BindingBaseOptions()
-        {
-            UseCommandRelevanceAttribute = true;
         }
     }
 }

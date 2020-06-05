@@ -1,7 +1,4 @@
-﻿using CodeMonkeys.Configuration;
-using CodeMonkeys.Logging;
-using CodeMonkeys.MVVM.Attributes;
-using CodeMonkeys.MVVM.PropertyChanged.BindingBase;
+﻿using CodeMonkeys.MVVM.Attributes;
 using CodeMonkeys.MVVM.PropertyChanged.Events;
 
 using System;

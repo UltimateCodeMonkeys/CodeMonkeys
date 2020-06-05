@@ -35,4 +35,8 @@
     <ProjectReference Include="..\..\Navigation\Xamarin.Forms\Navigation.Xamarin.Forms\Navigation.Xamarin.Forms.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logging\Extensions\" />
+  </ItemGroup>
+
 </Project>

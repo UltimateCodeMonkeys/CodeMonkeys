@@ -10,7 +10,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     public partial class NavigationService
     {
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface}" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.CloseAsync{TViewModel}" />
         public virtual async Task CloseAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
@@ -33,7 +33,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 .ConfigureAwait(false);
         }
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface}" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.CloseAsync{TViewModel, TInterestedViewModel}" />
         public virtual async Task CloseAsync<TViewModel, TInterestedViewModel>()
 
             where TViewModel : class, IViewModel
@@ -58,7 +58,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 .ConfigureAwait(false);
         }
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface, TResult}(TResult)" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.CloseAsync{TViewModel, TInterestedViewModel, TResult}(TResult)" />
         public virtual async Task CloseAsync<TViewModel, TInterestedViewModel, TData>(
             TData data)
 

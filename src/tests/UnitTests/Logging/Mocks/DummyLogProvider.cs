@@ -2,21 +2,18 @@
 
 namespace CodeMonkeys.UnitTests.Logging.Mocks
 {
-    public class DummyLogProvider : LogServiceProvider<DummyLogOptions>
+    public class DummyLogProvider :
+        ILogServiceProvider
     {
-        public DummyLogProvider(DummyLogOptions options) 
-            : base(options)
+        public DummyLogProvider()
         {
         }
 
-        public override ILogService Create(string context)
+        public IScopedLogService Create(
+            string context)
         {
-            return null;
-        }
-
-        public override void ProcessMessage(LogMessage message)
-        {
-            return;
+            return new DummyLogService(
+                context);
         }
     }
 }
