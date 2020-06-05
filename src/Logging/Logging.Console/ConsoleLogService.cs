@@ -1,45 +1,25 @@
-﻿using static CodeMonkeys.Argument;
-
-using System;
-
-namespace CodeMonkeys.Logging.Console
+﻿namespace CodeMonkeys.Logging.Console
 {
-    internal sealed class ConsoleLogService : ILogService
+    /// <summary>
+    /// <see cref="IScopedLogService"/> which writes to <see cref="System.Console"/>.
+    /// </summary>
+    public sealed class ConsoleLogService : ScopedLogService<ConsoleLogOptions>
     {
-        private readonly ConsoleLogServiceProvider _provider;
-        private readonly string _context;
-
-        internal ConsoleLogService(
-            ConsoleLogServiceProvider provider, 
-            string context)
+        internal ConsoleLogService(string context)
+            : base(context)
         {
-            _provider = provider;
-            _context = context;
+            if (Options.ColorizeOutput)
+            {
+                MessageFormatter = new LogMessageColorizer();
+            }
         }
 
-        public bool IsEnabledFor(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
-
-        public void Log<TState>(
-            DateTimeOffset timestamp, 
-            LogLevel logLevel, 
-            TState state, 
-            Exception ex, 
-            Func<TState, Exception, string> formatter)
+        protected override void PublishMessage(LogMessage message)
         {
-            NotNull(formatter, nameof(formatter));
-
-            _provider.ProcessMessage(new LogMessage(
-                timestamp,
-                logLevel,
-                formatter(state, ex),
-                _context,
-                ex));
+            System.Console.WriteLine(
+                MessageFormatter.Format(
+                        message,
+                        Options.TimeStampFormat));
         }
-
-        public void Log<TState>(
-            LogLevel logLevel, 
-            TState state, 
-            Exception ex, 
-            Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
     }
 }

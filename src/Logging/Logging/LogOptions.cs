@@ -1,25 +1,18 @@
 ﻿using CodeMonkeys.Configuration;
 
-namespace CodeMonkeys.Logging.Configuration
+namespace CodeMonkeys.Logging
 {
     public abstract class LogOptions : Options
     {
-        /// <summary>
-        /// Flag which indicates if the service or provider accepts and queues writes.
-        /// <para>Defaults to <see langword="true"/>.</para>
-        /// </summary>
-        public bool IsEnabled
-        {
-            get => GetValue<bool>();
-            set => SetValue(value);
-        }
+        private const LogLevel DEFAULT_LOGLEVEL = LogLevel.Info;
+        private const string DEFAULT_TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss.fff zzz";
 
         /// <summary>
         /// All messages below this level are NOT accepted and queued.
         /// </summary>
         public LogLevel MinLevel
         {
-            get => GetValue<LogLevel>();
+            get => GetValue(DEFAULT_LOGLEVEL);
             set => SetValue(value);
         }
 
@@ -28,18 +21,12 @@ namespace CodeMonkeys.Logging.Configuration
         /// </summary>
         public string TimeStampFormat
         {
-            get => GetValue<string>();
+            get => GetValue<string>(DEFAULT_TIMESTAMP_FORMAT);
             set
             {
                 Property.NotEmptyOrWhiteSpace(value);
                 SetValue(value);
             }
-        }
-
-        protected LogOptions()
-        {
-            IsEnabled = true;
-            TimeStampFormat = "yyyy-MM-dd HH:mm:ss.fff zzz";
         }
     }
 }

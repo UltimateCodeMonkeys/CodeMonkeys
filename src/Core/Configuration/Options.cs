@@ -1,25 +1,11 @@
-﻿using Microsoft.Extensions.Primitives;
-using System.Runtime.CompilerServices;
-using System.Threading;
+﻿using System.Runtime.CompilerServices;
 
 namespace CodeMonkeys.Configuration
 {
     public abstract class Options
     {
-        private OptionsChangeToken _token = new OptionsChangeToken();
-
         private readonly PropertyBag _propertyBag
             = new PropertyBag();
-
-        public IChangeToken GetChangeToken() => _token;
-
-        protected void SetValueAndReload<TProperty>(
-            TProperty value,
-            [CallerMemberName]string propertyName = "")
-        {
-            SetValue(value, propertyName);
-            Reload();
-        }
 
         protected bool SetValue<TProperty>(
             TProperty value,
@@ -37,10 +23,13 @@ namespace CodeMonkeys.Configuration
                 propertyName);
         }
 
-        private void Reload()
+        public TProperty GetValue<TProperty>(
+            TProperty defaultValue,
+            [CallerMemberName]string propertyName = "")
         {
-            var previousToken = Interlocked.Exchange(ref _token, new OptionsChangeToken());
-            previousToken.OnReload();
+            return _propertyBag.GetValue(
+                defaultValue,
+                propertyName);
         }
     }
 }
