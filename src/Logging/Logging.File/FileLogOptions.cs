@@ -1,38 +1,87 @@
 ﻿using CodeMonkeys.Logging.Batching;
 
+using System;
+
 namespace CodeMonkeys.Logging.File
 {
-    public class FileLogOptions : BatchingLogOptions
+    public class FileLogOptions : BatchLogOptions
     {
-        private string _name;
-        private string _extension;
+        private readonly string DEFAULT_FILENAMEPREFIX = $"log-{DateTime.Now.ToShortDateString()}";
+        private const string DEFAULT_EXTENSION = "txt";
+        private readonly string DEFAULT_DIRECTORY = $"{Environment.CurrentDirectory}\\logs";
 
         /// <summary>
-        /// Name of the file in which the log messages should be written.
-        /// <para>Defaults to 'log'</para>
-        /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
+        /// Contains the file name prefix to use for log files.
+        /// <para>Default value: '_log'</para>
         /// </summary>
-        public string FileName
+        public string FileNamePrefix
         {
-            get => _name;
-            set => SetValue(ref _name, value);
+            get => GetValue<string>(DEFAULT_FILENAMEPREFIX);
+            set
+            {
+                Property.NotEmptyOrWhiteSpace(value);
+                SetValue(value);
+            }
         }
 
         /// <summary>
-        /// File extension of <see cref="FileName"/>.
-        /// <para>Defaults to 'txt'</para>
-        /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
+        /// File extension of <see cref="FileNamePrefix"/>.
+        /// <para>Default value: 'txt'</para>
         /// </summary>
         public string Extension
         {
-            get => _extension;
-            set => SetValue(ref _extension, value?.TrimStart('.'));
+            get => GetValue<string>(DEFAULT_EXTENSION);
+            set
+            {
+                Property.NotEmptyOrWhiteSpace(value);
+                SetValue(value?.TrimStart('.'));
+            }
         }
 
-        public FileLogOptions()
+        /// <summary>
+        /// The max size of a log file in bytes or <see langword="null"/> for no limit.
+        /// <para>Default value: <see langword="null"/></para>
+        /// </summary>
+        public long? MaxFileSize
         {
-            FileName = "log";
-            Extension = "txt";
+            get => GetValue<long?>();
+            set
+            {
+                if (value != null)
+                    Property.GreaterThan(value.Value, 0);
+
+                SetValue(value);
+            }
+        }
+
+        /// <summary>
+        /// The maximum retained file count or <see langword="null"/> for no limit.
+        /// <para>Default value: <see langword="null"/></para>
+        /// </summary>
+        public int? MaxFilesToRetain
+        {
+            get => GetValue<int?>();
+            set
+            {
+                if (value != null)
+                    Property.GreaterThan(value.Value, 0);
+
+                SetValue(value);
+            }
+        }
+
+        /// <summary>
+        /// Contains the path to the directory where the log files should be stored
+        /// <para>Default value: 'CurrentDirectory\logs'</para>
+        /// </summary>
+        public string Directory
+        {
+            get => GetValue<string>(DEFAULT_DIRECTORY);
+            set
+            {
+                Property.NotEmptyOrWhiteSpace(value);
+                SetValue(value);
+            }
         }
     }
 }

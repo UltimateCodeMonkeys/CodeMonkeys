@@ -1,5 +1,5 @@
 ﻿using CodeMonkeys.Logging;
-
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -17,9 +17,8 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         protected TProperty GetValue<TProperty>(
             [CallerMemberName]string propertyName = "")
         {
-            return (TProperty)_properties.GetOrAdd(
-                propertyName,
-                default(TProperty));
+            return _propertyBag.GetValue<TProperty>(
+                propertyName);
         }
 
         /// <summary>
@@ -33,9 +32,9 @@ namespace CodeMonkeys.MVVM.PropertyChanged
             TProperty defaultValue,
             [CallerMemberName]string propertyName = "")
         {
-            return (TProperty)_properties.GetOrAdd(
-                propertyName,
-                defaultValue);
+            return _propertyBag.GetValue(
+                defaultValue,
+                propertyName);
         }
 
         /// <summary>
@@ -47,19 +46,20 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         /// <param name="propertyName">Name of the property to retrieves the value for</param>
         /// <exception cref="InvalidOperationException">If no field (static or instance) of type <see cref="ILogService"/> is defined</exception>
         protected TProperty GetValueAndLog<TProperty>(
+            ILogService logService,
             [CallerMemberName]string propertyName = "")
         {
-            if (_logService == null)
-                GetLogServiceInstance();
-
-            _logService?.Trace(
+            logService?.Trace(
                 $"Getting value for property '{propertyName}'");
+
 
             var propertyValue = GetValue<TProperty>(
                 propertyName);
 
-            _logService?.Debug(
+
+            logService?.Debug(
                 $"Value for property {propertyName}: '{propertyValue}'");
+
 
             return propertyValue;
         }

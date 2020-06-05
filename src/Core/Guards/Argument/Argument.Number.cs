@@ -5,8 +5,8 @@ namespace CodeMonkeys
     public static partial class Argument
     {
         public static void GreaterThan(
-            int? param,
-            int? value,
+            long param,
+            long value,
             string paramName,
             string message = "")
         {

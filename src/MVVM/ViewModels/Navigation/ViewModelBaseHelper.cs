@@ -84,7 +84,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
                 closeAsyncMethodInfos = viewModel.NavigationService.Value
                     .GetType()
                     .GetMethods()
-                    .Where(m => m.Name == nameof(IViewModelNavigationService.CloseAsync));
+                    .Where(m => m.Name == nameof(INavigationService.CloseAsync));
             }
 
             return closeAsyncMethodInfos;                

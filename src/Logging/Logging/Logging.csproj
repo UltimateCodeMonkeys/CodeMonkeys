@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Logging</AssemblyName>
     <RootNamespace>CodeMonkeys.Logging</RootNamespace>
-    <Version>2.0.8</Version>
+    <Version>2.1.0</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
@@ -34,12 +34,6 @@
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Extensions\**" />
-    <EmbeddedResource Remove="Extensions\**" />
-    <None Remove="Extensions\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />

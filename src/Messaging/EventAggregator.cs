@@ -43,7 +43,7 @@ namespace CodeMonkeys.Messaging
                 @event,
                 nameof(@event));
 
-            PublishAsync(@event);
+            _ = PublishAsync(@event);
         }
 
         /// <inheritdoc/>

@@ -13,7 +13,7 @@ namespace CodeMonkeys.UnitTests.Dialogs
         [SetUp]
         public void Setup()
         {
-            _service = new DialogService(new DialogOptions());
+            _service = new DialogService();
         }
 
         [Test]

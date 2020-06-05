@@ -15,6 +15,7 @@
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.495" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +28,15 @@
     <ProjectReference Include="..\..\Logging\Logging.File\Logging.File.csproj" />
     <ProjectReference Include="..\..\Logging\Logging\Logging.csproj" />
     <ProjectReference Include="..\..\Messaging\Messaging.csproj" />
+    <ProjectReference Include="..\..\Navigation\Navigation\Navigation.csproj" />
+    <ProjectReference Include="..\..\Navigation\WPF\Navigation.WPF.Interfaces\Navigation.WPF.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Navigation\WPF\Navigation.WPF\Navigation.WPF.csproj" />
+    <ProjectReference Include="..\..\Navigation\Xamarin.Forms\Navigation.Xamarin.Forms.Interfaces\Navigation.Xamarin.Forms.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Navigation\Xamarin.Forms\Navigation.Xamarin.Forms\Navigation.Xamarin.Forms.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Logging\Extensions\" />
   </ItemGroup>
 
 </Project>

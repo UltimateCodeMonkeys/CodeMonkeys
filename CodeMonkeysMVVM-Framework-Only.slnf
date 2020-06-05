@@ -1,0 +1,26 @@
+{
+  "solution": {
+    "path": "CodeMonkeysMVVM.sln",
+    "projects": [
+      "src\\Core\\Core.csproj",
+      "src\\DependencyInjection\\DependencyInjection.DryIoC\\DependencyInjection.DryIoC.csproj",
+      "src\\DependencyInjection\\DependencyInjection.Ninject\\DependencyInjection.Ninject.csproj",
+      "src\\DependencyInjection\\DependencyInjection\\DependencyInjection.csproj",
+      "src\\Dialogs\\Dialogs.Xamarin.Forms\\Dialogs.Xamarin.Forms.csproj",
+      "src\\Dialogs\\Dialogs\\Dialogs.csproj",
+      "src\\Logging\\Logging.Batching\\Logging.Batching.csproj",
+      "src\\Logging\\Logging.Console\\Logging.Console.csproj",
+      "src\\Logging\\Logging.Debug\\Logging.Debug.csproj",
+      "src\\Logging\\Logging.File\\Logging.File.csproj",
+      "src\\Logging\\Logging\\Logging.csproj",
+      "src\\MVVM\\MVVM.csproj",
+      "src\\Messaging\\Messaging.csproj",
+      "src\\Navigation\\Xamarin.Forms\\Navigation.Xamarin.Forms\\Navigation.Xamarin.Forms.csproj",
+      "src\\Navigation\\Xamarin.Forms\\Navigation.Xamarin.Forms.Interfaces\\Navigation.Xamarin.Forms.Interfaces.csproj",
+      "src\\Navigation\\WPF\\Navigation.WPF\\Navigation.WPF.csproj",
+      "src\\Navigation\\WPF\\Navigation.WPF.Interfaces\\Navigation.WPF.Interfaces.csproj",
+      "src\\Navigation\\Navigation\\Navigation.csproj",
+      "src\\tests\\UnitTests\\UnitTests.csproj"
+    ]
+  }
+}

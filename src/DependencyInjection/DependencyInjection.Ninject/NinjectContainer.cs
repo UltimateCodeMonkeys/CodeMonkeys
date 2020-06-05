@@ -9,11 +9,13 @@ namespace CodeMonkeys.DependencyInjection.Ninject
 {
     internal class NinjectDependencyContainer :
         DependencyContainer,
+
         IDependencyContainer
     {
         private static StandardKernel container;
 
-        internal override void SetContainer(object instance)
+        internal override void SetContainer(
+            object instance)
         {
             if (instance is StandardKernel kernel)
             {
@@ -38,6 +40,43 @@ namespace CodeMonkeys.DependencyInjection.Ninject
 
             return container.TryGetAndThrowOnInvalidBinding<TResolve>();
         }
+
+        public TImplementation Resolve<TImplementation>(
+            Type serviceType)
+
+            where TImplementation : class
+        {
+            if (!container.CanResolve(
+                serviceType))
+            {
+                throw new KeyNotFoundException(
+                    $"There is no registration for the type '{serviceType.Name}'. Check your bootstrap!");
+            }
+
+            var instance = container.Get(serviceType);
+
+            if (!(instance is TImplementation implementation))
+                return null;
+
+
+            return implementation;
+        }
+
+        public object Resolve(
+            Type serviceType)
+        {
+            if (!container.CanResolve(
+                serviceType))
+            {
+                throw new KeyNotFoundException(
+                    $"There is no registration for the type '{serviceType.Name}'. Check your bootstrap!");
+            }
+
+
+            return container.Get(
+                serviceType);
+        }
+
 
         public void RegisterType<TImplementation>()
         {

@@ -11,10 +11,6 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
         OptionsConsumer<DialogOptions>,
         IDialogService
     {
-        private string _defaultCloseLabel;
-        private string _defaultConfirmLabel;
-        private string _defaultDeclineLabel;
-
         private readonly Func<string, Exception, string> _defaultErrorFormatter = (message, exception) =>
         {
             if (exception == null && message != null)
@@ -26,12 +22,6 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             return $"{message}:\n{exception}";
         };
 
-        public DialogService(DialogOptions options)
-            : base(options)
-        {
-            OnOptionsChanged(options);
-        }
-
         /// <inheritdoc />
         public async Task ShowAlertAsync(
             string title,
@@ -40,7 +30,7 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             await ShowAlertAsync(
                 title,
                 message,
-                _defaultCloseLabel);
+                Options.DefaultCloseLabel);
         }
 
         /// <inheritdoc />
@@ -52,7 +42,7 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             await ShowAlertAsync(
                 title,
                 message,
-                _defaultCloseLabel,
+                Options.DefaultCloseLabel,
                 onDialogClosed);
         }
 
@@ -80,7 +70,7 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             await ShowErrorAsync(
                 title,
                 message,
-                _defaultCloseLabel,
+                Options.DefaultCloseLabel,
                 exception, 
                 null,
                 null);
@@ -96,7 +86,7 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             await ShowErrorAsync(
                 title,
                 message,
-                _defaultCloseLabel,
+                Options.DefaultCloseLabel,
                 exception,
                 null,
                 closeCallback);
@@ -127,8 +117,8 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             return await ShowConfirmationAsync(
                 title,
                 message,
-                _defaultConfirmLabel,
-                _defaultDeclineLabel);
+                Options.DefaultConfirmLabel,
+                Options.DefaultDeclineLabel);
         }
 
         /// <inheritdoc />
@@ -143,13 +133,6 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
                 message,
                 confirmButtonLabel,
                 declineButtonLabel);
-        }
-
-        protected override void OnOptionsChanged(DialogOptions options)
-        {
-            _defaultCloseLabel = options.DefaultCloseLabel;
-            _defaultConfirmLabel = options.DefaultConfirmLabel;
-            _defaultDeclineLabel = options.DefaultDeclineLabel;
         }
 
         private async Task ShowErrorAsync(

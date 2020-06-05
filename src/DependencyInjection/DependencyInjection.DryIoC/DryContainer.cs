@@ -11,7 +11,8 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
     {
         private IContainer container;
 
-        internal override void SetContainer(object instance)
+        internal override void SetContainer(
+            object instance)
         {
             if (instance is IContainer dryContainer)
             {
@@ -24,18 +25,44 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
         }
 
         public TInterfaceToResolve Resolve<TInterfaceToResolve>()
+
             where TInterfaceToResolve : class
         {
             return container.Resolve<TInterfaceToResolve>();
         }
 
+        public TImplementation Resolve<TImplementation>(
+            Type interfaceType)
 
-        public void RegisterInstance<TInstance>(TInstance instance) where TInstance : class
+            where TImplementation : class
+        {
+            var instance = container.Resolve(interfaceType);
+
+
+            if (!(instance is TImplementation implementation))
+                return null;
+
+
+            return implementation;
+        }
+
+        public object Resolve(
+            Type interfaceType)
+        {
+            return container.Resolve(interfaceType);
+        }
+
+
+        public void RegisterInstance<TInstance>(TInstance instance)
+            
+            where TInstance : class
         {
             container.RegisterInstance(instance);
         }
 
-        public void RegisterInstance<TInstance>(Func<TInstance> factoryFunc) where TInstance : class
+        public void RegisterInstance<TInstance>(Func<TInstance> factoryFunc)
+            
+            where TInstance : class
         {
             container.RegisterInstance(factoryFunc.Invoke());
         }
@@ -52,6 +79,7 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
         }
 
         public void RegisterSingleton<TInterface, TImplementation>()
+
             where TInterface : class
             where TImplementation : class, TInterface
         {
@@ -80,14 +108,11 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
         }
 
         public void RegisterType<TInterface, TImplementation>()
+
             where TInterface : class
             where TImplementation : class, TInterface
         {
             container.Register<TInterface, TImplementation>();
         }
-
-
-
-        
     }
 }

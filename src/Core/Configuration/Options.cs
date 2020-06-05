@@ -1,30 +1,41 @@
-﻿using Microsoft.Extensions.Primitives;
-
-using System.Threading;
+﻿using System.Runtime.CompilerServices;
 
 namespace CodeMonkeys.Configuration
 {
-    public abstract class Options
+    public class Options
     {
-        private OptionsChangeToken _token = new OptionsChangeToken();
+        private readonly PropertyBag _propertyBag
+            = new PropertyBag();
 
-        public IChangeToken GetChangeToken() => _token;
 
-        protected void SetValue<T>(
-            ref T field, 
-            T value, 
-            bool reload = true)
+        protected Options()
         {
-            field = value;
-
-            if (reload)
-                Reload();
         }
 
-        private void Reload()
+
+        protected bool SetValue<TProperty>(
+            TProperty value,
+            [CallerMemberName]string propertyName = "")
         {
-            var previousToken = Interlocked.Exchange(ref _token, new OptionsChangeToken());
-            previousToken.OnReload();
+            return _propertyBag.SetValue(
+                value,
+                propertyName);
+        }
+
+        public TProperty GetValue<TProperty>(
+            [CallerMemberName]string propertyName = "")
+        {
+            return _propertyBag.GetValue<TProperty>(
+                propertyName);
+        }
+
+        public TProperty GetValue<TProperty>(
+            TProperty defaultValue,
+            [CallerMemberName]string propertyName = "")
+        {
+            return _propertyBag.GetValue(
+                defaultValue,
+                propertyName);
         }
     }
 }
