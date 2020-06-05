@@ -128,7 +128,7 @@ jobs:
           PROJECT_FILE_PATH: src/Navigation/WPF/Navigation.WPF/Navigation.WPF.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          PACKAGE_NAME: CodeMonkeys.Navigation.Xamarin.Forms
+          PACKAGE_NAME: CodeMonkeys.Navigation.Navigation.WPF
 
       - name: Publish CodeMonkeys.Navigation.WPF.Interfaces
         uses: rohith/publish-nuget@v2.5.2
@@ -136,7 +136,7 @@ jobs:
           PROJECT_FILE_PATH: src/Navigation/WPF/Navigation.WPF.Interfaces/Navigation.WPF.Interfaces.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          PACKAGE_NAME: CodeMonkeys.Navigation.Xamarin.Forms
+          PACKAGE_NAME: CodeMonkeys.Navigation.Navigation.WPF.Interfaces
 
       - name: Publish CodeMonkeys.Navigation.Xamarin.Forms
         uses: rohith/publish-nuget@v2.5.2
@@ -152,4 +152,4 @@ jobs:
           PROJECT_FILE_PATH: src/Navigation/Xamarin.Forms/Navigation.Xamarin.Forms.Interfaces/Navigation.Xamarin.Forms.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          PACKAGE_NAME: CodeMonkeys.Navigation.Xamarin.Forms
+          PACKAGE_NAME: CodeMonkeys.Navigation.Xamarin.Forms.Interfaces
