@@ -1,5 +1,7 @@
-﻿using CodeMonkeys.Logging;
+﻿using CodeMonkeys.Configuration;
+using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM.Attributes;
+using CodeMonkeys.MVVM.PropertyChanged.BindingBase;
 using CodeMonkeys.MVVM.PropertyChanged.Events;
 
 using System;
@@ -23,6 +25,11 @@ namespace CodeMonkeys.MVVM.PropertyChanged
            new Lazy<IList<CommandRelevantPropertyWrapper>>(
                () => new List<CommandRelevantPropertyWrapper>(),
                isThreadSafe: true);
+
+
+        public static BindingBaseOptions Options { get; set; } =
+            new BindingBaseOptions();
+
 
 
         public event PropertyChangedEventHandler PropertyChanged;

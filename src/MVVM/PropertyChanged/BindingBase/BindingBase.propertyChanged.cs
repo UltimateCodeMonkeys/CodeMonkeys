@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM.Attributes;
 using CodeMonkeys.MVVM.PropertyChanged.Events;
 
@@ -156,7 +155,8 @@ namespace CodeMonkeys.MVVM.PropertyChanged
             var commandRelevance = commandRelevantProperties.Value
                 .FirstOrDefault(relevance => relevance.PropertyName.Equals(propertyName));
 
-            if (commandRelevance != null)
+            if (!Options.UseCommandRelevanceAttribute ||
+                commandRelevance != null)
             {
                 UpdateCommandsCanExecute(
                     commandRelevance);
@@ -228,7 +228,8 @@ namespace CodeMonkeys.MVVM.PropertyChanged
             }
 
 
-            if (!string.IsNullOrWhiteSpace(
+            if (Options.UseCommandRelevanceAttribute &&
+                !string.IsNullOrWhiteSpace(
                 commandRelevance.CommandName))
             {
                 var commandProperty = GetCommandProperties()

@@ -4,12 +4,18 @@ using System.Threading;
 
 namespace CodeMonkeys.Configuration
 {
-    public abstract class Options
+    public class Options
     {
         private OptionsChangeToken _token = new OptionsChangeToken();
 
         private readonly PropertyBag _propertyBag
             = new PropertyBag();
+
+
+        protected Options()
+        {
+        }
+
 
         public IChangeToken GetChangeToken() => _token;
 
