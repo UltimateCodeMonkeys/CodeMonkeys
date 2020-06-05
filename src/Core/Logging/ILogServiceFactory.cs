@@ -6,5 +6,8 @@
 
         void AddProvider<TProvider>(TProvider provider)
             where TProvider : class, ILogServiceProvider;
+
+        void AddProvider<TProvider>()
+            where TProvider : class, ILogServiceProvider, new();
     }
 }

@@ -1,45 +1,21 @@
-﻿using static CodeMonkeys.Argument;
-
-using System;
-
-namespace CodeMonkeys.Logging.Debug
+﻿namespace CodeMonkeys.Logging.Debug
 {
-    internal sealed class DebugLogService : ILogService
+    /// <summary>
+    /// <see cref="IScopedLogService"/> which writes to <see cref="System.Diagnostics.Debug"/>.
+    /// </summary>
+    public sealed class DebugLogService : ScopedLogService<DebugLogOptions>
     {
-        private readonly DebugLogServiceProvider _provider;
-        private readonly string _context;
-
-        internal DebugLogService(
-            DebugLogServiceProvider provider, 
-            string context)
+        internal DebugLogService(string context)
+            : base(context)
         {
-            _provider = provider;
-            _context = context;
         }
 
-        public bool IsEnabledFor(LogLevel logLevel) => _provider.IsEnabledFor(logLevel);
-
-        public void Log<TState>(
-            DateTimeOffset timestamp, 
-            LogLevel logLevel, 
-            TState state, 
-            Exception ex, 
-            Func<TState, Exception, string> formatter)
+        protected override void PublishMessage(LogMessage message)
         {
-            NotNull(formatter, nameof(formatter));
-
-            _provider.ProcessMessage(new LogMessage(
-                timestamp,
-                logLevel,
-                formatter(state, ex),
-                _context,
-                ex));
+            System.Diagnostics.Debug.WriteLine(
+                    MessageFormatter.Format(
+                        message,
+                        Options.TimeStampFormat));
         }
-
-        public void Log<TState>(
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
     }
 }

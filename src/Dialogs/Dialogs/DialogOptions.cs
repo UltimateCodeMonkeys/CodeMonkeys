@@ -10,7 +10,7 @@ namespace CodeMonkeys.Dialogs
         /// </summary>
         public string DefaultCloseLabel
         {
-            get => GetValue<string>();
+            get => GetValue<string>("OK");
             set => SetValue(value);
         }
 
@@ -20,7 +20,7 @@ namespace CodeMonkeys.Dialogs
         /// </summary>
         public string DefaultConfirmLabel
         {
-            get => GetValue<string>();
+            get => GetValue<string>("OK");
             set => SetValue(value);
         }
 
@@ -30,15 +30,8 @@ namespace CodeMonkeys.Dialogs
         /// </summary>
         public string DefaultDeclineLabel
         {
-            get => GetValue<string>();
+            get => GetValue<string>("Cancel");
             set => SetValue(value);
-        }
-
-        public DialogOptions()
-        {
-            DefaultCloseLabel = "OK";
-            DefaultConfirmLabel = "OK";
-            DefaultDeclineLabel = "Cancel";
         }
     }
 }

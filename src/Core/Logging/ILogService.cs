@@ -1,22 +1,25 @@
-﻿using System;
-
-namespace CodeMonkeys.Logging
+﻿namespace CodeMonkeys.Logging
 {
-    public interface ILogService
+    public interface ILogService : ILogServiceBase
     {
-        bool IsEnabledFor(LogLevel logLevel);
+        /// <summary>
+        /// Flag which indicates if the service accepts and queues writes.
+        /// <para>Defaults to <see langword="true"/>.</para>
+        /// </summary>
+        bool IsEnabled { get; set; }
 
-        void Log<TState>(
-            DateTimeOffset timestamp,
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter);
+        /// <summary>
+        /// If the specified <see cref="IScopedLogService"/> is attached to the <see cref="LogService"/> this method enables
+        /// logging with it.
+        /// </summary>
+        void EnableScopedService<TScopedService>()
+            where TScopedService : class, IScopedLogService;
 
-        void Log<TState>(
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter);
+        /// <summary>
+        /// If the specified <see cref="IScopedLogService"/> is attached to the <see cref="LogService"/> this method disables
+        /// logging with it.
+        /// </summary>
+        void DisableScopedService<TScopedService>()
+            where TScopedService : class, IScopedLogService;
     }
 }

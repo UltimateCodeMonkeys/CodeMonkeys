@@ -1,66 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeMonkeys.Logging
 {
-    internal sealed class LogServiceComposition : ILogService
+    internal sealed class LogService : ILogService
     {
-        private readonly ContextAwareLogServiceProvider[] _providers;
+        private readonly IScopedLogService[] _services;
 
-        public LogServiceComposition(ContextAwareLogServiceProvider[] providers)
+        public bool IsEnabled { get; set; } = true;
+
+        public LogService(IScopedLogService[] services)
         {
-            _providers = providers;
+            _services = services;
         }
 
-        public bool IsEnabledFor(LogLevel logLevel)
+        public void EnableScopedService<TScopedService>()
+            where TScopedService : class, IScopedLogService
         {
-            List<Exception> exceptions = null;
-
-            foreach (var provider in _providers)
+            if (TryGetScopedService<TScopedService>(out var service))
             {
-                var service = provider.LogService;
-
-                try
-                {
-                    if (!service.IsEnabledFor(logLevel))
-                        continue;
-
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    if (exceptions == null)
-                        exceptions = new List<Exception>();
-
-                    exceptions.Add(e);
-                }
+                service.EnableLogging();
             }
+        }       
 
-            if (exceptions != null && exceptions.Count > 0)
-                throw new AggregateException(
-                    "Error(s) occured while querying the associated log services!",
-                    exceptions);
-
-            return false;
+        public void DisableScopedService<TScopedService>() 
+            where TScopedService : class, IScopedLogService
+        {
+            if (TryGetScopedService<TScopedService>(out var service))
+            {
+                service.DisableLogging();
+            }
         }
 
         public void Log<TState>(
-            DateTimeOffset timestamp, 
+            DateTimeOffset timestamp,
             LogLevel logLevel, 
             TState state, 
             Exception ex, 
             Func<TState, Exception, string> formatter)
         {
+            if (!IsEnabled)
+            {
+                return;
+            }
+
             List<Exception> exceptions = null;
 
             formatter = DefaultFormatter(formatter);
 
-            foreach (var provider in _providers)
+            foreach (var service in _services)
             {
-                var service = provider.LogService;
-
                 if (!service.IsEnabledFor(logLevel))
+                {
                     continue;
+                }
 
                 try
                 {
@@ -69,7 +63,7 @@ namespace CodeMonkeys.Logging
                 catch (Exception e)
                 {
                     if (exceptions == null)
-                        exceptions = new List<Exception>(_providers.Length);
+                        exceptions = new List<Exception>(_services.Length);
 
                     exceptions.Add(e);
                 }
@@ -87,15 +81,30 @@ namespace CodeMonkeys.Logging
             Exception ex,
             Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
 
+        private bool TryGetScopedService<TScopedService>(out TScopedService service)
+            where TScopedService : class, IScopedLogService
+        {
+            var serviceType = typeof(TScopedService);
+
+            var scopedService = _services.FirstOrDefault(s => s.GetType() == serviceType);
+            service = scopedService as TScopedService;
+
+            return service != null;
+        }
+
         private Func<TState, Exception, string> DefaultFormatter<TState>(Func<TState, Exception, string> formatter)
         {
             formatter ??= new Func<TState, Exception, string>((s, e) =>
             {
                 if (e == null && s != null)
+                {
                     return s.ToString();
+                }
 
                 if (s == null && e != null)
+                {
                     return e.ToString();
+                }
 
                 return $"{s}:\n{e}";
             });

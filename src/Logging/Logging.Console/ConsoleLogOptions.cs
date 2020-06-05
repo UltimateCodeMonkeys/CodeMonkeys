@@ -1,23 +1,17 @@
-﻿using CodeMonkeys.Logging.Configuration;
-
-namespace CodeMonkeys.Logging.Console
+﻿namespace CodeMonkeys.Logging.Console
 {
     public class ConsoleLogOptions : LogOptions
     {
-        /// <summary>
-        /// Flag which indicates if the output should be highlighted with colors.
-        /// <para>Defaults to <see langword="true"/>.</para>
-        /// <para>The value at time of attaching to the provider is used. This value is not monitored further.</para>
-        /// </summary>
-        public bool UseColoredOutput
-        {
-            get => GetValue<bool>();
-            set => SetValue(value);
-        }
+        private const bool DEFAULT_COLORIZEOUTPUT = true;
 
-        public ConsoleLogOptions()
+        /// <summary>
+        /// Flag which indicates if the console output should be colorized depending on the log level.
+        /// <para>Default value: <see langword="true"/>.</para>
+        /// </summary>
+        public bool ColorizeOutput
         {
-            UseColoredOutput = true;
+            get => GetValue(DEFAULT_COLORIZEOUTPUT);
+            set => SetValue(value);
         }
     }
 }

@@ -10,9 +10,17 @@ namespace CodeMonkeys.Logging
             string timestampFormat)
         {
             var builder = new StringBuilder();
-            builder.Append(FormatTimestamp(message.Timestamp, timestampFormat));
+
+            var timestamp = FormatTimestamp(
+                message.Timestamp,
+                timestampFormat);
+
+            var level = FormatLogLevel(
+                message.LogLevel);
+
+            builder.Append(timestamp);
             builder.Append(" [");
-            builder.Append(FormatLogLevel(message.LogLevel));
+            builder.Append(level);
             builder.Append("] - ");
             builder.Append(message.Context);
             builder.Append(" - ");
@@ -22,11 +30,16 @@ namespace CodeMonkeys.Logging
             return builder.ToString();
         }
 
-        protected virtual string FormatLogLevel(
-            LogLevel logLevel) => logLevel.ToString();
+        protected virtual string FormatLogLevel(LogLevel logLevel)
+        {
+            return logLevel.ToString().ToUpperInvariant();
+        }
 
         protected virtual string FormatTimestamp(
-            DateTimeOffset timestamp, 
-            string timestampFormat) => timestamp.ToString(timestampFormat);
+            DateTimeOffset timestamp,
+            string timestampFormat)
+        {
+            return timestamp.ToString(timestampFormat);
+        }
     }
 }
