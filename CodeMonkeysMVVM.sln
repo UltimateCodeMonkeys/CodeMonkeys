@@ -89,7 +89,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navigation.WPF.Interfaces",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin.Forms", "Xamarin.Forms", "{4234E786-93CB-4C94-B160-15A4CAE5E481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Navigation.Xamarin.Forms.Interfaces", "src\Navigation\Xamarin.Forms\Navigation.Xamarin.Forms.Interfaces\Navigation.Xamarin.Forms.Interfaces.csproj", "{E878E2CA-5DB4-4ACC-B40D-5FE0117803CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navigation.Xamarin.Forms.Interfaces", "src\Navigation\Xamarin.Forms\Navigation.Xamarin.Forms.Interfaces\Navigation.Xamarin.Forms.Interfaces.csproj", "{E878E2CA-5DB4-4ACC-B40D-5FE0117803CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
