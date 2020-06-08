@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,7 +6,7 @@
     <AssemblyName>CodeMonkeys.Navigation.WPF</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation.WPF</RootNamespace>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
-    <Version>2.1.0</Version>
+    <Version>2.1.1</Version>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
     <Description>Package to use ViewModel navigation in WPF MVVM application</Description>
@@ -35,5 +35,4 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
 </Project>
