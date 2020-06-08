@@ -63,11 +63,11 @@ namespace CodeMonkeys.Navigation.WPF
                 return Task.CompletedTask;
 
 
+            ClearStacks();
+
             SetCurrent(
                 Root.ViewModel,
                 Root.Content);
-
-            ClearStacks();
 
 
             return Task.CompletedTask;

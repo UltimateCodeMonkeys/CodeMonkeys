@@ -36,11 +36,13 @@ namespace CodeMonkeys.Navigation.WPF
 
 
         protected IList<NavigationStackEntry> BackStack { get; set; }
+
         protected IList<WeakNavigationStackEntry> ForwardStack { get; set; }
 
 
 
         private NavigationStackEntry root;
+
         protected NavigationStackEntry Root
         {
             get => root;
@@ -48,13 +50,14 @@ namespace CodeMonkeys.Navigation.WPF
             {
                 root = value;
                 RaisePropertyChanged();
-                
+
                 RaisePropertyChanged(nameof(CurrentViewModel));
                 RaisePropertyChanged(nameof(CurrentContent));
             }
         }
 
         private NavigationStackEntry current;
+
         protected NavigationStackEntry Current
         {
             get => current;
@@ -80,7 +83,14 @@ namespace CodeMonkeys.Navigation.WPF
 
 
         public IViewModel RootViewModel => Root?.ViewModel;
+
         public IViewModel CurrentViewModel => Current?.ViewModel;
+
+
+        public bool CanGoBack => BackStack?.Any() == true;
+
+        public bool CanGoForward => IsForwardNavigationPossible();
+
 
         public FrameworkElement CurrentContent => Current?.Content;
 
@@ -137,24 +147,6 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        public bool CanGoBack()
-        {
-            return BackStack.Any();
-        }
-
-        public bool CanGoForward()
-        {
-            var target = ForwardStack.LastOrDefault();
-
-            if (target == null)
-                return false;
-
-
-            return target.Content?.TryGetTarget(out _) == true &&
-                target.ViewModel?.TryGetTarget(out _) == true;
-        }
-
-
         public void ClearStacks()
         {
             ClearBackStack();
@@ -190,7 +182,7 @@ namespace CodeMonkeys.Navigation.WPF
                 viewModel,
                 content);
 
-            
+
 
             SetCurrent(
                 viewModel,
@@ -198,6 +190,31 @@ namespace CodeMonkeys.Navigation.WPF
 
 
             return content;
+        }
+
+        protected void RaisePropertyChanged(
+            [CallerMemberName] string propertyName = "")
+        {
+            var threadSafeCall = PropertyChanged;
+
+            threadSafeCall?.Invoke(
+                this,
+                new PropertyChangedEventArgs(
+                    propertyName));
+        }
+
+
+
+        private bool IsForwardNavigationPossible()
+        {
+            var target = ForwardStack.LastOrDefault();
+
+            if (target == null)
+                return false;
+
+
+            return target.Content?.TryGetTarget(out _) == true &&
+                target.ViewModel?.TryGetTarget(out _) == true;
         }
 
 
@@ -221,18 +238,8 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        private void RaisePropertyChanged(
-            [CallerMemberName]string propertyName = "")
-        {
-            var threadSafeCall = PropertyChanged;
-
-            threadSafeCall?.Invoke(
-                this,
-                new PropertyChangedEventArgs(
-                    propertyName));
-        }
-
         #region View Disappearing event
+
         private async void OnContentUnloaded(
             object sender,
             EventArgs eventArgs)
@@ -273,7 +280,8 @@ namespace CodeMonkeys.Navigation.WPF
 
             content.Unloaded -= OnContentUnloaded;
         }
-        #endregion
+
+        #endregion View Disappearing event
 
 
 
