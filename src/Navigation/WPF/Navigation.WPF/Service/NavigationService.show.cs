@@ -50,10 +50,10 @@ namespace CodeMonkeys.Navigation.WPF
 
         public bool TryGoBack()
         {
-            if (!CanGoBack())
+            if (!CanGoBack)
                 return false;
 
-            
+
             var destination = BackStack.LastOrDefault();
 
             if (destination == null)
@@ -77,7 +77,7 @@ namespace CodeMonkeys.Navigation.WPF
 
         public bool TryGoForward()
         {
-            if (!CanGoForward())
+            if (!CanGoForward)
                 return false;
 
 
@@ -256,6 +256,13 @@ namespace CodeMonkeys.Navigation.WPF
             Current = new NavigationStackEntry(
                 viewModel,
                 content);
+
+
+            RaisePropertyChanged(
+                nameof(CanGoBack));
+
+            RaisePropertyChanged(
+                nameof(CanGoForward));
         }
 
 
