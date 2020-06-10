@@ -16,7 +16,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             new List<INavigationRegistration>();
 
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.Register(INavigationRegistration)" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.Register(INavigationRegistration)" />
         public void Register(
             INavigationRegistration registrationInfo)
         {
@@ -65,7 +65,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.Unregister{TViewModelInterface}" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.Unregister{TViewModelInterface}" />
         public void Unregister<TViewModel>()
 
             where TViewModel : class, IViewModel
@@ -170,26 +170,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             return registrationInfo != null;
         }
-
-        private static bool TryGetRegistration(
-            Type viewModelInterfaceType,
-            DevicePlatforms platform,
-            out INavigationRegistration registrationInfo)
-        {
-            if (!IsRegistered(viewModelInterfaceType))
-            {
-                registrationInfo = null;
-                return false;
-            }
-
-
-            registrationInfo = NavigationRegistrations.OfType<NavigationRegistration>()
-                .FirstOrDefault(registration =>
-                    registration.ViewModelType == viewModelInterfaceType &&
-                    registration.Platform == platform);
-
-            return registrationInfo != null;
-        }
+                
 
         private static bool TryGetRegistration(
             Type viewModelType,
