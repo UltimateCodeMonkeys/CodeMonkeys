@@ -40,25 +40,13 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 }
 
 
-                switch (Application.Current.MainPage)
+                rootPage = Application.Current.MainPage switch
                 {
-                    case NavigationPage navigationPage:
-                        rootPage = navigationPage.RootPage;
-                        break;
-
-                    case TabbedPage tabbedPage:
-                        rootPage = tabbedPage;
-                        break;
-
-                    case MasterDetailPage masterDetailPage:
-                        rootPage = masterDetailPage;
-                        break;
-
-                    default:
-                        rootPage = Application.Current.MainPage;
-                        break;
-                }
-
+                    NavigationPage navigationPage => navigationPage.RootPage,
+                    TabbedPage tabbedPage => tabbedPage,
+                    MasterDetailPage masterDetailPage => masterDetailPage,
+                    _ => Application.Current.MainPage,
+                };
 
                 return rootPage;
             }
@@ -68,17 +56,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         {
             get
             {
-                switch (RootPage)
+                return RootPage switch
                 {
-                    case MasterDetailPage masterDetail:
-                        return masterDetail.Detail.Navigation;
-
-                    case TabbedPage tabbed:
-                        return tabbed.Navigation;
-
-                    default:
-                        return RootPage.Navigation;
-                }
+                    MasterDetailPage masterDetail => masterDetail.Detail.Navigation,
+                    TabbedPage tabbed => tabbed.Navigation,
+                    _ => RootPage.Navigation,
+                };
             }
         }
 
@@ -111,7 +94,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.SetRoot{TViewModelInterface}()" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.SetRoot{TViewModelInterface}()" />
         public async Task SetRootAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
@@ -128,7 +111,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             SetRootInternal(page);
         }
 
-        public async Task SetRoot<TMasterViewModel, TDetailViewModel>()
+        public async Task SetRootAsync<TMasterViewModel, TDetailViewModel>()
 
             where TMasterViewModel : class, IViewModel
             where TDetailViewModel : class, IViewModel

@@ -40,7 +40,7 @@ namespace MasterDetailSample
             navigationService.Register<AboutViewModel, AboutPage>();
             navigationService.Register<ItemDetailsViewModel, ItemDetailsPage>();
 
-            await navigationService.SetRoot<MainViewModel, ItemsViewModel>();
+            await navigationService.SetRootAsync<MainViewModel, ItemsViewModel>();
         }
 
         protected override void OnSleep()

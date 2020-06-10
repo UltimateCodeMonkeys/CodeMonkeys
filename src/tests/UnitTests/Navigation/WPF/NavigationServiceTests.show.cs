@@ -112,7 +112,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
         [Test]
         public void CanGoBack_WhenBackStackIsEmpty_ReturnsFalse()
         {
-            bool canNavigateBackwards = navigationService.CanGoBack();
+            bool canNavigateBackwards = navigationService.CanGoBack;
 
 
             Assert.IsFalse(canNavigateBackwards);
@@ -127,7 +127,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
             await navigationService.ShowAsync<SecondViewModel>();
 
 
-            bool canNavigateBackwards = navigationService.CanGoBack();
+            bool canNavigateBackwards = navigationService.CanGoBack;
 
 
             Assert.IsTrue(canNavigateBackwards);
@@ -137,7 +137,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
         [Test]
         public void CanGoForward_WhenForwardStackIsEmpty_ReturnsFalse()
         {
-            bool canNavigateBackwards = navigationService.CanGoForward();
+            bool canNavigateBackwards = navigationService.CanGoForward;
 
 
             Assert.IsFalse(canNavigateBackwards);
@@ -153,7 +153,7 @@ namespace CodeMonkeys.UnitTests.Navigation.WPF
             navigationService.TryGoBack();
 
 
-            bool canNavigateForward = navigationService.CanGoForward();
+            bool canNavigateForward = navigationService.CanGoForward;
 
 
             Assert.True(canNavigateForward);

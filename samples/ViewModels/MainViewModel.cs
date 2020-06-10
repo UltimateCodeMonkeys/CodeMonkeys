@@ -1,8 +1,8 @@
 ﻿using CodeMonkeys.MVVM.Attributes;
 using CodeMonkeys.MVVM.Commands;
 using CodeMonkeys.MVVM.PropertyChanged;
-
 using CodeMonkeys.Navigation.WPF;
+
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -29,13 +29,9 @@ namespace CodeMonkeys.Samples.ViewModels
         public ICommand NavigateBackCommand { get; }
         public ICommand NavigateForwardCommand { get; }
 
-        public MainViewModel(
-            INavigationService navigationService)
+        public MainViewModel()
         {
-            NavigationService = navigationService;
-
             MenuItems = new ObservableCollection<MenuItem>();
-
 
 
             NavigateBackCommand = new Command(
@@ -44,6 +40,13 @@ namespace CodeMonkeys.Samples.ViewModels
             NavigateForwardCommand = new Command(
                 () => NavigationService.TryGoForward());
         }
+
+        //public MainViewModel(
+        //    INavigationService navigationService)
+        //    : this()
+        //{
+        //    NavigationService = navigationService;
+        //}
 
         public override async Task InitializeAsync()
         {
