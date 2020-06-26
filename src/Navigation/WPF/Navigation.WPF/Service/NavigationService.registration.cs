@@ -15,7 +15,7 @@ namespace CodeMonkeys.Navigation.WPF
             new List<INavigationRegistration>();
 
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.Register(INavigationRegistration)" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.Register(INavigationRegistration)" />
         public void Register(INavigationRegistration registration)
         {
             RegisterInternal(registration);

@@ -6,20 +6,12 @@ on:
 jobs:
   publish:
     name: Publish to NuGet
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Publish CodeMonkeys.Core
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
-        with: 
-          PROJECT_FILE_PATH: src/Core/Core.csproj
-          TAG_COMMIT: false
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          PACKAGE_NAME: CodeMonkeys.Core
       
       - name: Publish CodeMonkeys.DependencyInjection
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/DependencyInjection/DependencyInjection/DependencyInjection.csproj
           TAG_COMMIT: false
@@ -27,7 +19,7 @@ jobs:
           PACKAGE_NAME: CodeMonkeys.DependencyInjection
 
       - name: Publish CodeMonkeys.DependencyInjection.DryIoC
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/DependencyInjection/DependencyInjection.DryIoC/DependencyInjection.DryIoC.csproj
           TAG_COMMIT: false
@@ -35,7 +27,7 @@ jobs:
           PACKAGE_NAME: CodeMonkeys.DependencyInjection.DryIoC
 
       - name: Publish CodeMonkeys.DependencyInjection.Ninject
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/DependencyInjection/DependencyInjection.Ninject/DependencyInjection.Ninject.csproj
           TAG_COMMIT: false
@@ -43,7 +35,7 @@ jobs:
           PACKAGE_NAME: CodeMonkeys.DependencyInjection.Ninject
 
       - name: Publish CodeMonkeys.Dialogs
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/Dialogs/Dialogs/Dialogs.csproj
           TAG_COMMIT: false
@@ -51,7 +43,7 @@ jobs:
           PACKAGE_NAME: CodeMonkeys.Dialogs
 
       - name: Publish CodeMonkeys.Dialogs.Xamarin.Forms
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/Dialogs/Dialogs.Xamarin.Forms/Dialogs.Xamarin.Forms.csproj
           TAG_COMMIT: false
@@ -59,7 +51,7 @@ jobs:
           PACKAGE_NAME: CodeMonkeys.Dialogs.Xamarin.Forms
 
       - name: Publish CodeMonkeys.Logging
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging/Logging.csproj
           TAG_COMMIT: false
@@ -67,7 +59,7 @@ jobs:
           PACKAGE_NAME: CodeMonkeys.Logging
 
       - name: Publish CodeMonkeys.Logging.Batching
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging.Batching/Logging.Batching.csproj
           TAG_COMMIT: false
@@ -75,7 +67,7 @@ jobs:
           PACKAGE_NAME: CodeMonkeys.Logging.Batching
 
       - name: Publish CodeMonkeys.Logging.Console
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging.Console/Logging.Console.csproj
           TAG_COMMIT: false
@@ -83,7 +75,7 @@ jobs:
           PACKAGE_NAME: CodeMonkeys.Logging.Console
 
       - name: Publish CodeMonkeys.Logging.Debug
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging.Debug/Logging.Debug.csproj
           TAG_COMMIT: false
@@ -91,41 +83,73 @@ jobs:
           PACKAGE_NAME: CodeMonkeys.Logging.Debug
 
       - name: Publish CodeMonkeys.Logging.File
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/Logging/Logging.File/Logging.File.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           PACKAGE_NAME: CodeMonkeys.Logging.File
 
-      - name: Publish CodeMonkeys.MVVM
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+      - name: Publish CodeMonkeys.Navigation.WPF
+        uses: rohith/publish-nuget@v2.5.2
         with: 
-          PROJECT_FILE_PATH: src/MVVM/MVVM.csproj
+          PROJECT_FILE_PATH: src/Navigation/WPF/Navigation.WPF/Navigation.WPF.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          PACKAGE_NAME: CodeMonkeys.MVVM
+          PACKAGE_NAME: CodeMonkeys.Navigation.Navigation.WPF
 
-      - name: Publish CodeMonkeys.Messaging
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+      - name: Publish CodeMonkeys.Navigation.WPF.Interfaces
+        uses: rohith/publish-nuget@v2.5.2
         with: 
-          PROJECT_FILE_PATH: src/Messaging/Messaging.csproj
+          PROJECT_FILE_PATH: src/Navigation/WPF/Navigation.WPF.Interfaces/Navigation.WPF.Interfaces.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          PACKAGE_NAME: CodeMonkeys.Messaging
+          PACKAGE_NAME: CodeMonkeys.Navigation.Navigation.WPF.Interfaces
+
+      - name: Publish CodeMonkeys.Navigation.Xamarin.Forms
+        uses: rohith/publish-nuget@v2.5.2
+        with: 
+          PROJECT_FILE_PATH: src/Navigation/Xamarin.Forms/Navigation.Xamarin.Forms/Navigation.Xamarin.Forms.csproj
+          TAG_COMMIT: false
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          PACKAGE_NAME: CodeMonkeys.Navigation.Xamarin.Forms
+
+      - name: Publish CodeMonkeys.Navigation.Xamarin.Forms.Interfaces
+        uses: rohith/publish-nuget@v2.5.2
+        with: 
+          PROJECT_FILE_PATH: src/Navigation/Xamarin.Forms/Navigation.Xamarin.Forms.Interfaces/Navigation.Xamarin.Forms.Interfaces.csproj
+          TAG_COMMIT: false
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          PACKAGE_NAME: CodeMonkeys.Navigation.Xamarin.Forms.Interfaces
 
       - name: Publish CodeMonkeys.Navigation
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+        uses: rohith/publish-nuget@v2.5.2
         with: 
           PROJECT_FILE_PATH: src/Navigation/Navigation/Navigation.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           PACKAGE_NAME: CodeMonkeys.Navigation
 
-      - name: Publish CodeMonkeys.Navigation.Xamarin.Forms
-        uses: UltimateCodeMonkeys/publish-nuget@v.1.0.0
+      - name: Publish CodeMonkeys.Core
+        uses: rohith/publish-nuget@v2.5.2
         with: 
-          PROJECT_FILE_PATH: src/Navigation/Navigation.Xamarin.Forms/Navigation.Xamarin.Forms.csproj
+          PROJECT_FILE_PATH: src/Core/Core.csproj
           TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          PACKAGE_NAME: CodeMonkeys.Navigation.Xamarin.Forms
+          PACKAGE_NAME: CodeMonkeys.Core
+
+      - name: Publish CodeMonkeys.Messaging
+        uses: rohith/publish-nuget@v2.5.2
+        with: 
+          PROJECT_FILE_PATH: src/Messaging/Messaging.csproj
+          TAG_COMMIT: false
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          PACKAGE_NAME: CodeMonkeys.Messaging
+
+      - name: Publish CodeMonkeys.MVVM
+        uses: rohith/publish-nuget@v2.5.2
+        with: 
+          PROJECT_FILE_PATH: src/MVVM/MVVM.csproj
+          TAG_COMMIT: false
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          PACKAGE_NAME: CodeMonkeys.MVVM

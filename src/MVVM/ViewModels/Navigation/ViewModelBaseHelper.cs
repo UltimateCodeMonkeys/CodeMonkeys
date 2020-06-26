@@ -36,6 +36,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
             this ViewModelBase<TInterface> viewModelBase,
             int parametersCount = 1,
             int genericArgumentsCount = 2)
+
             where TInterface : IViewModel
         {
             var closeAsyncTask = GetCloseAsyncMethodInfos(viewModelBase)
@@ -58,6 +59,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
             this ViewModelBase<TInterface, TModel> viewModelBase,
             int parametersCount = 1,
             int genericArgumentsCount = 2)
+
             where TInterface : IViewModel<TModel>
         {
             var closeAsyncTask = GetCloseAsyncMethodInfos(viewModelBase)
