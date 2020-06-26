@@ -234,6 +234,10 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
+            Argument.NotNull(
+                service,
+                nameof(service));
+
             if (!TryParseLogLevel(extensionMethodName, out var logLevel))
                 return;
 
