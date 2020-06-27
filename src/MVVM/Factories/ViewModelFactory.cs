@@ -174,7 +174,7 @@ namespace CodeMonkeys.MVVM.Factories
                         $"The type {viewModelType.Name} must implement interface type {interfaceType.Name}");
                 }
 
-                var instance = iocContainer.Resolve(interfaceType) as IViewModel;
+                var instance = iocContainer.Resolve(viewModelType) as IViewModel;
 
                 if (initialize)
                     TaskHelper.RunSync(instance.InitializeAsync);
@@ -216,7 +216,7 @@ namespace CodeMonkeys.MVVM.Factories
                         $"The type {viewModelType.Name} must implement interface type {interfaceType.Name}");
                 }
 
-                var instance = iocContainer.Resolve(interfaceType) as IViewModel;
+                var instance = iocContainer.Resolve(viewModelType) as IViewModel;
 
                 if (initialize)
                     await instance.InitializeAsync();
@@ -258,7 +258,7 @@ namespace CodeMonkeys.MVVM.Factories
                         $"The type {viewModelType.Name} must implement interface type {interfaceType.Name}");
                 }
 
-                var instance = iocContainer.Resolve(interfaceType) as IViewModel<TModel>;
+                var instance = iocContainer.Resolve(viewModelType) as IViewModel<TModel>;
 
                 await instance.InitializeAsync(
                     model);
