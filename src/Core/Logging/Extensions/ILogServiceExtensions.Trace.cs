@@ -12,7 +12,7 @@ namespace CodeMonkeys.Logging
             Exception ex,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 state,
                 ex,
@@ -25,7 +25,7 @@ namespace CodeMonkeys.Logging
             TState state,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 state,
                 methodName);
@@ -37,7 +37,7 @@ namespace CodeMonkeys.Logging
             Exception ex,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 ex,
                 methodName);
@@ -51,7 +51,7 @@ namespace CodeMonkeys.Logging
             Exception ex,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 message,
                 ex,
                 methodName);
@@ -62,7 +62,7 @@ namespace CodeMonkeys.Logging
             TState message,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 message,
                 methodName);
         }
@@ -72,46 +72,46 @@ namespace CodeMonkeys.Logging
             Exception ex,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 ex,
                 methodName);
         }
 
 
 
-        private static void Trace<TState>(
+        public static void Trace<TState>(
             this ILogService service,
             TState message,
             Exception ex,
             Func<TState, Exception, string> formatter,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 message,
                 ex,
                 formatter,
                 methodName);
         }
 
-        private static void Trace<TState>(
+        public static void Trace<TState>(
             this ILogService service,
             TState message,
             Func<TState, Exception, string> formatter,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 message,
                 formatter,
                 methodName);
         }
 
-        private static void Trace(
+        public static void Trace(
             this ILogService service,
             Exception ex,
             Func<object, Exception, string> formatter,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 ex,
                 formatter,
                 methodName);
@@ -119,35 +119,35 @@ namespace CodeMonkeys.Logging
 
 
 
-        private static void Trace<TState>(
+        public static void Trace<TState>(
             this ILogService service,
             DateTimeOffset timestamp,
             TState message,
             Func<TState, Exception, string> formatter,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 message,
                 formatter,
                 methodName);
         }
 
-        private static void Trace(
+        public static void Trace(
             this ILogService service,
             DateTimeOffset timestamp,
             Exception ex,
             Func<object, Exception, string> formatter,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 ex,
                 formatter,
                 methodName);
         }
 
-        private static void Trace<TState>(
+        public static void Trace<TState>(
             this ILogService service,
             DateTimeOffset timestamp,
             TState message,
@@ -155,7 +155,7 @@ namespace CodeMonkeys.Logging
             Func<TState, Exception, string> formatter,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 message,
                 ex,

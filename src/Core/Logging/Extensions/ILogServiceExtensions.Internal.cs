@@ -8,7 +8,7 @@ namespace CodeMonkeys.Logging
         /// <summary>
         /// Wrapper for <see cref="ILogServiceBase.Log{TState}(DateTimeOffset, LogLevel, TState, string)"./>
         /// </summary>
-        public static void Internal<TState>(
+        private static void Internal<TState>(
             this ILogService service,
             DateTimeOffset timestamp,
             TState state,
@@ -28,7 +28,7 @@ namespace CodeMonkeys.Logging
         /// <summary>
         /// Wrapper for <see cref="ILogServiceBase.Log{TState}(DateTimeOffset, LogLevel, TState, string)"./>
         /// </summary>
-        public static void Internal<TState>(
+        private static void Internal<TState>(
             this ILogService service,
             DateTimeOffset timestamp,
             TState state,
@@ -47,7 +47,7 @@ namespace CodeMonkeys.Logging
         /// <summary>
         /// Wrapper for <see cref="ILogServiceBase.Log{TState}(DateTimeOffset, LogLevel, TState, string)"./>
         /// </summary>
-        public static void Internal(
+        private static void Internal(
             this ILogService service,
             DateTimeOffset timestamp,
             Exception ex,
@@ -68,7 +68,7 @@ namespace CodeMonkeys.Logging
         /// <summary>
         /// Wrapper for <see cref="ILogServiceBase.Log{TState}(LogLevel, TState, string)"./>
         /// </summary>
-        public static void Internal<TState>(
+        private static void Internal<TState>(
             this ILogService service,
             TState message,
             Exception ex,
@@ -87,7 +87,7 @@ namespace CodeMonkeys.Logging
         /// <summary>
         /// Wrapper for <see cref="ILogServiceBase.Log{TState}(LogLevel, TState, string)"./>
         /// </summary>
-        public static void Internal<TState>(
+        private static void Internal<TState>(
             this ILogService service,
             TState message,
             string methodName = "",
@@ -105,7 +105,7 @@ namespace CodeMonkeys.Logging
         /// <summary>
         /// Wrapper for <see cref="ILogServiceBase.Log{TState}(LogLevel, TState, string)"./>
         /// </summary>
-        public static void Internal(
+        private static void Internal(
             this ILogService service,
             Exception ex,
             string methodName = "",
