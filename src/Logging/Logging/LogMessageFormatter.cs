@@ -18,13 +18,7 @@ namespace CodeMonkeys.Logging
             var level = FormatLogLevel(
                 message.LogLevel);
 
-            builder.Append(timestamp);
-            builder.Append(" [");
-            builder.Append(level);
-            builder.Append("] - ");
-            builder.Append(message.Context);
-            builder.Append(" - ");
-
+            builder.AppendLine($"{timestamp} [{ level}] - {message.Context} -> {message.MethodName}:");
             builder.AppendLine(message.FormattedMessage);
 
             return builder.ToString();

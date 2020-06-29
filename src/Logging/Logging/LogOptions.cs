@@ -5,7 +5,7 @@ namespace CodeMonkeys.Logging
     public abstract class LogOptions : Options
     {
         private const LogLevel DEFAULT_LOGLEVEL = LogLevel.Info;
-        private const string DEFAULT_TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss.fff zzz";
+        private const string DEFAULT_TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
         /// <summary>
         /// All messages below this level are NOT accepted and queued.
