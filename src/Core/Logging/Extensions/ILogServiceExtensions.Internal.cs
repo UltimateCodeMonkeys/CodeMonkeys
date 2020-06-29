@@ -16,7 +16,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 state,
                 ex,
@@ -35,7 +35,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 state,
                 null,
@@ -54,7 +54,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal<object>(
+            service?.Internal<object>(
                 timestamp,
                 null,
                 ex,
@@ -75,7 +75,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 DateTimeOffset.Now,
                 message,
                 ex,
@@ -93,7 +93,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 DateTimeOffset.Now,
                 message,
                 null,
@@ -111,7 +111,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal<object>(
+            service?.Internal<object>(
                 DateTimeOffset.Now,
                 null,
                 ex,
@@ -133,7 +133,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 DateTimeOffset.Now,
                 message,
                 ex,
@@ -152,7 +152,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 DateTimeOffset.Now,
                 message,
                 null,
@@ -171,7 +171,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 DateTimeOffset.Now,
                 null,
                 ex,
@@ -193,7 +193,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 message,
                 null,
@@ -213,7 +213,7 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 null,
                 ex,
@@ -234,14 +234,10 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            Argument.NotNull(
-                service,
-                nameof(service));
-
             if (!TryParseLogLevel(extensionMethodName, out var logLevel))
                 return;
 
-            service.Log(
+            service?.Log(
                 timestamp,
                 logLevel,
                 message,
