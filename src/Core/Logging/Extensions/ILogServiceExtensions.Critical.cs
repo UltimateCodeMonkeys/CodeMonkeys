@@ -155,7 +155,7 @@ namespace CodeMonkeys.Logging
             Func<TState, Exception, string> formatter,
             [CallerMemberName] string methodName = "")
         {
-            service.Internal(
+            service?.Internal(
                 timestamp,
                 message,
                 ex,
