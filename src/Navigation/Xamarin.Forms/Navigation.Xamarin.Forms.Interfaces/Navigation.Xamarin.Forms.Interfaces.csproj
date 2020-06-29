@@ -5,7 +5,7 @@
     <AssemblyName>CodeMonkeys.Navigation.Xamarin.Forms.Interfaces</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation.Xamarin.Forms.Interfaces</RootNamespace>
     <PackageId>CodeMonkeys.Navigation.Xamarin.Forms.Interfaces</PackageId>
-    <Version>2.1.0</Version>
+    <Version>2.1.2</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
@@ -18,9 +18,12 @@
     
     <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
 
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
