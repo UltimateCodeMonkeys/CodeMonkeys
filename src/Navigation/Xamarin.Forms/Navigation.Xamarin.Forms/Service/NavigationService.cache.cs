@@ -14,7 +14,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private static readonly IList<CachedPage> PageCache =
             new List<CachedPage>();
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.ClearCache" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.ClearCache" />
         public void ClearCache()
         {
             Log?.Info(

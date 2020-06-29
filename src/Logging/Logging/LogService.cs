@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace CodeMonkeys.Logging
 {
@@ -35,10 +36,38 @@ namespace CodeMonkeys.Logging
 
         public void Log<TState>(
             DateTimeOffset timestamp,
+            LogLevel logLevel,
+            TState state,
+            [CallerMemberName] string methodName = "")
+        {
+            Log(timestamp, logLevel, state, null, null, methodName);
+        }
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            TState state,
+            [CallerMemberName] string methodName = "")
+        {
+            Log(DateTimeOffset.Now, logLevel, state, null, null, methodName);
+        }
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            TState state,
+            Exception ex,
+            Func<TState, Exception, string> formatter,
+            [CallerMemberName] string methodName = "")
+        {
+            Log(DateTimeOffset.Now, logLevel, state, ex, formatter, methodName);
+        }
+
+        public void Log<TState>(
+            DateTimeOffset timestamp,
             LogLevel logLevel, 
             TState state, 
             Exception ex, 
-            Func<TState, Exception, string> formatter)
+            Func<TState, Exception, string> formatter,
+            [CallerMemberName] string methodName = "")
         {
             if (!IsEnabled)
             {
@@ -58,7 +87,7 @@ namespace CodeMonkeys.Logging
 
                 try
                 {
-                    service.Log(timestamp, logLevel, state, ex, formatter);
+                    service.Log(timestamp, logLevel, state, ex, formatter, methodName);
                 }
                 catch (Exception e)
                 {
@@ -70,16 +99,12 @@ namespace CodeMonkeys.Logging
             }
 
             if (exceptions != null && exceptions.Count > 0)
+            {
                 throw new AggregateException(
                     "Error(s) occured while writing to the associated log services!",
                     exceptions);
+            }
         }
-
-        public void Log<TState>(
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter) => Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
 
         private bool TryGetScopedService<TScopedService>(out TScopedService service)
             where TScopedService : class, IScopedLogService
@@ -106,7 +131,7 @@ namespace CodeMonkeys.Logging
                     return e.ToString();
                 }
 
-                return $"{s}:\n{e}";
+                return $"{s}{Environment.NewLine}{e}";
             });
 
             return formatter;

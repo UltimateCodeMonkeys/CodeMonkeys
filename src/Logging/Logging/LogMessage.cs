@@ -8,6 +8,7 @@ namespace CodeMonkeys.Logging
         public LogLevel LogLevel { get; }
         public string FormattedMessage { get; }
         public string Context { get; }
+        public string MethodName { get; }
         public Exception Exception { get; }
 
         public LogMessage(
@@ -15,12 +16,14 @@ namespace CodeMonkeys.Logging
             LogLevel logLevel,
             string message,
             string context,
+            string methodName,
             Exception exception)
         {
             Timestamp = timestamp;
             LogLevel = logLevel;
             FormattedMessage = message;
             Context = context;
+            MethodName = methodName;
             Exception = exception;
         }
     }

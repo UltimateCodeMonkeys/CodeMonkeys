@@ -8,7 +8,7 @@ namespace CodeMonkeys.Navigation.WPF
 {
     public partial class NavigationService
     {
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface}" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.CloseAsync{TViewModelInterface}" />
         public virtual Task CloseAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
@@ -22,7 +22,7 @@ namespace CodeMonkeys.Navigation.WPF
             return Task.CompletedTask;
         }
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface}" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface}" />
         public virtual async Task CloseAsync<TViewModel, TParentViewModel>()
 
             where TViewModel : class, IViewModel
@@ -38,7 +38,7 @@ namespace CodeMonkeys.Navigation.WPF
             await ResolveAndInformParent<TParentViewModel>();
         }
 
-        /// <inheritdoc cref="CodeMonkeys.Core.Interfaces.Navigation.IViewModelNavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface, TResult}(TResult)" />
+        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface, TResult}(TResult)" />
         public virtual async Task CloseAsync<TViewModelInterface, TParentViewModelInterface, TResult>(
             TResult result)
 
@@ -63,11 +63,11 @@ namespace CodeMonkeys.Navigation.WPF
                 return Task.CompletedTask;
 
 
+            ClearStacks();
+
             SetCurrent(
                 Root.ViewModel,
                 Root.Content);
-
-            ClearStacks();
 
 
             return Task.CompletedTask;

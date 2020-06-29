@@ -8,7 +8,14 @@ namespace CodeMonkeys.Navigation.WPF
         CodeMonkeys.Navigation.INavigationService
     {
         IViewModel RootViewModel { get; }
+
         IViewModel CurrentViewModel { get; }
+
+
+        bool CanGoBack { get; }
+
+        bool CanGoForward { get; }
+
 
 
         Task SetRootWindowAsync<TRootViewModel>()
@@ -19,16 +26,16 @@ namespace CodeMonkeys.Navigation.WPF
             where TInitialViewModel : class, IViewModel;
 
 
-        bool CanGoBack();
-        bool CanGoForward();
-
         bool TryGoBack();
+
         bool TryGoForward();
 
 
 
         void ClearStacks();
+
         void ClearBackStack();
+
         void ClearForwardStack();
     }
 }

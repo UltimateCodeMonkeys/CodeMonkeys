@@ -38,12 +38,41 @@ namespace CodeMonkeys.Logging
         public virtual void DisableLogging() => 
             IsEnabled = false;
 
+
+        public void Log<TState>(
+            DateTimeOffset timestamp,
+            LogLevel logLevel,
+            TState state,
+            string methodName = "")
+        {
+            Log(timestamp, logLevel, state, null, null, methodName);
+        }
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            TState state,
+            string methodName = "")
+        {
+            Log(DateTimeOffset.Now, logLevel, state, null, null, methodName);
+        }
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            TState state,
+            Exception ex,
+            Func<TState, Exception, string> formatter,
+            string methodName = "")
+        {
+            Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
+        }
+
         public void Log<TState>(
             DateTimeOffset timestamp,
             LogLevel logLevel,
             TState state,
             Exception ex,
-            Func<TState, Exception, string> formatter)
+            Func<TState, Exception, string> formatter,
+            string methodName = "")
         {
             Argument.NotNull(formatter, nameof(formatter));
 
@@ -51,18 +80,10 @@ namespace CodeMonkeys.Logging
                 logLevel,
                 state,
                 ex,
-                formatter);
+                formatter,
+                methodName);
 
             PublishMessage(message);
-        }
-
-        public void Log<TState>(
-            LogLevel logLevel,
-            TState state,
-            Exception ex,
-            Func<TState, Exception, string> formatter)
-        {
-            Log(DateTimeOffset.Now, logLevel, state, ex, formatter);
         }
 
         protected abstract void PublishMessage(LogMessage message);
@@ -71,13 +92,15 @@ namespace CodeMonkeys.Logging
             LogLevel logLevel,
             TState state,
             Exception ex,
-            Func<TState, Exception, string> formatter)
+            Func<TState, Exception, string> formatter,
+            string methodName)
         {
             var message = new LogMessage(
                 timestamp,
                 logLevel,
                 formatter(state, ex),
                 Context,
+                methodName,
                 ex);
 
             return message;

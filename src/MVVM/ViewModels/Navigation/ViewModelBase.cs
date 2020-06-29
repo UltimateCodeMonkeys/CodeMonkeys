@@ -16,7 +16,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
 
 
         /// <summary>
-        /// Invokes the IViewModelNavigationService (if registered) to show the requested ViewModel
+        /// Invokes the <see cref="CodeMonkeys.Navigation.INavigationService"/> (if registered) to show the requested ViewModel
         /// </summary>
         /// <typeparam name="TDestination">Type of the ViewModel interface to show</typeparam>
         public async Task ShowAsync<TDestination>()
@@ -28,7 +28,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
         }
 
         /// <summary>
-        /// Invokes the IViewModelNavigationService (if registered) to show the requested ViewModel
+        /// Invokes the <see cref="CodeMonkeys.Navigation.INavigationService"/> (if registered) to show the requested ViewModel
         /// Passes the parameter for the ViewModel initialization
         /// </summary>
         /// <typeparam name="TDestination">Type of the ViewModel interface to show</typeparam>
@@ -45,7 +45,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
         }
 
         /// <summary>
-        /// Closes this ViewModel using the IViewModelNavigationService (if registered)
+        /// Closes this ViewModel using the <see cref="CodeMonkeys.Navigation.INavigationService"/> (if registered)
         /// </summary>
         public virtual async Task CloseAsync()
         {
@@ -58,7 +58,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
         }
 
         /// <summary>
-        /// Closes this ViewModel and informs the parent using the IViewModelNavigationService (if registered)
+        /// Closes this ViewModel and informs the parent using the <see cref="CodeMonkeys.Navigation.INavigationService"/> (if registered)
         /// </summary>
         /// <typeparam name="TParentViewModelInterface">Type of the parent ViewModel to inform</typeparam>
         public virtual async Task CloseAsync<TParentViewModelInterface>()
@@ -75,7 +75,7 @@ namespace CodeMonkeys.MVVM.ViewModels.Navigation
         }
 
         /// <summary>
-        /// Closes this ViewModel and informs the parent using the IViewModelNavigationService (if registered)
+        /// Closes this ViewModel and informs the parent using the <see cref="CodeMonkeys.Navigation.INavigationService"/> (if registered)
         /// </summary>
         /// <typeparam name="TParentViewModelInterface">Type of the parent ViewModel to inform</typeparam>
         /// <typeparam name="TResult">Type of the result data</typeparam>
