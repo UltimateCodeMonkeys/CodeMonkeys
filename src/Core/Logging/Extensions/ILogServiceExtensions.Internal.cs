@@ -234,16 +234,16 @@ namespace CodeMonkeys.Logging
             string methodName = "",
             [CallerMemberName] string extensionMethodName = "")
         {
-            if (!TryParseLogLevel(extensionMethodName, out var logLevel))
-                return;
-
-            service?.Log(
-                timestamp,
-                logLevel,
-                message,
-                ex,
-                formatter,
-                methodName);
+            if (TryParseLogLevel(extensionMethodName, out var logLevel))
+            {
+                service?.Log(
+                    timestamp,
+                    logLevel,
+                    message,
+                    ex,
+                    formatter,
+                    methodName);
+            }
         }
 
         private static bool TryParseLogLevel(string input, out LogLevel logLevel)
@@ -251,10 +251,14 @@ namespace CodeMonkeys.Logging
             logLevel = LogLevel.Trace;
 
             if (string.IsNullOrWhiteSpace(input))
+            {
                 return false;
+            }
 
             if (!Enum.TryParse<LogLevel>(input, out var level))
+            {
                 return false;
+            }
 
             logLevel = level;
 
