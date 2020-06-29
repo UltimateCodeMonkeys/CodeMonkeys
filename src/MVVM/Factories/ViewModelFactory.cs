@@ -89,74 +89,6 @@ namespace CodeMonkeys.MVVM.Factories
         /// <summary>
         /// Creates a new ViewModel instance and optionally invokes the <see cref="IViewModel.InitializeAsync"/> method.
         /// </summary>
-        /// <typeparam name="TViewModel">Type of the ViewModel to create</typeparam>
-        /// <param name="initialize">Specifies if <see cref="IViewModel.InitializeAsync"/> should get called after instance creation.</param>
-        /// <returns>A ViewModel instance of the given type</returns>
-        public static async Task<TViewModel> ResolveAsync<TViewModel>(
-            bool initialize = true)
-            where TViewModel : class, IViewModel
-        {
-            try
-            {
-                var instance = iocContainer.Resolve<TViewModel>();
-
-                if (initialize)
-                    await instance.InitializeAsync();
-
-                return instance;
-            }
-            catch (Exception innerException)
-            {
-                string errorMessage = $"ViewModel of type {typeof(TViewModel).Name} cannot be resolved --- is it registered?";
-
-                log?.Critical(
-                    errorMessage,
-                    innerException);
-
-                throw new TypeLoadException(
-                    errorMessage,
-                    innerException);
-            }
-        }
-
-
-        /// <summary>
-        /// Creates a new ViewModel instance and invokes the <see cref="IViewModel{TModel}.InitializeAsync(TModel)"/> method.
-        /// </summary>
-        /// <typeparam name="TViewModel">Type of the ViewModel to create</typeparam>
-        /// <typeparam name="TModel">Type of the parameter that will be passed in the <see cref="IViewModel{TModel}.InitializeAsync(TModel)"/> method</typeparam>
-        /// <returns>A ViewModel instance of the given type</returns>
-        public static async Task<TViewModel> ResolveAsync<TViewModel, TModel>(
-            TModel model)
-            where TViewModel : class, IViewModel<TModel>
-        {
-            try
-            {
-                var instance = iocContainer.Resolve<TViewModel>();
-
-                await instance.InitializeAsync(
-                    model);
-
-                return instance;
-            }
-            catch (Exception innerException)
-            {
-                string errorMessage = $"ViewModel of type {typeof(TViewModel).Name} cannot be resolved --- is it registered?";
-
-                log?.Critical(
-                    errorMessage,
-                    innerException);
-
-                throw new TypeLoadException(
-                    errorMessage,
-                    innerException);
-            }
-        }
-
-
-        /// <summary>
-        /// Creates a new ViewModel instance and optionally invokes the <see cref="IViewModel.InitializeAsync"/> method.
-        /// </summary>
         /// <param name="viewModelType">Type of the ViewModel to create</param>
         /// <param name="initialize">Specifies if <see cref="IViewModel.InitializeAsync"/> should get called after instance creation.</param>
         /// <returns>A ViewModel instance of the given type.</returns>
@@ -193,8 +125,42 @@ namespace CodeMonkeys.MVVM.Factories
                     errorMessage,
                     innerException);
             }
-        }   
-        
+        }
+
+
+
+        /// <summary>
+        /// Creates a new ViewModel instance and optionally invokes the <see cref="IViewModel.InitializeAsync"/> method.
+        /// </summary>
+        /// <typeparam name="TViewModel">Type of the ViewModel to create</typeparam>
+        /// <param name="initialize">Specifies if <see cref="IViewModel.InitializeAsync"/> should get called after instance creation.</param>
+        /// <returns>A ViewModel instance of the given type</returns>
+        public static async Task<TViewModel> ResolveAsync<TViewModel>(
+            bool initialize = true)
+            where TViewModel : class, IViewModel
+        {
+            try
+            {
+                var instance = iocContainer.Resolve<TViewModel>();
+
+                if (initialize)
+                    await instance.InitializeAsync();
+
+                return instance;
+            }
+            catch (Exception innerException)
+            {
+                string errorMessage = $"ViewModel of type {typeof(TViewModel).Name} cannot be resolved --- is it registered?";
+
+                log?.Critical(
+                    errorMessage,
+                    innerException);
+
+                throw new TypeLoadException(
+                    errorMessage,
+                    innerException);
+            }
+        }
 
         /// <summary>
         /// Creates a new ViewModel instance and optionally invokes the <see cref="IViewModel.InitializeAsync"/> method.
@@ -226,6 +192,41 @@ namespace CodeMonkeys.MVVM.Factories
             catch (Exception innerException)
             {
                 string errorMessage = $"ViewModel of type {interfaceType.Name} cannot be resolved --- is it registered?";
+
+                log?.Critical(
+                    errorMessage,
+                    innerException);
+
+                throw new TypeLoadException(
+                    errorMessage,
+                    innerException);
+            }
+        }
+
+
+
+        /// <summary>
+        /// Creates a new ViewModel instance and invokes the <see cref="IViewModel{TModel}.InitializeAsync(TModel)"/> method.
+        /// </summary>
+        /// <typeparam name="TViewModel">Type of the ViewModel to create</typeparam>
+        /// <typeparam name="TModel">Type of the parameter that will be passed in the <see cref="IViewModel{TModel}.InitializeAsync(TModel)"/> method</typeparam>
+        /// <returns>A ViewModel instance of the given type</returns>
+        public static async Task<TViewModel> ResolveAsync<TViewModel, TModel>(
+            TModel model)
+            where TViewModel : class, IViewModel<TModel>
+        {
+            try
+            {
+                var instance = iocContainer.Resolve<TViewModel>();
+
+                await instance.InitializeAsync(
+                    model);
+
+                return instance;
+            }
+            catch (Exception innerException)
+            {
+                string errorMessage = $"ViewModel of type {typeof(TViewModel).Name} cannot be resolved --- is it registered?";
 
                 log?.Critical(
                     errorMessage,
