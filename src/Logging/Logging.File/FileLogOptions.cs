@@ -8,11 +8,10 @@ namespace CodeMonkeys.Logging.File
     {
         private readonly string DEFAULT_FILENAMEPREFIX = $"log-{DateTime.Now.ToShortDateString()}";
         private const string DEFAULT_EXTENSION = "txt";
-        private readonly string DEFAULT_DIRECTORY = $"{Environment.CurrentDirectory}\\logs";
 
         /// <summary>
-        /// Contains the file name prefix to use for log files.
-        /// <para>Default value: '_log'</para>
+        /// The file name prefix used when creating log files.
+        /// <para>Default value: 'log-DateTime.Now.ToShortDateString'</para>
         /// </summary>
         public string FileNamePrefix
         {
@@ -25,7 +24,7 @@ namespace CodeMonkeys.Logging.File
         }
 
         /// <summary>
-        /// File extension of <see cref="FileNamePrefix"/>.
+        /// The file extension of the log files.
         /// <para>Default value: 'txt'</para>
         /// </summary>
         public string Extension
@@ -71,12 +70,11 @@ namespace CodeMonkeys.Logging.File
         }
 
         /// <summary>
-        /// Contains the path to the directory where the log files should be stored
-        /// <para>Default value: 'CurrentDirectory\logs'</para>
+        /// The path to the directory where the log files should be stored.
         /// </summary>
         public string Directory
         {
-            get => GetValue<string>(DEFAULT_DIRECTORY);
+            get => GetValue<string>();
             set
             {
                 Property.NotEmptyOrWhiteSpace(value);
