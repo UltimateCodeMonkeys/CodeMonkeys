@@ -21,15 +21,6 @@ namespace CodeMonkeys.UnitTests.Messaging
         }
 
         [Test]
-        public void Constructor_WhenSubscribersParameterIsNull_ThrowsArgumentNullException()
-        {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new EventAggregator(null, new SubscriptionManagerOptions());
-            });
-        }
-
-        [Test]
         public void Publish_WhenEventParameterNotNull_SubscriberIsNotified()
         {
             _aggregator.RegisterTo(_subscriberStub.Object);

@@ -1,38 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CodeMonkeys.Messaging
 {
-    public sealed class EventAggregator : 
-        IEventAggregator, 
-        IDisposable
+    public sealed partial class EventAggregator : IEventAggregator
     {
-        private readonly EventTypeCache _cache;
-        private readonly CancellationTokenSource _cts;
-        private readonly SubscriptionManager _subscriptionManager;
-
-        public EventAggregator(SubscriptionManagerOptions options = null)
+        public EventAggregator()
         {
-            _cache = new EventTypeCache();
-            _cts = new CancellationTokenSource();
-            _subscriptionManager = new SubscriptionManager(
-                _cts.Token,
-                options);
-        }
-
-        public EventAggregator(
-            IEnumerable<ISubscriber> subscribers,
-            SubscriptionManagerOptions options = null)
-            
-            : this(options)
-        {
-            Argument.NotNull(
-                subscribers,
-                nameof(subscribers));
-
-            Register(subscribers);                
+            _subscriptions = new HashSet<Subscription>();
         }
 
         /// <inheritdoc/>
@@ -54,7 +30,7 @@ namespace CodeMonkeys.Messaging
                 @event,
                 nameof(@event));
 
-            var subscribers = _subscriptionManager.GetSubscribersOf<TEvent>();
+            var subscribers = GetSubscribersOf<TEvent>();
 
             foreach (var subscriber in subscribers)
                 await subscriber.ReceiveEventAsync(@event);
@@ -68,7 +44,9 @@ namespace CodeMonkeys.Messaging
                 subscriber,
                 nameof(subscriber));
 
-            _subscriptionManager.Add(typeof(TEvent), subscriber);
+            AddSubscriber(
+                typeof(TEvent),
+                subscriber);
         }
 
         /// <inheritdoc/>
@@ -78,8 +56,12 @@ namespace CodeMonkeys.Messaging
                 subscriber,
                 nameof(subscriber));
 
-            foreach (var type in _cache.GetOrAddEventTypesOf(subscriber))
-                _subscriptionManager.Add(type, subscriber);
+            foreach (var eventType in GetOrAddEventTypesOf(subscriber))
+            {
+                AddSubscriber(
+                    eventType,
+                    subscriber);
+            }
         }        
 
         /// <inheritdoc/>
@@ -90,7 +72,9 @@ namespace CodeMonkeys.Messaging
                 subscriber,
                 nameof(subscriber));
 
-            _subscriptionManager.Remove(typeof(TEvent), subscriber);
+            RemoveSubscriber(
+                typeof(TEvent),
+                subscriber);
         }
 
         /// <inheritdoc/>
@@ -100,25 +84,22 @@ namespace CodeMonkeys.Messaging
                 subscriber,
                 nameof(subscriber));
 
-            foreach (var type in _cache.GetOrAddEventTypesOf(subscriber))
-                _subscriptionManager.Remove(type, subscriber);
-        }
-
-        private void Register(IEnumerable<ISubscriber> subscribers)
-        {
-            foreach (var subscriber in subscribers)
+            foreach (var eventType in GetOrAddEventTypesOf(subscriber))
             {
-                try
-                {
-                    Register(subscriber);
-                }
-                catch { } // ignored
+                RemoveSubscriber(
+                    eventType,
+                    subscriber);
             }
         }
 
-        public void Dispose()
+        private IEnumerable<ISubscriberOf<TEvent>> GetSubscribersOf<TEvent>()
+            where TEvent : class, IEvent
         {
-            _cts.Cancel();
+            var subscriptions = _subscriptions
+                .Where(subscription => subscription.EventType.Equals(typeof(TEvent)));
+
+            return subscriptions
+                .Select(subscription => subscription.Reference.Target as ISubscriberOf<TEvent>);
         }
     }
 }
