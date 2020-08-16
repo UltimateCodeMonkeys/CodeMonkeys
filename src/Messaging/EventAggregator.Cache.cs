@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace CodeMonkeys.Messaging
 {
-    internal class EventTypeCache
+    public sealed partial class EventAggregator
     {
-        private readonly ConcurrentDictionary<Type, IList<Type>> _this = 
+        private readonly ConcurrentDictionary<Type, IList<Type>> _this =
             new ConcurrentDictionary<Type, IList<Type>>();
 
-        public IList<Type> GetOrAddEventTypesOf(ISubscriber subscriber)
+        private IList<Type> GetOrAddEventTypesOf(ISubscriber subscriber)
         {
             var type = subscriber.GetType();
 
