@@ -1,9 +1,10 @@
 ﻿using CodeMonkeys.Logging.Batching;
 
-using System.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CodeMonkeys.Logging.File
 {
@@ -21,7 +22,13 @@ namespace CodeMonkeys.Logging.File
 
         protected override async Task PublishMessageBatch(IEnumerable<LogMessage> messageBatch)
         {
-            Directory.CreateDirectory(Options.Directory);
+            var directory = Directory.CreateDirectory(Options.Directory);
+
+            if (!directory.Exists)
+            {
+                throw new InvalidOperationException(
+                    $"Log file directory creation failed! Maybe your application doesn't have write access to it?");
+            }
 
             foreach (var message in messageBatch)
             {
