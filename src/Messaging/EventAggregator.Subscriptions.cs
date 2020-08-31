@@ -5,7 +5,8 @@ namespace CodeMonkeys.Messaging
 {
     public sealed partial class EventAggregator
     {
-        private readonly HashSet<Subscription> _subscriptions;
+        private static readonly HashSet<Subscription> _subscriptions = 
+            new HashSet<Subscription>();
 
         private void AddSubscriber(
             Type eventType,

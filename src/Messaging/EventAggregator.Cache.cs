@@ -7,7 +7,7 @@ namespace CodeMonkeys.Messaging
 {
     public sealed partial class EventAggregator
     {
-        private readonly ConcurrentDictionary<Type, IList<Type>> _this =
+        private static readonly ConcurrentDictionary<Type, IList<Type>> _this =
             new ConcurrentDictionary<Type, IList<Type>>();
 
         private IList<Type> GetOrAddEventTypesOf(ISubscriber subscriber)
