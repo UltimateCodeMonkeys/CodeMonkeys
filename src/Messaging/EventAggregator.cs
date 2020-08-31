@@ -6,11 +6,6 @@ namespace CodeMonkeys.Messaging
 {
     public sealed partial class EventAggregator : IEventAggregator
     {
-        public EventAggregator()
-        {
-            _subscriptions = new HashSet<Subscription>();
-        }
-
         /// <inheritdoc/>
         public void Publish<TEvent>(TEvent @event)
             where TEvent : class, IEvent
