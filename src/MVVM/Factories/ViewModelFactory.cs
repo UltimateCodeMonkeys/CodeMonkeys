@@ -10,6 +10,7 @@ namespace CodeMonkeys.MVVM.Factories
     /// <summary>
     /// Factory to create and initialize ViewModel instances using the DI container
     /// </summary>
+    [Obsolete("Please use CodeMonkeys.MVVM.ViewModelFactory instead.")]
     public static class ViewModelFactory
     {
         private static ILogService log;

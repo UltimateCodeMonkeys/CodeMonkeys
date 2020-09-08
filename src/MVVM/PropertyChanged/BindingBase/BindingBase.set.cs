@@ -40,7 +40,9 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                 onPropertyChanging);
 
             if (!shouldContinue)
+            {
                 return false;
+            }
 
 
             RemoveEventualNestedEventListeners(

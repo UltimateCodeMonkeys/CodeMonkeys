@@ -22,6 +22,11 @@ namespace CodeMonkeys.Samples.ViewModels
             private set => SetValue(value);
         }
 
+        public NestedViewModel Nested
+        {
+            get => GetValue<NestedViewModel>();
+            set => SetValue(value);
+        }
 
         public ObservableCollection<MenuItem> MenuItems { get; }
 
@@ -31,6 +36,8 @@ namespace CodeMonkeys.Samples.ViewModels
 
         public MainViewModel()
         {
+            Nested = new NestedViewModel();
+
             MenuItems = new ObservableCollection<MenuItem>();
 
 
