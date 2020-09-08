@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.MVVM</AssemblyName>
-    <RootNamespace>CodeMonkeys.MVVM</RootNamespace>    
+    <RootNamespace>CodeMonkeys.MVVM</RootNamespace>
     <Version>2.1.4</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
