@@ -13,15 +13,11 @@ namespace CodeMonkeys.MVVM.PropertyChanged
     public partial class BindingBase :
         INotifyPropertyChanged
     {
-        private static readonly Lazy<IList<PropertyDependencyWrapper>> propertyDependencies =
-            new Lazy<IList<PropertyDependencyWrapper>>(
-                () => new List<PropertyDependencyWrapper>(),
-                isThreadSafe: true);
+        private static readonly IList<PropertyDependencyWrapper> propertyDependencies =
+            new List<PropertyDependencyWrapper>();
 
-        private static readonly Lazy<IList<CommandRelevantPropertyWrapper>> commandRelevantProperties =
-           new Lazy<IList<CommandRelevantPropertyWrapper>>(
-               () => new List<CommandRelevantPropertyWrapper>(),
-               isThreadSafe: true);
+        private static readonly IList<CommandRelevantPropertyWrapper> commandRelevantProperties =
+           new List<CommandRelevantPropertyWrapper>();
 
 
         public static BindingBaseOptions Options { get; set; } =
@@ -57,7 +53,7 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         {
             var classType = GetType();
 
-            if (commandRelevantProperties.Value.Any(
+            if (commandRelevantProperties.Any(
                 relevance => relevance.Class == classType))
             {
                 return;
@@ -84,7 +80,7 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                 };
 
 
-                commandRelevantProperties.Value.Add(
+                commandRelevantProperties.Add(
                     commandRelevance);
             }
         }
@@ -94,16 +90,15 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         /// Returns all properties that have a given attribute attached
         /// </summary>
         /// <typeparam name="TAttribute">Type of the attribute to look for</typeparam>
-        /// <param name="classType">The class to look for properties in</param>
+        /// <param name="class">The class to look for properties in</param>
         /// <returns>Collection of properties that got the given attribute</returns>
         protected static IEnumerable<PropertyInfo> GetPropertiesDecoratedWith<TAttribute>(
-            Type classType)
+            Type @class)
             where TAttribute : Attribute
         {
-            return classType
+            return @class
                 .GetProperties()
-                .Where(
-                    p => p.IsDefined(typeof(TAttribute), true));
+                .Where(property => property.IsDefined(typeof(TAttribute), true));
         }
     }
 }

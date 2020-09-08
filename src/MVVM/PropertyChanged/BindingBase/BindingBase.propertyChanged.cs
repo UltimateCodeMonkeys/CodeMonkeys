@@ -18,7 +18,7 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         {
             var classType = GetType();
 
-            if (propertyDependencies.Value.Any(
+            if (propertyDependencies.Any(
                 dependencyRegistration => dependencyRegistration.Class == classType))
             {
                 return;
@@ -50,7 +50,7 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                         dependency.PropertyName);
                 }
 
-                propertyDependencies.Value.Add(
+                propertyDependencies.Add(
                     dependencyRegistration);
             }
         }
@@ -84,10 +84,8 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                 this,
                 eventArgs);
 
-            if (eventArgs.Cancel)
-                return false;
 
-            return true;
+            return !eventArgs.Cancel;
         }
 
 
@@ -152,8 +150,9 @@ namespace CodeMonkeys.MVVM.PropertyChanged
                 propertyName);
 
 
-            var commandRelevance = commandRelevantProperties.Value
-                .FirstOrDefault(relevance => relevance.PropertyName.Equals(propertyName));
+            var commandRelevance = commandRelevantProperties
+                .FirstOrDefault(relevance =>
+                    relevance.PropertyName.Equals(propertyName));
 
             if (!Options.UseCommandRelevanceAttribute ||
                 commandRelevance != null)
@@ -180,8 +179,9 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         {
             var classType = GetType();
 
-            var dependencyRegistration = propertyDependencies.Value
-                .FirstOrDefault(dependency => dependency.Class == classType &&
+            var dependencyRegistration = propertyDependencies.
+                FirstOrDefault(dependency =>
+                    dependency.Class == classType &&
                     dependency.Dependencies.Contains(propertyName));
 
             if (dependencyRegistration == null)
