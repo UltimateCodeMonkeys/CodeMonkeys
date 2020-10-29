@@ -179,23 +179,24 @@ namespace CodeMonkeys.MVVM.PropertyChanged
         {
             var classType = GetType();
 
-            var dependencyRegistration = propertyDependencies.
-                FirstOrDefault(dependency =>
+            foreach (var dependencyRegistration in propertyDependencies.Where(
+                dependency =>
                     dependency.Class == classType &&
-                    dependency.Dependencies.Contains(propertyName));
-
-            if (dependencyRegistration == null)
+                    dependency.Dependencies.Contains(propertyName)))
             {
-                return;
+                if (dependencyRegistration == null)
+                {
+                    continue;
+                }
+
+
+                var threadSaveCall = PropertyChanged;
+
+                threadSaveCall?.Invoke(
+                    this,
+                    new PropertyChangedEventArgs(
+                        dependencyRegistration.PropertyName));
             }
-
-
-            var threadSaveCall = PropertyChanged;
-
-            threadSaveCall?.Invoke(
-                this,
-                new PropertyChangedEventArgs(
-                    dependencyRegistration.PropertyName));
         }
 
         private IEnumerable<PropertyInfo> GetCommandProperties()
