@@ -1,23 +1,29 @@
-﻿using CodeMonkeys.MVVM;
-using CodeMonkeys.MVVM.Commands;
-using CodeMonkeys.Navigation.ViewModels;
-
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
+
+using CodeMonkeys.MVVM;
+using CodeMonkeys.MVVM.Commands;
+using CodeMonkeys.Navigation;
 
 namespace CodeMonkeys.Samples.ViewModels
 {
     public class ItemDetailsViewModel :
         BaseViewModel,
 
-        IViewModel<string>,
-        IHandleClosing
+        IViewModel<string>
     {
+        private readonly INavigationService _navigationService;
+
+
         public ICommand GoBackCommand { get; }
 
 
-        public ItemDetailsViewModel()
+        public ItemDetailsViewModel(
+            INavigationService navigationService)
         {
+            _navigationService = navigationService;
+
+
             GoBackCommand = new AsyncCommand(
                 GoBackAsync);
         }
@@ -34,7 +40,7 @@ namespace CodeMonkeys.Samples.ViewModels
 
         private async Task GoBackAsync()
         {
-            await CloseAsync();
+            await _navigationService.CloseAsync<ItemDetailsViewModel>();
         }
 
         public override Task OnClosing()

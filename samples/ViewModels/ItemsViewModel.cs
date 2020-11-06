@@ -1,15 +1,20 @@
-﻿using CodeMonkeys.MVVM.Attributes;
-using CodeMonkeys.MVVM.Commands;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
+using CodeMonkeys.MVVM.Attributes;
+using CodeMonkeys.MVVM.Commands;
+using CodeMonkeys.Navigation;
 
 namespace CodeMonkeys.Samples.ViewModels
 {
     public class ItemsViewModel :
         BaseViewModel
     {
+        private readonly INavigationService _navigationService;
+
+
         public ObservableCollection<ItemViewModel> Items
         {
             get => GetValue<ObservableCollection<ItemViewModel>>();
@@ -28,8 +33,12 @@ namespace CodeMonkeys.Samples.ViewModels
         public ICommand ToggleSelectedItemCanSelectCommand { get; }
 
 
-        public ItemsViewModel()
+        public ItemsViewModel(
+            INavigationService navigationService)
         {
+            _navigationService = navigationService;
+
+
             Title = "Browse";
             Items = new ObservableCollection<ItemViewModel>();
 
@@ -56,7 +65,9 @@ namespace CodeMonkeys.Samples.ViewModels
                 
             for(int count = 0; count < 100; count++)
             {
-                var viewModel = new ItemViewModel($"Item {count + 1}");
+                var viewModel = new ItemViewModel(
+                    _navigationService,
+                    $"Item {count + 1}");
 
                 Items.Add(viewModel);
             }

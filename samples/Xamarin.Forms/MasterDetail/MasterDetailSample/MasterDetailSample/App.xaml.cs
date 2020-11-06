@@ -1,10 +1,10 @@
-﻿using CodeMonkeys.MVVM.Factories;
+﻿using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.Xamarin.Forms;
 using CodeMonkeys.Samples.ViewModels;
 
-using Xamarin.Forms;
-
 using MasterDetailSample.Views;
+
+using Xamarin.Forms;
 
 namespace MasterDetailSample
 {
@@ -30,6 +30,7 @@ namespace MasterDetailSample
 
             dependencyContainer.RegisterType<ItemViewModel>();
             dependencyContainer.RegisterType<ItemDetailsViewModel>();
+
 
             ViewModelFactory.Configure(dependencyContainer);
 

@@ -1,5 +1,5 @@
 ﻿using CodeMonkeys.DependencyInjection;
-using CodeMonkeys.MVVM.Factories;
+using CodeMonkeys.MVVM;
 
 namespace CodeMonkeys.Samples.ViewModels
 {

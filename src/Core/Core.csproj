@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MVVM\" />
     <Folder Include="Navigation\" />
   </ItemGroup>
   <ItemGroup>
