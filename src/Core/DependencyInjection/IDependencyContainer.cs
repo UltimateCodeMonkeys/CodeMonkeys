@@ -2,7 +2,7 @@
 {
     public interface IDependencyContainer :
         IDependencyRegister,
-        IDependencyResolver
+        IDependencyContainer
     {
     }
 }

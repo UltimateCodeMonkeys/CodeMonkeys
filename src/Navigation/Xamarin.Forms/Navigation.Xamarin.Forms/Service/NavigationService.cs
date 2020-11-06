@@ -20,7 +20,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private static readonly SemaphoreSlim _semaphore =
             new SemaphoreSlim(1, 1);
 
-        private static IDependencyResolver dependencyResolver;
+        private static IDependencyContainer dependencyResolver;
         protected static ILogService Log;              
 
 
@@ -72,14 +72,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             new ReadOnlyCollection<INavigationRegistration>(NavigationRegistrations);
 
         public NavigationService(
-            IDependencyResolver resolver)
+            IDependencyContainer resolver)
         {
             SetResolverInstance(
                 resolver);
         }
 
         private void SetResolverInstance(
-            IDependencyResolver resolver)
+            IDependencyContainer resolver)
         {
             try
             {

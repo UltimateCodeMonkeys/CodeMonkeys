@@ -28,7 +28,7 @@ namespace CodeMonkeys.Navigation.WPF
             new SemaphoreSlim(1, 1);
 
 
-        private static IDependencyResolver dependencyResolver;
+        private static IDependencyContainer dependencyResolver;
         protected static ILogService Log;
 
         public static NavigationServiceOptions Configuration { get; set; } =
@@ -102,7 +102,7 @@ namespace CodeMonkeys.Navigation.WPF
 
 
         public NavigationService(
-            IDependencyResolver resolver)
+            IDependencyContainer resolver)
         {
             BackStack = new List<NavigationStackEntry>();
             ForwardStack = new List<WeakNavigationStackEntry>();
@@ -219,7 +219,7 @@ namespace CodeMonkeys.Navigation.WPF
 
 
         private void SetResolverInstance(
-            IDependencyResolver resolver)
+            IDependencyContainer resolver)
         {
             if (dependencyResolver != null)
             {
