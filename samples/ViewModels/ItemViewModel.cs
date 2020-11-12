@@ -1,5 +1,6 @@
 ﻿using CodeMonkeys.MVVM.Attributes;
 using CodeMonkeys.MVVM.Commands;
+using CodeMonkeys.Navigation;
 
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,6 +10,9 @@ namespace CodeMonkeys.Samples.ViewModels
     public class ItemViewModel :
         BaseViewModel
     {
+        private readonly INavigationService _navigationService;
+
+
         [IsRelevantForCommand(nameof(SelectedCommand))]
         public bool CanSelect
         {
@@ -20,8 +24,12 @@ namespace CodeMonkeys.Samples.ViewModels
 
 
         public ItemViewModel(
+            INavigationService navigationService,
             string title)
         {
+            _navigationService = navigationService;
+
+
             Title = title;
 
             SelectedCommand = new AsyncCommand(
@@ -31,7 +39,7 @@ namespace CodeMonkeys.Samples.ViewModels
 
         private async Task ShowDetails()
         {
-            await ShowAsync<ItemDetailsViewModel, string>(
+            await _navigationService.ShowAsync<ItemDetailsViewModel, string>(
                 Title);
         }
 

@@ -1,13 +1,11 @@
-﻿using CodeMonkeys.MVVM.Attributes;
-using CodeMonkeys.MVVM.Commands;
-using CodeMonkeys.MVVM.PropertyChanged;
-using CodeMonkeys.Navigation.WPF;
-
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
+using CodeMonkeys.MVVM.Commands;
+using CodeMonkeys.MVVM.PropertyChanged;
+using CodeMonkeys.Navigation.WPF;
 
 namespace CodeMonkeys.Samples.ViewModels
 {
@@ -16,6 +14,9 @@ namespace CodeMonkeys.Samples.ViewModels
 
         INotifyPropertyChanged
     {
+        private readonly INavigationService _navigationService;
+
+
         public INavigationService NavigationService
         {
             get => GetValue<INavigationService>();
@@ -34,8 +35,12 @@ namespace CodeMonkeys.Samples.ViewModels
         public ICommand NavigateBackCommand { get; }
         public ICommand NavigateForwardCommand { get; }
 
-        public MainViewModel()
+        public MainViewModel(
+            INavigationService navigationService)
         {
+            _navigationService = navigationService;
+
+
             Nested = new NestedViewModel();
 
             MenuItems = new ObservableCollection<MenuItem>();
@@ -60,13 +65,15 @@ namespace CodeMonkeys.Samples.ViewModels
             MenuItems.Add(new MenuItem
             {
                 Title = "Items",
-                ShowItemCommand = new AsyncCommand(ShowAsync<ItemsViewModel>),
+                ShowItemCommand = new AsyncCommand(
+                    _navigationService.ShowAsync<ItemsViewModel>),
             });
 
             MenuItems.Add(new MenuItem
             {
                 Title = "About",
-                ShowItemCommand = new AsyncCommand(ShowAsync<AboutViewModel>),
+                ShowItemCommand = new AsyncCommand(
+                    _navigationService.ShowAsync<AboutViewModel>),
             });
 
             await base.InitializeAsync();

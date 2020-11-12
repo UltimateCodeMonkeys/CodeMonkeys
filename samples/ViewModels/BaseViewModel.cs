@@ -1,9 +1,13 @@
-﻿using CodeMonkeys.MVVM.ViewModels.Navigation;
+﻿using System.Threading.Tasks;
+
+using CodeMonkeys.MVVM.ViewModels;
+using CodeMonkeys.Navigation.ViewModels;
 
 namespace CodeMonkeys.Samples.ViewModels
 {
     public class BaseViewModel :
-        ViewModelBase
+        ViewModelBase,
+        IHandleClosing
     {
         public bool IsBusy
         {
@@ -15,6 +19,12 @@ namespace CodeMonkeys.Samples.ViewModels
         {
             get => GetValue<string>();
             set => SetValue(value);
+        }
+
+
+        public virtual Task OnClosing()
+        {
+            return Task.CompletedTask;
         }
     }
 }

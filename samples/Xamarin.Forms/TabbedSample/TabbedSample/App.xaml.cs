@@ -1,11 +1,10 @@
-﻿using CodeMonkeys.Navigation;
-using CodeMonkeys.MVVM.Factories;
+﻿using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.Xamarin.Forms;
 using CodeMonkeys.Samples.ViewModels;
 
-using Xamarin.Forms;
-
 using TabbedSample.Views;
+
+using Xamarin.Forms;
 
 namespace TabbedSample
 {
@@ -31,6 +30,7 @@ namespace TabbedSample
 
             dependencyContainer.RegisterType<ItemViewModel>();
             dependencyContainer.RegisterType<ItemDetailsViewModel>();
+
 
             ViewModelFactory.Configure(dependencyContainer);
 
