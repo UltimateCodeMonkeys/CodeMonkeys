@@ -135,6 +135,13 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             string confirmButtonLabel,
             string declineButtonLabel)
         {
+            if (string.IsNullOrWhiteSpace(confirmButtonLabel))
+            {
+                throw new ArgumentNullException(
+                    nameof(declineButtonLabel),
+                    $"To show a confirmation dialog the value of parameter '{nameof(confirmButtonLabel)}' can't be null or empty.");
+            }
+
             if (string.IsNullOrWhiteSpace(declineButtonLabel))
             {
                 throw new ArgumentNullException(
