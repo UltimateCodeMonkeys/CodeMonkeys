@@ -12,7 +12,7 @@ namespace CodeMonkeys.Logging
         /// </summary>
         public LogLevel MinLevel
         {
-            get => GetValue(DEFAULT_LOGLEVEL);
+            get => GetValue(defaultValue: DEFAULT_LOGLEVEL);
             set => SetValue(value);
         }
 
@@ -21,7 +21,7 @@ namespace CodeMonkeys.Logging
         /// </summary>
         public string TimeStampFormat
         {
-            get => GetValue<string>(DEFAULT_TIMESTAMP_FORMAT);
+            get => GetValue<string>(defaultValue: DEFAULT_TIMESTAMP_FORMAT);
             set
             {
                 Property.NotEmptyOrWhiteSpace(value);
