@@ -15,7 +15,7 @@ namespace CodeMonkeys.Logging.File
         /// </summary>
         public string FileNamePrefix
         {
-            get => GetValue<string>(DEFAULT_FILENAMEPREFIX);
+            get => GetValue(defaultValue: DEFAULT_FILENAMEPREFIX);
             set
             {
                 Property.NotEmptyOrWhiteSpace(value);
@@ -29,7 +29,7 @@ namespace CodeMonkeys.Logging.File
         /// </summary>
         public string Extension
         {
-            get => GetValue<string>(DEFAULT_EXTENSION);
+            get => GetValue(defaultValue: DEFAULT_EXTENSION);
             set
             {
                 Property.NotEmptyOrWhiteSpace(value);
