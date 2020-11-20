@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Core\Core.csproj" />
-    <ProjectReference Include="..\..\..\..\src\DependencyInjection\DependencyInjection.DryIoC\DependencyInjection.DryIoC.csproj" />
+    <ProjectReference Include="..\..\..\..\src\DependencyInjection\DependencyInjection.Ninject\DependencyInjection.Ninject.csproj" />
     <ProjectReference Include="..\..\..\..\src\DependencyInjection\DependencyInjection\DependencyInjection.csproj" />
     <ProjectReference Include="..\..\..\..\src\MVVM\MVVM.csproj" />
     <ProjectReference Include="..\..\..\..\src\Navigation\Navigation\Navigation.csproj" />
