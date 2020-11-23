@@ -53,6 +53,13 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             string closeButtonLabel,
             Action onDialogClosed = null)
         {
+            if (string.IsNullOrWhiteSpace(closeButtonLabel))
+            {
+                throw new ArgumentNullException(
+                    nameof(closeButtonLabel),
+                    $"To show a alert dialog the value of parameter '{nameof(closeButtonLabel)}' can't be null or empty.");
+            }
+
             await Application.Current.MainPage.DisplayAlert(
                 title,
                 message,
@@ -128,6 +135,20 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             string confirmButtonLabel,
             string declineButtonLabel)
         {
+            if (string.IsNullOrWhiteSpace(confirmButtonLabel))
+            {
+                throw new ArgumentNullException(
+                    nameof(declineButtonLabel),
+                    $"To show a confirmation dialog the value of parameter '{nameof(confirmButtonLabel)}' can't be null or empty.");
+            }
+
+            if (string.IsNullOrWhiteSpace(declineButtonLabel))
+            {
+                throw new ArgumentNullException(
+                    nameof(declineButtonLabel),
+                    $"To show a confirmation dialog the value of parameter '{nameof(declineButtonLabel)}' can't be null or empty.");
+            }
+
             return await Application.Current.MainPage.DisplayAlert(
                 title,
                 message,
@@ -144,6 +165,13 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             Action closedCallback = null)
         {
             formatter ??= _defaultErrorFormatter;
+
+            if (string.IsNullOrWhiteSpace(closeButtonLabel))
+            {
+                throw new ArgumentNullException(
+                    nameof(closeButtonLabel),
+                    $"To show a error dialog the value of parameter '{nameof(closeButtonLabel)}' can't be null or empty.");
+            }
 
             await Application.Current.MainPage.DisplayAlert(
                 title,

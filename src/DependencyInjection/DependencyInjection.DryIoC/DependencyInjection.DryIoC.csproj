@@ -7,7 +7,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.DependencyInjection.DryIoC</AssemblyName>
     <RootNamespace>CodeMonkeys.DependencyInjection.DryIoC</RootNamespace>
-    <Version>2.1.4</Version>
+    <Version>2.1.5</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
@@ -29,7 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc.Internal" Version="4.2.0" />
+    <PackageReference Include="DryIoc.Internal" Version="4.5.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
