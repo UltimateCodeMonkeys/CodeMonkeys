@@ -145,7 +145,8 @@ namespace CodeMonkeys.Navigation.WPF
 
             registrationInfo = NavigationRegistrations.OfType<RegistrationInfo>()
                 .FirstOrDefault(registration =>
-                    registration.ViewModelType == viewModelType);
+                    registration.ViewModelType == viewModelType &&
+                    registration.Condition());
 
             return registrationInfo != null;
         }
@@ -162,10 +163,11 @@ namespace CodeMonkeys.Navigation.WPF
                 return false;
             }
 
-            registrationInfo = NavigationRegistrations.FirstOrDefault(registration =>
-                registration.ViewModelType == viewModelType &&
-                viewType.IsAssignableFrom(registration.ViewType) &&
-                registration.Condition?.Invoke() != false);
+            registrationInfo = NavigationRegistrations
+                .FirstOrDefault(registration =>
+                    registration.ViewModelType == viewModelType &&
+                    viewType.IsAssignableFrom(registration.ViewType) &&
+                    registration.Condition());
 
             return registrationInfo != null;
         }
@@ -200,8 +202,10 @@ namespace CodeMonkeys.Navigation.WPF
             Type viewModelType,
             Type typeOfView)
         {
-            var registrations = NavigationRegistrations.Where(
-                registration => registration.ViewModelType == viewModelType);
+            var registrations = NavigationRegistrations
+                .Where(registration =>
+                    registration.ViewModelType == viewModelType &&
+                    registration.Condition());
 
 
             if (registrations == null ||

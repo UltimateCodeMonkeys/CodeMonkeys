@@ -165,7 +165,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             registrationInfo = NavigationRegistrations.OfType<NavigationRegistration>()
                 .FirstOrDefault(registration =>
                     registration.ViewModelType == viewModelInterfaceType &&
-                    registration.Platform.ToXamarinPlatform() == Device.RuntimePlatform);
+                    registration.Platform.ToXamarinPlatform() == Device.RuntimePlatform &&
+                    registration.Condition());
 
 
             return registrationInfo != null;
@@ -227,8 +228,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Type viewModelInterfaceType,
             Type typeofView = null)
         {
-            var navigationRegistration = NavigationRegistrations.FirstOrDefault(
-                registration => registration.ViewModelType == viewModelInterfaceType);
+            var navigationRegistration = NavigationRegistrations.FirstOrDefault(registration => 
+                registration.ViewModelType == viewModelInterfaceType &&
+                registration.Condition());
 
             if (navigationRegistration == null)
             {

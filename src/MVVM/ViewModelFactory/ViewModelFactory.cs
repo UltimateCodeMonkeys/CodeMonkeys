@@ -78,6 +78,7 @@ namespace CodeMonkeys.MVVM
                     TaskHelper.RunSync(instance.InitializeAsync);
                 }
 
+
                 return instance;
             }
             catch (Exception innerException)
