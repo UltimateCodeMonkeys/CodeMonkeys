@@ -1,18 +1,19 @@
 ﻿using CodeMonkeys.MVVM;
 
-using System;
-
 using Xamarin.Forms;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
-    public class NavigationRegistration<TViewModelInterface, TView> :
+    public class NavigationRegistration<TViewModel, TView> :
         NavigationRegistration
 
-        where TViewModelInterface : class, IViewModel
+        where TViewModel : class, IViewModel
         where TView : Page
     {
-        public override Type ViewModelType => typeof(TViewModelInterface);
-        public override Type ViewType => typeof(TView);
+        public NavigationRegistration()
+            : base(typeof(TViewModel), typeof(TView))
+        {
+
+        }
     }
 }

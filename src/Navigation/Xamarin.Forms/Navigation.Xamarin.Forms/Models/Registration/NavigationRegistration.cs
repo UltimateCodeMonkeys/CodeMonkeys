@@ -3,30 +3,18 @@
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
     public class NavigationRegistration :
-        INavigationRegistration
+        NavigationRegistrationBase
     {
-        public virtual Type ViewModelType { get; internal set; }
-        public virtual Type ViewType { get; internal set; }
-
-
-        /// <inheritdoc cref="INavigationRegistration.ResolveViewUsingDependencyInjection" />
-        public bool ResolveViewUsingDependencyInjection { get; set; }
-        public bool PreCreateInstance { get; set; }
-
-
         public DevicePlatforms Platform { get; set; } = DevicePlatforms.All;
 
 
-        private Func<bool> condition = () => true;
-        public Func<bool> Condition
+        public NavigationRegistration(
+            Type viewModelType,
+            Type viewType)
         {
-            get => condition;
-            set
-            {
-                condition = value ?? (() => true);
-            }
+            ViewModelType = viewModelType;
+            ViewType = viewType;
         }
-
 
 
         public override bool Equals(

@@ -45,10 +45,10 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             where TViewModel : IViewModel
             where TView : class
         {
-            var registrationInfo = new NavigationRegistration
+            var registrationInfo = new NavigationRegistration(
+                typeof(TViewModel),
+                typeof(TView))
             {
-                ViewModelType = typeof(TViewModel),
-                ViewType = typeof(TView),
                 Platform = Device.RuntimePlatform.ToDevicePlatform()
             };
 

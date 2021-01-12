@@ -6,14 +6,14 @@ using Xamarin.Forms;
 
 namespace CodeMonkeys.Navigation.Xamarin.Forms
 {
-    public class NavigationRegistration<TViewModelInterface, TPhoneView, TTabletView> :
+    public class NavigationRegistration<TViewModel, TPhoneView, TTabletView> :
         NavigationRegistration
 
-        where TViewModelInterface : class, IViewModel
+        where TViewModel : class, IViewModel
         where TPhoneView : Page
         where TTabletView : Page
     {
-        public override Type ViewModelType => typeof(TViewModelInterface);
+        public override Type ViewModelType => typeof(TViewModel);
 
         public override Type ViewType
         {
