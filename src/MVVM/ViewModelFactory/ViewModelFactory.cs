@@ -18,6 +18,8 @@ namespace CodeMonkeys.MVVM
 
         private static INavigationService navigationServiceInstance;
 
+        private const string ARGUMENT_NULL_EXCEPTION_MESSAGE = "ViewModel cannot be resolved --- is it registered?";
+
         /// <summary>
         /// Sets up the factory for further usage by passing the DI container instance and an optional logger
         /// </summary>
@@ -92,7 +94,7 @@ namespace CodeMonkeys.MVVM
             catch (Exception innerException)
             {
                 string errorMessage = viewModelType == null ?
-                    "ViewModel cannot be resolved --- is it registered?" :
+                    ARGUMENT_NULL_EXCEPTION_MESSAGE :
                     $"ViewModel of type {viewModelType.Name} cannot be resolved --- is it registered?";
 
                 log?.Critical(
@@ -147,7 +149,7 @@ namespace CodeMonkeys.MVVM
             catch (Exception innerException)
             {
                 string errorMessage = viewModelType == null ?
-                    "ViewModel cannot be resolved --- is it registered?" :
+                    ARGUMENT_NULL_EXCEPTION_MESSAGE :
                     $"ViewModel of type {viewModelType.Name} cannot be resolved --- is it registered?";
 
                 log?.Critical(
@@ -203,7 +205,7 @@ namespace CodeMonkeys.MVVM
             catch (Exception innerException)
             {
                 string errorMessage = viewModelType == null ?
-                    "ViewModel cannot be resolved --- is it registered?" :
+                    ARGUMENT_NULL_EXCEPTION_MESSAGE :
                     $"ViewModel of type {viewModelType.Name} cannot be resolved --- is it registered?";
 
                 log?.Critical(
@@ -264,7 +266,7 @@ namespace CodeMonkeys.MVVM
             catch (Exception innerException)
             {
                 string errorMessage = viewModelType == null ?
-                    "ViewModel cannot be resolved --- is it registered?" :
+                    ARGUMENT_NULL_EXCEPTION_MESSAGE :
                     $"ViewModel of type {viewModelType.Name} cannot be resolved --- is it registered?";
 
                 log?.Critical(
