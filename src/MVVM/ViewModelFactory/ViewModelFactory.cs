@@ -112,8 +112,11 @@ namespace CodeMonkeys.MVVM
         /// <typeparam name="TInterface">Type of the ViewModel to create</typeparam>
         /// <returns>ViewModel instance of the given type</returns>
         public static async Task<TInterface> ResolveAsync<TInterface>()
-            where TInterface : class, IViewModel => 
-                await ResolveAsync(typeof(TInterface)) as TInterface;
+            where TInterface : class, IViewModel
+        {
+            return await ResolveAsync(typeof(TInterface))
+                .ConfigureAwait(false) as TInterface;
+        }
 
         /// <summary>
         /// Creates a new ViewModel instance, invokes the InitializeAsync method and returns the initialized instance
@@ -222,8 +225,11 @@ namespace CodeMonkeys.MVVM
         /// <param name="model">Instance of the initialization parameter</param>
         /// <returns>ViewModel instance of the given type</returns>
         public static async Task<TInterface> ResolveAsync<TInterface, TModel>(TModel model)
-            where TInterface : class, IViewModel<TModel> =>
-                await ResolveAsync(typeof(TInterface), model) as TInterface;
+            where TInterface : class, IViewModel<TModel>
+        {
+            return await ResolveAsync(typeof(TInterface), model)
+                .ConfigureAwait(false) as TInterface;
+        }
 
         /// <summary>
         /// Creates a new ViewModel instance, invokes the InitializeAsync method using the parameter and returns the initialized instance
