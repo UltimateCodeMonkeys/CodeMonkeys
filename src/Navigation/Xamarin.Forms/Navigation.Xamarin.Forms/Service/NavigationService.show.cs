@@ -245,6 +245,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 return;
             }
 
+            var navigation = Navigation;
+
+            if (page is NavigableElement)
+            {
+                navigation = page.Navigation;
+            }
 
             await Device.InvokeOnMainThreadAsync(() =>
             {
