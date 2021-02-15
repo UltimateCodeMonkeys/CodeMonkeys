@@ -276,10 +276,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             var mainPage = Application.Current.MainPage;
 
             if (mainPage is NavigationPage navigation)
+            {
                 mainPage = navigation.RootPage;
+            }
 
             if (!(mainPage is TabbedPage tabbedPage))
+            {
                 return;
+            }
 
 
             await Device.InvokeOnMainThreadAsync(() =>
