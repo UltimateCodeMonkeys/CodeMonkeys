@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Logging.Console</AssemblyName>
     <RootNamespace>CodeMonkeys.Logging.Console</RootNamespace>
-    <Version>2.1.5</Version>
+    <Version>2.1.6</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>

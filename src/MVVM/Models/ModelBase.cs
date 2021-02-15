@@ -98,6 +98,27 @@ namespace CodeMonkeys.MVVM.Models
             ClearIsDirtyFlag();
         }
 
+
+        protected virtual void Reset<TProperty>(
+            string propertyName,
+            TProperty defaultValue = default)
+        {
+            Argument.NotEmptyOrWhiteSpace(
+                propertyName,
+                nameof(propertyName));
+
+
+            _comittedPropertyValues.TryGetValue(
+                propertyName,
+                out var value);
+
+            SetValue(
+                value ?? defaultValue,
+                null,
+                null,
+                propertyName);
+        }
+
         /// <summary>
         /// Resets the IsDirty flag and LastPropertySet to default state.
         /// </summary>

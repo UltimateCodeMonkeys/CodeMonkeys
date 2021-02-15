@@ -17,7 +17,7 @@ namespace CodeMonkeys
                 value,
                 (name, oldValue) => value);
 
-            return stored == value as object;
+            return stored != null;
         }
 
         public TProperty GetValue<TProperty>(
