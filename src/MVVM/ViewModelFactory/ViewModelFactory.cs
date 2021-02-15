@@ -18,6 +18,8 @@ namespace CodeMonkeys.MVVM
 
         private static INavigationService navigationServiceInstance;
 
+        private const string ARGUMENT_NULL_EXCEPTION_MESSAGE = "ViewModel cannot be resolved --- is it registered?";
+
         /// <summary>
         /// Sets up the factory for further usage by passing the DI container instance and an optional logger
         /// </summary>
@@ -53,24 +55,33 @@ namespace CodeMonkeys.MVVM
             }
         }
 
+
         /// <summary>
-        /// Creates a new ViewModel instance and returns it
-        /// InitializeAsync is invoked in the background
+        /// Creates a new ViewModel instance, invokes the InitializeAsync method and returns the initialized instance
         /// </summary>
         /// <typeparam name="TInterface">Type of the ViewModel to create</typeparam>
-        /// <param name="initialize">Should InitializeAsync() get called after getting the instance? <see cref="IViewModel"/></param>
         /// <returns>ViewModel instance of the given type</returns>
         public static TInterface Resolve<TInterface>()
+            where TInterface : class, IViewModel => 
+                Resolve(typeof(TInterface)) as TInterface;
 
-            where TInterface : class, IViewModel
+        /// <summary>
+        /// Creates a new ViewModel instance, invokes the InitializeAsync method and returns the initialized instance
+        /// </summary>
+        /// <param name="viewModelType">Type of the ViewModel to create</param>
+        /// <returns>ViewModel instance of the given type</returns>
+        public static IViewModel Resolve(
+            Type viewModelType)
         {
             try
             {
-                var instance = container.Resolve<TInterface>();
+                ValidateNonGenericParameters<IViewModel>(viewModelType);
 
-                var registration = _registrations.FirstOrDefault(
-                    registration => registration.Interface == typeof(TInterface) ||
-                    registration.ViewModel == typeof(TInterface));
+                var instance = container.Resolve<IViewModel>(viewModelType);
+
+                var registration = _registrations
+                    .FirstOrDefault(registration => registration.Interface == viewModelType ||
+                                    registration.ViewModel == viewModelType);
 
                 if (registration != null &&
                     registration.Initialize)
@@ -82,7 +93,9 @@ namespace CodeMonkeys.MVVM
             }
             catch (Exception innerException)
             {
-                string errorMessage = $"ViewModel of type {typeof(TInterface).Name} cannot be resolved --- is it registered?";
+                string errorMessage = viewModelType == null ?
+                    ARGUMENT_NULL_EXCEPTION_MESSAGE :
+                    $"ViewModel of type {viewModelType.Name} cannot be resolved --- is it registered?";
 
                 log?.Critical(
                     errorMessage,
@@ -94,23 +107,36 @@ namespace CodeMonkeys.MVVM
             }
         }
 
+
         /// <summary>
         /// Creates a new ViewModel instance, invokes the InitializeAsync method and returns the initialized instance
         /// </summary>
         /// <typeparam name="TInterface">Type of the ViewModel to create</typeparam>
-        /// <param name="initialize">Should InitializeAsync() get called after getting the instance? <see cref="IViewModel"/></param>
         /// <returns>ViewModel instance of the given type</returns>
         public static async Task<TInterface> ResolveAsync<TInterface>()
-
             where TInterface : class, IViewModel
+        {
+            return await ResolveAsync(typeof(TInterface))
+                .ConfigureAwait(false) as TInterface;
+        }
+
+        /// <summary>
+        /// Creates a new ViewModel instance, invokes the InitializeAsync method and returns the initialized instance
+        /// </summary>
+        /// <param name="viewModelType">Type of the ViewModel to create</param>
+        /// <returns>ViewModel instance of the given type</returns>
+        public static async Task<IViewModel> ResolveAsync(
+            Type viewModelType)
         {
             try
             {
-                var instance = container.Resolve<TInterface>();
+                ValidateNonGenericParameters<IViewModel>(viewModelType);
 
-                var registration = _registrations.FirstOrDefault(
-                    registration => registration.Interface == typeof(TInterface) ||
-                    registration.ViewModel == typeof(TInterface));
+                var instance = container.Resolve<IViewModel>(viewModelType);
+
+                var registration = _registrations
+                    .FirstOrDefault(registration => registration.Interface == viewModelType ||
+                                    registration.ViewModel == viewModelType);
 
                 if (registration != null &&
                     registration.Initialize)
@@ -118,12 +144,13 @@ namespace CodeMonkeys.MVVM
                     await instance.InitializeAsync();
                 }
 
-
                 return instance;
             }
             catch (Exception innerException)
             {
-                string errorMessage = $"ViewModel of type {typeof(TInterface).Name} cannot be resolved --- is it registered?";
+                string errorMessage = viewModelType == null ?
+                    ARGUMENT_NULL_EXCEPTION_MESSAGE :
+                    $"ViewModel of type {viewModelType.Name} cannot be resolved --- is it registered?";
 
                 log?.Critical(
                     errorMessage,
@@ -141,25 +168,45 @@ namespace CodeMonkeys.MVVM
         /// </summary>
         /// <typeparam name="TInterface">Type of the ViewModel to create</typeparam>
         /// <typeparam name="TModel">Type of the parameter that will be used for initialization</typeparam>
+        /// <param name="model">Instance of the initialization parameter</param>
         /// <returns>ViewModel instance of the given type</returns>
-        public static async Task<TInterface> ResolveAsync<TInterface, TModel>(
-            TModel model)
+        public static TInterface Resolve<TInterface, TModel>(TModel model)
+            where TInterface : class, IViewModel<TModel> =>
+                Resolve(typeof(TInterface), model) as TInterface;
 
-            where TInterface : class, IViewModel<TModel>
+        /// <summary>
+        /// Creates a new ViewModel instance, invokes the InitializeAsync method using the parameter and returns the initialized instance
+        /// </summary>
+        /// <typeparam name="TModel">Type of the parameter that will be used for initialization</typeparam>
+        /// <param name="model">Instance of the initialization parameter</param>
+        /// <returns>ViewModel instance of the given type</returns>
+        public static IViewModel<TModel> Resolve<TModel>(
+            Type viewModelType,
+            TModel model)
         {
             try
             {
-                var instance = container.Resolve<TInterface>();
+                ValidateNonGenericParameters<IViewModel<TModel>>(viewModelType);
 
-                await instance.InitializeAsync(
-                    model);
+                var instance = container.Resolve<IViewModel<TModel>>(viewModelType);
 
+                var registration = _registrations
+                    .FirstOrDefault(registration => registration.Interface == viewModelType ||
+                                    registration.ViewModel == viewModelType);
+
+                if (registration != null &&
+                    registration.Initialize)
+                {
+                    TaskHelper.RunSync(() => instance.InitializeAsync(model));
+                }
 
                 return instance;
             }
             catch (Exception innerException)
             {
-                string errorMessage = $"ViewModel of type {typeof(TInterface).Name} cannot be resolved --- is it registered?";
+                string errorMessage = viewModelType == null ?
+                    ARGUMENT_NULL_EXCEPTION_MESSAGE :
+                    $"ViewModel of type {viewModelType.Name} cannot be resolved --- is it registered?";
 
                 log?.Critical(
                     errorMessage,
@@ -171,42 +218,64 @@ namespace CodeMonkeys.MVVM
             }
         }
 
-        public static async Task<IViewModel> ResolveAsync(
-            Type viewModelType)
+
+        /// <summary>
+        /// Creates a new ViewModel instance, invokes the InitializeAsync method using the parameter and returns the initialized instance
+        /// </summary>
+        /// <typeparam name="TInterface">Type of the ViewModel to create</typeparam>
+        /// <typeparam name="TModel">Type of the parameter that will be used for initialization</typeparam>
+        /// <param name="model">Instance of the initialization parameter</param>
+        /// <returns>ViewModel instance of the given type</returns>
+        public static async Task<TInterface> ResolveAsync<TInterface, TModel>(TModel model)
+            where TInterface : class, IViewModel<TModel>
+        {
+            return await ResolveAsync(typeof(TInterface), model)
+                .ConfigureAwait(false) as TInterface;
+        }
+
+        /// <summary>
+        /// Creates a new ViewModel instance, invokes the InitializeAsync method using the parameter and returns the initialized instance
+        /// </summary>
+        /// <typeparam name="TModel">Type of the parameter that will be used for initialization</typeparam>
+        /// <param name="viewModelType">Type of the ViewModel to create</param>
+        /// <param name="model">Instance of the initialization parameter</param>
+        /// <returns>ViewModel instance of the given type</returns>
+        public static async Task<IViewModel<TModel>> ResolveAsync<TModel>(
+            Type viewModelType,
+            TModel model)
         {
             try
             {
-                var instance = container.Resolve(viewModelType);
+                ValidateNonGenericParameters<IViewModel<TModel>>(viewModelType);
 
-                if (!(instance is IViewModel viewModel))
-                {
-                    return null;
-                }
+                var instance = container.Resolve<IViewModel<TModel>>(viewModelType);
 
-                var registration = _registrations.FirstOrDefault(
-                    registration => registration.Interface ==viewModelType ||
-                    registration.ViewModel == viewModelType);
+                var registration = _registrations
+                    .FirstOrDefault(registration => registration.Interface == viewModelType ||
+                                    registration.ViewModel == viewModelType);
 
                 if (registration != null &&
                     registration.Initialize)
                 {
-                    await viewModel.InitializeAsync();
-                }
-                
+                    await instance.InitializeAsync(
+                        model);
+                }                
 
-                return viewModel;
+                return instance;
             }
-            catch (Exception exception)
+            catch (Exception innerException)
             {
-                string errorMessage = $"ViewModel of type {viewModelType.Name} cannot be resolved --- is it registered?";
+                string errorMessage = viewModelType == null ?
+                    ARGUMENT_NULL_EXCEPTION_MESSAGE :
+                    $"ViewModel of type {viewModelType.Name} cannot be resolved --- is it registered?";
 
                 log?.Critical(
                     errorMessage,
-                    exception);
+                    innerException);
 
                 throw new TypeLoadException(
                     errorMessage,
-                    exception);
+                    innerException);
             }
         }
 
@@ -242,6 +311,23 @@ namespace CodeMonkeys.MVVM
 
 
             return viewModel;
+        }
+
+        private static void ValidateNonGenericParameters<TTargetViewModel>(Type viewModelType)
+            where TTargetViewModel : IViewModel
+        {
+            Argument.NotNull(
+                    viewModelType,
+                    nameof(viewModelType),
+                    $"To resolve a viewmodel the '{nameof(viewModelType)} parameter can't be null.");
+
+            var interfaceType = typeof(TTargetViewModel);
+
+            if (!interfaceType.IsAssignableFrom(viewModelType))
+            {
+                throw new InvalidOperationException(
+                    $"The type {viewModelType.Name} must implement interface type {interfaceType.Name}");
+            }
         }
     }
 }
