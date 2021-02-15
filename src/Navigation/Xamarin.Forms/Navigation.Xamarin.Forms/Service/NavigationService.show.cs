@@ -241,7 +241,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private async Task PushAsync(
             Page page)
         {
-            if (CurrentPage.Navigation == null)
+            if (CurrentPage?.Navigation == null)
             {
                 return;
             }

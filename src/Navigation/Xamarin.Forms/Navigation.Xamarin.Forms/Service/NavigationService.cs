@@ -69,7 +69,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         {
             get
             {
-                var current = Navigation?.NavigationStack.Last();
+                var current = Navigation?.NavigationStack?.LastOrDefault() ?? RootPage;
 
                 return current switch
                 {
