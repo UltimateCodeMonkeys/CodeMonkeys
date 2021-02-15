@@ -65,7 +65,20 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
         }
 
-        protected Page CurrentPage => Navigation?.NavigationStack.Last();
+        protected Page CurrentPage
+        {
+            get
+            {
+                var current = Navigation?.NavigationStack.Last();
+
+                return current switch
+                {
+                    MasterDetailPage masterDetail => masterDetail.Detail,
+                    TabbedPage tabbed => tabbed.CurrentPage,
+                    _ => current,
+                };
+            }
+        }
 
 
         public IReadOnlyCollection<INavigationRegistration> Registrations =>

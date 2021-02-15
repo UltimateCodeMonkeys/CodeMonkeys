@@ -4,6 +4,7 @@ using CodeMonkeys.Navigation.ViewModels;
 using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -240,21 +241,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private async Task PushAsync(
             Page page)
         {
-            if (Navigation == null)
+            if (CurrentPage.Navigation == null)
             {
                 return;
             }
 
-            var navigation = Navigation;
-
-            if (page is NavigableElement)
-            {
-                navigation = page.Navigation;
-            }
-
             await Device.InvokeOnMainThreadAsync(() =>
             {
-                Navigation.PushAsync(
+                CurrentPage.Navigation.PushAsync(
                     page,
                     animated: Configuration.UseAnimations);
             });
@@ -279,15 +273,22 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private async Task SetTabAsync(
             Page page)
         {
-            if (!(Application.Current.MainPage is TabbedPage tabbedPage))
-            {
+            var mainPage = Application.Current.MainPage;
+
+            if (mainPage is NavigationPage navigation)
+                mainPage = navigation.RootPage;
+
+            if (!(mainPage is TabbedPage tabbedPage))
                 return;
-            }
 
 
             await Device.InvokeOnMainThreadAsync(() =>
             {
-                if (!tabbedPage.Children.Contains(page))
+                var tab = tabbedPage
+                    .Children
+                    .FirstOrDefault(c => c.GetType() == page.GetType());
+
+                if (tab == null)
                 {
                     Log?.Error(
                         $"{tabbedPage.GetType().Name} does not contain requested view {page.GetType().Name}!");
@@ -296,7 +297,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 }
 
 
-                tabbedPage.CurrentPage = new NavigationPage(page);
+                tabbedPage.CurrentPage = tab;
             });
         }
 
