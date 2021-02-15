@@ -6,7 +6,7 @@
     <AssemblyName>CodeMonkeys.Navigation.WPF</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation.WPF</RootNamespace>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
-    <Version>2.1.6</Version>
+    <Version>2.1.7</Version>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
     <Description>Package to use ViewModel navigation in WPF MVVM application</Description>
