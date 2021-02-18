@@ -72,7 +72,9 @@ namespace CodeMonkeys.Logging.File
             bool increaseIndex = false)
         {
             if (increaseIndex)
+            {
                 _index++;
+            }
 
             var suffix = GetFileNameSuffix();
 
