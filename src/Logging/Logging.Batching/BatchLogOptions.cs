@@ -6,7 +6,6 @@ namespace CodeMonkeys.Logging.Batching
     {
         private const int DEFAULT_FLUSHPERIOD = 5;
         private const int DEFAULT_BATCHCAPACITY = 50;
-        private const int DEFAULT_QUEUECAPACITY = 1000;
 
         /// <summary>
         /// The period after which log messages will be flushed to the store.
@@ -25,22 +24,6 @@ namespace CodeMonkeys.Logging.Batching
         public int? BatchCapacity
         {
             get => GetValue<int?>(DEFAULT_BATCHCAPACITY);
-            set
-            {
-                if (value != null)
-                    Property.GreaterThan(value.Value, 0);
-
-                SetValue(value);
-            }
-        }
-
-        /// <summary>
-        /// The maximum number of items in the background queue or <see langword="null"/> for no limit.
-        /// <para>Default value: <c>1000</c>.</para>
-        /// </summary>
-        public int? QueueCapacity
-        {
-            get => GetValue<int?>(DEFAULT_QUEUECAPACITY);
             set
             {
                 if (value != null)
