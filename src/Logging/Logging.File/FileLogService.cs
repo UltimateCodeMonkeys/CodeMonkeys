@@ -22,7 +22,7 @@ namespace CodeMonkeys.Logging.File
 
         protected override async Task PublishMessageBatch(IEnumerable<LogMessage> messageBatch)
         {
-            var directory = Directory.CreateDirectory(Options.Directory);
+            var directory = Directory.CreateDirectory(Options.Directory);            
 
             if (!directory.Exists)
             {
