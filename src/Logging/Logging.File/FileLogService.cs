@@ -1,9 +1,9 @@
 ﻿using CodeMonkeys.Logging.Batching;
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CodeMonkeys.Logging.File
@@ -20,33 +20,38 @@ namespace CodeMonkeys.Logging.File
         {
         }
 
-        protected override async Task PublishMessageBatch(IEnumerable<LogMessage> messageBatch)
+        protected override async Task PublishMessageBatch(
+            IEnumerable<LogMessage> messageBatch)
         {
             var directory = Directory.CreateDirectory(Options.Directory);            
 
             if (!directory.Exists)
             {
-                throw new InvalidOperationException(
+                throw new DirectoryNotFoundException(
                     $"Log file directory creation failed! Maybe your application doesn't have write access to it?");
             }
 
             foreach (var message in messageBatch)
             {
-                var path = CreateLogFilePath();
+                var path = GetLogFilePath();
 
-                await System.IO.File.AppendAllTextAsync(
-                    path,
-                    MessageFormatter.Format(
-                        message,
-                        Options.TimeStampFormat));
+                using (var stream = new FileStream(path, FileMode.Append))
+                {
+                    var bytes = Encoding.UTF8.GetBytes(
+                        MessageFormatter.Format(
+                            message,
+                            Options.TimeStampFormat));
+
+                    await stream.WriteAsync(bytes);
+                }
             }
 
-            ClearObsoleteFiles();
+            RemoveDeprecatedFiles();
         }
 
-        private string CreateLogFilePath()
+        private string GetLogFilePath()
         {
-            var path = GetFullLogFilePath();
+            var path = GenerateLogFilePath();
 
             if (Options.MaxFileSize == null)
             {
@@ -60,12 +65,17 @@ namespace CodeMonkeys.Logging.File
                 return path;
             }
 
-            _index++;
-            return GetFullLogFilePath();
+            return GenerateLogFilePath(true);
         }
 
-        private string GetFullLogFilePath()
+        private string GenerateLogFilePath(
+            bool increaseIndex = false)
         {
+            if (increaseIndex)
+            {
+                _index++;
+            }
+
             var suffix = GetFileNameSuffix();
 
             return Path.Combine(
@@ -92,22 +102,29 @@ namespace CodeMonkeys.Logging.File
             return suffix;
         }
 
-        private void ClearObsoleteFiles()
+        private void RemoveDeprecatedFiles()
         {
             if (Options.MaxFilesToRetain == null)
             {
                 return;
             }
 
-            var filesToRemove = new DirectoryInfo(Options.Directory)
-                .GetFiles(Options.FileNamePrefix + "*." + Options.Extension)
-                .OrderByDescending(f => f.LastWriteTime)
-                .Skip(Options.MaxFilesToRetain.Value);
+            var deprecatedFiles = GetDeprecatedFiles();
 
-            foreach (var file in filesToRemove)
+            foreach (var file in deprecatedFiles)
             {
                 file.Delete();
             }
+        }
+
+        private IEnumerable<FileInfo> GetDeprecatedFiles()
+        {
+            var deprecatedFiles = new DirectoryInfo(Options.Directory)
+                .GetFiles($"{Options.FileNamePrefix}*.{Options.Extension}")
+                .OrderByDescending(f => f.LastWriteTime)
+                .Skip(Options.MaxFilesToRetain.Value);
+
+            return deprecatedFiles;
         }
     }
 }
