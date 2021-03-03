@@ -290,7 +290,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             {
                 var tab = tabbedPage
                     .Children
-                    .FirstOrDefault(c => c.GetType() == page.GetType());
+                    .FirstOrDefault(c => IsPageOfType(
+                        c,
+                        page.GetType()));
 
                 if (tab == null)
                 {
@@ -303,6 +305,23 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
                 tabbedPage.CurrentPage = tab;
             });
+        }
+
+        private bool IsPageOfType(
+            Page page,
+            Type type)
+        {
+            if (page?.GetType() == type)
+            {
+                return true;
+            }
+
+            if (page is NavigationPage navigationPage)
+            {
+                return navigationPage?.RootPage?.GetType() == type;
+            }
+
+            return false;
         }
 
 

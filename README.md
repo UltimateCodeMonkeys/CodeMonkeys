@@ -1,4 +1,4 @@
-<h1 align="center">CodeMonkeysMVVM</h1>
+<h1 align="center">CodeMonkeys - Xamarin.Forms MVVM framework</h1>
 <div align="center">
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-c-sharp.svg)](https://forthebadge.com)

@@ -7,7 +7,7 @@ namespace CodeMonkeys.Logging.Batching
     public abstract class BatchLogService<TOptions> : ScopedLogService<TOptions>
         where TOptions : BatchLogOptions, new()
     {
-        private BlockingCollection<LogMessage> _queue;
+        private ConcurrentQueue<LogMessage> _queue;
 
         public override bool IsEnabled
         {
@@ -30,14 +30,12 @@ namespace CodeMonkeys.Logging.Batching
 
         protected override void PublishMessage(LogMessage message)
         {
-            _queue.Add(message);
+            _queue.Enqueue(message);
         }
 
         private void StartProcessingLoop()
         {
-            _queue = Options.QueueCapacity == null ?
-                new BlockingCollection<LogMessage>() :
-                new BlockingCollection<LogMessage>(Options.QueueCapacity.Value);
+            _queue = new ConcurrentQueue<LogMessage>();
 
             Task.Run(ProcessingLoop);
         }
@@ -67,7 +65,7 @@ namespace CodeMonkeys.Logging.Batching
         {
             var counter = Options.BatchCapacity;
 
-            while (counter > 0 && _queue.TryTake(out var item))
+            while (counter > 0 && _queue.TryDequeue(out var item))
             {
                 currentBatch.Add(item);
                 counter--;

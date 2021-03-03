@@ -56,11 +56,11 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         {
             get
             {
-                return RootPage switch
+                return CurrentPage switch
                 {
                     MasterDetailPage masterDetail => masterDetail.Detail.Navigation,
                     TabbedPage tabbed => tabbed.Navigation,
-                    _ => RootPage.Navigation,
+                    _ => CurrentPage.Navigation,
                 };
             }
         }
@@ -69,7 +69,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         {
             get
             {
-                var current = Navigation?.NavigationStack?.LastOrDefault() ?? RootPage;
+                //var current = Navigation?.NavigationStack?.LastOrDefault() ?? RootPage;
+                var current = RootPage?.Navigation?.NavigationStack?.LastOrDefault() ?? RootPage;
 
                 return current switch
                 {
