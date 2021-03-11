@@ -1,4 +1,5 @@
 ﻿using CodeMonkeys.MVVM;
+using CodeMonkeys.Navigation.ViewModels;
 
 using System;
 
@@ -117,6 +118,18 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             return navigationService;
         }
 
+
+
+        public static NavigationRegistration WithInterestedViewModel<TInterested>(
+            this NavigationRegistration registrationInfo)
+
+            where TInterested : IInterestedInClosing
+        {
+            registrationInfo.InterestedType = typeof(TInterested);
+
+
+            return registrationInfo;
+        }
 
         /// <summary>
         /// States that the specific registration is only relevant for the given platform(s)

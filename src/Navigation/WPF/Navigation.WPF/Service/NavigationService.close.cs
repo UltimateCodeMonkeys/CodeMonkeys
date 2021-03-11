@@ -26,7 +26,7 @@ namespace CodeMonkeys.Navigation.WPF
         public virtual async Task CloseAsync<TViewModel, TParentViewModel>()
 
             where TViewModel : class, IViewModel
-            where TParentViewModel : class, IViewModel, IListenToChildViewModelClosing
+            where TParentViewModel : class, IViewModel, IInterestedInClosing
         {
             ThrowIfNotRegistered<TViewModel>();
 
@@ -43,7 +43,7 @@ namespace CodeMonkeys.Navigation.WPF
             TResult result)
 
             where TViewModelInterface : class, IViewModel
-            where TParentViewModelInterface : class, IViewModel, IListenToChildViewModelClosing<TResult>
+            where TParentViewModelInterface : class, IViewModel, IInterestedInClosing<TResult>
         {
             ThrowIfNotRegistered<TViewModelInterface>();
 
@@ -77,27 +77,27 @@ namespace CodeMonkeys.Navigation.WPF
 
         private async Task ResolveAndInformParent<TParentViewModelInterface>()
 
-            where TParentViewModelInterface : class, IListenToChildViewModelClosing
+            where TParentViewModelInterface : class, IInterestedInClosing
         {
             var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
 
             Log?.Info(
                 $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
 
-            await parentViewModel.OnChildViewModelClosingAsync();
+            await parentViewModel.OnInterestedViewModelClosingAsync();
         }
 
         private async Task ResolveAndInformParent<TParentViewModelInterface, TResult>(
             TResult result)
 
-            where TParentViewModelInterface : class, IListenToChildViewModelClosing<TResult>
+            where TParentViewModelInterface : class, IInterestedInClosing<TResult>
         {
             var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
 
             Log?.Info(
                 $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
 
-            await parentViewModel.OnChildViewModelClosingAsync(
+            await parentViewModel.OnInterestedViewModelClosingAsync(
                 result);
         }
     }

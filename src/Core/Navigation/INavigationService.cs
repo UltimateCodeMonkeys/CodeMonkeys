@@ -62,22 +62,6 @@ namespace CodeMonkeys.Navigation
         Task CloseAsync<TViewModel>()
             where TViewModel : class, IViewModel;
 
-        /// <summary>
-        /// Closes the View that is associated with the ViewModel interface type and informs the parent one
-        /// </summary>
-        Task CloseAsync<TViewModel, TInterestedViewModel>()
-            where TViewModel : class, IViewModel
-            where TInterestedViewModel : class, IViewModel, IListenToChildViewModelClosing;
-        
-        /// <summary>
-        /// Closes the View that is associated with the ViewModel interface type and informs the parent one
-        /// </summary>
-        /// <param name="resultData">The data that should be passed back to the parent (OnChildViewModelClosed)</param>
-        Task CloseAsync<TViewModel, TInterestedViewModel, TResult>(
-            TResult resultData)
-            where TViewModel : class, IViewModel
-            where TInterestedViewModel : class, IViewModel, IListenToChildViewModelClosing<TResult>;
-
 
         /// <summary>
         /// Clears the view instance cache.

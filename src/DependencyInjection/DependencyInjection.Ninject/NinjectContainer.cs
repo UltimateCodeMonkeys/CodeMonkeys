@@ -56,7 +56,9 @@ namespace CodeMonkeys.DependencyInjection.Ninject
             var instance = container.Get(serviceType);
 
             if (!(instance is TImplementation implementation))
+            {
                 return null;
+            }
 
 
             return implementation;

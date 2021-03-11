@@ -236,7 +236,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             view.BindingContext = viewModel;
 
-            if (viewModel is IHandleClosing)
+            if (viewModel is IHandleClosing ||
+                registration.InterestedType != null)
             {
                 view.Disappearing += OnViewClosing;
             }
@@ -352,7 +353,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                     animated: Configuration.UseAnimations);
             });
         }
-               
 
 
 

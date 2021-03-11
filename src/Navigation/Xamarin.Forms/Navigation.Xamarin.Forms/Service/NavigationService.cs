@@ -206,6 +206,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
                 page.BindingContext = viewModel;
+                page.Disappearing += OnViewClosing;
             }
         }
 
@@ -222,51 +223,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             return registrationInfo?.ViewType == RootPage.GetType();
         }
-
-
-
-        #region View Disappearing event
-        private async void OnViewClosing(
-            object sender,
-            EventArgs eventArgs)
-        {
-            if (!(sender is Page page))
-            {
-                return;
-            }
-
-            if (Registrations == null ||
-                !Registrations.Any(
-                    registration => registration.ViewType == page.GetType()))
-            {
-                DetachDisappearingEventListener(page);
-                return;
-            }
-
-            if (!(page.BindingContext is IHandleClosing viewModel))
-            {
-                DetachDisappearingEventListener(page);
-                return;
-            }
-
-            await viewModel.OnClosing();
-
-            DetachDisappearingEventListener(page);
-        }
-
-
-        private void DetachDisappearingEventListener(
-            Page closedPage)
-        {
-            if (closedPage == null)
-            {
-                return;
-            }
-
-            closedPage.Disappearing -= OnViewClosing;
-        }
-        #endregion
-
 
 
         public static void SetupLogging(

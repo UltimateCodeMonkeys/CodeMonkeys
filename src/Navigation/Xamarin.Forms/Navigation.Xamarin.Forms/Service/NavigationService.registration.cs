@@ -40,29 +40,29 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Log?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
         }
 
-        public INavigationRegistration Register<TViewModel, TView>()
+        //public INavigationRegistration Register<TViewModel, TView>()
 
-            where TViewModel : IViewModel
-            where TView : class
-        {
-            var registrationInfo = new NavigationRegistration
-            {
-                ViewModelType = typeof(TViewModel),
-                ViewType = typeof(TView),
-                Platform = Device.RuntimePlatform.ToDevicePlatform()
-            };
+        //    where TViewModel : IViewModel
+        //    where TView : class
+        //{
+        //    var registrationInfo = new NavigationRegistration
+        //    {
+        //        ViewModelType = typeof(TViewModel),
+        //        ViewType = typeof(TView),
+        //        Platform = Device.RuntimePlatform.ToDevicePlatform()
+        //    };
 
-            RegisterInternal(registrationInfo);
+        //    RegisterInternal(registrationInfo);
 
-            if (registrationInfo.PreCreateInstance)
-            {
-                Task.Run(() => CreateCachedPage(registrationInfo.ViewType));
-            }
+        //    if (registrationInfo.PreCreateInstance)
+        //    {
+        //        Task.Run(() => CreateCachedPage(registrationInfo.ViewType));
+        //    }
 
-            Log?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
+        //    Log?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
 
-            return registrationInfo;
-        }
+        //    return registrationInfo;
+        //}
 
 
         /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.Unregister{TViewModelInterface}" />
