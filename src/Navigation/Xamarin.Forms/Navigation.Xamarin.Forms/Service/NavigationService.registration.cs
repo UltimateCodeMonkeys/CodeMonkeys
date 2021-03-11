@@ -40,31 +40,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Log?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
         }
 
-        //public INavigationRegistration Register<TViewModel, TView>()
-
-        //    where TViewModel : IViewModel
-        //    where TView : class
-        //{
-        //    var registrationInfo = new NavigationRegistration
-        //    {
-        //        ViewModelType = typeof(TViewModel),
-        //        ViewType = typeof(TView),
-        //        Platform = Device.RuntimePlatform.ToDevicePlatform()
-        //    };
-
-        //    RegisterInternal(registrationInfo);
-
-        //    if (registrationInfo.PreCreateInstance)
-        //    {
-        //        Task.Run(() => CreateCachedPage(registrationInfo.ViewType));
-        //    }
-
-        //    Log?.Info($"Registered ViewModel of type {registrationInfo.ViewModelType.Name} to page {registrationInfo.ViewType.Name}.");
-
-        //    return registrationInfo;
-        //}
-
-
         /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.Unregister{TViewModelInterface}" />
         public void Unregister<TViewModel>()
 
