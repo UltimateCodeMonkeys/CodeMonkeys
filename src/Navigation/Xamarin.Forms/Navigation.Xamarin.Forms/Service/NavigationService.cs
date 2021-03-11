@@ -48,6 +48,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                     _ => Application.Current.MainPage,
                 };
 
+
                 return rootPage;
             }
         }

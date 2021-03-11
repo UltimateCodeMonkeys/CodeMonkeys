@@ -205,21 +205,15 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        internal static void ThrowIfNotRegistered<TViewModelInterface>(
+        internal static void ThrowIfNotRegistered<TViewModel>(
             Type typeOfView = null)
         {
-            if (IsRegistered(typeof(TViewModelInterface), typeOfView))
+            if (IsRegistered(typeof(TViewModel), typeOfView))
             {
                 return;
             }
 
-            // todo: which exception type fits best?
-            var notRegisteredException = new InvalidOperationException(
-                $"There is no reference from viewmodel type {typeof(TViewModelInterface).Name} to a page.");
-
-            Log?.Error(notRegisteredException);
-
-            throw notRegisteredException;
+            ThrowNotRegisteredException<TViewModel>();
         }
 
 
@@ -241,6 +235,19 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
             return true;
+        }
+
+
+        private static void ThrowNotRegisteredException<TViewModel>()
+        {
+            // todo: which exception type fits best?
+            var notRegisteredException = new InvalidOperationException(
+                $"There is no reference from viewmodel type {typeof(TViewModel).Name} to a page.");
+
+            Log?.Error(notRegisteredException);
+
+
+            throw notRegisteredException;
         }
     }
 }
