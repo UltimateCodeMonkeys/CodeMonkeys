@@ -120,7 +120,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
 
-        public static NavigationRegistration WithInterestedViewModel<TInterested>(
+        public static NavigationRegistration WithClosingListener<TInterested>(
             this NavigationRegistration registrationInfo)
 
             where TInterested : IInterestedInClosing
