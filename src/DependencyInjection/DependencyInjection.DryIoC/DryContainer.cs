@@ -40,7 +40,9 @@ namespace CodeMonkeys.DependencyInjection.DryIoC
 
 
             if (!(instance is TImplementation implementation))
+            {
                 return null;
+            }
 
 
             return implementation;

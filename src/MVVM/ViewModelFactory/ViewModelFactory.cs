@@ -16,9 +16,7 @@ namespace CodeMonkeys.MVVM
         private static ILogService log;
         private static IDependencyContainer container;
 
-        private static INavigationService navigationServiceInstance;
-
-        private const string ARGUMENT_NULL_EXCEPTION_MESSAGE = "ViewModel cannot be resolved --- is it registered?";
+        private const string ARGUMENT_NULL_EXCEPTION_MESSAGE = "No ViewModel type has been provided!";
 
         /// <summary>
         /// Sets up the factory for further usage by passing the DI container instance and an optional logger
@@ -32,29 +30,6 @@ namespace CodeMonkeys.MVVM
             container = typeResolver;
             log = logService;
         }
-
-
-        internal static INavigationService TryResolveNavigationServiceInstance()
-        {
-            try
-            {
-                return navigationServiceInstance ??= container.Resolve<INavigationService>();
-            }
-            catch (Exception innerException)
-            {
-                string errorMessage =
-                    $"Unable to resolve instance of type {typeof(INavigationService)} --- did you register an implementation?";
-
-                log?.Error(
-                    errorMessage,
-                    innerException);
-
-                throw new TypeLoadException(
-                    errorMessage,
-                    innerException);
-            }
-        }
-
 
         /// <summary>
         /// Creates a new ViewModel instance, invokes the InitializeAsync method and returns the initialized instance
@@ -84,14 +59,16 @@ namespace CodeMonkeys.MVVM
                                     registration.ViewModel == viewModelType);
 
                 if (registration != null &&
-                    registration.Initialize)
+                    registration.Initialize &&
+                    instance != null)
                 {
                     TaskHelper.RunSync(instance.InitializeAsync);
                 }
 
+
                 return instance;
             }
-            catch (Exception innerException)
+            catch (Exception exception)
             {
                 string errorMessage = viewModelType == null ?
                     ARGUMENT_NULL_EXCEPTION_MESSAGE :
@@ -99,11 +76,10 @@ namespace CodeMonkeys.MVVM
 
                 log?.Critical(
                     errorMessage,
-                    innerException);
+                    exception);
 
-                throw new TypeLoadException(
-                    errorMessage,
-                    innerException);
+
+                throw;
             }
         }
 
@@ -139,14 +115,15 @@ namespace CodeMonkeys.MVVM
                                     registration.ViewModel == viewModelType);
 
                 if (registration != null &&
-                    registration.Initialize)
+                    registration.Initialize &&
+                    instance != null)
                 {
                     await instance.InitializeAsync();
                 }
 
                 return instance;
             }
-            catch (Exception innerException)
+            catch (Exception exception)
             {
                 string errorMessage = viewModelType == null ?
                     ARGUMENT_NULL_EXCEPTION_MESSAGE :
@@ -154,11 +131,9 @@ namespace CodeMonkeys.MVVM
 
                 log?.Critical(
                     errorMessage,
-                    innerException);
+                    exception);
 
-                throw new TypeLoadException(
-                    errorMessage,
-                    innerException);
+                throw;
             }
         }
 
@@ -195,14 +170,16 @@ namespace CodeMonkeys.MVVM
                                     registration.ViewModel == viewModelType);
 
                 if (registration != null &&
-                    registration.Initialize)
+                    registration.Initialize && 
+                    instance != null)
                 {
                     TaskHelper.RunSync(() => instance.InitializeAsync(model));
                 }
 
+
                 return instance;
             }
-            catch (Exception innerException)
+            catch (Exception exception)
             {
                 string errorMessage = viewModelType == null ?
                     ARGUMENT_NULL_EXCEPTION_MESSAGE :
@@ -210,11 +187,10 @@ namespace CodeMonkeys.MVVM
 
                 log?.Critical(
                     errorMessage,
-                    innerException);
+                    exception);
 
-                throw new TypeLoadException(
-                    errorMessage,
-                    innerException);
+
+                throw;
             }
         }
 
@@ -255,15 +231,17 @@ namespace CodeMonkeys.MVVM
                                     registration.ViewModel == viewModelType);
 
                 if (registration != null &&
-                    registration.Initialize)
+                    registration.Initialize &&
+                    instance != null)
                 {
                     await instance.InitializeAsync(
                         model);
-                }                
+                }
+
 
                 return instance;
             }
-            catch (Exception innerException)
+            catch (Exception exception)
             {
                 string errorMessage = viewModelType == null ?
                     ARGUMENT_NULL_EXCEPTION_MESSAGE :
@@ -271,12 +249,49 @@ namespace CodeMonkeys.MVVM
 
                 log?.Critical(
                     errorMessage,
-                    innerException);
+                    exception);
 
-                throw new TypeLoadException(
-                    errorMessage,
-                    innerException);
+
+                throw;
             }
+        }
+
+        public static async Task<TViewModel> ResolveFromModelAsync<TViewModel, TModel>(
+            TModel model)
+
+            where TViewModel : class, IViewModel<TModel>
+        {
+            var registration = _registrations?.FirstOrDefault(
+                registration => registration.Model == typeof(TModel));
+
+            if (registration == null)
+            {
+                throw new InvalidOperationException(
+                    $"No registration found for model type {typeof(TModel).Name}!");
+            }
+
+
+            var instance = await ResolveAsync(
+                registration.Interface);
+
+            if (instance == null)
+            {
+                instance = await ResolveAsync(
+                    registration.ViewModel);
+            }
+
+            if (!(instance is TViewModel viewModel))
+            {
+                throw new InvalidOperationException(
+                    $"Registered ViewModel is of type {instance.GetType().Name}, not {typeof(TViewModel).Name}!");
+            }
+
+
+            await viewModel.InitializeAsync(
+                model);
+
+
+            return viewModel;
         }
 
         public static async Task<IViewModel<TModel>> ResolveFromModelAsync<TModel>(
@@ -292,17 +307,13 @@ namespace CodeMonkeys.MVVM
 
 
             var instance = await ResolveAsync(
-                registration.Interface); 
+                registration.Interface);
 
-            if (instance == null)
-            {
-                instance = await ResolveAsync(
-                    registration.ViewModel);
-            }
 
             if (!(instance is IViewModel<TModel> viewModel))
             {
-                return null;
+                throw new InvalidOperationException(
+                    $"'{instance.GetType().Name}' does not implement '{typeof(IViewModel<TModel>).Name}'!");
             }
 
 

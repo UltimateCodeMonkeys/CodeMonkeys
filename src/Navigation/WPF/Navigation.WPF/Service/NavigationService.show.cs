@@ -150,7 +150,8 @@ namespace CodeMonkeys.Navigation.WPF
             content.DataContext = viewModel;
 
 
-            if (viewModel is IHandleClosing)
+            if (viewModel is IHandleClosing ||
+                registration.InterestedType != null)
             {
                 content.Unloaded += OnContentUnloaded;
             }
@@ -158,6 +159,7 @@ namespace CodeMonkeys.Navigation.WPF
 
             Log?.Info(
                 $"View of type {content.GetType().Name} has been created!");
+
 
             return (TView)content;
         }

@@ -19,10 +19,9 @@ namespace CodeMonkeys.MVVM
                 typeof(TImplementation),
                 typeof(TInterface));
 
-            _registrations.Add(registrationInfo);
 
-
-            container.RegisterType<TInterface, TImplementation>();
+            RegisterInternal(
+                registrationInfo);
 
 
             return registrationInfo;
@@ -46,47 +45,92 @@ namespace CodeMonkeys.MVVM
 
 
         public static RegistrationInfo WithModel<TModel>(
-            this RegistrationInfo registrationInfo)
+            this RegistrationInfo registration)
         {
             Argument.NotNull(
-                registrationInfo,
-                nameof(registrationInfo));
+                registration,
+                nameof(registration));
 
 
-            if (registrationInfo.Interface?.IsAssignableFrom(
+            if (registration.Interface?.IsAssignableFrom(
                     typeof(IViewModel<TModel>)) != true &&
-                registrationInfo.ViewModel?.IsAssignableFrom(
+                registration.ViewModel?.IsAssignableFrom(
                     typeof(IViewModel<TModel>)) != true)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(
+                    $"Neither '{registration.Interface.Name}' nor '{registration.ViewModel.Name}' implement '{typeof(IViewModel<TModel>).Name}'!");
             }
 
-            if (!_registrations.Contains(registrationInfo))
+            if (!_registrations.Contains(
+                registration))
             {
-                throw new InvalidOperationException();
+                RegisterInternal(
+                    registration);
             }
 
 
-            registrationInfo.Model = typeof(TModel);
+            registration.Model = typeof(TModel);
 
 
-            return registrationInfo;
+            return registration;
         }
 
 
         public static RegistrationInfo DontInitialize(
-            this RegistrationInfo registrationInfo)
+            this RegistrationInfo registration)
         {
-            if (!_registrations.Contains(registrationInfo))
+            if (!_registrations.Contains(
+                registration))
             {
-                throw new InvalidOperationException();
+                RegisterInternal(
+                    registration);
             }
 
 
-            registrationInfo.Initialize = false;
+            registration.Initialize = false;
 
 
-            return registrationInfo;
+            return registration;
+        }
+
+
+        /// <summary>
+        /// Try to get a registration with either Interface, ViewModel or Model type matching <c>T</c>
+        /// </summary>
+        /// <typeparam name="T">Interface, ViewModel or Model type of the registration</typeparam>
+        /// <param name="registrationInfo"></param>
+        /// <returns><c>true</c> if there was a matching registration, otherwise <c>false</c></returns>
+        public static bool TryGetRegistration<T>(
+            out RegistrationInfo registrationInfo)
+        {
+            registrationInfo = _registrations?.FirstOrDefault(registration =>
+                registration.Interface == typeof(T) ||
+                registration.ViewModel == typeof(T) ||
+                registration.Model == typeof(T));
+
+
+            return registrationInfo != null;
+        }
+
+
+        private static void RegisterInternal(
+            RegistrationInfo registration)
+        {
+            _registrations.Add(registration);
+
+
+            // dont know what happens in different dependency container implementations when both types are the same
+            if (registration.Interface == registration.ViewModel)
+            {
+                container.RegisterType(
+                    registration.Interface);
+            }
+            else
+            {
+                container.RegisterType(
+                    registration.Interface,
+                    registration.ViewModel);
+            }
         }
     }
 }

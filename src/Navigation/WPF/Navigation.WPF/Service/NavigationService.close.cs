@@ -1,8 +1,11 @@
-﻿using CodeMonkeys.Logging;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+
+using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM;
 using CodeMonkeys.Navigation.ViewModels;
-
-using System.Threading.Tasks;
 
 namespace CodeMonkeys.Navigation.WPF
 {
@@ -20,40 +23,6 @@ namespace CodeMonkeys.Navigation.WPF
 
 
             return Task.CompletedTask;
-        }
-
-        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface}" />
-        public virtual async Task CloseAsync<TViewModel, TParentViewModel>()
-
-            where TViewModel : class, IViewModel
-            where TParentViewModel : class, IViewModel, IListenToChildViewModelClosing
-        {
-            ThrowIfNotRegistered<TViewModel>();
-
-
-            if (!TryGoBack())
-                return;
-
-
-            await ResolveAndInformParent<TParentViewModel>();
-        }
-
-        /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.CloseAsync{TViewModelInterface, TParentViewModelInterface, TResult}(TResult)" />
-        public virtual async Task CloseAsync<TViewModelInterface, TParentViewModelInterface, TResult>(
-            TResult result)
-
-            where TViewModelInterface : class, IViewModel
-            where TParentViewModelInterface : class, IViewModel, IListenToChildViewModelClosing<TResult>
-        {
-            ThrowIfNotRegistered<TViewModelInterface>();
-
-
-            if (!TryGoBack())
-                return;
-
-
-            await ResolveAndInformParent<TParentViewModelInterface, TResult>(
-                result);
         }
 
 
@@ -74,31 +43,78 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-
-        private async Task ResolveAndInformParent<TParentViewModelInterface>()
-
-            where TParentViewModelInterface : class, IListenToChildViewModelClosing
+        private async Task ResolveAndInformListenerAsync(
+            Type listenerType)
         {
-            var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
+            if (listenerType == null)
+            {
+                return;
+            }
+
+
+            var listener = dependencyResolver.Resolve<IInterestedInClosing>(
+                listenerType);
+
 
             Log?.Info(
-                $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
+                $"ViewModelInstance for type {listener?.GetType().Name} has been resolved.");
 
-            await parentViewModel.OnChildViewModelClosingAsync();
+            
+            await listener?.OnInterestedViewModelClosingAsync();
         }
 
-        private async Task ResolveAndInformParent<TParentViewModelInterface, TResult>(
-            TResult result)
 
-            where TParentViewModelInterface : class, IListenToChildViewModelClosing<TResult>
+
+
+        #region View Disappearing event
+
+        private async void OnContentUnloaded(
+            object sender,
+            EventArgs eventArgs)
         {
-            var parentViewModel = dependencyResolver.Resolve<TParentViewModelInterface>();
+            if (!(sender is FrameworkElement content))
+            {
+                return;
+            }
 
-            Log?.Info(
-                $"ViewModelInstance for type {typeof(TParentViewModelInterface).Name} has been resolved.");
+            var registrationInfo = Registrations?.FirstOrDefault(
+                registration => registration.ViewType == content.GetType());
 
-            await parentViewModel.OnChildViewModelClosingAsync(
-                result);
+            if (registrationInfo == null)
+            {
+                DetachDisappearingEventListener(content);
+                return;
+            }
+
+
+            if (content.DataContext is IHandleClosing viewModel)
+            {
+                await viewModel.OnClosing();
+            }
+
+            if (registrationInfo.InterestedType != null)
+            {
+                await ResolveAndInformListenerAsync(
+                    registrationInfo.InterestedType)
+                    .ConfigureAwait(false);
+            }
+
+
+            DetachDisappearingEventListener(content);
         }
+
+
+        private void DetachDisappearingEventListener(
+            FrameworkElement content)
+        {
+            if (content == null)
+            {
+                return;
+            }
+
+            content.Unloaded -= OnContentUnloaded;
+        }
+
+        #endregion View Disappearing event
     }
 }
