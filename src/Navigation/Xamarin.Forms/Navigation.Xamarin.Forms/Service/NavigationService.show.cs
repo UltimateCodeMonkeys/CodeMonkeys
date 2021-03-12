@@ -80,6 +80,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 await PopToRootAsync()
                     .ConfigureAwait(false);
             }
+            else if (IsTab(
+                registration.ViewType))
+            {
+                await SetTabAsync(registration.ViewType)
+                    .ConfigureAwait(false);
+            }
             else
             {
                 var viewModelInstance = await InitializeViewModelAsync<TViewModel>()
@@ -322,9 +328,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             {
                 var tab = tabbedPage
                     .Children
-                    .FirstOrDefault(c => IsPageOfType(
-                        c,
-                        page.GetType()));
+                    .FirstOrDefault(tab => IsPageOfType(
+                        tab,
+                        selectedTabType));
 
                 if (tab == null)
                 {

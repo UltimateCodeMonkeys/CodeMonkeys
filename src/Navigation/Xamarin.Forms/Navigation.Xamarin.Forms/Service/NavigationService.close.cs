@@ -31,10 +31,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
 
-            await ResolveAndInformListener(
-                registration.InterestedType);
-
-
             await CloseCurrentPage()
                 .ConfigureAwait(false);
         }
@@ -82,7 +78,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        private async Task ResolveAndInformListener(
+        private async Task ResolveAndInformListenerAsync(
             Type listenerType)
         {
             if (listenerType == null)
@@ -134,8 +130,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             if (registrationInfo.InterestedType != null)
             {
-                await ResolveAndInformListener(
-                    registrationInfo.InterestedType);
+                await ResolveAndInformListenerAsync(
+                    registrationInfo.InterestedType)
+                    .ConfigureAwait(false);
             }
 
 

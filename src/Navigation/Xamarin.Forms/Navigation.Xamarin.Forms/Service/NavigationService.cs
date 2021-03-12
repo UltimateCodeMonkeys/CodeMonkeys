@@ -1,14 +1,13 @@
-﻿using CodeMonkeys.DependencyInjection;
-using CodeMonkeys.Logging;
-using CodeMonkeys.MVVM;
-using CodeMonkeys.Navigation.ViewModels;
-using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
+using CodeMonkeys.DependencyInjection;
+using CodeMonkeys.Logging;
+using CodeMonkeys.MVVM;
+using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 
 using Xamarin.Forms;
 

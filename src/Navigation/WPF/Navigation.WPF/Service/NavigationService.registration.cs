@@ -147,6 +147,7 @@ namespace CodeMonkeys.Navigation.WPF
                 .FirstOrDefault(registration =>
                     registration.ViewModelType == viewModelType);
 
+
             return registrationInfo != null;
         }
                 
