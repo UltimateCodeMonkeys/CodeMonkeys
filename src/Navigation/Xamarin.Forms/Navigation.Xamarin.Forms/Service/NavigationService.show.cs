@@ -320,10 +320,13 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             await Device.InvokeOnMainThreadAsync(() =>
             {
-                var selectedTab = tabbedPage.Children
-                    .FirstOrDefault(tab => tab.GetType() == selectedTabType);
+                var tab = tabbedPage
+                    .Children
+                    .FirstOrDefault(c => IsPageOfType(
+                        c,
+                        page.GetType()));
 
-                if (selectedTab == null)
+                if (tab == null)
                 {
                     Log?.Error(
                         $"{tabbedPage.GetType().Name} does not contain requested view {selectedTabType.Name}!");
@@ -332,8 +335,25 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 }
 
 
-                tabbedPage.CurrentPage = selectedTab;
+                tabbedPage.CurrentPage = tab;
             });
+        }
+
+        private bool IsPageOfType(
+            Page page,
+            Type type)
+        {
+            if (page?.GetType() == type)
+            {
+                return true;
+            }
+
+            if (page is NavigationPage navigationPage)
+            {
+                return navigationPage?.RootPage?.GetType() == type;
+            }
+
+            return false;
         }
 
 
