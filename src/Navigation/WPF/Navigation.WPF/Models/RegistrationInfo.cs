@@ -10,6 +10,8 @@ namespace CodeMonkeys.Navigation.WPF
         public Type ViewType { get; set; }
 
 
+        public Type InterestedType { get; set; }
+
         public bool PreCreateInstance { get; set; }
 
 

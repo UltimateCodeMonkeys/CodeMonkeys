@@ -8,6 +8,9 @@ namespace CodeMonkeys.Navigation
         Type ViewType { get; }
 
 
+        Type InterestedType { get; }
+
+
         /// <summary>
         /// <para>
         /// <see cref="CodeMonkeys.DependencyInjection.IDependencyContainer"/> is used to create the view if set to <value>true</value>.

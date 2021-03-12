@@ -19,26 +19,46 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             where TViewModel : class, IViewModel
         {
-            ThrowIfNotRegistered<TViewModel>();
+            if (!TryGetRegistration(
+                typeof(TViewModel),
+                out var registration))
+            {
+                ThrowNotRegisteredException<TViewModel>();
+            }
+
 
             if (IsRoot<TViewModel>())
             {
-                await PopToRootAsync();
-                return;
+                await PopToRootAsync()
+                    .ConfigureAwait(false);
             }
+            else if (IsTab(
+                registration.ViewType))
+            {
+                await SetTabAsync(registration.ViewType)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                var viewModelInstance = await InitializeViewModelAsync<TViewModel>()
+                    .ConfigureAwait(false);
 
-            var viewModelInstance = await InitializeViewModelAsync<TViewModel>()
-                .ConfigureAwait(false);
-
-            var page = CreateView<TViewModel>(
-                viewModelInstance);
+                var page = CreateView<TViewModel>(
+                    viewModelInstance);
 
 
-            var showAsyncFunc = BuildShowAsyncFunc(
-                page);
-
-            await showAsyncFunc.Invoke(page)
-                .ConfigureAwait(false);
+                if (IsDetail(
+                    registration.ViewType))
+                {
+                    await SetDetailAsync(page)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    await PushAsync(page)
+                        .ConfigureAwait(false);
+                }
+            }
         }
 
         /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.ShowAsync{TViewModelInterface, TModel}(TModel)" />
@@ -47,27 +67,46 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             where TViewModel : class, IViewModel<TData>
         {
-            ThrowIfNotRegistered<TViewModel>();
+            if (!TryGetRegistration(
+                typeof(TViewModel),
+                out var registration))
+            {
+                ThrowNotRegisteredException<TViewModel>();
+            }
+
 
             if (IsRoot<TViewModel>())
             {
-                await PopToRootAsync();
-                return;
+                await PopToRootAsync()
+                    .ConfigureAwait(false);
             }
+            else if (IsTab(
+                registration.ViewType))
+            {
+                await SetTabAsync(registration.ViewType)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                var viewModelInstance = await InitializeViewModelAsync<TViewModel>()
+                    .ConfigureAwait(false);
 
-            var viewModelInstance = 
-                await InitializeViewModelAsync<TViewModel, TData>(data)
-                .ConfigureAwait(false);
-
-            var page = CreateView<TViewModel>(
-                viewModelInstance);
+                var page = CreateView<TViewModel>(
+                    viewModelInstance);
 
 
-            var showAsyncFunc = BuildShowAsyncFunc(
-                page);
-
-            await showAsyncFunc.Invoke(
-               page);
+                if (IsDetail(
+                    registration.ViewType))
+                {
+                    await SetDetailAsync(page)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    await PushAsync(page)
+                        .ConfigureAwait(false);
+                }
+            }
         }
 
 
@@ -112,7 +151,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             await PushModalAsync(page)
                 .ConfigureAwait(false);
         }
-
 
 
         protected async Task<TViewModel> InitializeViewModelAsync<TViewModel>()
@@ -204,7 +242,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             view.BindingContext = viewModel;
 
-            if (viewModel is IHandleClosing)
+            if (viewModel is IHandleClosing ||
+                registration.InterestedType != null)
             {
                 view.Disappearing += OnViewClosing;
             }
@@ -218,23 +257,26 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
 
-        private Func<Page, Task> BuildShowAsyncFunc(
-            Page page)
+        private bool IsTab(
+            Type viewType)
         {
-            if (RootPage is MasterDetailPage &&
-                page is DetailPage)
+            if (!(RootPage is TabbedPage tabbedPage) ||
+                !viewType.IsAssignableFrom(typeof(TabPage)))
             {
-                return SetDetailAsync;
+                return false;
             }
-            else if (RootPage is TabbedPage &&
-                page is TabPage)
-            {
-                return SetTabAsync;
-            }
-            else
-            {
-                return PushAsync;
-            }
+
+
+            return tabbedPage.Children.Any(
+                tab => tab.GetType() == viewType);
+        }
+
+
+        private bool IsDetail(
+            Type viewType)
+        {
+            return RootPage is MasterDetailPage &&
+                viewType.IsAssignableFrom(typeof(DetailPage));
         }
 
 
@@ -257,7 +299,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private async Task SetDetailAsync(
             Page page)
         {
-            if (!(Application.Current.MainPage is MasterDetailPage masterDetailPage))
+            if (!(Application.Current.MainPage is MasterDetailPage masterDetailPage) ||
+                !page.GetType().IsAssignableFrom(typeof(DetailPage)))
             {
                 return;
             }
@@ -271,33 +314,28 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
         private async Task SetTabAsync(
-            Page page)
+            Type selectedTabType)
         {
-            var mainPage = Application.Current.MainPage;
-
-            if (mainPage is NavigationPage navigation)
-            {
-                mainPage = navigation.RootPage;
-            }
-
-            if (!(mainPage is TabbedPage tabbedPage))
+            if (!IsTab(selectedTabType))
             {
                 return;
             }
 
 
+            var tabbedPage = RootPage as TabbedPage;
+
             await Device.InvokeOnMainThreadAsync(() =>
             {
                 var tab = tabbedPage
                     .Children
-                    .FirstOrDefault(c => IsPageOfType(
-                        c,
-                        page.GetType()));
+                    .FirstOrDefault(tab => IsPageOfType(
+                        tab,
+                        selectedTabType));
 
                 if (tab == null)
                 {
                     Log?.Error(
-                        $"{tabbedPage.GetType().Name} does not contain requested view {page.GetType().Name}!");
+                        $"{tabbedPage.GetType().Name} does not contain requested view {selectedTabType.Name}!");
 
                     return;
                 }
@@ -328,7 +366,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private async Task PushModalAsync(
             Page page)
         {
-            if (Navigation == null)
+            if (CurrentPage?.Navigation == null)
             {
                 return;
             }
@@ -336,12 +374,11 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             await Device.InvokeOnMainThreadAsync(() =>
             {
-                Navigation.PushModalAsync(
+                CurrentPage.Navigation.PushModalAsync(
                     page,
                     animated: Configuration.UseAnimations);
             });
         }
-               
 
 
 

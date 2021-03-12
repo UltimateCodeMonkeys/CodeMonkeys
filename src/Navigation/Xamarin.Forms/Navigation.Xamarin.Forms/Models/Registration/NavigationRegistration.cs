@@ -9,6 +9,10 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         public virtual Type ViewType { get; internal set; }
 
 
+        public virtual Type InterestedType { get; internal set; }
+
+
+
         /// <inheritdoc cref="INavigationRegistration.ResolveViewUsingDependencyInjection" />
         public bool ResolveViewUsingDependencyInjection { get; set; }
         public bool PreCreateInstance { get; set; }

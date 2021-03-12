@@ -238,53 +238,6 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
-        #region View Disappearing event
-
-        private async void OnContentUnloaded(
-            object sender,
-            EventArgs eventArgs)
-        {
-            if (!(sender is FrameworkElement content))
-            {
-                return;
-            }
-
-            if (Registrations == null ||
-                !Registrations.Any(
-                    registration => registration.ViewType == content.GetType()))
-            {
-                DetachDisappearingEventListener(content);
-                return;
-            }
-
-
-            if (!(content.DataContext is IHandleClosing viewModel))
-            {
-                DetachDisappearingEventListener(content);
-                return;
-            }
-
-            await viewModel.OnClosing();
-
-            DetachDisappearingEventListener(content);
-        }
-
-
-        private void DetachDisappearingEventListener(
-            FrameworkElement content)
-        {
-            if (content == null)
-            {
-                return;
-            }
-
-            content.Unloaded -= OnContentUnloaded;
-        }
-
-        #endregion View Disappearing event
-
-
-
         public static void SetupLogging(
             ILogService logService)
         {
