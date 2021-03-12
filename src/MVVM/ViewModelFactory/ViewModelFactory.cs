@@ -279,6 +279,44 @@ namespace CodeMonkeys.MVVM
             }
         }
 
+        public static async Task<TViewModel> ResolveFromModelAsync<TViewModel, TModel>(
+            TModel model)
+
+            where TViewModel : class, IViewModel<TModel>
+        {
+            var registration = _registrations?.FirstOrDefault(
+                registration => registration.Model == typeof(TModel));
+
+            if (registration == null)
+            {
+                throw new InvalidOperationException(
+                    $"No registration found for model type {typeof(TModel).Name}!");
+            }
+
+
+            var instance = await ResolveAsync(
+                registration.Interface);
+
+            if (instance == null)
+            {
+                instance = await ResolveAsync(
+                    registration.ViewModel);
+            }
+
+            if (!(instance is TViewModel viewModel))
+            {
+                throw new InvalidOperationException(
+                    $"Registered ViewModel is of type {instance.GetType().Name}, not {typeof(TViewModel).Name}!");
+            }
+
+
+            await viewModel.InitializeAsync(
+                model);
+
+
+            return viewModel;
+        }
+
         public static async Task<IViewModel<TModel>> ResolveFromModelAsync<TModel>(
             TModel model)
         {
@@ -292,17 +330,13 @@ namespace CodeMonkeys.MVVM
 
 
             var instance = await ResolveAsync(
-                registration.Interface); 
+                registration.Interface);
 
-            if (instance == null)
-            {
-                instance = await ResolveAsync(
-                    registration.ViewModel);
-            }
 
             if (!(instance is IViewModel<TModel> viewModel))
             {
-                return null;
+                throw new InvalidOperationException(
+                    $"'{instance.GetType().Name}' does not implement '{typeof(IViewModel<TModel>).Name}'!");
             }
 
 
