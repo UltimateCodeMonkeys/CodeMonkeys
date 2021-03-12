@@ -4,18 +4,20 @@ namespace CodeMonkeys.MVVM
 {
     public class RegistrationInfo
     {
-        public Type ViewModel { get; internal set; }
-        public Type Interface { get; internal set; }
+        public Type ViewModel { get; protected set; }
+        public Type Interface { get; protected set; }
+
 
         public Type Model { get; internal set; }
 
-
         public bool Initialize { get; internal set; } = true;
+
 
 
         public RegistrationInfo(
             Type viewModelType)
         {
+            Interface = viewModelType;
             ViewModel = viewModelType;
         }
 
