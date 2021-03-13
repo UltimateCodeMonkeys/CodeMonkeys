@@ -5,7 +5,14 @@ namespace CodeMonkeys.MVVM
     public class RegistrationInfo
     {
         public Type ViewModel { get; protected set; }
-        public Type Interface { get; protected set; }
+
+
+        private Type @interface;
+        public Type Interface
+        {
+            get => @interface ?? ViewModel;
+            set => @interface = value;
+        }
 
 
         public Type Model { get; internal set; }
@@ -17,7 +24,6 @@ namespace CodeMonkeys.MVVM
         public RegistrationInfo(
             Type viewModelType)
         {
-            Interface = viewModelType;
             ViewModel = viewModelType;
         }
 

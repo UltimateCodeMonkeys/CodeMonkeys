@@ -16,9 +16,8 @@ namespace CodeMonkeys.MVVM
             where TImplementation : class, TInterface, IViewModel
         {
             var registrationInfo = new RegistrationInfo(
-                typeof(TImplementation),
-                typeof(TInterface));
-
+                typeof(TInterface),
+                typeof(TImplementation));
 
             RegisterInternal(
                 registrationInfo);
@@ -34,10 +33,8 @@ namespace CodeMonkeys.MVVM
             var registrationInfo = new RegistrationInfo(
                 typeof(TImplementation));
 
-            _registrations.Add(registrationInfo);
-
-
-            container.RegisterType<TImplementation>();
+            RegisterInternal(
+                registrationInfo);
 
 
             return registrationInfo;
