@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using CodeMonkeys.DependencyInjection;
 using CodeMonkeys.Logging;
 using CodeMonkeys.MVVM;
+using CodeMonkeys.Navigation.ViewModels;
 using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 
 using Xamarin.Forms;
@@ -109,7 +111,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
         /// <inheritdoc cref="CodeMonkeys.Navigation.INavigationService.SetRoot{TViewModelInterface}()" />
-        public async Task SetRootAsync<TViewModel>()
+        public void SetRoot<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
@@ -121,27 +123,16 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
 
-            TViewModel instance;
-
-            if (registration.ViewType.IsAssignableFrom(
-                typeof(TabbedPage)))
-            {
-                instance = await InitializeViewModelInternalAsync<TViewModel>();
-            }
-            else
-            {
-                instance = InitializeViewModelInternal<TViewModel>();
-            }
-
+            var viewModelInstance = InitializeViewModelInternal<TViewModel>();
 
             var page = CreateView<TViewModel>(
-                instance);
+                viewModelInstance);
 
 
             SetRootInternal(page);
         }
 
-        public async Task SetRootAsync<TMasterViewModel, TDetailViewModel>()
+        public void SetRoot<TMasterViewModel, TDetailViewModel>()
 
             where TMasterViewModel : class, IViewModel
             where TDetailViewModel : class, IViewModel
@@ -150,15 +141,26 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             ThrowIfNotRegistered<TDetailViewModel>();
 
 
-            var masterViewModel = await InitializeViewModelInternalAsync<TMasterViewModel>();
-            var detailViewModel = InitializeViewModelInternal<TDetailViewModel>();
+            var masterViewModel = InitializeViewModelInternal<TMasterViewModel>();
 
 
             var masterPage = CreateViewInternal<TMasterViewModel, MasterDetailPage>(
                 masterViewModel);
 
-            var detailPage = CreateViewInternal<TDetailViewModel, DetailPage>(
-                detailViewModel);
+            var detailPage = CreateViewInternal<TDetailViewModel, DetailPage>();
+
+
+            _ = Task.Run(() => InitializeChildViewModel(
+                masterViewModel,
+                detailPage,
+                typeof(TDetailViewModel)));
+
+
+            if (typeof(TDetailViewModel).IsAssignableFrom(
+                typeof(IHandleClosing)))
+            {
+                detailPage.Disappearing += OnViewClosing;
+            }
 
 
             masterPage.Detail = new NavigationPage(detailPage);
@@ -176,7 +178,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
                 case TabbedPage tabbedPage:
                     page = new NavigationPage(page);
-                    _ = ResolveBindingContextsForTabs(tabbedPage);
+                    ResolveBindingContextsForTabs(tabbedPage);
                     break;
 
                 default:
@@ -190,7 +192,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             rootPage = null;
         }
 
-        private async Task ResolveBindingContextsForTabs(
+        private void ResolveBindingContextsForTabs(
             TabbedPage tabbedPage)
         {
             foreach (var child in tabbedPage.Children)
@@ -215,15 +217,36 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 }
 
 
-                var viewModel = dependencyResolver.Resolve<IViewModel>(
-                    registration.ViewModelType);
+                if (tabbedPage.BindingContext is IViewModel viewModel)
+                {
+                    _ = Task.Run(() => InitializeChildViewModel(
+                        viewModel,
+                        page,
+                        registration.ViewModelType));
+                }
 
-                _ = viewModel.InitializeAsync();
 
-
-                page.BindingContext = viewModel;
                 page.Disappearing += OnViewClosing;
             }
+        }
+
+        private void InitializeChildViewModel(
+            IViewModel parentViewModel,
+            Page page,
+            Type viewModelType)
+        {
+            while (!parentViewModel.IsInitialized)
+            {
+                Task.Delay(500);
+            }
+
+
+            var viewModel = dependencyResolver.Resolve<IViewModel>(
+                    viewModelType);
+
+            _ = viewModel.InitializeAsync();
+
+            page.BindingContext = viewModel;
         }
 
         private bool IsRoot<TDestinationViewModel>()

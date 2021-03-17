@@ -247,8 +247,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        internal TPage CreateViewInternal<TViewModel, TPage>(
-            TViewModel viewModel)
+        internal TPage CreateViewInternal<TViewModel, TPage>()
 
             where TViewModel : class, IViewModel
             where TPage : Page
@@ -275,10 +274,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 GetViewInstance<TPage>(registration);
 
 
-            view.BindingContext = viewModel;
-
-            if (viewModel is IHandleClosing ||
-                registration.InterestedType != null)
+            if (registration.InterestedType != null)
             {
                 view.Disappearing += OnViewClosing;
             }
@@ -288,6 +284,25 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
             return (TPage)view;
+        }
+
+        internal TPage CreateViewInternal<TViewModel, TPage>(
+            TViewModel viewModel)
+
+            where TViewModel : class, IViewModel
+            where TPage : Page
+        {
+            var view = CreateViewInternal<TViewModel, TPage>();
+
+            view.BindingContext = viewModel;
+
+            if (viewModel is IHandleClosing)
+            {
+                view.Disappearing += OnViewClosing;
+            }
+
+
+            return view;
         }
 
 

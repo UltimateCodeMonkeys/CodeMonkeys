@@ -13,7 +13,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         /// <typeparam name="TMasterViewModel">Master ViewModel containing the menu information</typeparam>
         /// <typeparam name="TDetailViewModel">Detail ViewModel to show on start</typeparam>
         /// <returns><see cref="Task" /> to await on</returns>
-        Task SetRootAsync<TMasterViewModel, TDetailViewModel>()
+        void SetRoot<TMasterViewModel, TDetailViewModel>()
             where TMasterViewModel : class, IViewModel
             where TDetailViewModel : class, IViewModel;
 

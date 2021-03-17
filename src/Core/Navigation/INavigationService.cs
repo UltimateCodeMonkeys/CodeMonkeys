@@ -1,8 +1,7 @@
-﻿using CodeMonkeys.MVVM;
-using CodeMonkeys.Navigation.ViewModels;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using CodeMonkeys.MVVM;
 
 namespace CodeMonkeys.Navigation
 {
@@ -36,7 +35,7 @@ namespace CodeMonkeys.Navigation
         /// </summary>
         /// <typeparam name="TViewModel"></typeparam>
         /// <param name="dataContext">A ViewModel instance of the given interface type</param>
-        Task SetRootAsync<TViewModel>()
+        void SetRoot<TViewModel>()
             where TViewModel : class, IViewModel;
 
 
