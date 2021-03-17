@@ -40,8 +40,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
             else
             {
-                var viewModelInstance = await InitializeViewModelAsync<TViewModel>()
-                    .ConfigureAwait(false);
+                var viewModelInstance = InitializeViewModel<TViewModel>();
 
                 var page = CreateView<TViewModel>(
                     viewModelInstance);
@@ -88,8 +87,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
             else
             {
-                var viewModelInstance = await InitializeViewModelAsync<TViewModel>()
-                    .ConfigureAwait(false);
+                var viewModelInstance = InitializeViewModel<TViewModel, TData>(
+                    data);
 
                 var page = CreateView<TViewModel>(
                     viewModelInstance);
@@ -118,9 +117,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             ThrowIfNotRegistered<TViewModel>();
 
 
-            var viewModelInstance =
-                await InitializeViewModelAsync<TViewModel>()
-                .ConfigureAwait(false);
+            var viewModelInstance = InitializeViewModel<TViewModel>();
 
             var page = CreateView<TViewModel>(
                 viewModelInstance);
@@ -140,9 +137,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             ThrowIfNotRegistered<TViewModel>();
 
 
-            var viewModelInstance =
-                await InitializeViewModelAsync<TViewModel, TData>(data)
-                .ConfigureAwait(false);
+            var viewModelInstance = InitializeViewModel<TViewModel, TData>(
+                data);
 
             var page = CreateView<TViewModel>(
                 viewModelInstance);
@@ -153,21 +149,19 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        protected Task<TViewModel> InitializeViewModelAsync<TViewModel>()
+        protected TViewModel InitializeViewModel<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
-            return Task.FromResult(
-                InitializeViewModelInternal<TViewModel>());
+            return InitializeViewModelInternal<TViewModel>();
         }
 
-        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel, TData>(
+        protected TViewModel InitializeViewModel<TViewModel, TData>(
             TData data)
 
             where TViewModel : class, IViewModel<TData>
         {
-            return await InitializeViewModelInternal<TViewModel, TData>(data)
-                .ConfigureAwait(false);
+            return InitializeViewModelInternal<TViewModel, TData>(data);
         }
 
 
@@ -177,7 +171,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         {
             var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
 
-            _ = viewModelInstance.InitializeAsync();
+            _ = viewModelInstance.InitializeAsync()
+                .ConfigureAwait(false);
 
 
             Log?.Info(
@@ -187,20 +182,58 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             return viewModelInstance;
         }
 
-        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel, TData>(
+        internal static async Task<TViewModel> InitializeViewModelInternalAsync<TViewModel>()
+            where TViewModel : class, IViewModel
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+
+            await viewModelInstance.InitializeAsync()
+                .ConfigureAwait(false);
+
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
+
+            return viewModelInstance;
+        }
+
+        internal static TViewModel InitializeViewModelInternal<TViewModel, TData>(
             TData data)
 
             where TViewModel : class, IViewModel<TData>
         {
             var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
-            await viewModelInstance.InitializeAsync(data)
+
+            _ = viewModelInstance.InitializeAsync(data)
                 .ConfigureAwait(false);
+
 
             Log?.Info(
                 $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
 
+
             return viewModelInstance;
         }
+
+        internal static async Task<TViewModel> InitializeViewModelInternalAsync<TViewModel, TData>(
+            TData data)
+
+            where TViewModel : class, IViewModel<TData>
+        {
+            var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
+
+            await viewModelInstance.InitializeAsync(data)
+                .ConfigureAwait(false);
+
+
+            Log?.Info(
+                $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
+
+            return viewModelInstance;
+        }
+
 
 
 

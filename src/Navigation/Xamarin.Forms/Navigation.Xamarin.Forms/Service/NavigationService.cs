@@ -113,19 +113,35 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             where TViewModel : class, IViewModel
         {
-            ThrowIfNotRegistered<TViewModel>();
+            if (!TryGetRegistration(
+                typeof(TViewModel),
+                out var registration))
+            {
+                return;
+            }
 
 
-            var viewModelInstance = await InitializeViewModelAsync<TViewModel>();
+            TViewModel instance;
+
+            if (registration.ViewType.IsAssignableFrom(
+                typeof(TabbedPage)))
+            {
+                instance = await InitializeViewModelInternalAsync<TViewModel>();
+            }
+            else
+            {
+                instance = InitializeViewModelInternal<TViewModel>();
+            }
+
 
             var page = CreateView<TViewModel>(
-                viewModelInstance);
+                instance);
 
 
             SetRootInternal(page);
         }
 
-        public Task SetRootAsync<TMasterViewModel, TDetailViewModel>()
+        public async Task SetRootAsync<TMasterViewModel, TDetailViewModel>()
 
             where TMasterViewModel : class, IViewModel
             where TDetailViewModel : class, IViewModel
@@ -134,7 +150,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             ThrowIfNotRegistered<TDetailViewModel>();
 
 
-            var masterViewModel = InitializeViewModelInternal<TMasterViewModel>();
+            var masterViewModel = await InitializeViewModelInternalAsync<TMasterViewModel>();
             var detailViewModel = InitializeViewModelInternal<TDetailViewModel>();
 
 
@@ -147,9 +163,6 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             masterPage.Detail = new NavigationPage(detailPage);
             SetRootInternal(masterPage);
-
-
-            return Task.CompletedTask;
         }
 
         internal void SetRootInternal(
@@ -205,7 +218,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 var viewModel = dependencyResolver.Resolve<IViewModel>(
                     registration.ViewModelType);
 
-                await viewModel.InitializeAsync();
+                _ = viewModel.InitializeAsync();
 
 
                 page.BindingContext = viewModel;
