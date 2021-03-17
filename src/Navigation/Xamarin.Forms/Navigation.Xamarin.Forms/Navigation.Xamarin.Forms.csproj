@@ -7,7 +7,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.Navigation.Xamarin.Forms</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation.Xamarin.Forms</RootNamespace>
-    <Version>2.2.1-beta</Version>
+    <Version>2.2.1-delta</Version>
     <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
     <Company>UltimateCodeMonkeys</Company>
     <Product>CodeMonkeysMVVM</Product>
@@ -26,8 +26,8 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <AssemblyVersion>2.2.1.2</AssemblyVersion>
-    <FileVersion>2.2.1.2</FileVersion>
+    <AssemblyVersion>2.2.1.4</AssemblyVersion>
+    <FileVersion>2.2.1.4</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

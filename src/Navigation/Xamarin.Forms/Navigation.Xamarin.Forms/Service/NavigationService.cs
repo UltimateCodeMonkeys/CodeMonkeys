@@ -142,18 +142,18 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
 
             var masterViewModel = InitializeViewModelInternal<TMasterViewModel>();
-
+            var detailViewModel = dependencyResolver.Resolve<TDetailViewModel>();
 
             var masterPage = CreateViewInternal<TMasterViewModel, MasterDetailPage>(
                 masterViewModel);
 
-            var detailPage = CreateViewInternal<TDetailViewModel, DetailPage>();
+            var detailPage = CreateViewInternal<TDetailViewModel, DetailPage>(
+                detailViewModel);
 
 
             _ = Task.Run(() => InitializeChildViewModel(
                 masterViewModel,
-                detailPage,
-                typeof(TDetailViewModel)));
+                detailViewModel));
 
 
             if (typeof(TDetailViewModel).IsAssignableFrom(
@@ -217,12 +217,17 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 }
 
 
-                if (tabbedPage.BindingContext is IViewModel viewModel)
+                var viewModel = dependencyResolver.Resolve<IViewModel>(
+                    registration.ViewModelType);
+
+                page.BindingContext = viewModel;
+
+
+                if (tabbedPage.BindingContext is IViewModel parentViewModel)
                 {
                     _ = Task.Run(() => InitializeChildViewModel(
-                        viewModel,
-                        page,
-                        registration.ViewModelType));
+                        parentViewModel,
+                        viewModel));
                 }
 
 
@@ -232,21 +237,15 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
         private void InitializeChildViewModel(
             IViewModel parentViewModel,
-            Page page,
-            Type viewModelType)
+            IViewModel viewModel)
         {
             while (!parentViewModel.IsInitialized)
             {
-                Task.Delay(500);
+                Task.Delay(100);
             }
 
 
-            var viewModel = dependencyResolver.Resolve<IViewModel>(
-                    viewModelType);
-
             _ = viewModel.InitializeAsync();
-
-            page.BindingContext = viewModel;
         }
 
         private bool IsRoot<TDestinationViewModel>()
