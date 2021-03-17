@@ -1,15 +1,14 @@
-﻿using System;
+﻿using CodeMonkeys.DependencyInjection;
+using CodeMonkeys.Logging;
+using CodeMonkeys.MVVM;
+using CodeMonkeys.Navigation.ViewModels;
+using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
+
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using CodeMonkeys.DependencyInjection;
-using CodeMonkeys.Logging;
-using CodeMonkeys.MVVM;
-using CodeMonkeys.Navigation.ViewModels;
-using CodeMonkeys.Navigation.Xamarin.Forms.Pages;
 
 using Xamarin.Forms;
 
@@ -153,7 +152,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             _ = Task.Run(() => InitializeChildViewModel(
                 masterViewModel,
-                detailViewModel));
+                detailViewModel)).ConfigureAwait(false);
 
 
             if (typeof(TDetailViewModel).IsAssignableFrom(
@@ -227,7 +226,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
                 {
                     _ = Task.Run(() => InitializeChildViewModel(
                         parentViewModel,
-                        viewModel));
+                        viewModel)).ConfigureAwait(false);
                 }
 
 
@@ -241,7 +240,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         {
             while (!parentViewModel.IsInitialized)
             {
-                Task.Delay(100);
+                Task.Delay(100).ConfigureAwait(false);
             }
 
 
