@@ -324,6 +324,72 @@ namespace CodeMonkeys.MVVM
             return viewModel;
         }
 
+        public static async Task<TViewModel> ResolveFromModelAsync<TViewModel>(
+            object model)
+
+            where TViewModel : class, IViewModel
+        {
+            var registration = _registrations?.FirstOrDefault(
+                registration => registration.Model == model.GetType());
+
+            if (registration == null)
+            {
+                return null;
+            }
+
+
+            var instance = await ResolveAsync(
+                registration.Interface);
+
+
+            var genericViewModelInterfaceType = typeof(IViewModel<>)
+                .MakeGenericType(model.GetType());
+
+            var resolveFromModelInternalMethod = typeof(ViewModelFactory)
+                .GetMethod(
+                    nameof(ViewModelFactory.ResolveFromModelInternalAsync),
+                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic)
+                .MakeGenericMethod(
+                    typeof(TViewModel),
+                    model.GetType());
+
+
+            return await (Task<TViewModel>)resolveFromModelInternalMethod.Invoke(null, new[] { model });
+        }
+
+
+        private static async Task<TViewModel> ResolveFromModelInternalAsync<TViewModel, TModel>(
+            TModel model)
+
+            where TViewModel : class, IViewModel<TModel>
+        {
+            var registration = _registrations?.FirstOrDefault(
+                registration => registration.Model == typeof(TModel));
+
+            if (registration == null)
+            {
+                return null;
+            }
+
+
+            var instance = await ResolveAsync(
+                registration.Interface);
+
+
+            if (!(instance is TViewModel viewModel))
+            {
+                throw new InvalidOperationException(
+                    $"'{instance.GetType().Name}' does not implement '{typeof(IViewModel<TModel>).Name}'!");
+            }
+
+
+            await viewModel.InitializeAsync(
+                model);
+
+
+            return viewModel;
+        }
+
         private static void ValidateNonGenericParameters<TTargetViewModel>(Type viewModelType)
             where TTargetViewModel : IViewModel
         {

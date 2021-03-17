@@ -153,12 +153,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        protected async Task<TViewModel> InitializeViewModelAsync<TViewModel>()
+        protected Task<TViewModel> InitializeViewModelAsync<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
-            return await InitializeViewModelInternal<TViewModel>()
-                .ConfigureAwait(false);
+            return Task.FromResult(
+                InitializeViewModelInternal<TViewModel>());
         }
 
         protected async Task<TViewModel> InitializeViewModelAsync<TViewModel, TData>(
@@ -171,16 +171,18 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         }
 
 
-        internal static async Task<TViewModel> InitializeViewModelInternal<TViewModel>()
+        internal static TViewModel InitializeViewModelInternal<TViewModel>()
 
             where TViewModel : class, IViewModel
         {
             var viewModelInstance = dependencyResolver.Resolve<TViewModel>();
-            await viewModelInstance.InitializeAsync()
-                .ConfigureAwait(false);
+
+            _ = viewModelInstance.InitializeAsync();
+
 
             Log?.Info(
                 $"ViewModel viewModel of type {typeof(TViewModel).Name} has been created and initialized!");
+
 
             return viewModelInstance;
         }

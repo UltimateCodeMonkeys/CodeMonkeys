@@ -125,7 +125,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             SetRootInternal(page);
         }
 
-        public async Task SetRootAsync<TMasterViewModel, TDetailViewModel>()
+        public Task SetRootAsync<TMasterViewModel, TDetailViewModel>()
 
             where TMasterViewModel : class, IViewModel
             where TDetailViewModel : class, IViewModel
@@ -134,8 +134,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             ThrowIfNotRegistered<TDetailViewModel>();
 
 
-            var masterViewModel = await InitializeViewModelInternal<TMasterViewModel>();
-            var detailViewModel = await InitializeViewModelInternal<TDetailViewModel>();
+            var masterViewModel = InitializeViewModelInternal<TMasterViewModel>();
+            var detailViewModel = InitializeViewModelInternal<TDetailViewModel>();
 
 
             var masterPage = CreateViewInternal<TMasterViewModel, MasterDetailPage>(
@@ -147,6 +147,9 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
 
             masterPage.Detail = new NavigationPage(detailPage);
             SetRootInternal(masterPage);
+
+
+            return Task.CompletedTask;
         }
 
         internal void SetRootInternal(
