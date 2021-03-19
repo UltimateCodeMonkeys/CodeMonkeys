@@ -88,7 +88,7 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
             else
             {
-                var viewModelInstance = await InitializeViewModelAsync<TViewModel>()
+                var viewModelInstance = await InitializeViewModelAsync<TViewModel, TData>(data)
                     .ConfigureAwait(false);
 
                 var page = CreateView<TViewModel>(
