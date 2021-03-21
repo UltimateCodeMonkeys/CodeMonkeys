@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1EF3C24C-478A-4F56-B718-0D0FDB7AA88F}"
 	ProjectSection(SolutionItems) = preProject
 		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
+		Directory.build.props = Directory.build.props
 		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
 		LICENSE.md = LICENSE.md
 		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml

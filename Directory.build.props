@@ -1,0 +1,42 @@
+<Project>
+   <PropertyGroup Label="Metadata">
+      <Authors>UltimateCodeMonkeys</Authors>
+      <Company>UltimateCodeMonkeys</Company>
+      <Product>CodeMonkeys</Product>
+      <Copyright>2021 by UltimateCodeMonkeys</Copyright>
+
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+      <PackageOutputPath>$(MSBuildThisFileDirectory)\.nuget-build\</PackageOutputPath>
+      <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+      <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeys</PackageProjectUrl>
+      <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeys</RepositoryUrl>
+
+      <DebugType>portable</DebugType>
+      <DebugSymbols>true</DebugSymbols>
+   </PropertyGroup>
+
+   <PropertyGroup Label="SourceLink">
+      <PublishRepositoryUrl>true</PublishRepositoryUrl>
+      <EmbedUntrackedSources>true</EmbedUntrackedSources>
+      <IncludeSymbols>true</IncludeSymbols>
+      <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+   </PropertyGroup>
+
+   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+	
+</Project>

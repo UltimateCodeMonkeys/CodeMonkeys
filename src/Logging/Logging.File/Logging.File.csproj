@@ -5,44 +5,14 @@
     <AssemblyName>CodeMonkeys.Logging.File</AssemblyName>
     <RootNamespace>CodeMonkeys.Logging.File</RootNamespace>
     <Version>2.1.8</Version>
-    <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
-    <Company>UltimateCodeMonkeys</Company>
-    <Product>CodeMonkeysMVVM</Product>
     <Description>Addition to the logging package which allows logging to a File.</Description>
-    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, logging, framework, file, extensions, addition</PackageTags>
-
-    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />
     <ProjectReference Include="..\Logging.Batching\Logging.Batching.csproj" />
     <ProjectReference Include="..\Logging\Logging.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
 </Project>
