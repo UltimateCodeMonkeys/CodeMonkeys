@@ -260,15 +260,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private bool IsTab(
             Type viewType)
         {
-            if (!(RootPage is TabbedPage tabbedPage) ||
-                !viewType.IsAssignableFrom(typeof(TabPage)))
+            if (!(RootPage is TabbedPage tabbedPage))
             {
                 return false;
             }
 
 
             return tabbedPage.Children.Any(
-                tab => tab.GetType() == viewType);
+                tab => IsPageOfType(tab, viewType));
         }
 
 
