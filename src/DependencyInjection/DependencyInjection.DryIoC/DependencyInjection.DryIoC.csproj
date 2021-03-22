@@ -1,51 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.DependencyInjection.DryIoC</AssemblyName>
     <RootNamespace>CodeMonkeys.DependencyInjection.DryIoC</RootNamespace>
-    <Version>2.1.8</Version>
-    <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
-    <Company>UltimateCodeMonkeys</Company>
-    <Product>CodeMonkeysMVVM</Product>
+    <Version>2.1.9</Version>    
     <Description>Addition to the CodeMonkeys.DependencyInjection package which integrates DryIoC as the background implementation.</Description>
-    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
     <PackageTags>C#, xamarin, xamarin.forms, dependencyinjection, di, ioc, dryioc, mvvm</PackageTags>
-
-    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="DryIoc.Internal" Version="4.5.1" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />
     <ProjectReference Include="..\DependencyInjection\DependencyInjection.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
+  
 </Project>

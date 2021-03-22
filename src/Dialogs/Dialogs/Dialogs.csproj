@@ -4,43 +4,13 @@
     <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Dialogs</AssemblyName>
     <RootNamespace>CodeMonkeys.Dialogs</RootNamespace>
-    <Version>2.1.8</Version>
-    <Authors>Jan Morfeld &amp; Daniel Belz</Authors>
-    <Company>UltimateCodeMonkeys</Company>
-    <Product>CodeMonkeysMVVM</Product>
+    <Version>2.1.9</Version>
     <Description>The Dialogs package provides you with features to show different dialogs in your application.</Description>
-    <Copyright>2020 by UltimateCodeMonkeys</Copyright>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM</RepositoryUrl>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, framework, dialog, service, dialogs</PackageTags>
-
-    <PackageOutputPath>$(SolutionDir).nuget-build/</PackageOutputPath>
-
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
+  
 </Project>
