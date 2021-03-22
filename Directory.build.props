@@ -6,7 +6,7 @@
       <Copyright>2021 by UltimateCodeMonkeys</Copyright>
 
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-      <PackageOutputPath>$(MSBuildThisFileDirectory)\.nuget-build\</PackageOutputPath>
+      <PackageOutputPath>$(MSBuildThisFileDirectory).nuget-build\</PackageOutputPath>
       <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
       <PackageProjectUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeys</PackageProjectUrl>
       <RepositoryUrl>https://github.com/UltimateCodeMonkeys/CodeMonkeys</RepositoryUrl>
