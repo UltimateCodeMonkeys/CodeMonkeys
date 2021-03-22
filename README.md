@@ -6,8 +6,8 @@
 [![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/05b77988fb7e4074995d0722af76b00f)](https://www.codacy.com/gh/UltimateCodeMonkeys/CodeMonkeys/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UltimateCodeMonkeys/CodeMonkeys&amp;utm_campaign=Badge_Grade)
-[![GitHub last commit](https://img.shields.io/github/last-commit/UltimateCodeMonkeys/CodeMonkeysMVVM.svg?longCache=true&style=flat-square)](https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM)
-[![GitHub issues](https://img.shields.io/github/issues/UltimateCodeMonkeys/CodeMonkeysMVVM.svg?longCache=true&style=flat-square)](https://github.com/UltimateCodeMonkeys/CodeMonkeysMVVM/issues)
+[![GitHub last commit](https://img.shields.io/github/last-commit/UltimateCodeMonkeys/CodeMonkeys.svg?longCache=true&style=flat-square)](https://github.com/UltimateCodeMonkeys/CodeMonkeys)
+[![GitHub issues](https://img.shields.io/github/issues/UltimateCodeMonkeys/CodeMonkeys.svg?longCache=true&style=flat-square)](https://github.com/UltimateCodeMonkeys/CodeMonkeys/issues)
 
 CodeMonkeysMVVM is a modern MVVM (Model-View-ViewModel) application development framework with focus on Xamarin.Forms.
 
