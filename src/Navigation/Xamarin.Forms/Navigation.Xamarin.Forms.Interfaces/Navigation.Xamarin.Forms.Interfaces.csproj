@@ -5,7 +5,7 @@
     <AssemblyName>CodeMonkeys.Navigation.Xamarin.Forms.Interfaces</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation.Xamarin.Forms.Interfaces</RootNamespace>
     <PackageId>CodeMonkeys.Navigation.Xamarin.Forms.Interfaces</PackageId>
-    <Version>2.1.8</Version>
+    <Version>2.1.9</Version>
     <Description>Package to use ViewModel navigation in Xamarin.Forms MVVM application</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>

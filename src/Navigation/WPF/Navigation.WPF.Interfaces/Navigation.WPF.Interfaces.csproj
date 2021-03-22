@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.Navigation.WPF.Interfaces</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation</RootNamespace>
-    <Version>2.1.8</Version>
+    <Version>2.1.9</Version>
     <Description>Interfaces for WPF navigation in MVVM application</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
   </PropertyGroup>

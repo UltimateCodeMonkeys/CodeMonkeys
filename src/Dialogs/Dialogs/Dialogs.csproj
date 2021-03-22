@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Dialogs</AssemblyName>
     <RootNamespace>CodeMonkeys.Dialogs</RootNamespace>
-    <Version>2.1.8</Version>
+    <Version>2.1.9</Version>
     <Description>The Dialogs package provides you with features to show different dialogs in your application.</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, framework, dialog, service, dialogs</PackageTags>
   </PropertyGroup>
