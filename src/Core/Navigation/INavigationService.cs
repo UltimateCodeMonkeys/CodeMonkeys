@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using CodeMonkeys.MVVM;
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using CodeMonkeys.MVVM;
@@ -60,6 +62,8 @@ namespace CodeMonkeys.Navigation
         /// </summary>
         Task CloseAsync<TViewModel>()
             where TViewModel : class, IViewModel;
+
+        Task CloseAsync();
 
 
         /// <summary>

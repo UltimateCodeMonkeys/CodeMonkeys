@@ -5,11 +5,8 @@ VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1EF3C24C-478A-4F56-B718-0D0FDB7AA88F}"
 	ProjectSection(SolutionItems) = preProject
-		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
-		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
+		Directory.build.props = Directory.build.props
 		LICENSE.md = LICENSE.md
-		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
-		.github\pull_request_template.md = .github\pull_request_template.md
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -64,6 +61,20 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin.Forms", "Xamarin.Forms", "{4234E786-93CB-4C94-B160-15A4CAE5E481}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Navigation.Xamarin.Forms.Interfaces", "src\Navigation\Xamarin.Forms\Navigation.Xamarin.Forms.Interfaces\Navigation.Xamarin.Forms.Interfaces.csproj", "{E878E2CA-5DB4-4ACC-B40D-5FE0117803CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{D090EFCC-8131-43C7-8D5A-B7F02B787488}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{25DF5FF8-262F-4D67-9D4B-B55D3CE8123F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IssueTemplates", "IssueTemplates", "{BF25BABB-9AB9-472C-8835-E6A13BA2AB05}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
+		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
+		.github\pull_request_template.md = .github\pull_request_template.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -326,6 +337,9 @@ Global
 		{352D7F3A-2DA1-43C6-9E7B-C4C6C591E3ED} = {14F142FD-85AE-4875-87A5-F6CDFE58BEA9}
 		{4234E786-93CB-4C94-B160-15A4CAE5E481} = {29BB5201-B1C7-4B28-B66A-56993CE74AC1}
 		{E878E2CA-5DB4-4ACC-B40D-5FE0117803CB} = {4234E786-93CB-4C94-B160-15A4CAE5E481}
+		{D090EFCC-8131-43C7-8D5A-B7F02B787488} = {25DF5FF8-262F-4D67-9D4B-B55D3CE8123F}
+		{25DF5FF8-262F-4D67-9D4B-B55D3CE8123F} = {1EF3C24C-478A-4F56-B718-0D0FDB7AA88F}
+		{BF25BABB-9AB9-472C-8835-E6A13BA2AB05} = {25DF5FF8-262F-4D67-9D4B-B55D3CE8123F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7EDC70E9-1A61-46BF-839A-6262FB9AC289}

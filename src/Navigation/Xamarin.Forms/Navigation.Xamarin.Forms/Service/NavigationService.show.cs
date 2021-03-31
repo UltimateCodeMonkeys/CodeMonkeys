@@ -87,8 +87,8 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
             else
             {
-                var viewModelInstance = InitializeViewModel<TViewModel, TData>(
-                    data);
+                var viewModelInstance = await InitializeViewModelAsync<TViewModel, TData>(data)
+                    .ConfigureAwait(false);
 
                 var page = CreateView<TViewModel>(
                     viewModelInstance);
@@ -310,15 +310,14 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
         private bool IsTab(
             Type viewType)
         {
-            if (!(RootPage is TabbedPage tabbedPage) ||
-                !viewType.IsAssignableFrom(typeof(TabPage)))
+            if (!(RootPage is TabbedPage tabbedPage))
             {
                 return false;
             }
 
 
             return tabbedPage.Children.Any(
-                tab => tab.GetType() == viewType);
+                tab => IsPageOfType(tab, viewType));
         }
 
 
