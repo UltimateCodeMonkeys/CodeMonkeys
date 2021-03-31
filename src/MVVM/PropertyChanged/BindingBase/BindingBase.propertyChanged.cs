@@ -268,11 +268,13 @@ namespace CodeMonkeys.MVVM.PropertyChanged
             }
 
 
-            var eventDelegate = (MulticastDelegate)command
-                .GetType()
+            var eventDelegate = (MulticastDelegate)
+                typeof(ICommand)
                 .GetField(
-                    nameof(command.CanExecuteChanged),
-                    BindingFlags.Instance | BindingFlags.NonPublic)
+                    nameof(ICommand.CanExecuteChanged),
+                        BindingFlags.Instance |
+                        BindingFlags.Public |
+                        BindingFlags.FlattenHierarchy)
                 .GetValue(command);
 
 
