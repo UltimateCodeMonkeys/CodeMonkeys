@@ -26,6 +26,22 @@ namespace CodeMonkeys.MVVM
             return registrationInfo;
         }
 
+        public static RegistrationInfo RegisterAsSingleton<TInterface, TImplementation>()
+
+            where TInterface : class, IViewModel
+            where TImplementation : class, TInterface, IViewModel
+        {
+            var registrationInfo = new RegistrationInfo(
+                typeof(TInterface),
+                typeof(TImplementation));
+
+            RegisterAsSingletonInternal(
+                registrationInfo);
+
+
+            return registrationInfo;
+        }
+
         public static RegistrationInfo Register<TImplementation>()
 
             where TImplementation : class, IViewModel
@@ -34,6 +50,20 @@ namespace CodeMonkeys.MVVM
                 typeof(TImplementation));
 
             RegisterInternal(
+                registrationInfo);
+
+
+            return registrationInfo;
+        }
+
+        public static RegistrationInfo RegisterAsSingleton<TImplementation>()
+
+            where TImplementation : class, IViewModel
+        {
+            var registrationInfo = new RegistrationInfo(
+                typeof(TImplementation));
+
+            RegisterAsSingletonInternal(
                 registrationInfo);
 
 
@@ -125,6 +155,27 @@ namespace CodeMonkeys.MVVM
             else
             {
                 container.RegisterType(
+                    registration.Interface,
+                    registration.ViewModel);
+            }
+        }
+
+
+        private static void RegisterAsSingletonInternal(
+            RegistrationInfo registration)
+        {
+            _registrations.Add(registration);
+
+
+            // dont know what happens in different dependency container implementations when both types are the same
+            if (registration.Interface == registration.ViewModel)
+            {
+                container.RegisterSingleton(
+                    registration.Interface);
+            }
+            else
+            {
+                container.RegisterSingleton(
                     registration.Interface,
                     registration.ViewModel);
             }
