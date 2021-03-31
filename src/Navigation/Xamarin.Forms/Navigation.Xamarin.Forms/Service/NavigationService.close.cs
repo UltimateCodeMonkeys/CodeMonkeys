@@ -31,6 +31,12 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             }
 
 
+            await RemovePage(registration.ViewType)
+                .ConfigureAwait(false);
+        }
+
+        public virtual async Task CloseAsync()
+        {
             await CloseCurrentPage()
                 .ConfigureAwait(false);
         }
@@ -67,6 +73,20 @@ namespace CodeMonkeys.Navigation.Xamarin.Forms
             Log?.Info(
                 "Page has been removed from Xamarin navigation stack.");
         }
+
+        private Task RemovePage(Type viewType)
+        {
+            var page = Navigation.NavigationStack
+                .FirstOrDefault(p => p.GetType() == viewType);
+
+            if (page != null)
+            {
+                Navigation.RemovePage(page);
+            }
+
+            return Task.CompletedTask;
+        }
+
 
         private async Task PopToRootAsync()
         {
