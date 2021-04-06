@@ -34,7 +34,7 @@ namespace CodeMonkeys.Logging.AppCenter
                 { nameof(message.LogLevel), message.LogLevel.ToString() },
                 { nameof(message.Context), message.Context },
                 { nameof(message.MethodName), message.MethodName },
-                { nameof(message.Exception), message.Exception.ToString() },
+                { nameof(message.Exception), message.Exception?.ToString() },
                 { nameof(message.FormattedMessage), message.FormattedMessage }
             };
 
