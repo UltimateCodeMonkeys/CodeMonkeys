@@ -76,6 +76,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IssueTemplates", "IssueTemp
 		.github\pull_request_template.md = .github\pull_request_template.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging.AppCenter", "src\Logging\Logging.AppCenter\Logging.AppCenter.csproj", "{59E86589-429D-4AD4-A78C-7470F0FD6DE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -314,6 +316,18 @@ Global
 		{E878E2CA-5DB4-4ACC-B40D-5FE0117803CB}.Release|iPhone.Build.0 = Release|Any CPU
 		{E878E2CA-5DB4-4ACC-B40D-5FE0117803CB}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{E878E2CA-5DB4-4ACC-B40D-5FE0117803CB}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Release|iPhone.Build.0 = Release|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -340,6 +354,7 @@ Global
 		{D090EFCC-8131-43C7-8D5A-B7F02B787488} = {25DF5FF8-262F-4D67-9D4B-B55D3CE8123F}
 		{25DF5FF8-262F-4D67-9D4B-B55D3CE8123F} = {1EF3C24C-478A-4F56-B718-0D0FDB7AA88F}
 		{BF25BABB-9AB9-472C-8835-E6A13BA2AB05} = {25DF5FF8-262F-4D67-9D4B-B55D3CE8123F}
+		{59E86589-429D-4AD4-A78C-7470F0FD6DE8} = {A8EDB898-CC2D-4EF5-9CE5-CC48BDD51DE4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7EDC70E9-1A61-46BF-839A-6262FB9AC289}
