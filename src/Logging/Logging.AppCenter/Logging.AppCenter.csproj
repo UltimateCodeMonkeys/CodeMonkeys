@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>    
+    <AssemblyName>CodeMonkeys.Logging.AppCenter</AssemblyName>
+    <RootNamespace>CodeMonkeys.Logging.AppCenter</RootNamespace>
+    <Version>1.0.1</Version>
+    <Description>Addition to the logging package which allows logging to Microsoft AppCenter.</Description>
+    <PackageTags>C#, xamarin, xamarin.forms, mvvm, logging, framework, AppCenter, Microsoft</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Logging\Logging.csproj" />
+  </ItemGroup>
+
+</Project>
