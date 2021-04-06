@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+
+using System;
 
 namespace CodeMonkeys.Logging.AppCenter
 {
@@ -29,10 +32,14 @@ namespace CodeMonkeys.Logging.AppCenter
                 throw new ArgumentException("No api keys are configured for logging to Microsoft App Center!");
             }
 
-            Microsoft.AppCenter.AppCenter.Configure(
-                $"ios={iosApiKey};" +
+            var appSecret = $"ios={iosApiKey};" +
                 $"android={androidApiKey};" +
-                $"uwp={uwpApiKey}");
+                $"uwp={uwpApiKey}";
+
+            Microsoft.AppCenter.AppCenter.Start(
+                appSecret,
+                typeof(Analytics),
+                typeof(Crashes));                
         }
     }
 }
