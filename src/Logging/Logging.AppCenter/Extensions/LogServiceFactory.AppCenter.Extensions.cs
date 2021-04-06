@@ -2,7 +2,7 @@
 
 namespace CodeMonkeys.Logging
 {
-    public static partial class LogServiceFactory
+    public static partial class LogServiceFactoryExtensions
     {
         /// <summary>
         /// Method for adding the <see cref="ServiceProvider"/> to the <see cref="LogService"/>.
