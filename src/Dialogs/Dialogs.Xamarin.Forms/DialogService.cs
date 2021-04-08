@@ -49,23 +49,26 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
                 title,
                 body,
                 Options.CloseButtonText,
-                exception, 
-                null);
+                exception);
         }
 
         /// <inheritdoc />
         public async Task ShowErrorAsync(
-            string title, 
-            string body, 
-            string closeButtonText, 
-            Exception exception = null)
+           string title,
+           string body,
+           string closeButtonText,
+           Exception exception = null)
         {
-            await ShowErrorAsync(
-                title,
-                body,
+            Argument.NotEmptyOrWhiteSpace(
                 closeButtonText,
-                exception,
-                null);
+                nameof(closeButtonText),
+                $"To show a dialog with a custom close button text the parameter '{nameof(closeButtonText)}' can't be null or empty.");
+
+            await Application.Current.MainPage
+                .DisplayAlert(
+                    title,
+                    _errorFormatter(body, exception),
+                    closeButtonText);
         }
 
         /// <inheritdoc />
@@ -105,34 +108,17 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
                     declineButtonText);
         }
 
-        private async Task ShowErrorAsync(
-            string title,
-            string body,
-            string closeButtonText,
-            Exception exception = null,
-            Func<string, Exception, string> formatter = null)
-        {
-            formatter ??= _defaultErrorFormatter;
-
-            Argument.NotEmptyOrWhiteSpace(
-                closeButtonText,
-                nameof(closeButtonText),
-                $"To show a dialog with a custom close button text the parameter '{nameof(closeButtonText)}' can't be null or empty.");
-
-            await Application.Current.MainPage
-                .DisplayAlert(
-                    title,
-                    formatter(body, exception),
-                    closeButtonText);
-        }
-
-        private readonly Func<string, Exception, string> _defaultErrorFormatter = (body, exception) =>
+        private readonly Func<string, Exception, string> _errorFormatter = (body, exception) =>
         {
             if (exception == null && body != null)
-                return body.ToString();
+            {
+                return body;
+            }
 
             if (body == null && exception != null)
+            {
                 return exception.ToString();
+            }
 
             return $"{body}:\n{exception}";
         };
