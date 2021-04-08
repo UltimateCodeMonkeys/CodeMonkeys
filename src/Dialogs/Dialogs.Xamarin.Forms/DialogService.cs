@@ -18,7 +18,7 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             await ShowAlertAsync(
                 title,
                 body,
-                Options.DefaultCloseLabel);
+                Options.CloseButtonText);
         }
 
         /// <inheritdoc />
@@ -27,17 +27,16 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             string body,
             string closeButtonText)
         {
-            if (string.IsNullOrWhiteSpace(closeButtonText))
-            {
-                throw new ArgumentNullException(
-                    nameof(closeButtonText),
-                    $"To show a alert dialog the value of parameter '{nameof(closeButtonText)}' can't be null or empty.");
-            }
+            Argument.NotEmptyOrWhiteSpace(
+                closeButtonText,
+                nameof(closeButtonText),
+                $"To show a dialog with a custom close button text the parameter '{nameof(closeButtonText)}' can't be null or empty.");
 
-            await Application.Current.MainPage.DisplayAlert(
-                title,
-                body,
-                closeButtonText);
+            await Application.Current.MainPage
+                .DisplayAlert(
+                    title,
+                    body,
+                    closeButtonText);
         }
 
         /// <inheritdoc />
@@ -49,7 +48,7 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             await ShowErrorAsync(
                 title,
                 body,
-                Options.DefaultCloseLabel,
+                Options.CloseButtonText,
                 exception, 
                 null);
         }
@@ -77,8 +76,8 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             return await ShowConfirmationAsync(
                 title,
                 body,
-                Options.DefaultConfirmLabel,
-                Options.DefaultDeclineLabel);
+                Options.ConfirmButtonText,
+                Options.DeclineButtonText);
         }
 
         /// <inheritdoc />
@@ -88,25 +87,22 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
             string confirmButtonText,
             string declineButtonText)
         {
-            if (string.IsNullOrWhiteSpace(confirmButtonText))
-            {
-                throw new ArgumentNullException(
-                    nameof(declineButtonText),
-                    $"To show a confirmation dialog the value of parameter '{nameof(confirmButtonText)}' can't be null or empty.");
-            }
-
-            if (string.IsNullOrWhiteSpace(declineButtonText))
-            {
-                throw new ArgumentNullException(
-                    nameof(declineButtonText),
-                    $"To show a confirmation dialog the value of parameter '{nameof(declineButtonText)}' can't be null or empty.");
-            }
-
-            return await Application.Current.MainPage.DisplayAlert(
-                title,
-                body,
+            Argument.NotEmptyOrWhiteSpace(
                 confirmButtonText,
-                declineButtonText);
+                nameof(confirmButtonText),
+                $"To show a dialog with a custom confirm button text the parameter '{nameof(confirmButtonText)}' can't be null or empty.");
+
+            Argument.NotEmptyOrWhiteSpace(
+                declineButtonText,
+                nameof(declineButtonText),
+                $"To show a dialog with a custom decline button text the parameter '{nameof(declineButtonText)}' can't be null or empty.");
+
+            return await Application.Current.MainPage
+                .DisplayAlert(
+                    title,
+                    body,
+                    confirmButtonText,
+                    declineButtonText);
         }
 
         private async Task ShowErrorAsync(
@@ -118,17 +114,16 @@ namespace CodeMonkeys.Dialogs.Xamarin.Forms
         {
             formatter ??= _defaultErrorFormatter;
 
-            if (string.IsNullOrWhiteSpace(closeButtonText))
-            {
-                throw new ArgumentNullException(
-                    nameof(closeButtonText),
-                    $"To show a error dialog the value of parameter '{nameof(closeButtonText)}' can't be null or empty.");
-            }
+            Argument.NotEmptyOrWhiteSpace(
+                closeButtonText,
+                nameof(closeButtonText),
+                $"To show a dialog with a custom close button text the parameter '{nameof(closeButtonText)}' can't be null or empty.");
 
-            await Application.Current.MainPage.DisplayAlert(
-                title,
-                formatter(body, exception),
-                closeButtonText);
+            await Application.Current.MainPage
+                .DisplayAlert(
+                    title,
+                    formatter(body, exception),
+                    closeButtonText);
         }
 
         private readonly Func<string, Exception, string> _defaultErrorFormatter = (body, exception) =>
