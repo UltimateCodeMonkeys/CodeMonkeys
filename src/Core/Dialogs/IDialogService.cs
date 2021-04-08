@@ -6,101 +6,71 @@ namespace CodeMonkeys.Dialogs
     public interface IDialogService
     {
         /// <summary>
-        /// Shows an alert dialog that has only one button to close the dialog
+        /// Shows a alert dialog with a button to close it.
         /// </summary>
-        /// <param name="title">Title text of the dialog</param>
-        /// <param name="message">The message to display in the dialog</param>
+        /// <param name="title">Title of the dialog</param>
+        /// <param name="body">Body of the dialog</param>
         Task ShowAlertAsync(
             string title,
-            string message);
+            string body);
 
         /// <summary>
-        /// Shows an alert dialog that has only one button to close the dialog
+        /// Shows a alert dialog with a button to close it.
         /// </summary>
-        /// <param name="title">Title text of the dialog</param>
-        /// <param name="message">The message to display in the dialog</param>
-        /// <param name="onDialogClosed">Action to invoke after the dialog has been closed</param>
+        /// <param name="title">Title of the dialog</param>
+        /// <param name="body">Body of the dialog</param>
+        /// <param name="closeButtonText">The close button text</param>
         Task ShowAlertAsync(
             string title,
-            string message,
-            Action onDialogClosed);
+            string body,
+            string closeButtonText);
 
         /// <summary>
-        /// Shows an alert dialog that has only one button to close the dialog
-        /// Invokes the given action when the dialog has been closed
+        /// Shows a error dialog with a button to close it.
         /// </summary>
-        /// <param name="title">Title text of the dialog</param>
-        /// <param name="message">The message to display in the dialog</param>
-        /// <param name="closeButtonLabel">The text of the button</param>
-        /// <param name="onDialogClosed">Action to invoke after the dialog has been closed</param>
-        Task ShowAlertAsync(
-            string title,
-            string message,
-            string closeButtonLabel,
-            Action onDialogClosed = null);
-
-        /// <summary>
-        /// Shows an error dialog that has only one button to close the dialog
-        /// </summary>
-        /// <param name="title">Title text of the dialog</param>
-        /// <param name="message">The message to display in the dialog</param>
-        /// <param name="exception">The occured exception which will be embedded in the message</param>
+        /// <param name="title">Title of the dialog</param>
+        /// <param name="body">Body of the dialog</param>
+        /// <param name="exception">A exception which should be presented in the dialog</param>
         Task ShowErrorAsync(
             string title,
-            string message,
+            string body,
             Exception exception = null);
 
         /// <summary>
-        /// Shows an error dialog that has only one button to close the dialog
+        /// Shows a error dialog with a button to close it.
         /// </summary>
-        /// <param name="title">Title text of the dialog</param>
-        /// <param name="message">The message to display in the dialog</param>
-        /// <param name="exception">The occured exception which will be embedded in the message</param>
-        /// <param name="closeCallback">Action to invoke after the dialog has been closed</param>
+        /// <param name="title">Title of the dialog</param>
+        /// <param name="body">Body of the dialog</param>
+        /// <param name="closeButtonText">The close button text</param>
+        /// <param name="exception">A exception which should be presented in the dialog</param>
         Task ShowErrorAsync(
             string title,
-            string message,
-            Exception exception = null,
-            Action closeCallback = null);
+            string body,
+            string closeButtonText,
+            Exception exception = null);
 
         /// <summary>
-        /// Shows an error dialog that has only one button to close the dialog
-        /// Invokes the given action when the dialog has been closed
+        /// Shows a dialog which asks the user for his confirmation
         /// </summary>
-        /// <param name="title">Title text of the dialog</param>
-        /// <param name="message">The message to display in the dialog</param>
-        /// <param name="closeButtonLabel">The text of the button</param>
-        /// <param name="exception">The occured exception which will be embedded in the message</param>
-        /// <param name="closeCallback">Action to invoke after the dialog has been closed</param>
-        Task ShowErrorAsync(
-            string title,
-            string message,
-            string closeButtonLabel,
-            Exception exception = null,
-            Action closeCallback = null);
-
-        /// <summary>
-        /// Shows a confirmation dialog that asks the user wether some action should proceed or not
-        /// </summary>
-        /// <param name="title">Title text of the dialog</param>
-        /// <param name="message">Message to display in the dialog / question to ask</param>
-        /// <returns>A bool indicating wether the request has been confirmed or declined</returns>
+        /// <param name="title">Title of the dialog</param>
+        /// <param name="body">Body of the dialog</param>
+        /// <returns>A bool indicator that tells whether the user has agreed or disagreed</returns>
         Task<bool> ShowConfirmationAsync(
             string title,
-            string message);
+            string body);
 
         /// <summary>
-        /// Shows a confirmation dialog that asks the user wether some action should proceed or not
+        /// Shows a dialog which asks the user for his confirmation
         /// </summary>
-        /// <param name="title">Title text of the dialog</param>
-        /// <param name="message">Message to display in the dialog / question to ask</param>
-        /// <param name="confirmButtonLabel">Text of the button for positive feedback</param>
-        /// <param name="declineButtonLabel">Text of the button for negative feedback</param>
-        /// <returns>A bool indicating wether the request has been confirmed or declined</returns>
+        /// <param name="title">Title of the dialog</param>
+        /// <param name="body">Body of the dialog</param>
+        /// <param name="confirmButtonText">The confirm button text</param>
+        /// <param name="declineButtonText">The decline button text</param>
+        /// <returns>A bool indicator that tells whether the user has agreed or disagreed</returns>
         Task<bool> ShowConfirmationAsync(
             string title,
-            string message,
-            string confirmButtonLabel,
-            string declineButtonLabel);
+            string body,
+            string confirmButtonText,
+            string declineButtonText);
     }
 }
