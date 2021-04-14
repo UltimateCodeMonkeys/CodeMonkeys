@@ -6,7 +6,7 @@ namespace CodeMonkeys.Dialogs
     public interface IDialogService
     {
         /// <summary>
-        /// Shows a alert dialog with a button to close it.
+        /// Shows an alert dialog with a button to close it.
         /// </summary>
         /// <param name="title">Title of the dialog</param>
         /// <param name="body">Body of the dialog</param>
@@ -15,7 +15,7 @@ namespace CodeMonkeys.Dialogs
             string body);
 
         /// <summary>
-        /// Shows a alert dialog with a button to close it.
+        /// Shows an alert dialog with a button to close it.
         /// </summary>
         /// <param name="title">Title of the dialog</param>
         /// <param name="body">Body of the dialog</param>
@@ -26,7 +26,7 @@ namespace CodeMonkeys.Dialogs
             string closeButtonText);
 
         /// <summary>
-        /// Shows a error dialog with a button to close it.
+        /// Shows an error dialog with a button to close it.
         /// </summary>
         /// <param name="title">Title of the dialog</param>
         /// <param name="body">Body of the dialog</param>
@@ -37,7 +37,7 @@ namespace CodeMonkeys.Dialogs
             Exception exception = null);
 
         /// <summary>
-        /// Shows a error dialog with a button to close it.
+        /// Shows an error dialog with a button to close it.
         /// </summary>
         /// <param name="title">Title of the dialog</param>
         /// <param name="body">Body of the dialog</param>
@@ -50,7 +50,7 @@ namespace CodeMonkeys.Dialogs
             Exception exception = null);
 
         /// <summary>
-        /// Shows a dialog which asks the user for his confirmation
+        /// Shows an dialog which asks the user for his confirmation
         /// </summary>
         /// <param name="title">Title of the dialog</param>
         /// <param name="body">Body of the dialog</param>
@@ -60,7 +60,7 @@ namespace CodeMonkeys.Dialogs
             string body);
 
         /// <summary>
-        /// Shows a dialog which asks the user for his confirmation
+        /// Shows an dialog which asks the user for his confirmation
         /// </summary>
         /// <param name="title">Title of the dialog</param>
         /// <param name="body">Body of the dialog</param>
