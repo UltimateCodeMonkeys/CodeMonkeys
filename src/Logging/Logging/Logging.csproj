@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Logging</AssemblyName>
     <RootNamespace>CodeMonkeys.Logging</RootNamespace>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
     <Description>Logging package that provides you with basic logging features for your application.</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, logging, framework</PackageTags>
   </PropertyGroup>
