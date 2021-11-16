@@ -6,7 +6,7 @@ namespace CodeMonkeys.Logging.File
 {
     public class FileLogOptions : BatchLogOptions
     {
-        private readonly string DEFAULT_FILENAMEPREFIX = $"log-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Day}";
+        private readonly string DEFAULT_FILENAMEPREFIX = $"log-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}";
         private const string DEFAULT_EXTENSION = "txt";
 
         /// <summary>

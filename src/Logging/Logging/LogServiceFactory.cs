@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CodeMonkeys.Logging
 {
@@ -66,6 +67,19 @@ namespace CodeMonkeys.Logging
 
         public void AddProvider<TProvider>()
             where TProvider : class, ILogServiceProvider, new() => AddProvider(new TProvider());
+
+
+        public bool HasProvider<TProvider>()
+            where TProvider : class, ILogServiceProvider
+        {
+            return _providers?.OfType<TProvider>()?.Any() == true;
+        }
+
+        public bool HasProviders()
+        {
+            return _providers?.Any() == true;
+        }
+
 
         private IScopedLogService[] CreateScopedLogServices(string context)
         {

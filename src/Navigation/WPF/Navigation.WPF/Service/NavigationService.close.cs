@@ -26,6 +26,14 @@ namespace CodeMonkeys.Navigation.WPF
         }
 
 
+        public virtual Task CloseAsync()
+        {
+            TryGoBack();
+
+            return Task.CompletedTask;
+        }
+
+
         public virtual Task CloseAllAsync()
         {
             if (Root == Current)

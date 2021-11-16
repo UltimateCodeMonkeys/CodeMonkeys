@@ -8,7 +8,7 @@ namespace CodeMonkeys.Dialogs
         /// <para>Defaults to <c>'OK'</c></para>
         /// <para>Value changes of this property are monitored and applied dynamically at runtime.</para>
         /// </summary>
-        public string DefaultCloseLabel
+        public string CloseButtonText
         {
             get => GetValue(defaultValue: "OK");
             set => SetValue(value);
@@ -18,7 +18,7 @@ namespace CodeMonkeys.Dialogs
         /// <para>Defaults to <c>'OK'</c></para>
         /// <para>Value changes of this property are monitored and applied dynamically at runtime.</para>
         /// </summary>
-        public string DefaultConfirmLabel
+        public string ConfirmButtonText
         {
             get => GetValue(defaultValue: "OK");
             set => SetValue(value);
@@ -28,7 +28,7 @@ namespace CodeMonkeys.Dialogs
         /// <para>Defaults to <c>'Cancel'</c></para>
         /// <para>Value changes of this property are monitored and applied dynamically at runtime.</para>
         /// </summary>
-        public string DefaultDeclineLabel
+        public string DeclineButtonText
         {
             get => GetValue(defaultValue: "Cancel");
             set => SetValue(value);

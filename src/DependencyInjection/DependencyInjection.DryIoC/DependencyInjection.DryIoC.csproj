@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.DependencyInjection.DryIoC</AssemblyName>
     <RootNamespace>CodeMonkeys.DependencyInjection.DryIoC</RootNamespace>
-    <Version>2.1.9</Version>    
+    <Version>2.2.0</Version>    
     <Description>Addition to the CodeMonkeys.DependencyInjection package which integrates DryIoC as the background implementation.</Description>
     <PackageTags>C#, xamarin, xamarin.forms, dependencyinjection, di, ioc, dryioc, mvvm</PackageTags>
   </PropertyGroup>

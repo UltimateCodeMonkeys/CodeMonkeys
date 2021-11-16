@@ -5,7 +5,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>CodeMonkeys.Navigation.WPF</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation.WPF</RootNamespace>
-    <Version>2.2.0</Version>
+    <Version>2.2.2</Version>
     <Description>Package to use ViewModel navigation in WPF MVVM application</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
   </PropertyGroup>

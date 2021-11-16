@@ -35,4 +35,4 @@ We want to have all information regarding the pull request at a glance.
 
 ## License
 
-This project is licensed under the CC-BY-SA-4.0 - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md) file for details
