@@ -9,5 +9,12 @@
 
         void AddProvider<TProvider>()
             where TProvider : class, ILogServiceProvider, new();
+
+
+
+        bool HasProvider<TProvider>()
+            where TProvider : class, ILogServiceProvider;
+
+        bool HasProviders();
     }
 }

@@ -70,6 +70,7 @@ namespace CodeMonkeys.Logging
 
 
         public bool HasProvider<TProvider>()
+            where TProvider : class, ILogServiceProvider
         {
             return _providers?.OfType<TProvider>()?.Any() == true;
         }

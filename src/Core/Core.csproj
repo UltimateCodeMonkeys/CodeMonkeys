@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Core</AssemblyName>
     <RootNamespace>CodeMonkeys</RootNamespace>
-    <Version>2.2.3</Version>
+    <Version>2.2.4</Version>
     <Description>This package contains some basic stuff for CodeMonkeysMVVM to work properly. It contains helper classes for e.g. convinience argument null checks and interfaces so the packages are all independent of each other but still work fine together.</Description>  
     <PackageTags>C#, xamarin, xamarin.forms, mvvm</PackageTags>
   </PropertyGroup>
