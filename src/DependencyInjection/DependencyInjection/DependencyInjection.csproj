@@ -8,7 +8,7 @@
     <Description>CodeMonkeys.DependencyInjection contains core mechanisms for dependency injection.</Description>
     <PackageTags>C#, xamarin, xamarin.forms, dependencyinjection, di, ioc, mvvm</PackageTags>
     <PackageLicenseFile />
-    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

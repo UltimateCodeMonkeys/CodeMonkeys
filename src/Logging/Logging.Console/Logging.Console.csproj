@@ -8,7 +8,7 @@
     <Description>Addition to the logging package which allows logging to the Console.</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, logging, framework, console, extensions, addition</PackageTags>
     <PackageLicenseFile></PackageLicenseFile>
-    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

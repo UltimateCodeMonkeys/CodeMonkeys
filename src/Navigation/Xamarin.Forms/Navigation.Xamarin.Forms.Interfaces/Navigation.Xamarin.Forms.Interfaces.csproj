@@ -9,7 +9,7 @@
     <Description>Package to use ViewModel navigation in Xamarin.Forms MVVM application</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
     <PackageLicenseFile></PackageLicenseFile>
-    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

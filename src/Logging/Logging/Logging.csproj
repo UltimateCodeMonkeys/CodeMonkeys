@@ -8,7 +8,7 @@
     <Description>Logging package that provides you with basic logging features for your application.</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, logging, framework</PackageTags>
     <PackageLicenseFile></PackageLicenseFile>
-    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

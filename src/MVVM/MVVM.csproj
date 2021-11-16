@@ -8,7 +8,7 @@
     <Description>Package containing basic MVVM relevant implementations like INotifyPropertyChanged, ViewModelBase, ModelBase,...</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, propertychanged</PackageTags>
     <PackageLicenseFile />
-    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

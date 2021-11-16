@@ -8,7 +8,7 @@
     <Description>Addition to the CodeMonkeys.DependencyInjection package which integrates DryIoC as the background implementation.</Description>
     <PackageTags>C#, xamarin, xamarin.forms, dependencyinjection, di, ioc, dryioc, mvvm</PackageTags>
     <PackageLicenseFile />
-    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

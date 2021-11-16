@@ -8,7 +8,7 @@
     <Description>This package contains some basic stuff for CodeMonkeysMVVM to work properly. It contains helper classes for e.g. convinience argument null checks and interfaces so the packages are all independent of each other but still work fine together.</Description>  
     <PackageTags>C#, xamarin, xamarin.forms, mvvm</PackageTags>  
     <PackageLicenseFile />  
-    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
