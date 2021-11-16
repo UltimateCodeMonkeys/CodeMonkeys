@@ -4,10 +4,16 @@
     <TargetFramework>netstandard2.1</TargetFramework>    
     <AssemblyName>CodeMonkeys.Logging.Debug</AssemblyName>
     <RootNamespace>CodeMonkeys.Logging.Debug</RootNamespace>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
     <Description>Addition to the logging package which allows logging to the debug trace listeners.</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, logging, framework, trace, extensions, addition</PackageTags>
+    <PackageLicenseFile />
+    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\jmorf\source\repos\CodeMonkeys\\LICENSE.md" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />

@@ -7,10 +7,16 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>CodeMonkeys.Navigation</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation</RootNamespace>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
     <Description>Base package to use ViewModel navigation in Xamarin.Forms and WPF MVVM application</Description>
     <PackageTags>C#, mvvm, navigation, viewmodelnavigation</PackageTags>
+    <PackageLicenseFile />
+    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\jmorf\source\repos\CodeMonkeys\\LICENSE.md" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj" />

@@ -5,11 +5,16 @@
     <AssemblyName>CodeMonkeys.Navigation.Xamarin.Forms.Interfaces</AssemblyName>
     <RootNamespace>CodeMonkeys.Navigation.Xamarin.Forms.Interfaces</RootNamespace>
     <PackageId>CodeMonkeys.Navigation.Xamarin.Forms.Interfaces</PackageId>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
     <Description>Package to use ViewModel navigation in Xamarin.Forms MVVM application</Description>
     <PackageTags>C#, xamarin, xamarin.forms, mvvm, navigation, viewmodelnavigation</PackageTags>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageLicenseFile></PackageLicenseFile>
+    <PackageLicenseExpression>https://licenses.nuget.org/MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\jmorf\source\repos\CodeMonkeys\\LICENSE.md" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\Core.csproj" />
